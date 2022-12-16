@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Implementation of dependency injection
+/// Service class handles data retrieval from the database
+/// Forwards the results to the controller
+/// </summary>
 namespace AlbumAPI.Services.AlbumServices
 {
     public class AlbumService : IAlbumService

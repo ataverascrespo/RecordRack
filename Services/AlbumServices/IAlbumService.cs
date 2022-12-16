@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Album services method declarations
+/// </summary>
 namespace AlbumAPI.Services.AlbumServices
 {
     public interface IAlbumService

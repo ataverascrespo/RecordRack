@@ -5,6 +5,10 @@ namespace AlbumAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    /// <summary>
+    /// Serializes data into a proper format
+    /// Uses RESTful routing schemes to forward to client
+    /// </summary>
     public class AlbumController : ControllerBase
     {
         //Private album service field
