@@ -79,10 +79,15 @@ namespace AlbumAPI.Services.AlbumServices
         {
             //Create wrapper model for album list
             var ServiceResponse = new ServiceResponse<List<GetAlbumDTO>>();
-            
-            //Add passed album to the list of albums
+
             //Map AddCharacterDTO to Album Model w/ AutoMapper
-            albums.Add(_mapper.Map<Album>(newAlbum));
+            var album = _mapper.Map<Album>(newAlbum);
+            
+            //Find Max ID value in list of albums - new ID is auto-incremented upon Max
+            album.ID = albums.Max(a => a.ID) + 1;
+
+            //Add passed album to the list of albums
+            albums.Add(album);
 
             //Map current Album model to GetAlbumDTO w/ AutoMapper
             //Add albums list to wrapper and return 
