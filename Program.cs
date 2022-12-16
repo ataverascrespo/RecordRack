@@ -1,3 +1,6 @@
+global using AlbumAPI.Models;
+global using AlbumAPI.Services.AlbumServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//Create a new instance of the requested album services 
+builder.Services.AddScoped<IAlbumService, AlbumService>();
 
 var app = builder.Build();
 
