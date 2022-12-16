@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 /// <summary>
 /// Implementation of dependency injection
 /// Service class handles data retrieval from the database
@@ -37,17 +38,26 @@ namespace AlbumAPI.Services.AlbumServices
             }
         };
 
-       
+        //Configure private mapper field
+        private readonly IMapper _mapper;
+
+        //AutoMapper Constructor
+        public AlbumService(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         //Method to add album based on passed new model
         public async Task<ServiceResponse<List<GetAlbumDTO>>> GetAllAlbums()
         {
             //Create wrapper model for album list
             var ServiceResponse = new ServiceResponse<List<GetAlbumDTO>>();
            
-            //Add list of albums to wrapper object and return
-            ServiceResponse.Data = albums;
+            //Map all Album models to GetAlbumDTO w/ AutoMapper
+            ServiceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
             return ServiceResponse;
         }
+
         //Method to return the specified album as per ID
         public async Task<ServiceResponse<GetAlbumDTO>> GetAlbumByID(int ID)
         {
@@ -59,20 +69,24 @@ namespace AlbumAPI.Services.AlbumServices
             
             //Add list of albums to wrapper object and return
             //The previous null check in this method can be removed as the wrapper object's properties are nullable
-            ServiceResponse.Data = album;
+            //Map returned Album model to GetAlbumDTO w/ AutoMapper
+            ServiceResponse.Data = _mapper.Map<GetAlbumDTO>(album);
             return ServiceResponse;
         }
-         //Method to return the list of all albums
-        public async Task<ServiceResponse<List<AddAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum)
+
+        //Method to return the list of all albums
+        public async Task<ServiceResponse<List<GetAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum)
         {
             //Create wrapper model for album list
-            var ServiceResponse = new ServiceResponse<List<AddAlbumDTO>>();
+            var ServiceResponse = new ServiceResponse<List<GetAlbumDTO>>();
             
             //Add passed album to the list of albums
-            albums.Add(newAlbum);
-            
-            //Add albums list to wrapper and return
-            ServiceResponse.Data = albums;
+            //Map AddCharacterDTO to Album Model w/ AutoMapper
+            albums.Add(_mapper.Map<Album>(newAlbum));
+
+            //Map current Album model to GetAlbumDTO w/ AutoMapper
+            //Add albums list to wrapper and return 
+            ServiceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
             return ServiceResponse;
         }
     }
