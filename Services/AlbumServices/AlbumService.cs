@@ -30,16 +30,15 @@ namespace AlbumAPI.Services.AlbumServices
             }
         };
 
-        //Method to return the list of all albums
-        public List<Album> AddAlbum(Album newAlbum)
+       
+        //Method to add album based on passed new model
+        public async Task<List<Album>> GetAllAlbums()
         {
-           //Add passed album to the list of albums
-            albums.Add(newAlbum);
-            //Returnlist of albums
+            //Return list of albums
             return albums;
         }
         //Method to return the specified album as per ID
-        public Album GetAlbumByID(int ID)
+        public async Task<Album> GetAlbumByID(int ID)
         {
             //Find first album where the ID of the album is equal 
             var album = albums.FirstOrDefault((a => a.ID == ID));
@@ -49,10 +48,12 @@ namespace AlbumAPI.Services.AlbumServices
             }
             throw new Exception("Album not found");
         }
-        //Method to add album based on passed new model
-        public List<Album> GetAllAlbums()
+         //Method to return the list of all albums
+        public async Task<List<Album>> AddAlbum(Album newAlbum)
         {
-            //Return list of albums
+           //Add passed album to the list of albums
+            albums.Add(newAlbum);
+            //Returnlist of albums
             return albums;
         }
     }
