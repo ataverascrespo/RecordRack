@@ -1,5 +1,6 @@
 global using AlbumAPI.Models;
 global using AlbumAPI.Services.AlbumServices;
+global using AlbumAPI.DTOs.Album;
 
 var builder = WebApplication.CreateBuilder(args);
 
