@@ -42,7 +42,12 @@ namespace AlbumAPI.Services.AlbumServices
         public Album GetAlbumByID(int ID)
         {
             //Find first album where the ID of the album is equal 
-            return albums.FirstOrDefault((a => a.ID == ID));
+            var album = albums.FirstOrDefault((a => a.ID == ID));
+            if (album != null)
+            {
+                return album;
+            }
+            throw new Exception("Album not found");
         }
         //Method to add album based on passed new model
         public List<Album> GetAllAlbums()
