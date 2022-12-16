@@ -17,7 +17,8 @@ namespace AlbumAPI.Services.AlbumServices
                 ArtistName="Smino",
                 YearReleased="2017",
                 AlbumGenre="Rap",
-                AlbumDescription="Smino's first album."
+                AlbumDescription="Smino's first album.",
+                AlbumRating=10,
             },
             new Album
             {
@@ -26,7 +27,8 @@ namespace AlbumAPI.Services.AlbumServices
                 ArtistName="Smino",
                 YearReleased="2018",
                 AlbumGenre="Rap",
-                AlbumDescription="Smino's second album."
+                AlbumDescription="Smino's second album.",
+                AlbumRating=8,
             }
         };
 
