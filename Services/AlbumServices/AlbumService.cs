@@ -39,29 +39,41 @@ namespace AlbumAPI.Services.AlbumServices
 
        
         //Method to add album based on passed new model
-        public async Task<List<Album>> GetAllAlbums()
+        public async Task<ServiceResponse<List<Album>>> GetAllAlbums()
         {
-            //Return list of albums
-            return albums;
+            //Create wrapper model for album list
+            var ServiceResponse = new ServiceResponse<List<Album>>();
+           
+            //Add list of albums to wrapper object and return
+            ServiceResponse.Data = albums;
+            return ServiceResponse;
         }
         //Method to return the specified album as per ID
-        public async Task<Album> GetAlbumByID(int ID)
+        public async Task<ServiceResponse<Album>> GetAlbumByID(int ID)
         {
+            //Create wrapper model for album 
+            var ServiceResponse = new ServiceResponse<Album>();
+            
             //Find first album where the ID of the album is equal 
             var album = albums.FirstOrDefault((a => a.ID == ID));
-            if (album != null)
-            {
-                return album;
-            }
-            throw new Exception("Album not found");
+            
+            //Add list of albums to wrapper object and return
+            //The previous null check in this method can be removed as the wrapper object's properties are nullable
+            ServiceResponse.Data = album;
+            return ServiceResponse;
         }
          //Method to return the list of all albums
-        public async Task<List<Album>> AddAlbum(Album newAlbum)
+        public async Task<ServiceResponse<List<Album>>> AddAlbum(Album newAlbum)
         {
-           //Add passed album to the list of albums
+            //Create wrapper model for album list
+            var ServiceResponse = new ServiceResponse<List<Album>>();
+            
+            //Add passed album to the list of albums
             albums.Add(newAlbum);
-            //Returnlist of albums
-            return albums;
+            
+            //Add albums list to wrapper and return
+            ServiceResponse.Data = albums;
+            return ServiceResponse;
         }
     }
 }
