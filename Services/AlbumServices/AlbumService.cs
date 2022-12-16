@@ -39,20 +39,20 @@ namespace AlbumAPI.Services.AlbumServices
 
        
         //Method to add album based on passed new model
-        public async Task<ServiceResponse<List<Album>>> GetAllAlbums()
+        public async Task<ServiceResponse<List<GetAlbumDTO>>> GetAllAlbums()
         {
             //Create wrapper model for album list
-            var ServiceResponse = new ServiceResponse<List<Album>>();
+            var ServiceResponse = new ServiceResponse<List<GetAlbumDTO>>();
            
             //Add list of albums to wrapper object and return
             ServiceResponse.Data = albums;
             return ServiceResponse;
         }
         //Method to return the specified album as per ID
-        public async Task<ServiceResponse<Album>> GetAlbumByID(int ID)
+        public async Task<ServiceResponse<GetAlbumDTO>> GetAlbumByID(int ID)
         {
             //Create wrapper model for album 
-            var ServiceResponse = new ServiceResponse<Album>();
+            var ServiceResponse = new ServiceResponse<GetAlbumDTO>();
             
             //Find first album where the ID of the album is equal 
             var album = albums.FirstOrDefault((a => a.ID == ID));
@@ -63,10 +63,10 @@ namespace AlbumAPI.Services.AlbumServices
             return ServiceResponse;
         }
          //Method to return the list of all albums
-        public async Task<ServiceResponse<List<Album>>> AddAlbum(Album newAlbum)
+        public async Task<ServiceResponse<List<AddAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum)
         {
             //Create wrapper model for album list
-            var ServiceResponse = new ServiceResponse<List<Album>>();
+            var ServiceResponse = new ServiceResponse<List<AddAlbumDTO>>();
             
             //Add passed album to the list of albums
             albums.Add(newAlbum);

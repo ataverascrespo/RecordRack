@@ -24,7 +24,7 @@ namespace AlbumAPI.Controllers
         //HTTP GET method
         //Return all albums
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<Album>>>> GetAlbums() 
+        public async Task<ActionResult<ServiceResponse<List<GetAlbumDTO>>>> GetAlbums() 
         {
             //Return status code response upon completion of albumService.GetAllAlbums() thread
             return Ok(await _albumService.GetAllAlbums());
@@ -33,7 +33,7 @@ namespace AlbumAPI.Controllers
         //HTTP GET method
         //Return a single album based on passed parameter ID
         [HttpGet("{ID}")]
-        public async Task<ActionResult<ServiceResponse<Album>>> GetAlbum(int ID)
+        public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> GetAlbum(int ID)
         {
             //Return status code response and model upon completion of albumService.GetAlbums() thread
             return Ok(await _albumService.GetAlbumByID(ID));
@@ -42,7 +42,7 @@ namespace AlbumAPI.Controllers
         //HTTP POST method
         //Add an album to the list of albums
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<Album>>>> AddAlbum(Album newAlbum)
+        public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> AddAlbum(AddAlbumDTO newAlbum)
         {
             //Return status code response upon completion of albumService.AddAlbum() thread
             return Ok(await _albumService.AddAlbum(newAlbum));

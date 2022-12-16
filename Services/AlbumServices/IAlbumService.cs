@@ -11,10 +11,10 @@ namespace AlbumAPI.Services.AlbumServices
     public interface IAlbumService
     {
         //Method to return the list of all albums
-        Task<ServiceResponse<List<Album>>> GetAllAlbums();
+        Task<ServiceResponse<List<GetAlbumDTO>>> GetAllAlbums();
         //Method to return the specified album as per ID
-        Task<ServiceResponse<Album>> GetAlbumByID(int ID);
+        Task<ServiceResponse<GetAlbumDTO>> GetAlbumByID(int ID);
         //Method to add album based on passed new model
-        Task<ServiceResponse<List<Album>>> AddAlbum(Album newAlbum);
+        Task<ServiceResponse<List<AddAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum);
     }
 }
