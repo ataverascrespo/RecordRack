@@ -50,35 +50,35 @@ namespace AlbumAPI.Services.AlbumServices
         //Method to add album based on passed new model
         public async Task<ServiceResponse<List<GetAlbumDTO>>> GetAllAlbums()
         {
-            //Create wrapper model for album list
-            var ServiceResponse = new ServiceResponse<List<GetAlbumDTO>>();
+            //Create wrapper model for album DTO list
+            var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
            
             //Map all Album models to GetAlbumDTO w/ AutoMapper
-            ServiceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
-            return ServiceResponse;
+            serviceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
+            return serviceResponse;
         }
 
         //Method to return the specified album as per ID
         public async Task<ServiceResponse<GetAlbumDTO>> GetAlbumByID(int ID)
         {
-            //Create wrapper model for album 
-            var ServiceResponse = new ServiceResponse<GetAlbumDTO>();
+            //Create wrapper model for album DTO 
+            var serviceResponse = new ServiceResponse<GetAlbumDTO>();
             
-            //Find first album where the ID of the album is equal 
+            //Find first album where the ID of the passed album is equal 
             var album = albums.FirstOrDefault((a => a.ID == ID));
             
             //Add list of albums to wrapper object and return
             //The previous null check in this method can be removed as the wrapper object's properties are nullable
             //Map returned Album model to GetAlbumDTO w/ AutoMapper
-            ServiceResponse.Data = _mapper.Map<GetAlbumDTO>(album);
-            return ServiceResponse;
+            serviceResponse.Data = _mapper.Map<GetAlbumDTO>(album);
+            return serviceResponse;
         }
 
         //Method to return the list of all albums
         public async Task<ServiceResponse<List<GetAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum)
         {
-            //Create wrapper model for album list
-            var ServiceResponse = new ServiceResponse<List<GetAlbumDTO>>();
+            //Create wrapper model for album DTO list
+            var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
 
             //Map AddCharacterDTO to Album Model w/ AutoMapper
             var album = _mapper.Map<Album>(newAlbum);
@@ -91,8 +91,44 @@ namespace AlbumAPI.Services.AlbumServices
 
             //Map current Album model to GetAlbumDTO w/ AutoMapper
             //Add albums list to wrapper and return 
-            ServiceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
-            return ServiceResponse;
+            serviceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetAlbumDTO>> UpdateAlbum(UpdateAlbumDTO updateAlbum)
+        {
+            //Create wrapper model for album DTO
+            var serviceResponse = new ServiceResponse<GetAlbumDTO>();
+
+            try
+            {
+                //Find first album where the ID of the passed album is equal 
+                var album = albums.FirstOrDefault(a => a.ID == updateAlbum.ID);
+
+                if (album == null)
+                {
+                    throw new Exception($"Album with ID '{updateAlbum.ID}' not found");
+                }
+
+                //Update all album fields
+                album.AlbumName = updateAlbum.AlbumName;
+                album.ArtistName = updateAlbum.ArtistName;
+                album.YearReleased = updateAlbum.YearReleased;
+                album.AlbumGenre = updateAlbum.AlbumGenre;
+                album.AlbumDescription = updateAlbum.AlbumDescription;
+                album.AlbumRating = updateAlbum.AlbumRating;
+
+                //Map Album model to GetAlbumDTO w/ AutoMapper
+                //Add albums list to wrapper and return 
+                serviceResponse.Data = _mapper.Map<GetAlbumDTO>(album);
+            } 
+            catch (Exception ex) 
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = ex.Message;
+            }
+
+            return serviceResponse;
         }
     }
 }

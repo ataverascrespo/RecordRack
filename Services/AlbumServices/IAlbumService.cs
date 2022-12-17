@@ -16,5 +16,6 @@ namespace AlbumAPI.Services.AlbumServices
         Task<ServiceResponse<GetAlbumDTO>> GetAlbumByID(int ID);
         //Method to add album based on passed new model
         Task<ServiceResponse<List<GetAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum);
+        Task<ServiceResponse<GetAlbumDTO>> UpdateAlbum(UpdateAlbumDTO updateAlbum);
     }
 }

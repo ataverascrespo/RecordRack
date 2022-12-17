@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+/// <summary>
+/// Serializes data into a proper format
+/// Uses RESTful routing schemes to forward to client
+/// </summary>
 namespace AlbumAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    /// <summary>
-    /// Serializes data into a proper format
-    /// Uses RESTful routing schemes to forward to client
-    /// </summary>
     public class AlbumController : ControllerBase
     {
         //Private album service field
@@ -46,6 +46,22 @@ namespace AlbumAPI.Controllers
         {
             //Return status code response upon completion of albumService.AddAlbum() thread
             return Ok(await _albumService.AddAlbum(newAlbum));
+        }
+
+        //HTTP PUT method
+        //Update an album from the list of albums
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> UpdateAlbum(UpdateAlbumDTO updateAlbum)
+        {
+
+            var response = await _albumService.UpdateAlbum(updateAlbum);
+            if (response.Data == null) {
+                //Return 404 error if null
+                return NotFound(response);
+            }
+
+            //Return status code response upon completion of albumService.UpdateAlbum() thread
+            return Ok();
         }
        
     }
