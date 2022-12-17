@@ -101,7 +101,6 @@ namespace AlbumAPI.Services.AlbumServices
             {
                 //Find first or default album where the ID of the passed album is equal 
                 var album = albums.FirstOrDefault(a => a.ID == updateAlbum.ID);
-
                 if (album == null)
                 {
                     throw new Exception($"Album with ID '{updateAlbum.ID}' not found");
@@ -137,12 +136,10 @@ namespace AlbumAPI.Services.AlbumServices
             {
                 //Find first album where the ID of the passed album is equal 
                 var album = albums.FirstOrDefault(a => a.ID == ID);
-
                 if (album == null)
                 {
                     throw new Exception($"Album with ID '{ID}' not found");
                 }
-
                 albums.Remove(album);
 
                 //Map all Album models to GetAlbumDTO w/ AutoMapper
@@ -157,6 +154,5 @@ namespace AlbumAPI.Services.AlbumServices
 
             return serviceResponse;
         }
-
     }
 }

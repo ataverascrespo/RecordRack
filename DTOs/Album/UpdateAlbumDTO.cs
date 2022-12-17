@@ -10,7 +10,6 @@ namespace AlbumAPI.DTOs.Album
 {
     public class UpdateAlbumDTO
     {
-        
         public int ID { get; set; }
         public string AlbumName { get; set; } = string.Empty;
         public string ArtistName { get; set; } = string.Empty;

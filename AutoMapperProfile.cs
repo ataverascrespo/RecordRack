@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 /// <summary>
 /// Configures mapping profiles for NuGet AutoMapper
 /// </summary>
-
 namespace AlbumAPI
 {
     public class AutoMapperProfile : Profile
@@ -17,7 +16,6 @@ namespace AlbumAPI
             CreateMap<Album, GetAlbumDTO>();
             //Create a mapping profile for AddAlbumDTO to Album
             CreateMap<AddAlbumDTO, Album>();
-
         }
     }
 }
