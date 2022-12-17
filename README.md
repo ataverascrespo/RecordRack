@@ -2,9 +2,9 @@
 
 Part of an on-going full stack development project.
 
-The goal of this project was to build a minimal web API using the .NET 7 framework in C#. This API performs CRUD operations through HTTP request methods, including GET, POST, PUT and DELETE. 
+The goal of this project was to build a minimal web API using the ASP.NET 7 framework in C#. This API performs CRUD operations through HTTP request methods, including GET, POST, PUT and DELETE. 
 
-Although this is a smaller, minimalistic API, an important aspect I focused during development was applying the best back-end coding practices and concepts, including: 
+Although this is a minimalistic API, an important aspect I focused during development was being consistent in my application of good coding practices and real-world concepts, including: 
 
 ### Model-View-Controller Architecture
 * An architectural pattern that focuses on structuring and dividing program logic; the "model" represents the data entities that interact with the user interface. The "controller" acts as a middle-man between the model and user interface, retrieving both client requests and model data as needed. 
@@ -20,4 +20,10 @@ Although this is a smaller, minimalistic API, an important aspect I focused duri
 
 
 # About
+
+When coming to a decision for my framework of choice, I ruled out Django and Node.js because I like the type safety and reliability of statically-typed languages like Java and C#. 
+
+With the luxury of choosing between two of my strongest languages, Java/Spring or C#/ ASP.NET 7, I ultimately chose ASP.NET 7 over Spring. Even though I have more experience with Java, and Spring's open-source ecosystem is larger, Microsoft's documentation is structured well for a learning experience. 
+
 This project is developed fully by Alex Taveras-Crespo.
+
