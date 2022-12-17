@@ -64,7 +64,6 @@ namespace AlbumAPI.Services.AlbumServices
             //Create wrapper model for album DTO 
             var serviceResponse = new ServiceResponse<GetAlbumDTO>();
             
-            //Find first album where the ID of the passed album is equal 
             var album = albums.FirstOrDefault((a => a.ID == ID));
             
             //Add list of albums to wrapper object and return
@@ -82,11 +81,9 @@ namespace AlbumAPI.Services.AlbumServices
 
             //Map AddCharacterDTO to Album Model w/ AutoMapper
             var album = _mapper.Map<Album>(newAlbum);
-            
+
             //Find Max ID value in list of albums - new ID is auto-incremented upon Max
             album.ID = albums.Max(a => a.ID) + 1;
-
-            //Add passed album to the list of albums
             albums.Add(album);
 
             //Map current Album model to GetAlbumDTO w/ AutoMapper
@@ -102,7 +99,7 @@ namespace AlbumAPI.Services.AlbumServices
 
             try
             {
-                //Find first album where the ID of the passed album is equal 
+                //Find first or default album where the ID of the passed album is equal 
                 var album = albums.FirstOrDefault(a => a.ID == updateAlbum.ID);
 
                 if (album == null)
@@ -110,7 +107,6 @@ namespace AlbumAPI.Services.AlbumServices
                     throw new Exception($"Album with ID '{updateAlbum.ID}' not found");
                 }
 
-                //Update all album fields
                 album.AlbumName = updateAlbum.AlbumName;
                 album.ArtistName = updateAlbum.ArtistName;
                 album.YearReleased = updateAlbum.YearReleased;
@@ -124,11 +120,43 @@ namespace AlbumAPI.Services.AlbumServices
             } 
             catch (Exception ex) 
             {
+                //If album does not exist
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = ex.Message;
             }
 
             return serviceResponse;
         }
+
+        public async Task<ServiceResponse<List<GetAlbumDTO>>> DeleteAlbum(int ID)
+        {
+            //Create wrapper model for album DTO
+            var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
+
+            try
+            {
+                //Find first album where the ID of the passed album is equal 
+                var album = albums.FirstOrDefault(a => a.ID == ID);
+
+                if (album == null)
+                {
+                    throw new Exception($"Album with ID '{ID}' not found");
+                }
+
+                albums.Remove(album);
+
+                //Map all Album models to GetAlbumDTO w/ AutoMapper
+                serviceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
+            } 
+            catch (Exception ex) 
+            {
+                //If album does not exist
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = ex.Message;
+            }
+
+            return serviceResponse;
+        }
+
     }
 }

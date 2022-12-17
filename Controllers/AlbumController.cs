@@ -63,6 +63,21 @@ namespace AlbumAPI.Controllers
             //Return status code response upon completion of albumService.UpdateAlbum() thread
             return Ok();
         }
+
+        //HTTP DELETE method
+        //Return a single album based on passed parameter ID
+        [HttpDelete("{ID}")]
+        public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> DeleteAlbum(int ID)
+        {
+            var response = await _albumService.DeleteAlbum(ID);
+            if (response.Data == null) {
+                //Return 404 error if null
+                return NotFound(response);
+            }
+
+            //Return status code response upon completion of albumService.UpdateAlbum() thread
+            return Ok();
+        }
        
     }
 }
