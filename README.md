@@ -20,4 +20,4 @@ Although this is a smaller, minimalistic API, an important aspect I focused duri
 
 
 # About
-This project is developed fully by Alex Taveras-Crespo as part of an ongoing full stack development project.
+This project is developed fully by Alex Taveras-Crespo.
