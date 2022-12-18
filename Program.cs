@@ -2,6 +2,8 @@ global using AlbumAPI.Models;
 global using AlbumAPI.Services.AlbumServices;
 global using AlbumAPI.DTOs.Album;
 global using AutoMapper;
+global using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
