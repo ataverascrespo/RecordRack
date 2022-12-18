@@ -23,7 +23,7 @@ Although this is a minimalistic API, an important aspect I focused on during dev
 
 When coming to a decision for my framework of choice, I ruled out Django and Node.js because I like the type safety and reliability of statically-typed languages like Java and C#. 
 
-With the luxury of choosing between two of my strongest languages, Java/Spring or C#/ ASP.NET 7, I ultimately chose ASP.NET 7 over Spring. Even though I have more experience with Java, and Spring's open-source ecosystem is larger, Microsoft's documentation is structured well for a learning experience. 
+With the luxury of choosing between two of my favourite languages, Java (using Spring) or C# (using ASP.NET 7), I ultimately chose ASP.NET 7 over Spring. Microsoft's Entity Framework Core + C#'s LINQ syntax were some of the deciding factors.
 
 This project is developed fully by Alex Taveras-Crespo.
 
