@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-
 /// <summary>
 /// Implementation of dependency injection
 /// Service class handles data retrieval from the database

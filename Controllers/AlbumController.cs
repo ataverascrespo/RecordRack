@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
 /// <summary>
 /// Serializes data into a proper format
 /// Uses RESTful routing schemes to forward to client
