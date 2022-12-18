@@ -4,7 +4,7 @@ Part of an on-going full stack development project.
 
 The goal of this project was to build a minimal web API using the ASP.NET 7 framework in C#. This API performs CRUD operations through HTTP request methods, including GET, POST, PUT and DELETE. 
 
-Although this is a minimalistic API, an important aspect I focused during development was being consistent in my application of good coding practices and real-world concepts, including: 
+Although this is a minimalistic API, an important aspect I focused on during development was being consistent in my application of good coding practices and real-world concepts, including: 
 
 ### Model-View-Controller Architecture
 * An architectural pattern that focuses on structuring and dividing program logic; the "model" represents the data entities that interact with the user interface. The "controller" acts as a middle-man between the model and user interface, retrieving both client requests and model data as needed. 
