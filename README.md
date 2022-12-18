@@ -4,13 +4,13 @@ The goal of this project was to build a minimal web API using the ASP.NET 7 fram
 
 Although this is a minimalistic API, an important aspect I focused on during development was being consistent in my application of good coding practices and real-world concepts, including: 
 
-### Model-View-Controller Architecture
+* ### Model-View-Controller Architecture
 
-### Dependency Injection
+* ### Dependency Injection
 
-### Data Transfer Objects
+* ### Data Transfer Objects
 
-### Asynchronous Calls
+* ### Asynchronous Calls
 
 
 # About
