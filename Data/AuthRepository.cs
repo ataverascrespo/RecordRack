@@ -22,6 +22,17 @@ namespace AlbumAPI.Data
         //Method to add new user + user info, and return generated ID
         public async Task<ServiceResponse<int>> Register(User user, string password)
         {
+            //Create service response 
+            var serviceResponse = new ServiceResponse<int>();
+
+            //Assess if the username is already registered
+            if (await UserExists(user.UserName))
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "User already exists";
+                return serviceResponse;
+            }
+
             //Call method to create a hashed and salted password
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -34,16 +45,22 @@ namespace AlbumAPI.Data
 
             //Wait for changes to be saved
             await _context.SaveChangesAsync();
-            var serviceResponse = new ServiceResponse<int>();
 
             //Save user ID to wrapper object Data
             serviceResponse.Data = user.ID;
             return serviceResponse;
         }
 
-        public Task<bool> UserExists(string userName)
+        //Method to assess whether passed user exists upon registration
+        public async Task<bool> UserExists(string userName)
         {
-            throw new NotImplementedException();
+            //Return true if passed username is in database
+            //Cast both to lower to ignore case
+            if(await _context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower()))
+            {
+                return true;
+            }
+            return false;
         }
 
         //Method to create a hashed and salted password
