@@ -7,7 +7,8 @@ global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 global using AlbumAPI.Data;
 global using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,20 @@ builder.Services.AddScoped<IAlbumService, AlbumService>();
 //Create a new instance of the requested user services 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
+//Adds authentication scheme to web service
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8
+                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value!)),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+        };
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,6 +54,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//Enable authentication capablities
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

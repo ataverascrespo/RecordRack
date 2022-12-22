@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
+
 /// <summary>
 /// Serializes data into a proper format
 /// Uses RESTful routing schemes to forward to client
 /// </summary>
 namespace AlbumAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AlbumController : ControllerBase
