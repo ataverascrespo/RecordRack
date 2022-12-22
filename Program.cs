@@ -24,6 +24,10 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 //Create a new instance of the requested album services 
 builder.Services.AddScoped<IAlbumService, AlbumService>();
+
+//Create a new instance of the requested user services 
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
