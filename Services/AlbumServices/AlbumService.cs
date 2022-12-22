@@ -87,8 +87,8 @@ namespace AlbumAPI.Services.AlbumServices
             try
             {
                 //Find first or default album in DB albums table where the ID of the passed album is equal 
-                var album = await _context.Albums.FirstOrDefaultAsync(a => a.ID == updateAlbum.ID);
-                if (album == null)
+                var album = await _context.Albums.Include(a => a.User).FirstOrDefaultAsync(a => a.ID == updateAlbum.ID);               
+                if (album == null || album.User!.ID != GetUserID())
                 {
                     throw new Exception($"Album with ID '{updateAlbum.ID}' not found");
                 }
