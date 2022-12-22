@@ -1,6 +1,7 @@
 /// <summary>
 /// API model 
 /// Enables model-view-controller architectural pattern
+/// Album entity
 /// </summary>
 namespace AlbumAPI.Models
 {
@@ -13,5 +14,6 @@ namespace AlbumAPI.Models
         public string AlbumGenre { get; set; } = string.Empty;
         public string AlbumDescription { get; set; } = string.Empty;
         public int AlbumRating { get; set; } 
+        public User? User { get; set; }
     }
 }
