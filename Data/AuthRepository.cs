@@ -14,15 +14,39 @@ namespace AlbumAPI.Data
             _context = context;
         }
 
-        public Task<ServiceResponse<string>> Login(string userName, string password)
+        public async Task<ServiceResponse<string>> Login(string userName, string password)
         {
-            throw new NotImplementedException();
+            var serviceResponse = new ServiceResponse<string>();
+
+            //Find first or default instance where passed username is equal to existing username
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+                
+                //Error message
+                serviceResponse.ReturnMessage = "User not found.";
+            }
+            //If password for user does not match
+            else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "Wrong password.";
+            }
+            else
+            {
+                //Set the response data to the user ID
+                serviceResponse.Data = user.ID.ToString();
+            }
+
+            return serviceResponse;
         }
 
         //Method to add new user + user info, and return generated ID
         public async Task<ServiceResponse<int>> Register(User user, string password)
         {
-            //Create service response 
             var serviceResponse = new ServiceResponse<int>();
 
             //Assess if the username is already registered
@@ -78,6 +102,22 @@ namespace AlbumAPI.Data
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }   
+
+        //Method to verify that password for specified user is correct
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            //Create an instance of HMACSHA512 cryptography algorithm 
+            //Generates a key automatically
+            using(var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            {
+                //Compute the hash
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+
+                //Return the result of the computed + password Hash comparison
+                return computedHash.SequenceEqual(passwordHash);
+            }
+
+        }
 
     }
 }
