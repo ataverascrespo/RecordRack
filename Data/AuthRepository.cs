@@ -1,3 +1,6 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 /// <summary>
 /// Encapsulates logic required to access data sources
@@ -8,10 +11,14 @@ namespace AlbumAPI.Data
     public class AuthRepository : IAuthRepository
     {
         private readonly DataContext _context;
+        private readonly IConfiguration _configuration;
+
         //Inject data context, needed for DB access
-        public AuthRepository(DataContext context)
+        //Inject IConfiguration, needed to access JSON token
+        public AuthRepository(DataContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<ServiceResponse<string>> Login(string userName, string password)
@@ -23,7 +30,7 @@ namespace AlbumAPI.Data
             if (user == null)
             {
                 serviceResponse.Success = false;
-                
+
                 //Error message
                 serviceResponse.ReturnMessage = "User not found.";
             }
@@ -37,10 +44,10 @@ namespace AlbumAPI.Data
             }
             else
             {
-                //Set the response data to the user ID
-                serviceResponse.Data = user.ID.ToString();
+                //Call the method to create a JSON web token
+                //Store result in service data
+                serviceResponse.Data = CreateToken(user);
             }
-
             return serviceResponse;
         }
 
@@ -116,8 +123,48 @@ namespace AlbumAPI.Data
                 //Return the result of the computed + password Hash comparison
                 return computedHash.SequenceEqual(passwordHash);
             }
-
         }
 
+        //Method to create to create a JSON web token
+        private string CreateToken(User user)
+        {
+            var claims = new List<Claim>
+            {
+                //Set claim identifier of JWT to user object ID
+                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
+
+                //Set claim name of JWT to user name
+                new Claim(ClaimTypes.Name, user.UserName)
+            };
+
+            //Access the app settings token from appsetting.json
+            var appSettingsToken = _configuration.GetSection("AppSettings:Token").Value;
+            if (appSettingsToken == null)
+            {
+                throw new Exception("AppSettings Token is null");
+            }
+
+            //Create a cryptographic symmetric security key 
+            SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(appSettingsToken));
+
+            //Create a signing credential, using symmetric key and HMACSHA 512 digital signature
+            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            //Placeholder object for all issued token attributes
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                //Set expiration to a day after creation
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
+            };
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+
+            //Create a token using the token handler and token attribute object
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+            //Serializes the security token into a JSON web token
+            return tokenHandler.WriteToken(token);
+        }
     }
 }
