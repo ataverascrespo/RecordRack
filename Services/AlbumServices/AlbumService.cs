@@ -7,48 +7,30 @@ namespace AlbumAPI.Services.AlbumServices
 {
     public class AlbumService : IAlbumService
     {
-        //Create a list of album models
-        private static List<Album> albums = new List<Album>
-        {
-            new Album
-            {
-                ID=1,
-                AlbumName="Blkswn",
-                ArtistName="Smino",
-                YearReleased="2017",
-                AlbumGenre="Rap",
-                AlbumDescription="Smino's first album.",
-                AlbumRating=10,
-            },
-            new Album
-            {
-                ID=2,
-                AlbumName="NOIR",
-                ArtistName="Smino",
-                YearReleased="2018",
-                AlbumGenre="Rap",
-                AlbumDescription="Smino's second album.",
-                AlbumRating=8,
-            }
-        };
-
         //Configure private mapper field
         private readonly IMapper _mapper;
 
+        //Inject data context for DB access
+        private readonly DataContext _context;
+
         //AutoMapper Constructor
-        public AlbumService(IMapper mapper)
+        public AlbumService(IMapper mapper, DataContext context)
         {
             _mapper = mapper;
+            _context = context;
         }
 
         //Method to add album based on passed new model
-        public async Task<ServiceResponse<List<GetAlbumDTO>>> GetAllAlbums()
+        public async Task<ServiceResponse<List<GetAlbumDTO>>> GetAllAlbums(int userID)
         {
             //Create wrapper model for album DTO list
             var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
-           
+            
+            //Access database albums table
+            var dbAlbums = await _context.Albums.ToListAsync();
+            
             //Map all Album models to GetAlbumDTO w/ AutoMapper
-            serviceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
+            serviceResponse.Data = dbAlbums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
             return serviceResponse;
         }
 
@@ -58,12 +40,13 @@ namespace AlbumAPI.Services.AlbumServices
             //Create wrapper model for album DTO 
             var serviceResponse = new ServiceResponse<GetAlbumDTO>();
             
-            var album = albums.FirstOrDefault((a => a.ID == ID));
+            //Access database albums table
+            var dbAlbum = await _context.Albums.FirstOrDefaultAsync((a => a.ID == ID));
             
             //Add list of albums to wrapper object and return
             //The previous null check in this method can be removed as the wrapper object's properties are nullable
             //Map returned Album model to GetAlbumDTO w/ AutoMapper
-            serviceResponse.Data = _mapper.Map<GetAlbumDTO>(album);
+            serviceResponse.Data = _mapper.Map<GetAlbumDTO>(dbAlbum);
             return serviceResponse;
         }
 
@@ -76,13 +59,15 @@ namespace AlbumAPI.Services.AlbumServices
             //Map AddCharacterDTO to Album Model w/ AutoMapper
             var album = _mapper.Map<Album>(newAlbum);
 
-            //Find Max ID value in list of albums - new ID is auto-incremented upon Max
-            album.ID = albums.Max(a => a.ID) + 1;
-            albums.Add(album);
+            //Add album to the DB albums table and auto generate a new ID
+            _context.Albums.Add(album);
+
+            //Save changes to DB album table
+            await _context.SaveChangesAsync();
 
             //Map current Album model to GetAlbumDTO w/ AutoMapper
             //Add albums list to wrapper and return 
-            serviceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
+            serviceResponse.Data = await _context.Albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToListAsync();
             return serviceResponse;
         }
 
@@ -93,8 +78,8 @@ namespace AlbumAPI.Services.AlbumServices
 
             try
             {
-                //Find first or default album where the ID of the passed album is equal 
-                var album = albums.FirstOrDefault(a => a.ID == updateAlbum.ID);
+                //Find first or default album in DB albums table where the ID of the passed album is equal 
+                var album = await _context.Albums.FirstOrDefaultAsync(a => a.ID == updateAlbum.ID);
                 if (album == null)
                 {
                     throw new Exception($"Album with ID '{updateAlbum.ID}' not found");
@@ -106,6 +91,9 @@ namespace AlbumAPI.Services.AlbumServices
                 album.AlbumGenre = updateAlbum.AlbumGenre;
                 album.AlbumDescription = updateAlbum.AlbumDescription;
                 album.AlbumRating = updateAlbum.AlbumRating;
+
+                //Save changes to database Album table
+                await _context.SaveChangesAsync();
 
                 //Map Album model to GetAlbumDTO w/ AutoMapper
                 //Add albums list to wrapper and return 
@@ -129,15 +117,19 @@ namespace AlbumAPI.Services.AlbumServices
             try
             {
                 //Find first album where the ID of the passed album is equal 
-                var album = albums.FirstOrDefault(a => a.ID == ID);
+                var album = await _context.Albums.FirstOrDefaultAsync(a => a.ID == ID);
                 if (album == null)
                 {
                     throw new Exception($"Album with ID '{ID}' not found");
                 }
-                albums.Remove(album);
+                //Remove selected album from database
+                _context.Albums.Remove(album);
+
+                //Save changes to DB album table
+                await _context.SaveChangesAsync();
 
                 //Map all Album models to GetAlbumDTO w/ AutoMapper
-                serviceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
+                serviceResponse.Data = await _context.Albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToListAsync();
             } 
             catch (Exception ex) 
             {
