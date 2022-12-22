@@ -14,5 +14,8 @@ namespace AlbumAPI.Data
         //Returns a database set of type Album
         //Allows us to query and save albums
         public DbSet<Album> Albums => Set<Album>();
+        //Returns a database set of type User
+        //Allows us to query and save users
+        public DbSet<User> Users => Set<User>();
     }
 }
