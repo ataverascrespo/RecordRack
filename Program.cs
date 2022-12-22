@@ -1,6 +1,7 @@
 global using AlbumAPI.Models;
 global using AlbumAPI.Services.AlbumServices;
 global using AlbumAPI.DTOs.Album;
+global using AlbumAPI.DTOs.User;
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 global using AlbumAPI.Data;
