@@ -11,8 +11,7 @@ namespace AlbumAPI.Controllers
         //Private album service field
         private readonly IAlbumService _albumService;
 
-        //AlbumController Constructor
-        //This enables dependency injection - the service provides the controller with it's dependent objects
+        //Inject the IAlbumController interface
         public AlbumController(IAlbumService albumService)
         {
            _albumService = albumService;
