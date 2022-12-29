@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap'); 
+@import url('https://fonts.cdnfonts.com/css/elephant');
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.banner{
+  width: 100vw;
+  height: 100vh;
+  background: #B79891;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #94716B, #B79891);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #94716B, #B79891); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.navbar{
+  width: 85%;
+  margin: auto;  
+  padding: 35px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar h1{
+  width: 180px;
+  color: white;
+  font-family: 'Elephant', sans-serif;
+  font-weight: 100;
+}
+
+.navbar ul li{
+  list-style: none;
+  display: inline-block;
+  margin: 0 20px;
+  position: relative;
+  font-weight: 100;
+  font-size: 20px;
+}
+
+.navbar ul li a{
+  text-decoration: none;
+  color: white;
+}
+
+.navbar ul li::after{
+  content: '';
+  height: 3px;
+  width: 0;
+  background: white;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transition: 0.5s;
+}
+
+.navbar ul li:hover::after{
+  width: 100%;
+}
+
+.content{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: white;
+}
+
+.content h1{
+  font-family: 'Elephant', sans-serif;
+  font-size: 70px;
+  margin-top: 80px;
+  font-weight: 100;
+  letter-spacing: 3px;
+}
+
+.content p{
+  margin: 20px auto;
+  font-size: 20px;
+  font-weight: 100;
+  line-height: 25px;
+}
+
+button{
+  width: 200px;
+  padding: 15px 0;
+  text-align: center;
+  margin: 20px 10px;
+  border-radius: 25px;
+  font-weight: 400; 
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+span{
+  background: #9c9c9c;
+  height: 100%;
+  width: 0;
+  border-radius: 25px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  transition: 0.5s;
+}
+
+button:hover span{
+  width: 100%;
+}
