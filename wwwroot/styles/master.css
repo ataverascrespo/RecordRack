@@ -15,75 +15,6 @@
   background: linear-gradient(to right, #94716B, #B79891); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-.navbar{
-  width: 85%;
-  margin: auto;  
-  padding: 35px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.navbar h1{
-  width: 180px;
-  color: white;
-  font-family: 'Elephant', sans-serif;
-  font-weight: 100;
-}
-
-.navbar ul li{
-  list-style: none;
-  display: inline-block;
-  margin: 0 20px;
-  position: relative;
-  font-weight: 100;
-  font-size: 20px;
-}
-
-.navbar ul li a{
-  text-decoration: none;
-  color: white;
-}
-
-.navbar ul li::after{
-  content: '';
-  height: 3px;
-  width: 0;
-  background: white;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  transition: 0.5s;
-}
-
-.navbar ul li:hover::after{
-  width: 100%;
-}
-
-.content{
-  width: 100%;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  text-align: center;
-  color: white;
-}
-
-.content h1{
-  font-family: 'Elephant', sans-serif;
-  font-size: 70px;
-  margin-top: 80px;
-  font-weight: 100;
-  letter-spacing: 3px;
-}
-
-.content p{
-  margin: 20px auto;
-  font-size: 20px;
-  font-weight: 100;
-  line-height: 25px;
-}
-
 button{
   width: 200px;
   padding: 15px 0;
@@ -100,7 +31,7 @@ button{
 }
 
 span{
-  background: #9c9c9c;
+  background: #94716B;
   height: 100%;
   width: 0;
   border-radius: 25px;
