@@ -1,50 +1,53 @@
 // Get the login form
 const loginForm = document.getElementById("login-form");
-
 // Add an event listener to the form
-loginForm.addEventListener("submit", (event) => {
-  // Prevent the default form submission behavior
+loginForm.addEventListener("submit", formSubmit);
+
+function formSubmit(event) {
+  //Prevent the default form submission behavior
   event.preventDefault();
 
-  // Get the user's credentials from the form
+  //Get user credentials from the form
   const userName = document.getElementById("username").value;
   const password = document.getElementById("password").value;
+  const errorMessage = document.getElementById("message-content-login");
 
-  // Send a POST request to the API with the user's credentials
-  fetch("/Auth/Login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ userName, password }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // If the login is successful, the API should return a JWT
-      const jwt = data.token;
-      // Store the JWT in a cookie or local storage
-      console.log(jwt);
+  //If username empty
+  if (userName == "") {
+    alert("Username must be entered");
+  }
 
-      // Use the JWT to authenticate subsequent requests to the API
-      fetch("/protected-route", {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${jwt}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // If the request is successful, the API will return the data
-          console.log("1");
-        })
-        .catch((error) => {
-          // If the request fails, handle the error
-          console.log("2");
+  //If password empty
+  if (password == "") {
+    alert("Password must be entered");
+  }
 
-        });
+  //If both fields are filled
+  else {
+    //Send POST request to the API with the user credentials
+    fetch("http://localhost:5184/Auth/Login/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userName, password }),
     })
-    .catch((error) => {
-      // If the login fails, handle the error
-      console.log("3");
-    });
-});
+      .then((response) => response.json())
+      .then((data) => {
+        //If the login is unsuccessful, display an error to end user
+        if (data.data === null) {
+          errorMessage.innerHTML = "Invalid username or password."; 
+        }
+        //If login is successful, the API returns a JWT in the data field of the returned JSON
+        else {
+          errorMessage.innerHTML = ""; 
+          const jwt = data.data;
+          //Store the JWT in a cookie or local storage
+          console.log(jwt);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+}
