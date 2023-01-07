@@ -12,7 +12,20 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CORSPolicy",
+            builder  =>
+            {
+                builder
+                .WithOrigins("http://127.0.0.1:5500")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
+});
 
 // Add services to the container.
 builder.Services.AddDbContext<DataContext>(options =>
@@ -64,8 +77,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("CORSPolicy");
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
 //Enable authentication capablities
 app.UseAuthentication();
 app.UseAuthorization();
