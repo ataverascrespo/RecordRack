@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
             builder  =>
             {
                 builder
-                .WithOrigins("http://127.0.0.1:5500")
+                .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             });
@@ -53,6 +53,9 @@ builder.Services.AddScoped<IAlbumService, AlbumService>();
 
 //Create a new instance of the requested user services 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
+//Create a new instance of the requested photo services
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 //Adds authentication scheme to web service
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
