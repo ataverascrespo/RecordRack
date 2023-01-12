@@ -6,25 +6,38 @@ namespace AlbumAPI.Services.AlbumServices
 {
     public class PhotoService : IPhotoService
     {
-        private readonly Cloudinary _cloudinary; 
+        private readonly IConfiguration _configuration;
+
 
         //Inject Cloudinary configuration
-        public PhotoService(IOptions<CloudinarySettings> config)
+        public PhotoService(IConfiguration configuration)
         {
-            //Create an account with the required Cloudinary environment credentials
-            var acc = new Account
-            (
-                config.Value.CloudName,
-                config.Value.ApiKey,
-                config.Value.ApiSecret
-            );
+            _configuration = configuration;
+        }
 
-            _cloudinary = new Cloudinary(acc);
+        public Cloudinary GetCloudinaryAccount()
+        {
+            var cloudName = _configuration.GetSection("CloudinarySettings:CloudName").Value;
+            var apiKey = _configuration.GetSection("CloudinarySettings:ApiKey").Value;
+            var apiSecret = _configuration.GetSection("CloudinarySettings:ApiSecret").Value;
+
+            var acc = new Account
+            {
+                Cloud = cloudName,
+                ApiKey = apiKey,
+                ApiSecret = apiSecret
+            };
+         
+            Cloudinary _cloudinary = new Cloudinary(acc);
+
+            return _cloudinary;
         }
 
         //Method to add a passed file
         public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
         {
+            Cloudinary _cloudinary = GetCloudinaryAccount();
+
             var uploadResult = new ImageUploadResult();
 
             //Check if file actually exists
@@ -45,10 +58,12 @@ namespace AlbumAPI.Services.AlbumServices
             }
             return uploadResult;
         }
-        
+
         //Method to delete an existing file based on passed ID
         public async Task<DeletionResult> DeletePhotoASync(string publicID)
         {
+            Cloudinary _cloudinary = GetCloudinaryAccount();
+
             //Specify public ID of file to be deleted
             var deleteParams = new DeletionParams(publicID);
 
