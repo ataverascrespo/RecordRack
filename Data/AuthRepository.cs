@@ -155,7 +155,7 @@ namespace AlbumAPI.Data
             {
                 Subject = new ClaimsIdentity(claims),
                 //Set expiration to a day after creation
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddHours(2),
                 SigningCredentials = creds
             };
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
