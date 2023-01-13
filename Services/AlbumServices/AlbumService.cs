@@ -57,7 +57,7 @@ namespace AlbumAPI.Services.AlbumServices
         }
 
         //Method to return the list of all albums
-        public async Task<ServiceResponse<List<GetAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum)
+        public async Task<ServiceResponse<List<GetAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum, ImageUploadResult result)
         {
             //Create wrapper model for album DTO list
             var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
@@ -65,6 +65,9 @@ namespace AlbumAPI.Services.AlbumServices
             //Map AddCharacterDTO to Album Model w/ AutoMapper
             var album = _mapper.Map<Album>(newAlbum);
             album.User = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+
+            album.photoURL = result.SecureUrl.AbsoluteUri;
+            album.publicID = result.PublicId;
 
             //Add album to the DB albums table and auto generate a new ID
             _context.Albums.Add(album);

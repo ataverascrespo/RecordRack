@@ -15,10 +15,15 @@ namespace AlbumAPI.Controllers
         //Private album service field
         private readonly IAlbumService _albumService;
 
+        //Private photo service field
+        private readonly IPhotoService _photoService;
+
         //Inject the IAlbumController interface
-        public AlbumController(IAlbumService albumService)
+        //Inject the IPhotoService for uploading photos
+        public AlbumController(IAlbumService albumService, IPhotoService photoService)
         {
-           _albumService = albumService;
+            _albumService = albumService;
+            _photoService = photoService;
         }
 
         //HTTP GET method
@@ -42,10 +47,15 @@ namespace AlbumAPI.Controllers
         //HTTP POST method
         //Add an album to the list of albums
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> AddAlbum(AddAlbumDTO newAlbum)
+        //Specify Content-Type header for client
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> AddAlbum([FromForm] AddAlbumDTO newAlbum, [FromForm] IFormFile file)
         {
+            var result = await _photoService.AddPhotoAsync(file);
+            if (result.Error != null) return BadRequest(result.Error.Message);
+
             //Return status code response upon completion of albumService.AddAlbum() thread
-            return Ok(await _albumService.AddAlbum(newAlbum));
+            return Ok(await _albumService.AddAlbum(newAlbum, result));
         }
 
         //HTTP PUT method
@@ -53,7 +63,6 @@ namespace AlbumAPI.Controllers
         [HttpPut]
         public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> UpdateAlbum(UpdateAlbumDTO updateAlbum)
         {
-
             var response = await _albumService.UpdateAlbum(updateAlbum);
             if (response.Data == null) {
                 //Return 404 error if null
