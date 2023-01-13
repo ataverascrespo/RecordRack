@@ -12,5 +12,7 @@ namespace AlbumAPI.DTOs.Album
         public string AlbumGenre { get; set; } = string.Empty;
         public string AlbumDescription { get; set; } = string.Empty;
         public int AlbumRating { get; set; } 
+        public string photoURL { get; set; } = string.Empty;
+        public string publicID { get; set; } = string.Empty;
     }
 }
