@@ -8,12 +8,17 @@
 }
 
 .navbar{
-  width: 85%;
   margin: auto;  
-  padding: 35px 0;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-left: 50px;
+  padding-right: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  filter: drop-shadow(2px 1px 4px black);
+  background-color: #a48983;
+
 }
 
 .navbar h1{
