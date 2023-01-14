@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap'); 
 @import url('https://fonts.cdnfonts.com/css/elephant');
 
+
+body {
+  min-height: 100vh;
+  min-width: 100vw;
+  background: #B79891;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #94716B, #B79891);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #94716B, #B79891); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 *{
   margin: 0;
   padding: 0;
@@ -10,9 +19,6 @@
 .banner{
   width: 100vw;
   height: 100vh;
-  background: #B79891;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #94716B, #B79891);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #94716B, #B79891); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 button{
@@ -44,4 +50,22 @@ span{
 
 button:hover span{
   width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #B79891;;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background:  #ebe6e6,
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(195, 195, 195);
 }

@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap'); 
+@import url('https://fonts.cdnfonts.com/css/elephant');
+
+
+.addAlbum-content{
+  position: absolute;
+  text-align: center;
+  color: white;
+  width: 100vw;
+}
+
+.addAlbum-content #addAlbum-form{
+  font-weight: 100;
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.addAlbum-content h1{
+  font-family: 'Elephant', sans-serif;
+  font-size: 70px;
+  margin-top: 80px;
+  font-weight: 100;
+  letter-spacing: 3px;
+}
+
+.addAlbum-content #addAlbum-form input[type=text], input[type=number]{
+  height: 10px;
+  width: 500px;
+  padding: 15px 0;
+  text-align: center;
+  margin: 20px 10px;
+  border-radius: 15px;
+  font-weight: bold; 
+  border: 2px solid white;
+  background: white;
+  color: rgb(11, 136, 109);
+  overflow: hidden;
+  opacity: 0.75;
+  font-size: 20px;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.addAlbum-content #addAlbum-form textarea{
+  width: 300px;
+  padding: 15px 0;
+  text-align: center;
+  margin: 10px 20px;
+  border-radius: 15px;
+  font-weight: 400; 
+  border: 2px solid white;
+  background: white;
+  color: #94716B;
+  overflow: hidden;
+  opacity: 0.75;
+  resize: none;
+
+}
+
+.addAlbum-content #addAlbum-form #myFile{
+  padding: 5px 5px 30px 5px;
+  margin-left: 70px;
+  cursor: pointer;
+}
+
+input::file-selector-button {
+  font-weight: bold;
+  padding: 0.5em;
+  border: none;
+  border-radius: 15px;
+  color: #94716B;
+}
+
+input::file-selector-button::after {
+  cursor: pointer;
+}
+
+.addAlbum-content #addAlbum-form #preview{
+  border: none;
+}
+
+.addAlbum-content #addAlbum-form input:focus{
+  outline: 5px solid #94716B; 
+  opacity: 1;
+  transition: 0.2s;
+}
+
+.addAlbum-content #addAlbum-form textarea:focus{
+  outline: 5px solid #94716B; 
+  opacity: 1;
+  transition: 0.2s;
+}
+
+.addAlbum-content #addAlbum-form label{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+
+
+

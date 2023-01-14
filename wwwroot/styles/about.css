@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap'); 
+@import url('https://fonts.cdnfonts.com/css/elephant');
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.content{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: white;
+}
+
+.content h1{
+  font-family: 'Elephant', sans-serif;
+  font-size: 70px;
+  margin-top: 80px;
+  font-weight: 100;
+  letter-spacing: 3px;
+}
+
+.content p{
+  width: 50vw;
+  margin: 20px auto;
+  font-size: 24px;
+  font-weight: 100;
+  line-height: 25px;
+}
