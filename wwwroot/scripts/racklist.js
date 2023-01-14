@@ -61,29 +61,48 @@ export function editAlbum(ID) {
   localStorage.setItem("albumID", ID);
 }
 
+function deletePhoto(PhotoID) {
+  //Send DELETE request to the API
+  fetch(`http://localhost:5184/api/Album/DeletePhoto?ID=${PhotoID}`, {
+    method: "DELETE",
+    headers: {
+      //Append the JWT token credentials in the authorization header
+      "Authorization": `Bearer ${getJWTToken()}`,
+    },
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    //Reload the page
+    location.reload();
+  })
+  .catch((error) => {
+    console.log("Unable to delete photo", error);
+  });
+}
+
 /*
 * deleteAlbum(ID) - Manage logic upon delete icon click
 */
-export function deleteAlbum(ID) {
+export function deleteAlbum(ID, PhotoID) {
+
+  console.log(PhotoID);
   //Create a modal alert asking for user confirmation, if confirmed continue with Fetch API call
   if (confirm("Are you sure you want to delete this album? It cannot be recovered.") == true) {
-
     //Send DELETE request to the API
     fetch(`http://localhost:5184/api/Album/${ID}`, {
       method: "DELETE",
       headers: {
         //Append the JWT token credentials in the authorization header
-      "Authorization": `Bearer ${getJWTToken()}`,
+        "Authorization": `Bearer ${getJWTToken()}`,
       },
     })
-      //Reload page
-      .then(location.reload())
-      .catch((error) => {
-        console.log("Unable to delete item", error);
-      });
+    .then(deletePhoto(PhotoID))
+    .catch((error) => {
+      console.log("Unable to delete item", error);
+    });
   }
-  console.log(ID);
 }
+
 
 /*
 * displayAlbums(data) - Display the albums in the rack list
@@ -125,7 +144,7 @@ function displayAlbums(data) {
     deleteIcon.setAttribute("class", "iconDelete");
     deleteIcon.setAttribute('draggable', false);
     //Set HTML onclick function to deleteAlbum
-    deleteIcon.setAttribute('onclick', `deleteAlbum(${album.id})`);
+    deleteIcon.setAttribute('onclick', `deleteAlbum("${album.id}","${album.publicID}")`)
     deleteIcon.setAttribute('src', 'images/delete.png');
 
     //Append the album div to the album track

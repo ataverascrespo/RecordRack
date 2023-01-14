@@ -62,7 +62,7 @@ namespace AlbumAPI.Controllers
         //Update an album from the list of albums
         [HttpPut]
         public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> UpdateAlbum(UpdateAlbumDTO updateAlbum)
-        {
+        {        
             var response = await _albumService.UpdateAlbum(updateAlbum);
             if (response.Data == null) {
                 //Return 404 error if null
@@ -84,8 +84,15 @@ namespace AlbumAPI.Controllers
                 return NotFound(response);
             }
 
-            //Return status code response upon completion of albumService.UpdateAlbum() thread
+            //Return status code response upon completion of albumService.DeleteeAlbum() thread
             return Ok();
+        }
+
+        [HttpDelete("DeletePhoto")]
+        public  async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> DeletePhoto(string ID)
+        {
+            //Return status code response upon completion of photoService.deletePhotoAsync thread
+            return Ok(await _photoService.DeletePhotoASync(ID));
         }
        
     }
