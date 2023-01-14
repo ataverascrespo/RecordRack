@@ -25,13 +25,18 @@
           <p>Don't have an account?</p>
           <h2 id="signup"><a href="register.html">Sign Up</a></h2>
           <!-- HTML login form -->
-          <form id="login-form">
+          <form id="login-form" method="POST">
               <input type="text" id="username" placeholder="Enter your username"><br>
               <input type="password" id="password" placeholder="Enter your password"><br>
-              <button type="submit"><span></span>Login</button>
+              <button id="submit"><span></span>Login</button>
           </form>
+          <p id="message-content-login"></p>
         </div>
       </div>
+      
+
+      <script type="module" src="scripts/login.js"></script>
+
     </body>
 </html>
 

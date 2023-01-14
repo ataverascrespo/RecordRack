@@ -3,10 +3,20 @@ const loginForm = document.getElementById("login-form");
 // Add an event listener to the form
 loginForm.addEventListener("submit", formSubmit);
 
+/*
+* setJWTToken - Sets created JWT token
+*/
+function setJWTToken(jwt) {
+  localStorage.setItem("jwt", jwt);
+}
+
+/*
+* formSubmit - Checks log in form to validate user sign in 
+*/
 function formSubmit(event) {
   //Prevent the default form submission behavior
   event.preventDefault();
-
+  
   //Get user credentials from the form
   const userName = document.getElementById("username").value;
   const password = document.getElementById("password").value;
@@ -41,9 +51,13 @@ function formSubmit(event) {
         //If login is successful, the API returns a JWT in the data field of the returned JSON
         else {
           errorMessage.innerHTML = ""; 
-          const jwt = data.data;
-          //Store the JWT in a cookie or local storage
-          console.log(jwt);
+          
+          //Call method to set the JWT token in session storage 
+          //Token is stored in response data's data field
+          setJWTToken(data.data);
+
+          //Route to rack list page
+          window.location.href = "http://127.0.0.1:5500/wwwroot/racklist.html";
         }
       })
       .catch((error) => {
