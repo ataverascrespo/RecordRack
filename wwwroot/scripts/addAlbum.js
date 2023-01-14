@@ -1,27 +1,38 @@
 import { getJWTToken } from './token.js';
 
+//Get add button
 const addButton = document.getElementById("submit");
 
 document.onload = checkToken();
 
+/*
+ * checkToken - Decode JWT on document load to determine whether
+ * user is still signed in or needs to log in again
+ */
 function checkToken() {
+  //Parse the JSON string to get base64 URL
   const decode = JSON.parse(atob(getJWTToken().split('.')[1]));
-  console.log(decode);
+
+  //JWT is expired if decode expiry time is less than current time
   if (decode.exp * 1000 < new Date().getTime()) {
     console.log('Time Expired');
+    //Route to login
     window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
   }
   else {
-    //Get add button
     addButton.disabled = false;
     addButton.addEventListener("click", addAlbum);
   }
 }
 
+/*
+ * addAlbum(event) - Take form input from user and send it to API once form submit occurs
+ */
 function addAlbum(event) {
   //Prevent the default form submission behavior
   event.preventDefault();
 
+  //Retrieve all the form element values
   const albumImg = document.querySelector('input[type="file"]').files[0];
   const albumName = document.getElementById("album").value;
   const artistName = document.getElementById("artist").value;
@@ -30,9 +41,13 @@ function addAlbum(event) {
   const albumRating = document.getElementById("rating").value;
   const albumDesc = document.getElementById("desc").value;
 
+  //Create a new FormData element
   const formData = new FormData(); 
 
+  //Analyze if string is empty
   const isEmpty = str => !str.trim().length;
+  
+  //For each of the form elements, check if empty. Send alert if empty.
   if (isEmpty(albumName)) {
     alert("Album name must be entered");
   }
@@ -51,7 +66,9 @@ function addAlbum(event) {
   else if (albumImg == undefined) {
     alert("Album cover image must be uploaded via 'Choose file' form");
   }
+  //Continue when all necessary form elements are filled
   else {
+    //Append each of the submitted form elements to the formData element
     formData.append("albumName", albumName);
     formData.append("artistName", artistName);
     formData.append("yearReleased", yearReleased);
@@ -60,14 +77,17 @@ function addAlbum(event) {
     formData.append("albumDesc", albumDesc);
     formData.append("File", albumImg);
 
+    //Disable the add button so that multiple copies of the same album are not added
     addButton.disabled = true;
 
     //Send POST request to the API 
     fetch("http://localhost:5184/api/Album/", {
       method: "POST",
-        headers: {
+      headers: {
+          //Append the JWT token credentials in the authorization header
           "Authorization": `Bearer ${getJWTToken()}`,
       },
+      //Send the formData element in the POST body
       body: formData
     })
       .then((response) => response.json())

@@ -3,20 +3,22 @@ const track = document.getElementById("image-track");
 scrollTrack(track);
 
 /*
- * scrollTrack -
- * 
+ * scrollTrack - Handles the logic for the album scrolling + animation on the main rack list page
  */
-function scrollTrack(track){
+function scrollTrack(track) {
+    //Record "where" the mouse was clicked down, on the x Axis
     window.onmousedown = e => {
         track.dataset.mouseDownAt = e.clientX;
     }
     
+    //Record "where" the mouse was released
     window.onmouseup = () => {
         track.dataset.mouseDownAt = "0";
         //Store the current 'slider' percentage
         track.dataset.prevPercentage = track.dataset.percentage;
     }
     
+    //Upon the mouse moving
     window.onmousemove = e => {
         if(track.dataset.mouseDownAt === "0") return;
     
@@ -32,11 +34,13 @@ function scrollTrack(track){
         //set the starting percentage to the current percentage
         track.dataset.percentage = nextPercentage;
     
+        //Animate the track 
         track.animate({
                 transform: `translate(${nextPercentage}%, -50%)`
             }, { duration: 1200, fill: "forwards" });
           
-          for(const image of track.getElementsByClassName("image")) {
+        //Introduces a small amount of parallax on the slider animation
+        for(const image of track.getElementsByClassName("image")) {
             image.animate({
                 objectPosition: `${100 + nextPercentage}% center`
             }, { duration: 1200, fill: "forwards" });

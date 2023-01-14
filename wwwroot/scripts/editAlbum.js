@@ -1,17 +1,27 @@
 import { getJWTToken } from './token.js';
 
+//Global variables
 var albumID, photoURL, publicID;
 
+//Get Edit button
 const editButton = document.getElementById("submit");
 editButton.disabled = false;
 editButton.addEventListener("click", editAlbum);
 
 document.onload = checkToken();
 
+/*
+ * checkToken - Decode JWT on document load to determine whether
+ * user is still signed in or needs to log in again
+ */
 function checkToken() {
+  //Parse the JSON string to get base64 URL
   const decode = JSON.parse(atob(getJWTToken().split('.')[1]));
+
+  //JWT is expired if decode expiry time is less than current time
   if (decode.exp * 1000 < new Date().getTime()) {
     console.log('Time Expired');
+    //Route to login
     window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
   }
   else {
@@ -19,7 +29,11 @@ function checkToken() {
   }
 }
 
+/*
+ * editAlbum(albumID) - Take form input from user and send it to API once form submit occurs
+ */
 function editAlbum(albumID) {
+  //Retrieve all the form element values
   const albumName = document.getElementById("album").value;
   const artistName = document.getElementById("artist").value;
   const yearReleased = document.getElementById("year").value;
@@ -27,9 +41,13 @@ function editAlbum(albumID) {
   const albumRating = document.getElementById("rating").value;
   const albumDesc = document.getElementById("desc").value;
   
+  //Retrieve the albumID from local storage
   albumID = localStorage.getItem("albumID");
-
+  
+  //Analyze if string is empty
   const isEmpty = str => !str.trim().length;
+
+   //For each of the form elements, check if empty. Send alert if empty.
   if (isEmpty(albumName)) {
       alert("Album name must be entered");
   }
@@ -45,29 +63,20 @@ function editAlbum(albumID) {
   else if (isEmpty(albumRating)) {
     alert("Album rating must be entered");
   }
+  //Continue when all necessary form elements are filled
   else {
-
-    const album = {
-      id: `${albumID}`,
-      albumName: `${albumName}`,
-      artistName: `${artistName}`,
-      yearReleased: `${yearReleased}`,
-      albumGenre: `${albumGenre}`,
-      albumDescription: `${albumDesc}`,
-      albumRating: `${albumRating}`,
-      photoURL: `${photoURL}`,
-      publicID: `${publicID}`,
-    }
-    
+    //Disable the edit button so that it is not edited multiple times
     editButton.disabled = true;
-    console.log(album);
 
+    //Send PUT request to the API 
     fetch("http://localhost:5184/api/Album/", {
       method: "PUT",
-        headers: {
+      headers: {
+          //Append the JWT token credentials in the authorization header
           "Authorization": `Bearer ${getJWTToken()}`,
           "Content-Type": "application/json",
       },
+      //Send all form elements + albumID/photoURL/publicID in JSON format
       body: JSON.stringify({
         id: albumID,
         albumName: `${albumName}`,
@@ -80,6 +89,7 @@ function editAlbum(albumID) {
         publicID: `${publicID}`,
       })
     })
+      //Link to racklist.html
       .then((window.location.href = "http://127.0.0.1:5500/wwwroot/racklist.html"))
       .catch((error) => {
         console.log(error);
@@ -87,12 +97,18 @@ function editAlbum(albumID) {
   }
 }
 
+/*
+* getAlbum - Fetch API call to receive the specified album as per ID
+*/
 function getAlbum() {
-
+  //Retrieve the albumID from local storage
   albumID = localStorage.getItem("albumID");
+
+  //Send GET request to the API
   fetch(`http://localhost:5184/api/Album/${albumID}`, {
     method: "GET",
-      headers: {
+    headers: {
+      //Append the JWT token credentials in the authorization header
       "Authorization": `Bearer ${getJWTToken()}`,
       "Content-Type": "application/json",
     },
@@ -101,6 +117,8 @@ function getAlbum() {
     .then((data) => {
       console.log(data);
 
+      //For each of the form elements, set the value to the retrieved API value
+      //This creates input preview on the form for editing
       let imgPreview = document.getElementById("output");
       imgPreview.setAttribute('src', data.data.photoURL); 
       
@@ -122,6 +140,7 @@ function getAlbum() {
       let albumDesc = document.getElementById("desc");
       albumDesc.setAttribute('value', data.data.albumDesc);
 
+      //Retrieve the Cloudinary photoURL and publicID from the API call
       photoURL = data.data.photoURL;
       publicID = data.data.publicID;
     })
