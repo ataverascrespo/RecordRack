@@ -7,6 +7,7 @@ global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 global using AlbumAPI.Data;
 global using Microsoft.AspNetCore.Mvc;
+global using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
@@ -54,7 +55,7 @@ builder.Services.AddScoped<IAlbumService, AlbumService>();
 //Create a new instance of the requested user services 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
-//Create a new instance of the requested photo services
+//Create a new instance of the requested photo service
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 //Adds authentication scheme to web service
