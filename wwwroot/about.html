@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Record Rack - Home</title>
+        <title>Record Rack - About</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="styles/master.css">
         <link rel="stylesheet" href="styles/navbar.css">
-        <link rel="stylesheet" href="styles/index.css">
+        <link rel="stylesheet" href="styles/about.css">
     </head>
     <body>
         <div class="banner">
@@ -17,19 +17,20 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="racklist.html">Your Rack</a></li>
-                  
                 </ul>
             </nav>
 
             <div class="content">
-                <h1>record rack</h1>
-                <p>The all-digital music storage, just a click away </p>
+                <h1>about record rack</h1>
+                <p> 
+                    My name is Alex Taveras-Crespo. 
+                    I developed Record Rack as a small personal project because of my deep passion for music. </p>
                 <div>
-                    <button type="button" onclick="loadAbout()"><span></span>Learn More</button>
+                    <button type="button" onclick="loadGitHub()"><span></span>GitHub Repo</button>
                 </div>
                 <script>
-                    var loadAbout = function(event) {
-                        window.location.href = "http://127.0.0.1:5500/wwwroot/about.html"
+                    var loadGitHub = function(event) {
+                        window.location.href = "https://github.com/ataverascrespo/AlbumTrackerApp"
                     };
                 </script>
             </div>
