@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Record Rack - Edit Album</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles/master.css">
+        <link rel="stylesheet" href="styles/navbar.css">
+        <link rel="stylesheet" href="styles/editAlbum.css">
+    </head>
+    <body>
+      <div class="banner">
+        <nav class="navbar">
+          <h1>record rack</h1>
+          <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="racklist.html">Your Rack</a></li>
+              <li><a href="login.html">Login</a></li>
+          </ul>
+        </nav>
+        <div class="editAlbum-content">
+          <h1>edit album</h1>
+          <form id="editAlbum-form" method="POST">
+              <img id="output" height="300px" width="300px"/>
+              <br>
+
+              <label for="album">Album Name</label>
+              <input type="text" id="album" name="albumName">
+          
+              <label for="artist">Artist Name</label>
+              <input type="text" id="artist" name="artistName">
+
+              <label for="year">Year Released</label>
+              <input type="number" id="year" name="yearReleased">
+
+              <label for="genre">Album Genre</label>
+              <input type="text" id="genre" name="albumGenre">
+
+              <label for="rating">Album Rating</label>
+              <input type="number" id="rating" name="albumRating" min="0" max="10" step="1">
+
+              <label for="desc">Album Description</label>
+              <textarea id="desc" name="albumDesc" style="height:40px"></textarea>
+              
+          </form>
+          <button id="submit"><span></span>Edit Album</button>
+        </div>
+      </div>
+
+    </body>
+    <script type="module" src="scripts/editAlbum.js"></script>
+</html>
+
