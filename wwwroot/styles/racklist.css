@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap'); 
+@import url('https://fonts.cdnfonts.com/css/elephant');
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+body{
+  height: 100%; 
+  width: 100%; 
+  background-color: #B79891; 
+  margin: 0rem; 
+  overflow: hidden;
+}
+
+.banner{
+  width: 100vw;
+  height: 100vh;
+  background: #B79891;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #94716B, #B79891);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #94716B, #B79891); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.rack-content{
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  color: white;
+}
+
+.rack-content h1{
+  font-family: 'Elephant', sans-serif;
+  font-size: 70px;
+  margin-top: 20px;
+  font-weight: 100;
+  letter-spacing: 3px;
+}
+
+#image-track {
+  display: flex; 
+  gap: 5vmin; 
+  position: absolute; 
+  left: 50%; 
+  top: 65%; 
+  transform: 
+  translate(-50%, -50%); 
+  user-select: none;
+}
+
+
+#image-track > .album {
+  width: 250px; 
+  height: 300px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+#image-track > .album .icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+  padding-top: 5px;
+}
+
+#image-track > .album .image{
+  width: 250px; 
+  height: 250px; 
+  object-fit: cover; 
+  object-position: center;
+  filter: drop-shadow(3px 5px 4px black)
+}
+
+
+#image-track > .album .iconDelete{
+  width: 5vmin; 
+  height: 5vmin; 
+  object-fit: cover; 
+  object-position: center;
+  filter: drop-shadow(3px 5px 4px black);
+  filter: invert(100%);
+  padding-top: 20px;
+}
+
+#image-track > .album .iconUpdate{
+  width: 5vmin; 
+  height: 5vmin; 
+  object-fit: cover; 
+  object-position: center;
+  filter: drop-shadow(3px 5px 4px black);
+  filter: invert(100%);
+  padding-top: 20px;
+}
+
+.iconDelete:hover{
+  cursor: pointer;
+}
+
+.iconUpdate:hover{
+  cursor: pointer;
+}
