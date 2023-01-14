@@ -6,12 +6,12 @@ namespace AlbumAPI
     public class CloudinarySettings
     {
         //Cloudinary Account Cloud name 
-        public string CloudName { get; set; }
+        public string CloudName { get; set; } = string.Empty;
         
         //Cloudinary Account API key  
-        public string ApiKey{ get; set; }
+        public string ApiKey{ get; set; } = string.Empty; 
 
         //Cloudinary Account API password  
-        public string ApiSecret { get; set; }
+        public string ApiSecret { get; set; } = string.Empty;
     }
 }
