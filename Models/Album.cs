@@ -13,7 +13,7 @@ namespace AlbumAPI.Models
         public string YearReleased { get; set; } = string.Empty;
         public string AlbumGenre { get; set; } = string.Empty;
         public string AlbumDescription { get; set; } = string.Empty;
-        public int AlbumRating { get; set; } 
+        public double AlbumRating { get; set; } 
         public string photoURL { get; set; } = string.Empty;
         public string publicID { get; set; } = string.Empty;
         public User? User { get; set; }
