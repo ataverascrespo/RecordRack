@@ -2,11 +2,11 @@
 
 As someone who listens to a lot of music through different mediums (e.g Spotify, physical media like CDs and vinyl records, independent websites) I wanted to create a centralized application that would allow me to keep track of all the different music I listen to, instead of continuing to use the iPhone Notes app. 
 
-![image](https://res.cloudinary.com/dlwfuryyz/image/upload/v1673749489/album-api/rack1_tzd2dr.jpg)
+![image](https://res.cloudinary.com/dlwfuryyz/image/upload/v1673813516/album-api/rack1_btg55m.jpg)
 
-![image](https://res.cloudinary.com/dlwfuryyz/image/upload/v1673749489/album-api/rack2_p3kgtt.jpg)
+![image](https://res.cloudinary.com/dlwfuryyz/image/upload/v1673813515/album-api/rack2_uk9suh.jpg)
 
-![image](https://res.cloudinary.com/dlwfuryyz/image/upload/v1673749489/album-api/viewalbum_s3l5mg.jpg)
+![image](https://res.cloudinary.com/dlwfuryyz/image/upload/v1673813515/album-api/viewalbum_mg3z1s.jpg)
 
 
 ## Front-end 
