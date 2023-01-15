@@ -1,21 +1,43 @@
-# Album API
+# Record Rack
 
-The goal of this project was to build a minimal web API using the ASP.NET 7 framework in C#. This API performs CRUD operations through HTTP request methods, including GET, POST, PUT and DELETE. 
+As someone who listens to a lot of music through different mediums (e.g Spotify, physical media like CDs and vinyl records, independent websites) I wanted to create a centralized application that would allow me to keep track of all the different music I listen to, instead of continuing to use the iPhone Notes app. 
 
-Although this is a minimalistic API, an important aspect I focused on during development was being consistent in my application of good coding practices and real-world concepts, including: 
+![image](https://res.cloudinary.com/dlwfuryyz/image/upload/v1673749489/album-api/rack1_tzd2dr.jpg)
 
-* ### Model-View-Controller Architecture
+![image](https://res.cloudinary.com/dlwfuryyz/image/upload/v1673749489/album-api/rack2_p3kgtt.jpg)
 
-* ### Dependency Injection
-
-* ### Data Transfer Objects
-
-* ### Asynchronous Calls
+![image](https://res.cloudinary.com/dlwfuryyz/image/upload/v1673749489/album-api/viewalbum_s3l5mg.jpg)
 
 
-# About
+## Front-end 
 
-I ultimately chose ASP.NET 7 over Spring because of the Entity Framework Core + C#'s LINQ syntax.
+The front-end consists of a simple, static website that manages CRUD operations, built with:
 
-This project is developed fully by Alex Taveras-Crespo.
+* HTML
+* CSS
+* JavaScript
 
+I chose to avoid frameworks because I think using anything else other than vanilla JS would have been overkill for this project. I didn't want to introduce too many framework dependencies when I knew I was able to do it vanilla. 
+
+## Back-end
+
+The back-end consists of a minimal web API using the ASP.NET 7 framework in C#. This API performs CRUD operations through HTTP request methods, including GET, POST, PUT and DELETE. 
+
+The API is linked to a SQL database, created by Entity Framework code-first migrations, which saves the albums. 
+
+Additionally, saved images from the client-side are uploaded to and retrieved from Cloudinary storage via API call.
+
+## What I Learned
+
+I learned alot by the time I finished Record Rack. Since I focused on being consistent in my application of good coding practices and real-world concepts, I was able to learn and apply new things such as:
+
+* Model-View-Controller architecture 
+* Dependency injection and properly decoupling classes
+* Data Transfer Objects
+* Asynchronous programming
+* JSON Web Token authentication, and the security implications/solutions involved with it
+
+## About
+This project and all content related to it is developed fully by Alex Taveras-Crespo.
+
+ 
