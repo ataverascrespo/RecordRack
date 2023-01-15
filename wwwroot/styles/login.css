@@ -47,9 +47,10 @@
   font-weight: 400; 
   border: 2px solid white;
   background: white;
-  color: #94716B;
+  color: black;
   overflow: hidden;
   opacity: 0.75;
+  font-size: 20px;
 }
 
 .login-content #login-form input:focus{

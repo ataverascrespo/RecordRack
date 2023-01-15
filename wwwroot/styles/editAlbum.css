@@ -36,7 +36,7 @@
   font-weight: bold; 
   border: 2px solid white;
   background: white;
-  color: rgb(11, 136, 109);
+  color: black;
   overflow: hidden;
   opacity: 0.75;
   font-size: 20px;
@@ -57,11 +57,11 @@ input[type=number]::-webkit-inner-spin-button {
   font-weight: 400; 
   border: 2px solid white;
   background: white;
-  color: #94716B;
+  color: black;
   overflow: hidden;
   opacity: 0.75;
   resize: none;
-
+  font-size: 20;
 }
 
 .editAlbum-content #editAlbum-form #myFile{
