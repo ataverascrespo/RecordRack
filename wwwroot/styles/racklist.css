@@ -109,14 +109,20 @@ body{
 
 .iconView:hover{
   cursor: pointer;
+  transform:scale(125%);
+  transition: 0.5s;
 }
 
 .iconDelete:hover{
   cursor: pointer;
+  transform:scale(125%);
+  transition: 0.5s;
 }
 
 .iconUpdate:hover{
   cursor: pointer;
+  transform:scale(125%);
+  transition: 0.5s;
 }
 
 span{
