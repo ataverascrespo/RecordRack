@@ -23,6 +23,7 @@ function checkToken() {
     window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
   }
   else {
+    localStorage.removeItem("albumID");
     //Continue to rack list
     getAlbums();
   }
@@ -49,6 +50,16 @@ function getAlbums() {
     .catch((error) => {
       console.log(error);
     });
+}
+
+/*
+* viewAlbum(ID) - Manage logic upon view icon click
+*/
+export function viewAlbum(ID) {
+  window.location.href = "http://127.0.0.1:5500/wwwroot/viewAlbum.html";
+
+  //Set the passed ID in the browsers local storage as albumID
+  localStorage.setItem("albumID", ID);
 }
 
 /*
@@ -131,6 +142,14 @@ function displayAlbums(data) {
     let iconsDiv = document.createElement('div');
     iconsDiv.setAttribute("class", "icons");
 
+    //Create view icon, set image source
+    let viewIcon = document.createElement('img');
+    viewIcon.setAttribute("class", "iconView");
+    viewIcon.setAttribute('draggable', false);
+    //Set HTML onclick function to viewAlbum
+    viewIcon.setAttribute('onclick', `viewAlbum(${album.id})`);
+    viewIcon.setAttribute('src', 'images/view.png');
+
     //Create update icon, set image source
     let updateIcon = document.createElement('img');
     updateIcon.setAttribute("class", "iconUpdate");
@@ -147,12 +166,15 @@ function displayAlbums(data) {
     deleteIcon.setAttribute('onclick', `deleteAlbum("${album.id}","${album.publicID}")`)
     deleteIcon.setAttribute('src', 'images/delete.png');
 
+    
+
     //Append the album div to the album track
     albumTrack.appendChild(albumDiv);
     //Append the image, and icons div to the album div
     albumDiv.appendChild(image);
     albumDiv.appendChild(iconsDiv);
-    //Append the update and delete icon to the icons div
+    //Append the view, update and delete icon to the icons div
+    iconsDiv.appendChild(viewIcon)
     iconsDiv.appendChild(updateIcon);
     iconsDiv.appendChild(deleteIcon);
   });

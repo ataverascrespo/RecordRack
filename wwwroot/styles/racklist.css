@@ -86,6 +86,17 @@ body{
   padding-top: 20px;
 }
 
+
+#image-track > .album .iconView{
+  width: 5vmin; 
+  height: 5vmin; 
+  object-fit: cover; 
+  object-position: center;
+  filter: drop-shadow(3px 5px 4px black);
+  filter: invert(100%);
+  padding-top: 20px;
+}
+
 #image-track > .album .iconUpdate{
   width: 5vmin; 
   height: 5vmin; 
@@ -94,6 +105,10 @@ body{
   filter: drop-shadow(3px 5px 4px black);
   filter: invert(100%);
   padding-top: 20px;
+}
+
+.iconView:hover{
+  cursor: pointer;
 }
 
 .iconDelete:hover{
