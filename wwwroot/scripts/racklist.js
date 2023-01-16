@@ -3,7 +3,7 @@ import { getJWTToken } from './token.js';
 //Get add Button album and assign routing
 const addButton = document.getElementById('addAlbum');
 addButton.onclick = function () {
-  location.assign('http://127.0.0.1:5500/wwwroot/addAlbum.html');
+  location.assign('wwwroot/addAlbum.html');
 }
 
 document.onload = checkToken();
@@ -66,7 +66,7 @@ export function viewAlbum(ID) {
 * editAlbum(ID) - Manage logic upon edit icon click
 */
 export function editAlbum(ID) {
-  window.location.href = "http://127.0.0.1:5500/wwwroot/editAlbum.html";
+  window.location.href = "/wwwroot/editAlbum.html";
 
   //Set the passed ID in the browsers local storage as albumID
   localStorage.setItem("albumID", ID);
