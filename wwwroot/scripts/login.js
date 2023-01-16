@@ -57,7 +57,7 @@ function formSubmit(event) {
           setJWTToken(data.data);
 
           //Route to rack list page
-          window.location.href = "http://127.0.0.1:5500/wwwroot/racklist.html";
+          window.location.href = "/wwwroot/racklist.html";
         }
       })
       .catch((error) => {

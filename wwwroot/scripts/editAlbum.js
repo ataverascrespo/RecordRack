@@ -22,7 +22,7 @@ function checkToken() {
   if (decode.exp * 1000 < new Date().getTime()) {
     console.log('Time Expired');
     //Route to login
-    window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
+    window.location.href = "/wwwroot/login.html";
   }
   else {
     getAlbum();
@@ -90,7 +90,7 @@ function editAlbum(albumID) {
       })
     })
       //Link to racklist.html
-      .then((window.location.href = "http://127.0.0.1:5500/wwwroot/racklist.html"))
+      .then((window.location.href = "/wwwroot/racklist.html"))
       .catch((error) => {
         console.log(error);
     });

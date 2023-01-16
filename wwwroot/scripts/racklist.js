@@ -20,7 +20,7 @@ function checkToken() {
   if (decode.exp * 1000 < new Date().getTime()) {
     console.log('Time Expired');
     //Route to login
-    window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
+    window.location.href = "/wwwroot/login.html";
   }
   else {
     localStorage.removeItem("albumID");
@@ -56,7 +56,7 @@ function getAlbums() {
 * viewAlbum(ID) - Manage logic upon view icon click
 */
 export function viewAlbum(ID) {
-  window.location.href = "http://127.0.0.1:5500/wwwroot/viewAlbum.html";
+  window.location.href = "/wwwroot/viewAlbum.html";
 
   //Set the passed ID in the browsers local storage as albumID
   localStorage.setItem("albumID", ID);
