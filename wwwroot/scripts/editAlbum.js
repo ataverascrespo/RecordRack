@@ -15,17 +15,26 @@ document.onload = checkToken();
  * user is still signed in or needs to log in again
  */
 function checkToken() {
-  //Parse the JSON string to get base64 URL
-  const decode = JSON.parse(atob(getJWTToken().split('.')[1]));
+  let jwt = getJWTToken();
 
-  //JWT is expired if decode expiry time is less than current time
-  if (decode.exp * 1000 < new Date().getTime()) {
-    console.log('Time Expired');
-    //Route to login
-    window.location.href = "/wwwroot/login.html";
+  //if JWT exists
+  if (jwt !== null) {
+    //Parse the JSON string to get base64 URL
+    const decode = JSON.parse(atob(getJWTToken().split('.')[1]));
+
+    //JWT is expired if decode expiry time is less than current time
+    if (decode.exp * 1000 < new Date().getTime()) {
+      console.log('Time Expired');
+      //Route to login
+      window.location.href = "/login.html";
+    }
+    else {
+      getAlbum();
+    }
   }
   else {
-    getAlbum();
+    //Route to login
+    window.location.href = "/login.html";
   }
 }
 
@@ -90,7 +99,7 @@ function editAlbum(albumID) {
       })
     })
       //Link to racklist.html
-      .then((window.location.href = "/wwwroot/racklist.html"))
+      .then((window.location.href = "/racklist.html"))
       .catch((error) => {
         console.log(error);
     });

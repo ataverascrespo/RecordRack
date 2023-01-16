@@ -57,7 +57,7 @@ function formSubmit(event) {
           setJWTToken(data.data);
 
           //Route to rack list page
-          window.location.href = "/wwwroot/racklist.html";
+          window.location.href = "/racklist.html";
         }
       })
       .catch((error) => {

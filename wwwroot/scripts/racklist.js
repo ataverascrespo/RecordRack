@@ -3,7 +3,7 @@ import { getJWTToken } from './token.js';
 //Get add Button album and assign routing
 const addButton = document.getElementById('addAlbum');
 addButton.onclick = function () {
-  location.assign('wwwroot/addAlbum.html');
+  location.assign('/addAlbum.html');
 }
 
 document.onload = checkToken();
@@ -13,19 +13,28 @@ document.onload = checkToken();
  * user is still signed in or needs to log in again
  */
 function checkToken() {
-  //Parse the JSON string to get base64 URL
-  const decode = JSON.parse(atob(getJWTToken().split('.')[1]));
+  let jwt = getJWTToken();
+  
+  //if JWT exists
+  if (jwt !== null) {
+    //Parse the JSON string to get base64 URL
+    const decode = JSON.parse(atob(jwt.split('.')[1]));
 
-  //JWT is expired if decode expiry time is less than current time
-  if (decode.exp * 1000 < new Date().getTime()) {
-    console.log('Time Expired');
-    //Route to login
-    window.location.href = "/wwwroot/login.html";
+    //JWT is expired if decode expiry time is less than current time
+    if (decode.exp * 1000 < new Date().getTime()) {
+      console.log('Time Expired');
+      //Route to login
+      window.location.href = "/login.html";
+    }
+    else {
+      localStorage.removeItem("albumID");
+      //Continue to rack list
+      getAlbums();
+    }
   }
   else {
-    localStorage.removeItem("albumID");
-    //Continue to rack list
-    getAlbums();
+    //Route to login
+    window.location.href = "/login.html";
   }
 }
 
@@ -56,7 +65,7 @@ function getAlbums() {
 * viewAlbum(ID) - Manage logic upon view icon click
 */
 export function viewAlbum(ID) {
-  window.location.href = "/wwwroot/viewAlbum.html";
+  window.location.href = "/viewAlbum.html";
 
   //Set the passed ID in the browsers local storage as albumID
   localStorage.setItem("albumID", ID);
@@ -66,7 +75,7 @@ export function viewAlbum(ID) {
 * editAlbum(ID) - Manage logic upon edit icon click
 */
 export function editAlbum(ID) {
-  window.location.href = "/wwwroot/editAlbum.html";
+  window.location.href = "/editAlbum.html";
 
   //Set the passed ID in the browsers local storage as albumID
   localStorage.setItem("albumID", ID);
