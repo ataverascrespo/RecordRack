@@ -47,7 +47,7 @@ function formSubmit(event) {
           errorMessage.innerHTML = ""; 
 
           //Route to rack list page
-          window.location.href = "/login.html";
+          window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
         }
       })
       .catch((error) => {

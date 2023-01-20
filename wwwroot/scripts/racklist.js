@@ -3,7 +3,7 @@ import { getJWTToken } from './token.js';
 //Get add Button album and assign routing
 const addButton = document.getElementById('addAlbum');
 addButton.onclick = function () {
-  location.assign('/addAlbum.html');
+  location.assign('http://127.0.0.1:5500/wwwroot/addalbum.html');
 }
 
 document.onload = checkToken();
@@ -24,7 +24,7 @@ function checkToken() {
     if (decode.exp * 1000 < new Date().getTime()) {
       console.log('Time Expired');
       //Route to login
-      window.location.href = "/login.html";
+      window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
     }
     else {
       localStorage.removeItem("albumID");
@@ -34,7 +34,7 @@ function checkToken() {
   }
   else {
     //Route to login
-    window.location.href = "/login.html";
+    window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
   }
 }
 
@@ -65,7 +65,7 @@ function getAlbums() {
 * viewAlbum(ID) - Manage logic upon view icon click
 */
 export function viewAlbum(ID) {
-  window.location.href = "/viewAlbum.html";
+  window.location.href = "http://127.0.0.1:5500/wwwroot/viewalbum.html";
 
   //Set the passed ID in the browsers local storage as albumID
   localStorage.setItem("albumID", ID);
@@ -75,7 +75,7 @@ export function viewAlbum(ID) {
 * editAlbum(ID) - Manage logic upon edit icon click
 */
 export function editAlbum(ID) {
-  window.location.href = "/editAlbum.html";
+  window.location.href = "http://127.0.0.1:5500/wwwroot/editalbum.html";
 
   //Set the passed ID in the browsers local storage as albumID
   localStorage.setItem("albumID", ID);

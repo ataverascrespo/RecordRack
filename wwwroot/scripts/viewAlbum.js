@@ -21,7 +21,7 @@ function checkToken() {
     if (decode.exp * 1000 < new Date().getTime()) {
       console.log('Time Expired');
       //Route to login
-      window.location.href = "/login.html";
+      window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
     }
     else {
       getAlbum();
@@ -29,7 +29,7 @@ function checkToken() {
   }
   else {
     //Route to login
-    window.location.href = "/login.html";
+    window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
   }
 }
 

@@ -26,7 +26,7 @@ function checkToken() {
     if (decode.exp * 1000 < new Date().getTime()) {
       console.log('Time Expired');
       //Route to login
-      window.location.href = "/login.html";
+      window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
     }
     else {
       getAlbum();
@@ -34,7 +34,7 @@ function checkToken() {
   }
   else {
     //Route to login
-    window.location.href = "/login.html";
+    window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
   }
 }
 
@@ -78,7 +78,7 @@ function editAlbum(albumID) {
     editButton.disabled = true;
 
     //Send PUT request to the API 
-    fetch("http://localhost:5184/api/Album/", {
+    fetch("http://localhost:5184/api/Album", {
       method: "PUT",
       headers: {
           //Append the JWT token credentials in the authorization header
@@ -99,7 +99,7 @@ function editAlbum(albumID) {
       })
     })
       //Link to racklist.html
-      .then((window.location.href = "/racklist.html"))
+      .then((window.location.href = "http://127.0.0.1:5500/wwwroot/racklist.html"))
       .catch((error) => {
         console.log(error);
     });
