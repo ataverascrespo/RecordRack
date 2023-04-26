@@ -11,7 +11,7 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["AlbumAPI.csproj", "API/"]
+COPY ["API/AlbumAPI.csproj", "API/"]
 RUN dotnet restore "API/AlbumAPI.csproj"
 COPY . .
 WORKDIR "/src/API"
