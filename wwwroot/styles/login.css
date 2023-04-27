@@ -1,18 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap'); 
 @import url('https://fonts.cdnfonts.com/css/elephant');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
 
 *{
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Abril Fatface', cursive;
 }
 
 .banner{
   width: 100vw;
   height: 100vh;
-  background: #B79891;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #94716B, #B79891);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #94716B, #B79891); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #6f534e;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right,#52392F, #6f534e);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom,#52392F, #6f534e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .login-content{

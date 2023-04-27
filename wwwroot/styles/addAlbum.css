@@ -19,10 +19,11 @@
 }
 
 .addAlbum-content h1{
-  font-size: 70px;
+  font-size: 50px;
   margin-top: 80px;
   font-weight: 100;
   letter-spacing: 3px;
+  font-family: 'Abril Fatface', cursive;
 }
 
 .addAlbum-content #addAlbum-form input[type=text], input[type=number]{
