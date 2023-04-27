@@ -72,3 +72,17 @@ button:hover span{
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(195, 195, 195);
 }
+
+@media screen and (max-width: 758px) {
+  span{
+    background: #3d2c28;
+    height: 100%;
+    width: 0;
+    border-radius: 25px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: 0.5s;
+  }
+}

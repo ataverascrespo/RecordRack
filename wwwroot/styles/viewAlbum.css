@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap'); 
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
+
+
 
 .viewAlbum-content{
   position: absolute;
@@ -8,36 +11,52 @@
   width: 100vw;
 }
 
+.viewAlbum-body{
+  position: absolute;
+  text-align: left;
+  color: white;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
+
+#output{
+  filter: drop-shadow(3px 5px 4px black);
+  padding-right: 100px;
+}
+
 .viewAlbum-content #viewAlbum-form{
   font-weight: 100;
-  font-size: 30px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-top: 20px;
+  align-items: left;
 }
 
 .viewAlbum-content h1{
-  font-size: 70px;
-  margin-top: 80px;
+  font-size: 60px;
+  margin-top: 10px;
   font-weight: 100;
   letter-spacing: 3px;
+  font-family: 'Abril Fatface', cursive;
 }
 
 .viewAlbum-content #viewAlbum-form input[type=text], input[type=number]{
-  height: 10px;
-  width: 500px;
+  height: 15px;
+  width: 600px;
   padding: 15px 0;
   text-align: center;
   margin: 20px 10px;
-  border-radius: 15px;
   font-weight: bold; 
-  border: 2px solid white;
-  background: white;
-  color: rgb(0, 0, 0);
+  background: #8d6d65;
+  border-radius: 7px;
+  border: 1px solid #4e3a36;
+  color: rgb(255, 255, 255);
   overflow: hidden;
-  opacity: 0.75;
-  font-size: 20px;
+  opacity: 1;
+  font-size: 25px;
 }
 
 input[type=number]::-webkit-outer-spin-button,
@@ -46,23 +65,7 @@ input[type=number]::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.viewAlbum-content #viewAlbum-form textarea{
-  width: 300px;
-  padding: 15px 0;
-  text-align: center;
-  margin: 10px 20px;
-  border-radius: 15px;
-  font-weight: 400; 
-  border: 2px solid white;
-  background: white;
-  color: black;
-  overflow: hidden;
-  opacity: 0.75;
-  resize: none;
-  font-size: 20px;
-}
-
-.viewAlbum-content #viewAlbum-form #myFile{
+input[type=file]{
   padding: 5px 5px 30px 5px;
   margin-left: 70px;
   cursor: pointer;
@@ -85,13 +88,7 @@ input::file-selector-button::after {
 }
 
 .viewAlbum-content #viewAlbum-form input:focus{
-  outline: 5px solid #94716B; 
-  opacity: 1;
-  transition: 0.2s;
-}
-
-.viewAlbum-content #viewAlbum-form textarea:focus{
-  outline: 5px solid #94716B; 
+  outline: none;
   opacity: 1;
   transition: 0.2s;
 }
@@ -101,6 +98,39 @@ input::file-selector-button::after {
     font-weight: 400;
 }
 
-#viewAlbum-form #output{
-  filter: drop-shadow(3px 5px 4px black)
+@media screen and (max-width: 768px) {
+  .viewAlbum-body{
+    position: absolute;
+    text-align: center;
+    color: white;
+    width: 100vw;
+    padding-top: 30px;
+    display: block;
+  }
+  #output{
+    filter: drop-shadow(3px 5px 4px black);
+    padding-right: 0px;
+  }
+  .viewAlbum-content #viewAlbum-form{
+    font-weight: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .viewAlbum-content #viewAlbum-form input[type=text], input[type=number]{
+    height: 15px;
+    width: 400px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 20px 10px;
+    font-weight: bold; 
+    background: #8d6d65;
+    border-radius: 7px;
+    border: 1px solid #4e3a36;
+    color: rgb(255, 255, 255);
+    overflow: hidden;
+    opacity: 1;
+    font-size: 25px;
+  }
 }
+

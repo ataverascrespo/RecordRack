@@ -21,32 +21,33 @@
         </nav>
         <div class="editAlbum-content">
           <h1>Edit Album</h1>
-          <form id="editAlbum-form" method="POST">
-              <img id="output" height="300px" width="300px"/>
-              <br>
+          <div class="editAlbum-body">
+            <div class="image">
+              <img id="output" height="400px" width="400px"/>
+                <div class="submit"> 
+                  <button id="submit"><span></span>Confirm Edit</button>
+                </div>
+            </div>
+            <form id="editAlbum-form" method="POST">
+                
+                <br>
+                <label for="album">Album Name</label>
+                <input type="text" id="album" name="albumName">
+            
+                <label for="artist">Artist Name</label>
+                <input type="text" id="artist" name="artistName">
 
-              <label for="album">Album Name</label>
-              <input type="text" id="album" name="albumName">
-          
-              <label for="artist">Artist Name</label>
-              <input type="text" id="artist" name="artistName">
+                <label for="year">Year Released</label>
+                <input type="number" id="year" name="yearReleased">
 
-              <label for="year">Year Released</label>
-              <input type="number" id="year" name="yearReleased">
+                <label for="genre">Album Genre</label>
+                <input type="text" id="genre" name="albumGenre">
 
-              <label for="genre">Album Genre</label>
-              <input type="text" id="genre" name="albumGenre">
-
-              <label for="rating">Album Rating</label>
-              <input type="number" id="rating" name="albumRating" min="0" max="10" step="1">
-
-              <label for="desc">Album Description</label>
-              <textarea id="desc" name="albumDesc" style="height:40px"></textarea>
-              
-          </form>
-          <button id="submit"><span></span>Edit Album</button>
-        </div>
+                <label for="rating">Album Rating</label>
+                <input type="number" id="rating" name="albumRating" min="0" max="10" step="1">
+            </form>
       </div>
+      
 
     </body>
     <script type="module" src="scripts/editAlbum.js"></script>

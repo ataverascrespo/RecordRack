@@ -9,37 +9,65 @@
   width: 100vw;
 }
 
-.addAlbum-content #addAlbum-form{
-  font-weight: 100;
-  font-size: 30px;
+.addAlbum-body{
+  position: absolute;
+  text-align: left;
+  color: white;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.image{
   display: flex;
   flex-direction: column;
+}
+
+#output{
+  filter: drop-shadow(3px 5px 4px black);
+  padding-right: 100px;
+}
+
+.submit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding-top: 20px;
+  padding-right: 100px;
+}
+
+.addAlbum-content #addAlbum-form{
+  font-weight: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
 }
 
 .addAlbum-content h1{
-  font-size: 50px;
-  margin-top: 80px;
+  font-size: 60px;
+  margin-top: 10px;
   font-weight: 100;
   letter-spacing: 3px;
   font-family: 'Abril Fatface', cursive;
 }
 
 .addAlbum-content #addAlbum-form input[type=text], input[type=number]{
-  height: 10px;
-  width: 500px;
+  height: 15px;
+  width: 600px;
   padding: 15px 0;
   text-align: center;
   margin: 20px 10px;
-  border-radius: 15px;
   font-weight: bold; 
-  border: 2px solid white;
-  background: white;
-  color: black;
+  background: #8d6d65;
+  border-radius: 7px;
+  border: 1px solid #4e3a36;
+  color: rgb(255, 255, 255);
   overflow: hidden;
-  opacity: 0.75;
-  font-size: 20px;
+  opacity: 1;
+  font-size: 25px;
 }
 
 input[type=number]::-webkit-outer-spin-button,
@@ -104,5 +132,46 @@ input::file-selector-button::after {
 }
 
 
-
-
+@media screen and (max-width: 768px) {
+  
+  .addAlbum-body{
+    position: absolute;
+    text-align: center;
+    color: white;
+    width: 100vw;
+    padding-top: 30px;
+    display: block;
+  }
+  #output{
+    filter: drop-shadow(3px 5px 4px black);
+    padding-left: 50px;
+  }
+  .addAlbum-content #addAlbum-form{
+    font-weight: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .submit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 100px;
+  }
+  .addAlbum-content #addAlbum-form input[type=text], input[type=number]{
+    height: 15px;
+    width: 400px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 20px 10px;
+    font-weight: bold; 
+    background: #8d6d65;
+    border-radius: 7px;
+    border: 1px solid #4e3a36;
+    color: rgb(255, 255, 255);
+    overflow: hidden;
+    opacity: 1;
+    font-size: 25px;
+  }
+}
