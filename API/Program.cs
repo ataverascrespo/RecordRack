@@ -16,6 +16,17 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Configure AWS systems manager
+builder.WebHost.ConfigureAppConfiguration(
+                c => {
+                    c.AddSystemsManager(source =>{
+                        source.Path = "/recordrack";
+                        source.ReloadAfter =
+                            TimeSpan.FromMinutes(10);
+                    });
+                }
+            );
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "CORSPolicy",
@@ -30,7 +41,7 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("defaultconnection")));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -66,7 +77,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8
-                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value!)),
+                .GetBytes(builder.Configuration.GetSection("appsettings-token").Value!)),
             ValidateIssuer = false,
             ValidateAudience = false,
         };

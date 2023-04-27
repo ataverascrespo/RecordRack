@@ -17,9 +17,9 @@ namespace AlbumAPI.Services.AlbumServices
 
         public Cloudinary GetCloudinaryAccount()
         {
-            var cloudName = _configuration.GetSection("CloudinarySettings:CloudName").Value;
-            var apiKey = _configuration.GetSection("CloudinarySettings:ApiKey").Value;
-            var apiSecret = _configuration.GetSection("CloudinarySettings:ApiSecret").Value;
+            var cloudName = _configuration["/recordrack/cloudinarycloudname"];
+            var apiKey = _configuration["/recordrack/cloudinaryAPIKey"];
+            var apiSecret = _configuration["/recordrack/cloudinarysecretkey"];
 
             var acc = new Account
             {
