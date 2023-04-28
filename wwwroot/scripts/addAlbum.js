@@ -48,7 +48,6 @@ function addAlbum(event) {
   const yearReleased = document.getElementById("year").value;
   const albumGenre = document.getElementById("genre").value;
   const albumRating = document.getElementById("rating").value;
-  const albumDesc = document.getElementById("desc").value;
 
   //Create a new FormData element
   const formData = new FormData(); 
@@ -83,7 +82,6 @@ function addAlbum(event) {
     formData.append("yearReleased", yearReleased);
     formData.append("albumGenre", albumGenre);
     formData.append("albumRating", albumRating);
-    formData.append("albumDesc", albumDesc);
     formData.append("File", albumImg);
 
     //Disable the add button so that multiple copies of the same album are not added

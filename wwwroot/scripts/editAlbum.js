@@ -48,7 +48,6 @@ function editAlbum(albumID) {
   const yearReleased = document.getElementById("year").value;
   const albumGenre = document.getElementById("genre").value;
   const albumRating = document.getElementById("rating").value;
-  const albumDesc = document.getElementById("desc").value;
   
   //Retrieve the albumID from local storage
   albumID = localStorage.getItem("albumID");
@@ -92,7 +91,6 @@ function editAlbum(albumID) {
         artistName: `${artistName}`,
         yearReleased: `${yearReleased}`,
         albumGenre: `${albumGenre}`,
-        albumDescription: `${albumDesc}`,
         albumRating: albumRating,
         photoURL: `${photoURL}`,
         publicID: `${publicID}`,
@@ -146,9 +144,6 @@ function getAlbum() {
       let albumRating = document.getElementById("rating");
       albumRating.setAttribute('value', data.data.albumRating);
       
-      let albumDesc = document.getElementById("desc");
-      albumDesc.setAttribute('value', data.data.albumDesc);
-
       //Retrieve the Cloudinary photoURL and publicID from the API call
       photoURL = data.data.photoURL;
       publicID = data.data.publicID;

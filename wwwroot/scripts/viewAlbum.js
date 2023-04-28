@@ -78,9 +78,6 @@ function getAlbum() {
         albumRating.setAttribute('value', data.data.albumRating);
         albumRating.readOnly = true;
         
-        let albumDesc = document.getElementById("desc");
-        albumDesc.setAttribute('value', data.data.albumDesc);
-        albumDesc.readOnly = true;
     })
     .catch((error) => {
         console.log(error);
