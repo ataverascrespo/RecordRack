@@ -21,11 +21,13 @@
   justify-content: center;
   align-items: center;
   padding-top: 30px;
+  padding-left: 200px;
+
 }
 
 #output{
   filter: drop-shadow(3px 5px 4px black);
-  padding-right: 100px;
+  padding-right: 0px;
 }
 
 .viewAlbum-content #viewAlbum-form{
@@ -106,6 +108,7 @@ input::file-selector-button::after {
     width: 100vw;
     padding-top: 30px;
     display: block;
+    padding-left: 0px;
   }
   #output{
     filter: drop-shadow(3px 5px 4px black);
