@@ -10,8 +10,7 @@
 .content{
   width: 100%;
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 15%;
   text-align: center;
   color: white;
 }

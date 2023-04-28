@@ -19,9 +19,8 @@ body {
   font-family: 'Abril Fatface', cursive;
 }
 
-.banner{
-  width: 100vw;
-  height: 100vh;
+html{
+  overflow-x: hidden;
 }
 
 button{
