@@ -5,7 +5,6 @@
 *{
   margin: 0;
   padding: 0;
-  font-family: 'Abril Fatface', cursive;
 }
 
 .banner{
@@ -30,6 +29,8 @@
   margin-top: 80px;
   font-weight: 100;
   letter-spacing: 3px;
+  font-family: 'Abril Fatface', cursive;
+
 }
 
 .login-content #login-form{
@@ -54,7 +55,7 @@
 }
 
 .login-content #login-form input:focus{
-  outline: 5px solid #94716B; 
+  outline: 5px solid #53413d; 
   opacity: 1;
   transition: 0.2s;
 }

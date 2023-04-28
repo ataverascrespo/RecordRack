@@ -5,7 +5,6 @@
 *{
   margin: 0;
   padding: 0;
-  font-family: 'Abril Fatface', cursive;
 }
 
 .banner{
@@ -26,10 +25,11 @@
 }
 
 .signup-content h1{
-  font-size: 70px;
-  margin-top: 80px;
+  font-size: 60px;
+  margin-top: 10px;
   font-weight: 100;
   letter-spacing: 3px;
+  font-family: 'Abril Fatface', cursive;
 }
 
 .signup-content #signup-form{
@@ -54,7 +54,7 @@
 }
 
 .signup-content #signup-form input:focus{
-  outline: 5px solid #94716B; 
+  outline: 5px solid #53413d; 
   opacity: 1;
   transition: 0.2s;
 }
