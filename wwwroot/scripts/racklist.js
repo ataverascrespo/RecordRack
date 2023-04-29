@@ -1,5 +1,6 @@
 import { getJWTToken } from './token.js';
 
+const pageHeader = document.getElementById('header');
 //Get add Button album and assign routing
 const addButton = document.getElementById('addAlbum');
 addButton.onclick = function () {
@@ -27,6 +28,9 @@ function checkToken() {
       window.location.href = "/wwwroot/login.html";
     }
     else {
+      //Make the button and header visible
+      pageHeader.style.opacity = 1;
+      addButton.style.opacity = 1;
       localStorage.removeItem("albumID");
       //Continue to rack list
       getAlbums();

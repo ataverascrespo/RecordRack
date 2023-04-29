@@ -37,6 +37,23 @@ body{
   margin-top: 20px;
   font-weight: 100;
   letter-spacing: 3px;
+  opacity: 0.0
+}
+
+#addAlbum{
+  width: 200px;
+  padding: 15px 0;
+  text-align: center;
+  margin: 20px 10px;
+  border-radius: 25px;
+  font-weight: 400; 
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.0
 }
 
 #image-track {
