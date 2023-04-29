@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Configure AWS systems manager
 builder.WebHost.ConfigureAppConfiguration(
                 c => {
-                    c.AddSystemsManager(source =>{
+                    c.AddSystemsManager(source => {
                         source.Path = "/recordrack";
                         source.ReloadAfter =
                             TimeSpan.FromMinutes(10);
@@ -41,7 +41,7 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("defaultconnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("/recordrack/defaultconnection")));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
