@@ -21,7 +21,7 @@ function checkToken() {
     if (decode.exp * 1000 < new Date().getTime()) {
       console.log('Time Expired');
       //Route to login
-      window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
+      window.location.href = "/login.html";
     }
     else {
       addButton.disabled = false;
@@ -30,7 +30,7 @@ function checkToken() {
   }
   else {
     //Route to login
-    window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
+    window.location.href = "/login.html";
   }
 }
 
@@ -88,7 +88,7 @@ function addAlbum(event) {
     addButton.disabled = true;
 
     //Send POST request to the API 
-    fetch("http://localhost:5184/api/Album/", {
+    fetch("http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/", {
       method: "POST",
       headers: {
           //Append the JWT token credentials in the authorization header
@@ -100,7 +100,7 @@ function addAlbum(event) {
       .then((response) => response.json())
       .then((data) => {
           //Route to rack list page
-          window.location.href = "http://127.0.0.1:5500/wwwroot/racklist.html";
+          window.location.href = "/racklist.html";
       })
       .catch((error) => {
         console.log(error);

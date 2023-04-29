@@ -77,7 +77,7 @@ function editAlbum(albumID) {
     editButton.disabled = true;
 
     //Send PUT request to the API 
-    fetch("http://localhost:5184/api/Album", {
+    fetch("http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album", {
       method: "PUT",
       headers: {
           //Append the JWT token credentials in the authorization header
@@ -112,7 +112,7 @@ function getAlbum() {
   albumID = localStorage.getItem("albumID");
 
   //Send GET request to the API
-  fetch(`http://localhost:5184/api/Album/${albumID}`, {
+  fetch(`http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/${albumID}`, {
     method: "GET",
     headers: {
       //Append the JWT token credentials in the authorization header

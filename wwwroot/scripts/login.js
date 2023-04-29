@@ -35,7 +35,7 @@ function formSubmit(event) {
   //If both fields are filled
   else {
     //Send POST request to the API with the user credentials
-    fetch("http://localhost:5184/Auth/Login/", {
+    fetch("http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/Auth/Login/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

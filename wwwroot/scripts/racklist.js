@@ -3,7 +3,7 @@ import { getJWTToken } from './token.js';
 //Get add Button album and assign routing
 const addButton = document.getElementById('addAlbum');
 addButton.onclick = function () {
-  location.assign('http://127.0.0.1:5500/wwwroot/addalbum.html');
+  location.assign('/wwwroot/addalbum.html');
 }
 
 document.onload = checkToken();
@@ -24,7 +24,7 @@ function checkToken() {
     if (decode.exp * 1000 < new Date().getTime()) {
       console.log('Time Expired');
       //Route to login
-      window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
+      window.location.href = "/wwwroot/login.html";
     }
     else {
       localStorage.removeItem("albumID");
@@ -34,7 +34,7 @@ function checkToken() {
   }
   else {
     //Route to login
-    window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
+    window.location.href = "/wwwroot/login.html";
   }
 }
 
@@ -43,7 +43,7 @@ function checkToken() {
 */
 function getAlbums() {
   //Send GET request to the API
-  fetch("http://localhost:5184/api/Album/GetAll", {
+  fetch("http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/GetAll", {
     method: "GET",
     headers: {
       //Append the JWT token credentials in the authorization header
@@ -65,7 +65,7 @@ function getAlbums() {
 * viewAlbum(ID) - Manage logic upon view icon click
 */
 export function viewAlbum(ID) {
-  window.location.href = "http://127.0.0.1:5500/wwwroot/viewalbum.html";
+  window.location.href = "/wwwroot/viewalbum.html";
 
   //Set the passed ID in the browsers local storage as albumID
   localStorage.setItem("albumID", ID);
@@ -75,7 +75,7 @@ export function viewAlbum(ID) {
 * editAlbum(ID) - Manage logic upon edit icon click
 */
 export function editAlbum(ID) {
-  window.location.href = "http://127.0.0.1:5500/wwwroot/editalbum.html";
+  window.location.href = "/wwwroot/editalbum.html";
 
   //Set the passed ID in the browsers local storage as albumID
   localStorage.setItem("albumID", ID);
@@ -83,7 +83,7 @@ export function editAlbum(ID) {
 
 function deletePhoto(PhotoID) {
   //Send DELETE request to the API
-  fetch(`http://localhost:5184/api/Album/DeletePhoto?ID=${PhotoID}`, {
+  fetch(`http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/DeletePhoto?ID=${PhotoID}`, {
     method: "DELETE",
     headers: {
       //Append the JWT token credentials in the authorization header
@@ -109,7 +109,7 @@ export function deleteAlbum(ID, PhotoID) {
   //Create a modal alert asking for user confirmation, if confirmed continue with Fetch API call
   if (confirm("Are you sure you want to delete this album? It cannot be recovered.") == true) {
     //Send DELETE request to the API
-    fetch(`http://localhost:5184/api/Album/${ID}`, {
+    fetch(`http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/${ID}`, {
       method: "DELETE",
       headers: {
         //Append the JWT token credentials in the authorization header
@@ -122,7 +122,6 @@ export function deleteAlbum(ID, PhotoID) {
     });
   }
 }
-
 
 /*
 * displayAlbums(data) - Display the albums in the rack list
