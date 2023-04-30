@@ -76,7 +76,7 @@ function getAlbums() {
 * viewAlbum(ID) - Manage logic upon view icon click
 */
 export function viewAlbum(ID) {
-  window.location.href = "/wwwroot/viewalbum.html";
+  window.location.href = "/viewalbum.html";
 
   //Set the passed ID in the browsers local storage as albumID
   localStorage.setItem("albumID", ID);
