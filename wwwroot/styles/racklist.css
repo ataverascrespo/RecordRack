@@ -40,7 +40,28 @@ body{
   opacity: 0.0
 }
 
+#buttons{
+  display: flex;
+  justify-content: center;
+}
+
 #addAlbum{
+  width: 200px;
+  padding: 15px 0;
+  text-align: center;
+  margin: 20px 10px;
+  border-radius: 25px;
+  font-weight: 400; 
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.0
+}
+
+#addSpotify{
   width: 200px;
   padding: 15px 0;
   text-align: center;
@@ -66,7 +87,6 @@ body{
   translate(-50%, -50%); 
   user-select: none;
 }
-
 
 #image-track > .album {
   width: 250px; 
