@@ -84,6 +84,13 @@ function addAlbum(event) {
     formData.append("albumRating", albumRating);
     formData.append("File", albumImg);
 
+    console.log(albumName);
+    console.log(artistName);
+    console.log(yearReleased);
+    console.log(albumGenre);
+    console.log(albumRating);
+    console.log(formData);
+
     //Disable the add button so that multiple copies of the same album are not added
     addButton.disabled = true;
 
@@ -104,6 +111,8 @@ function addAlbum(event) {
       })
       .catch((error) => {
         console.log(error);
+        //This is rare, but if there happens to be some error, re-enable the add button
+        addButton.disabled = true;
     });
   }
 }
