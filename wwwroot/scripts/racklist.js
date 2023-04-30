@@ -4,7 +4,12 @@ const pageHeader = document.getElementById('header');
 //Get add Button album and assign routing
 const addButton = document.getElementById('addAlbum');
 addButton.onclick = function () {
-  location.assign('/wwwroot/addalbum.html');
+  location.assign('/addalbum.html');
+}
+//Get add Button album and assign routing
+const addSpotify = document.getElementById('addSpotify');
+addSpotify.onclick = function () {
+  location.assign('/searchspotify.html');
 }
 
 document.onload = checkToken();
@@ -25,12 +30,13 @@ function checkToken() {
     if (decode.exp * 1000 < new Date().getTime()) {
       console.log('Time Expired');
       //Route to login
-      window.location.href = "/wwwroot/login.html";
+      window.location.href = "/login.html";
     }
     else {
-      //Make the button and header visible
+      //Make the buttons and header visible
       pageHeader.style.opacity = 1;
       addButton.style.opacity = 1;
+      addSpotify.style.opacity = 1;
       localStorage.removeItem("albumID");
       //Continue to rack list
       getAlbums();
@@ -38,7 +44,7 @@ function checkToken() {
   }
   else {
     //Route to login
-    window.location.href = "/wwwroot/login.html";
+    window.location.href = "/login.html";
   }
 }
 
@@ -79,7 +85,7 @@ export function viewAlbum(ID) {
 * editAlbum(ID) - Manage logic upon edit icon click
 */
 export function editAlbum(ID) {
-  window.location.href = "/wwwroot/editalbum.html";
+  window.location.href = "/editalbum.html";
 
   //Set the passed ID in the browsers local storage as albumID
   localStorage.setItem("albumID", ID);
