@@ -88,7 +88,7 @@ function validateSearch(event) {
 function validateToken(albumID) {
     
     //Call lambda function to get client secret key for spotify api
-    fetch('https://recordrack.netlify.app/netlify/functions/spotifyFunction', {
+    fetch('https://recordrack.netlify.app/.netlify/functions/spotifyFunction', {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
