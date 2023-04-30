@@ -45,7 +45,7 @@ function getAlbum() {
   albumID = localStorage.getItem("albumID");
 
   //Send GET request to the API
-  fetch(`https://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/${albumID}`, {
+  fetch(`https://www.r3c0rdr4ck.xyz/api/Album/${albumID}`, {
     method: "GET",
     headers: {
       //Append the JWT token credentials in the authorization header
