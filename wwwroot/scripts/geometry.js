@@ -64,7 +64,6 @@ loader.load("models/scene.gltf", function (gtlf) {
     //Every frame, re-animate the spinning record
     function animate() {
         controls.update();
-        console.log(record.z);
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
     }
