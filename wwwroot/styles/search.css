@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap'); 
+@import url('https://fonts.cdnfonts.com/css/elephant');
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.searchAlbum-content{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: white;
+}
+
+.searchAlbum-content h1{
+  font-size: 60px;
+  margin-top: 10px;
+  font-weight: 100;
+  letter-spacing: 3px;
+  font-family: 'Abril Fatface', cursive;
+}
+
+.searchAlbum-content p{
+  width: 50vw;
+  margin: 20px auto;
+  font-size: 20px;
+  font-weight: 100;
+  line-height: 25px;
+}
+
+.searchAlbum-content #searchAlbum-form input[type=text]{
+    height: 15px;
+    width: 600px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 20px 10px;
+    background: #8d6d65;
+    border-radius: 7px;
+    border: 1px solid #4e3a36;
+    color: rgb(255, 255, 255);
+    overflow: hidden;
+    opacity: 1;
+    font-size: 18px;
+}
+
+.searchAlbum-content #searchAlbum-form input:focus{
+    outline: 5px solid #94716B; 
+    opacity: 1;
+    transition: 0.2s;
+}
+  
+#instructions{
+  font-size: 22px;
+  font-weight: 400;
+}
+
+#disclaimer{
+  font-size: 13px;
+  font-weight: 400;
+}
