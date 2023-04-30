@@ -26,7 +26,7 @@ function checkToken() {
     if (decode.exp * 1000 < new Date().getTime()) {
       console.log('Time Expired');
       //Route to login
-      window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
+      window.location.href = "/login.html";
     }
     else {
       getAlbum();
@@ -34,7 +34,7 @@ function checkToken() {
   }
   else {
     //Route to login
-    window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
+    window.location.href = "/login.html";
   }
 }
 
@@ -77,7 +77,7 @@ function editAlbum(albumID) {
     editButton.disabled = true;
 
     //Send PUT request to the API 
-    fetch("http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album", {
+    fetch("https://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album", {
       method: "PUT",
       headers: {
           //Append the JWT token credentials in the authorization header
@@ -97,7 +97,7 @@ function editAlbum(albumID) {
       })
     })
       //Link to racklist.html
-      .then((window.location.href = "http://127.0.0.1:5500/wwwroot/racklist.html"))
+      .then((window.location.href = "/racklist.html"))
       .catch((error) => {
         console.log(error);
     });
@@ -112,7 +112,7 @@ function getAlbum() {
   albumID = localStorage.getItem("albumID");
 
   //Send GET request to the API
-  fetch(`http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/${albumID}`, {
+  fetch(`https://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/${albumID}`, {
     method: "GET",
     headers: {
       //Append the JWT token credentials in the authorization header

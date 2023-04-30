@@ -28,7 +28,7 @@ function formSubmit(event) {
   //If both fields are filled
   else {
     //Send POST request to the API with the user credentials
-    fetch("http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/Auth/Register/", {
+    fetch("https://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/Auth/Register/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +47,7 @@ function formSubmit(event) {
           errorMessage.innerHTML = ""; 
 
           //Route to rack list page
-          window.location.href = "http://127.0.0.1:5500/wwwroot/login.html";
+          window.location.href = "/login.html";
         }
       })
       .catch((error) => {

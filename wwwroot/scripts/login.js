@@ -35,7 +35,7 @@ function formSubmit(event) {
   //If both fields are filled
   else {
     //Send POST request to the API with the user credentials
-    fetch("http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/Auth/Login/", {
+    fetch("https://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/Auth/Login/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ function formSubmit(event) {
           setJWTToken(data.data);
 
           //Route to rack list page
-          window.location.href = "http://127.0.0.1:5500/wwwroot/racklist.html";
+          window.location.href = "/racklist.html";
         }
       })
       .catch((error) => {

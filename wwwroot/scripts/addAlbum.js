@@ -88,7 +88,7 @@ function addAlbum(event) {
     addButton.disabled = true;
 
     //Send POST request to the API 
-    fetch("http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/", {
+    fetch("https://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/", {
       method: "POST",
       headers: {
           //Append the JWT token credentials in the authorization header

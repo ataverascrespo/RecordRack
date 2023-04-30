@@ -6,6 +6,7 @@ const addButton = document.getElementById('addAlbum');
 addButton.onclick = function () {
   location.assign('/addalbum.html');
 }
+
 //Get add Button album and assign routing
 const addSpotify = document.getElementById('addSpotify');
 addSpotify.onclick = function () {
@@ -53,7 +54,7 @@ function checkToken() {
 */
 function getAlbums() {
   //Send GET request to the API
-  fetch("http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/GetAll", {
+  fetch("https://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/GetAll", {
     method: "GET",
     headers: {
       //Append the JWT token credentials in the authorization header
@@ -93,7 +94,7 @@ export function editAlbum(ID) {
 
 function deletePhoto(PhotoID) {
   //Send DELETE request to the API
-  fetch(`http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/DeletePhoto?ID=${PhotoID}`, {
+  fetch(`https://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/DeletePhoto?ID=${PhotoID}`, {
     method: "DELETE",
     headers: {
       //Append the JWT token credentials in the authorization header
@@ -119,7 +120,7 @@ export function deleteAlbum(ID, PhotoID) {
   //Create a modal alert asking for user confirmation, if confirmed continue with Fetch API call
   if (confirm("Are you sure you want to delete this album? It cannot be recovered.") == true) {
     //Send DELETE request to the API
-    fetch(`http://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/${ID}`, {
+    fetch(`https://ec2-3-142-232-139.us-east-2.compute.amazonaws.com:5184/api/Album/${ID}`, {
       method: "DELETE",
       headers: {
         //Append the JWT token credentials in the authorization header
