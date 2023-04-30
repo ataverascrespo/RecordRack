@@ -98,26 +98,26 @@ function validateToken(albumID) {
     .then((data) => {
         CLIENT_SECRET = data.apiKey;
         console.log(data);
-    });
-    
-    //Send POST request to Spotify API with the required credentials
-    var authParameters = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: 'grant_type=client_credentials&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET
-    }
-    fetch('https://accounts.spotify.com/api/token', authParameters)
-        .then(result => result.json())
-        //Set the access token in local storage
-        .then(data => {
-            localStorage.setItem("spotiapi", data.access_token);
-            searchAlbum(albumID);
-        })
-        //Exception handler
-    .catch((error) => {
-        console.log(error);
+        
+        //Send POST request to Spotify API with the required credentials
+        var authParameters = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'grant_type=client_credentials&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET
+        }
+        fetch('https://accounts.spotify.com/api/token', authParameters)
+            .then(result => result.json())
+            //Set the access token in local storage
+            .then(data => {
+                localStorage.setItem("spotiapi", data.access_token);
+                searchAlbum(albumID);
+            })
+            //Exception handler
+            .catch((error) => {
+                console.log(error);
+            });
     });
 }
 
