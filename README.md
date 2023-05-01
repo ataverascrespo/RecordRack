@@ -17,7 +17,7 @@ I made Record Rack because I listen to a lot of music through different mediums 
 
 The front-end consists of a minimal website built with HTML, CSS and JavaScript. It allows users to interact with a REST API that manages CRUD operations. Users can add, edit, delete and view the albums in their rack. 
 
-Using three.js libraries, I was able to create and display animated graphics using WebGL. I added interactive 3D models such as a vinyl record* and a custom 'vinyl' cover sleeve packaging of the currently-viewed album. 
+Using three.js libraries, I was able to create and display animated graphics using WebGL. I added interactive 3D models such as a record disk* and a custom 3D model of the currently-viewed album, which resembles album cover sleeve packaging.  
 
 The front-end also features Spotify API integration. This allows users to enter a Spotify URL when adding an album, which will auto-fill the available fields and auto-download the album cover in .jpg format from the Spotify servers.
 
