@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap'); 
 @import url('https://fonts.cdnfonts.com/css/elephant');
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body {
   min-height: 100vh;
@@ -16,11 +16,13 @@ body {
 *{
   margin: 0;
   padding: 0;
-  font-family: 'Abril Fatface', cursive;
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 300;
 }
 
 html{
   overflow-x: hidden;
+  overflow: overlay;
 }
 
 button{
@@ -60,16 +62,17 @@ button:hover span{
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #6f534e;
+  background: transparent;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background:  #6f534e;
+  background:  #aa9090;
+  border-radius: 50px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(195, 195, 195);
+  background: rgb(160, 160, 160);
 }
 
 @media screen and (max-width: 758px) {
