@@ -13,6 +13,17 @@ body {
   background-attachment: fixed;
 }
 
+.spacer{
+  aspect-ratio: 900/300;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.layer1{
+  background-image: url('/wwwroot/models/low-poly-grid-haikei.svg');
+}
+
 *{
   margin: 0;
   padding: 0;
