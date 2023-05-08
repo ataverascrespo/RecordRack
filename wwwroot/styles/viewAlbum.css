@@ -96,6 +96,10 @@ input::file-selector-button::after {
     font-weight: 400;
 }
 
+.webgl {
+  padding-left: 200px;
+}
+
 @media screen and (max-width: 768px) {
   .viewAlbum-body{
     position: absolute;
