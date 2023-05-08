@@ -17,7 +17,7 @@ const imageURL = URL.createObjectURL(imageBlog)
 
 const link = document.createElement('a');
 link.href = imageURL;
-link.download = 'RecordRack' + localStorage.getItem("spotifyAlbumName") + 'Image';
+link.download = 'RecordRack' + localStorage.getItem("spotifyAlbumName") + 'Image.jpg';
 document.body.appendChild(link);
 link.click();
 document.body.removeChild(link);
