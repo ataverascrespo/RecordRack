@@ -1,6 +1,9 @@
-# Record Rack
+# Record Rack - v1.0.0-beta
 ### Record Rack can be accessed and used at https://recordrack.netlify.app/
-Please note that I didn't add much functionality for accounts past register/sign in. If you ever stumble upon this and plan on actually using the app often, it might be good to use information that is easy to remember. Also, because of the horizontal scroll track functionality, I don't think this will run well on mobile devices (for the time being).
+
+Forecasted changes in next release:
+ - Account functionality overhaul (change to e-mail, forgot password requests)
+ - More mobile compatability
 
 ## Table of Contents
   - [Background](#background)
