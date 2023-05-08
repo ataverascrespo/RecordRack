@@ -21,7 +21,7 @@ body {
   background-size: cover;
 }
 .layer1{
-  background-image: url('/wwwroot/models/low-poly-grid-haikei.svg');
+  background-image: url('/models/low-poly-grid-haikei.svg');
 }
 
 *{
