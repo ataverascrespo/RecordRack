@@ -97,8 +97,8 @@ function getAlbum() {
 function loadDisplay() {
   //Configure album size
   const sizes = {
-    width: window.innerWidth / 2,
-    height: window.innerHeight,
+    width: 728,
+    height: 722,
   };
 
   //Create a scene and camera render
