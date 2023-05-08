@@ -82,7 +82,7 @@ body{
 #image-track {
   display: flex; 
   gap: 5vmin; 
-  position: absolute; 
+  position: fixed; 
   left: 50%; 
   top: 65%; 
   transform: 
