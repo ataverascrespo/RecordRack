@@ -11,5 +11,7 @@ namespace AlbumAPI.Data
         Task<ServiceResponse<string>> Login(string userName, string password);
         //Method to return user account existance status
         Task<bool> UserExists(string userName);
+        //Method to validate refresh token
+        Task<ServiceResponse<string>> ValidateRefreshToken(string refreshToken);
     }
 }

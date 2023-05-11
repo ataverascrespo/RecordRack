@@ -54,5 +54,22 @@ namespace AlbumAPI.Controllers
             //Return status code response
             return Ok(serviceResponse);
         }
+
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<string>> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            var serviceResponse = await _authRepo.ValidateRefreshToken(refreshToken);
+
+            if(!serviceResponse.Success)
+            {
+                //Return a bad request response 
+                return BadRequest(serviceResponse);
+            }
+
+            //Return status code response
+            return Ok(serviceResponse);
+        }
     }
 }

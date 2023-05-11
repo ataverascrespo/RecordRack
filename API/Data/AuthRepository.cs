@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 
 /// <summary>
@@ -12,13 +13,16 @@ namespace AlbumAPI.Data
     {
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
 
         //Inject data context, needed for DB access
         //Inject IConfiguration, needed to access JSON token
-        public AuthRepository(DataContext context, IConfiguration configuration)
+        public AuthRepository(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ServiceResponse<string>> Login(string userName, string password)
@@ -47,7 +51,15 @@ namespace AlbumAPI.Data
                 //Call the method to create a JSON web token
                 //Store result in service data
                 serviceResponse.Data = CreateToken(user);
+                
+                //Generate refresh token
+                var newRefreshToken = GenerateRefreshToken();
+                SetRefreshToken(user, newRefreshToken);
+
+                //Save changes to DB table
+                await _context.SaveChangesAsync();
             }
+            
             return serviceResponse;
         }
 
@@ -94,6 +106,42 @@ namespace AlbumAPI.Data
             return false;
         }
 
+        //Method to validate refresh token
+        public async Task<ServiceResponse<string>> ValidateRefreshToken(string refreshToken)
+        {
+            var serviceResponse = new ServiceResponse<string>();
+
+            // Look up the refresh token in the database
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.RefreshToken == refreshToken);
+
+            // Check if the refresh token was found and has not expired
+            if (user == null){
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Invalid refresh token.";
+            }
+            else if (user != null && user.RefreshTokenExpiration < DateTime.UtcNow)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Invalid refresh token.";
+            }
+            else if (user != null && user.RefreshTokenExpiration > DateTime.UtcNow)
+            {
+                string token = CreateToken(user);
+                var newRefreshToken = GenerateRefreshToken();
+                SetRefreshToken(user, newRefreshToken);
+
+                //Save changes to DB table
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Success = true;
+                serviceResponse.ReturnMessage = "Refresh token valid.";
+                serviceResponse.Data = token;
+            }
+
+            return serviceResponse;
+        }
+
+    
         //Method to create a hashed and salted password
         //Out values mean we don't have to return anything
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -165,6 +213,33 @@ namespace AlbumAPI.Data
 
             //Serializes the security token into a JSON web token
             return tokenHandler.WriteToken(token);
+        }
+
+        public RefreshTokenDTO GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshTokenDTO
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expires = DateTime.UtcNow.AddMinutes(5),
+                Created = DateTime.UtcNow
+            };
+
+            return refreshToken;
+        }
+
+        public async void SetRefreshToken(User user, RefreshTokenDTO newRefreshToken)
+        {
+            //Create an HTTP only cookie
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = newRefreshToken.Expires
+            };
+            user.RefreshToken = newRefreshToken.Token;
+            user.RefreshTokenExpiration = newRefreshToken.Expires;
+
+            //Append the refresh token to the cookie of the client
+            _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
         }
     }
 }
