@@ -1,5 +1,5 @@
 # Record Rack - v1.0.0-beta
-### Record Rack can be accessed and used at https://recordrack.netlify.app/
+### Record Rack is currently under maintenance. I am making some major API / back-end changes. It will be back up soon :)
 
 Forecasted changes in next release:
  - Account functionality overhaul (change to e-mail, forgot password requests)
