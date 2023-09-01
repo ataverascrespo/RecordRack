@@ -25,18 +25,25 @@ namespace AlbumAPI.Data
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<ServiceResponse<string>> Login(string userName, string password)
+        public async Task<ServiceResponse<string>> Login(string email, string password)
         {
             var serviceResponse = new ServiceResponse<string>();
 
             //Find first or default instance where passed username is equal to existing username
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(userName.ToLower()));
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
             if (user == null)
             {
                 serviceResponse.Success = false;
 
                 //Error message
                 serviceResponse.ReturnMessage = "User not found.";
+            }
+            else if (user.VerifiedAt == null)
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "User not yet verified.";
             }
             //If password for user does not match
             else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
@@ -64,10 +71,17 @@ namespace AlbumAPI.Data
         }
 
         //Method to add new user + user info, and return generated ID
-        public async Task<ServiceResponse<int>> Register(User user, string password)
+        public async Task<ServiceResponse<int>> Register(User user, string password, string username)
         {
             var serviceResponse = new ServiceResponse<int>();
 
+            //Assess if the email is already registered
+            if (await EmailExists(user.Email))
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Email already used.";
+                return serviceResponse;
+            }
             //Assess if the username is already registered
             if (await UserExists(user.UserName))
             {
@@ -79,10 +93,13 @@ namespace AlbumAPI.Data
             //Call method to create a hashed and salted password
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            //add computed passwords to user object
+            //add computed fields to user object
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-
+            user.UserName = username;
+            user.Created = DateTime.UtcNow;
+            user.VerificationToken = CreateRandomToken();
+            
             //Add user to DB Users table
             _context.Users.Add(user);
 
@@ -100,6 +117,17 @@ namespace AlbumAPI.Data
             //Return true if passed username is in database
             //Cast both to lower to ignore case
             if(await _context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower()))
+            {
+                return true;
+            }
+            return false;
+        }
+        //Method to assess whether passed email exists upon registration
+        public async Task<bool> EmailExists(string Email)
+        {
+            //Return true if passed username is in database
+            //Cast both to lower to ignore case
+            if(await _context.Users.AnyAsync(u => u.Email.ToLower() == Email.ToLower()))
             {
                 return true;
             }
@@ -138,6 +166,32 @@ namespace AlbumAPI.Data
                 serviceResponse.Data = token;
             }
 
+            return serviceResponse;
+        }
+
+         public async Task<ServiceResponse<string>> Verify(string verifyToken)
+        {
+            var serviceResponse = new ServiceResponse<string>();
+
+            //Find first or default instance where passed username is equal to existing username
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken.Equals(verifyToken));
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "Invalid token.";
+            }
+            else
+            {
+                user.VerifiedAt = DateTime.UtcNow;
+                //Save changes to DB table
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Success = true;
+                serviceResponse.ReturnMessage = "User verified.";
+            }
+            
             return serviceResponse;
         }
 
@@ -203,7 +257,8 @@ namespace AlbumAPI.Data
             {
                 Subject = new ClaimsIdentity(claims),
                 //Set expiration to a day after creation
-                Expires = DateTime.Now.AddHours(6),
+                Expires = DateTime.Now.AddMinutes(10),
+                NotBefore = DateTime.Now,
                 SigningCredentials = creds
             };
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
@@ -220,14 +275,14 @@ namespace AlbumAPI.Data
             var refreshToken = new RefreshTokenDTO
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.UtcNow.AddMinutes(5),
+                Expires = DateTime.UtcNow.AddDays(1),
                 Created = DateTime.UtcNow
             };
 
             return refreshToken;
         }
 
-        public async void SetRefreshToken(User user, RefreshTokenDTO newRefreshToken)
+        public void SetRefreshToken(User user, RefreshTokenDTO newRefreshToken)
         {
             //Create an HTTP only cookie
             var cookieOptions = new CookieOptions
@@ -240,6 +295,11 @@ namespace AlbumAPI.Data
 
             //Append the refresh token to the cookie of the client
             _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+        }
+
+        private string CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
     }
 }

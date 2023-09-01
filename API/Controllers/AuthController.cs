@@ -22,8 +22,8 @@ namespace AlbumAPI.Controllers
         {
 
             var serviceResponse = await _authRepo.Register(
-                //Create a new username object with passed params
-                new User { UserName = request.UserName }, request.Password
+                //Create a new email object with passed params
+                new User { Email = request.Email }, request.Password, request.UserName
             );
             
             if(!serviceResponse.Success)
@@ -43,7 +43,26 @@ namespace AlbumAPI.Controllers
         public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDTO request)
         {
 
-            var serviceResponse = await _authRepo.Login(request.UserName, request.Password);
+            var serviceResponse = await _authRepo.Login(request.Email, request.Password);
+
+            if(!serviceResponse.Success)
+            {
+                //Return a bad request response 
+                return BadRequest(serviceResponse);
+            }
+
+            //Return status code response
+            return Ok(serviceResponse);
+        }
+
+        
+        //HTTP POST metod
+        //Verifies user account
+        [HttpPost("Verify")]
+        public async Task<ActionResult<ServiceResponse<int>>> Verify(UserVerificationTokenDTO request)
+        {
+
+            var serviceResponse = await _authRepo.Verify(request.Token);
 
             if(!serviceResponse.Success)
             {
