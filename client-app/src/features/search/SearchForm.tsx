@@ -1,16 +1,20 @@
 "use client"
 import * as z from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
+
+//Component imports
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, } from "@/components/ui/form"
 import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
-import axios from "axios"
-import { useState } from "react"
-import { Album } from "@/app/models/album"
 
-import { Card,  CardContent, CardDescription,  CardFooter, CardHeader,  CardTitle, } from "@/components/ui/card"
+//Model imports
+import { Album } from "@/app/models/album"
+import SearchResults from "./SearchResults"
+
 
 // Define component props
 interface Props {
@@ -19,54 +23,59 @@ interface Props {
 
 // Form schema for search validation
 const FormSchema = z.object({
-    album: z.string().min(2, {
+  album: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
+  type: z.string()
 })
- 
+
 export function SearchForm({ accessToken }: Props) {
-  
+
+  // Create album state
   const [albums, setAlbums] = useState<Album[]>([]);
 
   // Define the form and form type
   const form = useForm<z.infer<typeof FormSchema>>({
-      resolver: zodResolver(FormSchema),
-      defaultValues: {
-        album: "",
-      },
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      album: "",
+      type: "album"
+    },
   })
- 
+
   // Define form submission handler
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    axios.get(`https://api.spotify.com/v1/search?q=${data.album}&type=album&market=ES&limit=40`,  {
+    axios.get(`https://api.spotify.com/v1/search?q=${data.album}&type=album&market=ES&limit=40`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
       }
     })
       .then((response) => {
 
-      const uniqueAlbums: any[] = [];
-      const seenAlbumNames = new Set();
-        
-      response.data.albums.items.forEach((album: any) => {
-        if (!seenAlbumNames.has(album.name)) {
-          seenAlbumNames.add(album.name);
-          uniqueAlbums.push(album);
-        }
-      });
+        const uniqueAlbums: any[] = [];
+        const seenAlbumNames = new Set();
 
-      const albums = uniqueAlbums.filter((item: any) => item.album_type === "album");
-      
-      console.log(albums)
-      setAlbums(albums);
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+        response.data.albums.items.forEach((album: any) => {
+          if (!seenAlbumNames.has(album.name)) {
+            seenAlbumNames.add(album.name);
+            uniqueAlbums.push(album);
+          }
+        });
+
+        const albums = uniqueAlbums.filter((item: any) => item.album_type === "album");
+
+        console.log(albums)
+        setAlbums(albums);
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
- 
-    return (
-    <><div className="w-2/3 flex flex-col items-center justify-center">
+
+  return (
+
+    <div className="w-full ">
+      <div className="w-2/3 flex flex-col items-center justify-center">
         <Tabs className="w-full space-y-6" defaultValue="album">
           <TabsList>
             <TabsTrigger className="w-[150px]" value="album">Albums</TabsTrigger>
@@ -113,32 +122,10 @@ export function SearchForm({ accessToken }: Props) {
             </Form>
           </TabsContent>
         </Tabs>
-
       </div>
-        <div className="h-full w-full grid grid-cols-1 gap-8 md:grid-cols-3">
-          {albums.map((album) => {
-            console.log(album)
-            return (
-              <Card key={album.id} className="">
-                <CardHeader>
-                    <img src={album.images[0].url} draggable="false"></img>
-                </CardHeader>
-
-                <CardContent>
-                  <CardTitle>{album.name}</CardTitle>
-                  <CardDescription>
-                    {album.artists.map(artist => (" " + artist.name))}
-                  </CardDescription>
-                </CardContent>
-
-                <CardFooter>
-                  <div className="md:w-1/2">
-                    <Button>Add to Rack</Button>
-                  </div>
-                </CardFooter>
-              </Card>
-            )
-          })}
-        </div></>
+                    
+      {/* Call search component, pass props */}
+      <SearchResults albums={albums}></SearchResults>
+    </div>
   )
 }
