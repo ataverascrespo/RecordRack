@@ -3,25 +3,36 @@ import { Album } from "@/app/models/album";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
+// Define the component props
 interface Props {
-    albums: Album[];
+    results: Album[];
 }
 
+export default function SearchResults({ results }: Props) {
 
-export default function SearchResults({ albums }: Props) {
+    // Function to format artists based on result/track listed amount
+    const formatArtists = (artists: { name: string }[]) => {
+        if (artists.length === 1) {
+            return artists.map(artist => artist.name)
+        } else if (artists.length >= 2) {
+            return artists.map(artist => artist.name).join(', ');
+        }
+        return '';
+    };
+
     return (
         <div className="h-full w-full mt-24 grid grid-cols-1 gap-8 md:grid-cols-3">
-            {albums.map((album) => {
+            {results.map((result) => {
                 return (
-                    <Card key={album.id} className="">
+                    <Card key={result.id} className="">
                         <CardHeader>
-                            <img src={album.images[0].url} draggable="false"></img>
+                            <img src={result.images[0].url} draggable="false"></img>
                         </CardHeader>
 
                         <CardContent>
-                            <CardTitle>{album.name}</CardTitle>
+                            <CardTitle>{result.name}</CardTitle>
                             <CardDescription>
-                                {album.artists.map(artist => (" " + artist.name))}
+                                {formatArtists(result.artists)}
                             </CardDescription>
                         </CardContent>
 

@@ -1,7 +1,6 @@
 "use client"
 import * as z from "zod"
 import axios from "axios"
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 
 //Component imports
@@ -12,8 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 
 //Model imports
-import { Album } from "@/app/models/album"
-import SearchResults from "./SearchResults"
+import { useStore } from "@/app/stores/store"
 
 
 // Define component props
@@ -30,9 +28,8 @@ const FormSchema = z.object({
 })
 
 export function SearchForm({ accessToken }: Props) {
-
-  // Create album state
-  const [albums, setAlbums] = useState<Album[]>([]);
+  // Access the global Mobx stores
+  const { searchStore } = useStore();
 
   // Define the form and form type
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -52,20 +49,23 @@ export function SearchForm({ accessToken }: Props) {
     })
       .then((response) => {
 
+        // Create an array of unique albums and a set of seen albums
+        // this allows me to filter out albums that are duplicates (i.e explicit/non-explicit, re-releases)
         const uniqueAlbums: any[] = [];
-        const seenAlbumNames = new Set();
+        const seenAlbums = new Set();
 
         response.data.albums.items.forEach((album: any) => {
-          if (!seenAlbumNames.has(album.name)) {
-            seenAlbumNames.add(album.name);
+          // Create an identifier for each returned album
+          const albumIdentifier = `${album.name} - ${album.artists[0].name}`;
+
+          if (!seenAlbums.has(albumIdentifier)) {
+            seenAlbums.add(albumIdentifier);
             uniqueAlbums.push(album);
           }
         });
-
         const albums = uniqueAlbums.filter((item: any) => item.album_type === "album");
-
-        console.log(albums)
-        setAlbums(albums);
+        // Set the albums data in the global search store state
+        searchStore.setSearchAlbums(albums);
       })
       .catch((error) => {
         console.error(error)
@@ -73,8 +73,6 @@ export function SearchForm({ accessToken }: Props) {
   }
 
   return (
-
-    <div className="w-full ">
       <div className="w-2/3 flex flex-col items-center justify-center">
         <Tabs className="w-full space-y-6" defaultValue="album">
           <TabsList>
@@ -122,10 +120,6 @@ export function SearchForm({ accessToken }: Props) {
             </Form>
           </TabsContent>
         </Tabs>
-      </div>
-                    
-      {/* Call search component, pass props */}
-      <SearchResults albums={albums}></SearchResults>
     </div>
   )
 }

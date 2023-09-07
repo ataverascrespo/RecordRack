@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { ThemeProvider } from "@/components/theme-provider"
 import { SearchForm } from "@/features/search/SearchForm";
+import { useStore } from "@/app/stores/store";
+import SearchResults from "./SearchResults";
+import { observer } from "mobx-react-lite";
+
+
+
 
 
 //Spotify Client ID
@@ -9,9 +15,12 @@ const CLIENT_ID = "6b6f9f90098c40469273168487c49eb7";
 //Secret ID to be retrieved with lambda function
 const CLIENT_SECRET = 'ccff73d29e974becbb028bb7a547c45f';
 
-export default function SearchPage() {
+function SearchPage() {
 
     const [accessToken, setAccessToken] = useState("");
+
+    // Access the global Mobx stores
+    const { searchStore } = useStore();
 
     useEffect(() => {
         // Encode the Client ID and Client Secret for Basic Authentication
@@ -50,8 +59,12 @@ export default function SearchPage() {
 
                     {/* Call form component, pass props */}
                     <SearchForm accessToken={accessToken}></SearchForm>
+                     {/* Call results component, retrieve global state store props and pass them*/}
+                    <SearchResults results={searchStore.searchAlbums}></SearchResults>
                 </div>
             </div>
         </ThemeProvider>
     )
 }
+
+export default observer(SearchPage)
