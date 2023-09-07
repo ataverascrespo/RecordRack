@@ -36,7 +36,7 @@
   }
  
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 0 0% 6%;
     --foreground: 0 0% 98%;
  
     --card: 0 0% 3.9%;
@@ -63,6 +63,14 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
+  }
+
+  .bg-light{
+    filter: invert(100%) sepia(0%) saturate(1%) hue-rotate(302deg) brightness(300%) contrast(66%);
+  }
+
+  .bg-dark {
+    filter: invert(30%) sepia(14%) saturate(0%) hue-rotate(169deg) brightness(40%) contrast(108%);
   }
 }
  
