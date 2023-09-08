@@ -1,5 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 export default function HomePage() {
@@ -74,7 +74,7 @@ export default function HomePage() {
                 </Accordion>
             </div>
 
-            <div className="lg:h-[50vh] z-0 mt-24 mb-24 xl:mt-0 flex flex-col lg:flex-row lg:justify-center items-center">
+            <div className="lg:h-[50vh] z-0 mt-24 mb-24 xl:mt-0 flex flex-col lg:flex-row lg:justify-between items-center">
                 <Card className="w-full lg:w-2/3">
                     <CardHeader>
                         <CardTitle> Record Rack is completely free to use, with absolutely no ads.</CardTitle>
@@ -105,7 +105,7 @@ export default function HomePage() {
                         </Button>
                     </CardFooter>
                 </Card>
-
+                <img className="hidden lg:flex lg:w-[20%]" src="./src/assets/about-contact.svg" alt="hero" draggable="false" />
 
             </div>
 
