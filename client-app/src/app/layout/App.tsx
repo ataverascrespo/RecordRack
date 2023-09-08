@@ -1,5 +1,3 @@
-import HomePage from "@/features/home/HomePage";
-import SearchPage from "@/features/search/SearchPage";
 import Navbar from "./Navbar";
 
 import { ThemeProvider } from "@/components/theme-provider"
