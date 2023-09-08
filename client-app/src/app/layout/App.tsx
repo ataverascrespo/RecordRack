@@ -1,7 +1,11 @@
+import HomePage from "@/features/home/HomePage";
 import SearchPage from "@/features/search/SearchPage";
 import Navbar from "./Navbar";
+
 import { ThemeProvider } from "@/components/theme-provider"
 import { observer } from "mobx-react-lite"
+import { Toaster } from "@/components/ui/toaster";
+import { Outlet } from "react-router-dom";
 
 "use client"
  
@@ -11,7 +15,8 @@ function App() {
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <div className="App">
         <Navbar></Navbar>
-        <SearchPage></SearchPage>
+          <Outlet />
+        <Toaster />
       </div>
     </ThemeProvider>
   )
