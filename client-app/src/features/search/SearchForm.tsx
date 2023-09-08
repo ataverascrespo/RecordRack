@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, } from "@/components/ui/form"
 import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
+import { useToast } from "@/components/ui/use-toast"
 
 //Model imports
 import { useStore } from "@/app/stores/store"
@@ -16,12 +17,16 @@ import { SpotifyAlbum } from "@/app/models/spotifyAlbum"
 import { SpotifyTrack } from "@/app/models/spotifyTrack"
 
 
-// Define component props
+/* 
+  Define component props
+*/
 interface Props {
   accessToken: string;
 }
 
-// Form schema for search validation
+/* 
+  Form schema for search validation
+*/
 const FormSchema = z.object({
   album: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -33,7 +38,12 @@ export function SearchForm({ accessToken }: Props) {
   // Access the global Mobx stores
   const { searchStore } = useStore();
 
-  // Define the form and form type
+  //Initialize the toast notification
+  const { toast } = useToast()
+  
+  /* 
+     Define the form and form type
+  */
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -42,7 +52,21 @@ export function SearchForm({ accessToken }: Props) {
     },
   })
 
-  // Define form submission handler for album
+  
+  /* 
+      Define form submission handler for an empty result
+  */
+  function onEmptyResult() {
+    toast({
+      variant: "destructive",
+      title: "Uh oh! Something went wrong.",
+      description: "We couldn't find anything with that name.",
+    })
+  }
+
+  /*
+      Define form submission handler for album
+  */
   function onSubmitAlbum(data: z.infer<typeof FormSchema>) {
     axios.get(`https://api.spotify.com/v1/search?q=${data.album}&type=album&market=ES&limit=40`, {
       headers: {
@@ -68,13 +92,19 @@ export function SearchForm({ accessToken }: Props) {
         const albums = uniqueAlbums.filter((item: any) => item.album_type === "album");
         // Set the albums data in the global search store state
         searchStore.setSearchAlbums(albums);
+
+        if (albums.length === 0) {
+          onEmptyResult();
+        }
       })
       .catch((error) => {
         console.error(error)
       })
   }
 
-  // Define form submission handler for track
+  /* 
+      Define form submission handler for track
+  */
   function onSubmitTrack(data: z.infer<typeof FormSchema>) {
     axios.get(`https://api.spotify.com/v1/search?q=${data.album}&type=track&market=ES&limit=40`, {
       headers: {
@@ -98,6 +128,10 @@ export function SearchForm({ accessToken }: Props) {
         });
         // Set the tracks data in the global search store state
         searchStore.setSearchTracks(uniqueTracks);
+
+        if (uniqueTracks.length === 0) {
+          onEmptyResult();
+        }
       })
       .catch((error) => {
         console.error(error)
