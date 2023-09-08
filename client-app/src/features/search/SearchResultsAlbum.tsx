@@ -1,11 +1,10 @@
-import { Album } from "@/app/models/album";
-
+import { SpotifyAlbum } from "@/app/models/spotifyAlbum";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 // Define the component props
 interface Props {
-    results: Album[];
+    results: SpotifyAlbum[];
 }
 
 export default function SearchResults({ results }: Props) {
