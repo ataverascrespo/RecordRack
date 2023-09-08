@@ -1,11 +1,10 @@
-import { Album } from "@/app/models/album";
-
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { SpotifyTrack } from "@/app/models/spotifyTrack";
 
 // Define the component props
 interface Props {
-    results: Album[];
+    results: SpotifyTrack[];
 }
 
 export default function SearchResults({ results }: Props) {
@@ -22,19 +21,19 @@ export default function SearchResults({ results }: Props) {
 
     return (
         <div className="h-full w-full mt-12">
-            <h2 className="text-2xl text-right font-light">Album Results ({results.length}) </h2>
+            <h2 className="text-2xl text-right font-light">Track Results ({results.length}) </h2>
             <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-3">
                 {results.map((result) => {
                     return (
                         <Card key={result.id} className="">
                             <CardHeader>
-                                <img src={result.images[0].url} draggable="false"></img>
+                                <img src={result.album.images[0].url} draggable="false"></img>
                             </CardHeader>
 
                             <CardContent>
                                 <CardTitle>{result.name}</CardTitle>
                                 <CardDescription>
-                                    {formatArtists(result.artists)}
+                                    {formatArtists(result.album.artists)}
                                 </CardDescription>
                             </CardContent>
 

@@ -2,6 +2,7 @@ export interface SpotifyTrack {
     album: SpotifyTrackAlbum
     external_urls: SpotifyTrackURL
     name: string
+    id: string
     type: string
 }
 

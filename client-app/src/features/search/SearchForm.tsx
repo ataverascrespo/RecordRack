@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input"
 
 //Model imports
 import { useStore } from "@/app/stores/store"
+import { Album } from "@/app/models/album"
+import { SpotifyTrack } from "@/app/models/spotifyTrack"
 
 
 // Define component props
@@ -40,21 +42,21 @@ export function SearchForm({ accessToken }: Props) {
     },
   })
 
-  // Define form submission handler
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  // Define form submission handler for album
+  function onSubmitAlbum(data: z.infer<typeof FormSchema>) {
     axios.get(`https://api.spotify.com/v1/search?q=${data.album}&type=album&market=ES&limit=40`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
       }
     })
       .then((response) => {
-
+      
         // Create an array of unique albums and a set of seen albums
         // this allows me to filter out albums that are duplicates (i.e explicit/non-explicit, re-releases)
         const uniqueAlbums: any[] = [];
         const seenAlbums = new Set();
 
-        response.data.albums.items.forEach((album: any) => {
+        response.data.albums.items.forEach((album: Album) => {
           // Create an identifier for each returned album
           const albumIdentifier = `${album.name} - ${album.artists[0].name}`;
 
@@ -72,8 +74,38 @@ export function SearchForm({ accessToken }: Props) {
       })
   }
 
+  // Define form submission handler for track
+  function onSubmitTrack(data: z.infer<typeof FormSchema>) {
+    axios.get(`https://api.spotify.com/v1/search?q=${data.album}&type=track&market=ES&limit=40`, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    })
+      .then((response) => {
+        
+        // Create an array of unique tracks and a set of seen tracks
+        // this allows me to filter out tracks that are duplicates (i.e explicit/non-explicit, re-releases)
+        const uniqueTracks: any[] = [];
+        const seenTracks = new Set();
+
+        response.data.tracks.items.forEach((track: SpotifyTrack) => {
+          // Create an identifier for each returned track
+          const trackIdentifier = `${track.name} - ${track.album.artists[0].name}`;
+          if (!seenTracks.has(trackIdentifier)) {
+            seenTracks.add(trackIdentifier);
+            uniqueTracks.push(track);
+          }
+        });
+        // Set the tracks data in the global search store state
+        searchStore.setSearchTracks(uniqueTracks);
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   return (
-      <div className="w-2/3 flex flex-col items-center justify-center">
+      <div className="w-2/3 h-full flex flex-col items-center justify-center">
         <Tabs className="w-full space-y-6" defaultValue="album">
           <TabsList>
             <TabsTrigger className="w-[150px]" value="album">Albums</TabsTrigger>
@@ -81,7 +113,7 @@ export function SearchForm({ accessToken }: Props) {
           </TabsList>
           <TabsContent value="album" className="w-full">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="w-full md:w-2/3 space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmitAlbum)} className="w-full md:w-2/3 space-y-6">
                 <FormField
                   control={form.control}
                   name="album"
@@ -102,7 +134,7 @@ export function SearchForm({ accessToken }: Props) {
           </TabsContent>
           <TabsContent value="track">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmitTrack)} className="w-2/3 space-y-6">
                 <FormField
                   control={form.control}
                   name="album"
