@@ -1,10 +1,10 @@
 import {makeAutoObservable} from "mobx";
-import { Album } from "../models/album";
+import { SpotifyAlbum } from "../models/spotifyAlbum";
 import { SpotifyTrack } from "../models/spotifyTrack";
 
 // Spotify search data store class
 export default class SearchStore {
-    searchAlbums: Album[] = [];
+    searchAlbums: SpotifyAlbum[] = [];
     searchTracks: SpotifyTrack[] = [];
     searchType: string = "";
 
@@ -12,7 +12,7 @@ export default class SearchStore {
         makeAutoObservable(this)
     }
 
-    setSearchAlbums = (albums: Album[]) => {
+    setSearchAlbums = (albums: SpotifyAlbum[]) => {
         this.searchAlbums = albums;
         this.searchType = "album";
     }
