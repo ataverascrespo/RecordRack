@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 
 //Model imports
 import { useStore } from "@/app/stores/store"
-import { Album } from "@/app/models/album"
+import { SpotifyAlbum } from "@/app/models/spotifyAlbum"
 import { SpotifyTrack } from "@/app/models/spotifyTrack"
 
 
@@ -56,7 +56,7 @@ export function SearchForm({ accessToken }: Props) {
         const uniqueAlbums: any[] = [];
         const seenAlbums = new Set();
 
-        response.data.albums.items.forEach((album: Album) => {
+        response.data.albums.items.forEach((album: SpotifyAlbum) => {
           // Create an identifier for each returned album
           const albumIdentifier = `${album.name} - ${album.artists[0].name}`;
 

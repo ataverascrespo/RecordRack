@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ThemeProvider } from "@/components/theme-provider"
 import { SearchForm } from "@/features/search/SearchForm";
 import { useStore } from "@/app/stores/store";
-import SearchResults from "./SearchResults";
+import SearchResults from "./SearchResultsAlbum";
 import { observer } from "mobx-react-lite";
 import SearchResultsTrack from "./SearchResultsTrack";
 
