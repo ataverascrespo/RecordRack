@@ -51,7 +51,7 @@ function SearchPage() {
                 <div className="h-full mt-48 mb-24 flex flex-col justify-start gap-12 items-start container">
 
                     <div className="flex flex-col gap-4 items-start">
-                        <h1 className="text-3xl md:text-6xl font-bold">Add a new record to your collection</h1>
+                        <h1 className="text-3xl md:text-6xl font-bold text-neutral-800 dark:text-neutral-50">Add a new record to your collection</h1>
                         <div className="flex flex-row gap-2 items-center">
                             <h2 className="font-semibold text-xs sm:text-base text-neutral-300 dark:text-neutral-700">Powered by</h2>
                             <img className="bg-light dark:bg-dark" src="./src/assets/spotify.svg" draggable="false"></img>

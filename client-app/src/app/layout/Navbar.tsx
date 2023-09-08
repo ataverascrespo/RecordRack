@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom"
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 -mt-24 border-b-2 shadow-md bg-background border-neutral-100 dark:border-neutral-950">
+    <nav className="sticky top-0 z-50 -mt-24 border-b-2 shadow-md bg-background border-neutral-100 dark:border-neutral-950 text-neutral-800 dark:text-neutral-50">
       <div className="container py-6 flex flex-row items-center justify-between">
         <div className="flex flex-row gap-2 md:gap-6 items-center">
           <h1 className="font-semibold text-lg md:text-2xl">Record Rack</h1>
