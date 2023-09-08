@@ -1,10 +1,10 @@
-export interface Album {
+export interface SpotifyAlbum {
     album_type: string
-    artists: Artist[]
-    external_urls: AlbumURL
+    artists: SpotifyArtist[]
+    external_urls: SpotifyAlbumURL
     href: string
     id: string
-    images: Image[]
+    images: SpotifyImage[]
     is_playable: boolean
     name: string
     release_date: string
@@ -14,8 +14,8 @@ export interface Album {
     uri: string
 }
 
-export interface Artist {
-    external_urls: ArtistURL
+export interface SpotifyArtist {
+    external_urls: SpotifyArtistURL
     href: string
     id: string
     name: string
@@ -23,15 +23,15 @@ export interface Artist {
     uri: string
 }
 
-export interface AlbumURL {
+export interface SpotifyAlbumURL {
     spotify: string
 }
 
-export interface ArtistURL {
+export interface SpotifyArtistURL {
     spotify: string
 }
 
-export interface Image {
+export interface SpotifyImage {
     height: number
     url: string
     width: number
