@@ -21,7 +21,11 @@ export default function SearchResults({ results }: Props) {
 
     return (
         <div className="h-full w-full mt-12">
-            <h2 className="text-2xl text-right font-light">Album Results ({results.length}) </h2>
+            {results.length > 0 ? (
+                <h2 className="text-2xl text-right font-light">Album Results ({results.length})</h2> 
+            ) : (
+                <h2></h2>
+            )}
             <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-3">
                 {results.map((result) => {
                     return (
