@@ -26,12 +26,12 @@ export default function SearchResults({ results }: Props) {
     return (
         <div className="h-full w-full mt-12">
             {results.length > 0 ? (
-                <h2 className="text-2xl text-right font-light">Track Results ({results.length})</h2> 
+                <h2 className="text-lg md:text-2xl text-right font-light">Track Results ({results.length})</h2> 
             ) : (
                 <h2></h2>
             )}
             <h2></h2>
-            <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3">
                 {results.map((result) => {
                     return (
                         <Card key={result.id} className="">
@@ -53,9 +53,9 @@ export default function SearchResults({ results }: Props) {
                                         <DialogTrigger asChild>
                                             <Button>Add to Rack</Button>
                                         </DialogTrigger>
-                                        <DialogContent className="sm:max-w-[425px] lg:max-w-[725px]">
+                                        <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
                                             <DialogHeader>
-                                                <DialogTitle>Adding track '{result.name}' by {formatArtists(result.album.artists)} </DialogTitle>
+                                                <DialogTitle className="mt-4 lg:mt-0">Adding track '{result.name}' by {formatArtists(result.album.artists)} </DialogTitle>
                                                 <DialogDescription>
                                                     This track will be added to your racklist.
                                                 </DialogDescription>

@@ -139,15 +139,15 @@ export function SearchForm({ accessToken }: Props) {
   }
 
   return (
-      <div className="w-2/3 h-full flex flex-col items-center justify-center">
+      <div className="w-full lg:w-2/3 h-full flex flex-col items-center justify-center">
         <Tabs className="w-full space-y-6" defaultValue="album">
-          <TabsList>
-            <TabsTrigger className="w-[150px]" value="album">Albums</TabsTrigger>
-            <TabsTrigger className="w-[150px]" value="track">Tracks</TabsTrigger>
+          <TabsList className="w-full md:w-2/3 lg:w-1/3">
+            <TabsTrigger className="w-1/2" value="album">Albums</TabsTrigger>
+            <TabsTrigger className="w-1/2" value="track">Tracks</TabsTrigger>
           </TabsList>
           <TabsContent value="album" className="w-full">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmitAlbum)} className="w-full md:w-2/3 space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmitAlbum)} className="w-full lg:w-2/3 space-y-6">
                 <FormField
                   control={form.control}
                   name="album"
@@ -155,8 +155,8 @@ export function SearchForm({ accessToken }: Props) {
                     <FormItem>
                       <FormControl>
                         <div className="flex flex-row gap-4 items-center">
-                          <Input placeholder="Enter the name of an album or an artist..." {...field} />
-                          <Button type="submit" size="lg"><p className="text-base">Search</p></Button>
+                          <Input className="text-sm lg:text-base" placeholder="Enter album/artist name..." {...field} />
+                          <Button className="px-3 lg:px-8" type="submit" size="lg"><p className="text-sm md:text-base">Search</p></Button>
                         </div>
                       </FormControl>
                     </FormItem>
@@ -168,7 +168,7 @@ export function SearchForm({ accessToken }: Props) {
           </TabsContent>
           <TabsContent value="track">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmitTrack)} className="w-2/3 space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmitTrack)} className="w-full md:w-2/3 space-y-6">
                 <FormField
                   control={form.control}
                   name="album"
@@ -176,8 +176,8 @@ export function SearchForm({ accessToken }: Props) {
                     <FormItem>
                       <FormControl>
                         <div className="flex flex-row gap-4 items-center">
-                          <Input placeholder="Enter the name of an individual track or an artist..." {...field} />
-                          <Button type="submit" size="lg"><p className="text-base">Search</p></Button>
+                          <Input className="text-sm lg:text-base" placeholder="Enter track/artist name..." {...field} />
+                          <Button className="px-3 lg:px-8" type="submit" size="lg"><p className="text-sm md:text-base">Search</p></Button>
                         </div>
                       </FormControl>
                     </FormItem>
