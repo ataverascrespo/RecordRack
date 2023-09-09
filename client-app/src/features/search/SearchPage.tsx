@@ -48,7 +48,7 @@ function SearchPage() {
     return (
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
             <div className="container">
-                <div className="h-full mt-48 mb-24 flex flex-col justify-start gap-12 items-start container">
+                <div className="h-full mt-48 mb-24 flex flex-col justify-start gap-12 items-start">
 
                     <div className="flex flex-col gap-4 items-start">
                         <h1 className="text-3xl md:text-6xl font-bold text-neutral-800 dark:text-neutral-50">Add a new record to your collection</h1>
@@ -60,7 +60,7 @@ function SearchPage() {
 
                     {/* Call form component, pass props */}
                     <SearchForm accessToken={accessToken}></SearchForm>
-                    
+                                        
                     {/* Retrieve global state store props and pass them, based on the search type that was saved most recently*/}
                     {searchStore.searchType === "album" ? (
                         <SearchResults results={searchStore.searchAlbums}></SearchResults>
