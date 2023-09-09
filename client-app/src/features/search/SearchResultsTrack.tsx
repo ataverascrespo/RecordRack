@@ -62,7 +62,7 @@ export default function SearchResults({ results }: Props) {
                                             </DialogHeader>
                                             <div className="grid gap-4 py-4">
                                                 <Label htmlFor="message">Track Description</Label>
-                                                <Textarea placeholder="Add some additional notes or thoughts about the album." />
+                                                <Textarea placeholder="Add some additional notes or thoughts about the track." />
                                                 <Label htmlFor="private">Set as Private?</Label>
                                                 <Switch id="private" />
                                             </div>
