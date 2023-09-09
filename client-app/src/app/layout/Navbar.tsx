@@ -16,13 +16,13 @@ export default function Navbar() {
           <NavLink to={"/"}>
             <Button variant="ghost" size="lg"><p className="text-lg">home</p></Button>
           </NavLink>
+          <NavLink to={"/racklist"}>
+            <Button variant="ghost" size="lg"><p className="text-lg">your rack</p></Button>
+          </NavLink>
           <NavLink to={"/search"}>
             <Button variant="ghost" size="lg"><p className="text-lg">search</p></Button>
           </NavLink>
-            <NavLink to={"/"}>
-            <Button variant="ghost" size="lg"><p className="text-lg">your rack</p></Button>
-          </NavLink>
-            <NavLink to={"/about"}>
+          <NavLink to={"/about"}>
             <Button variant="ghost" size="lg"><p className="text-lg">about</p></Button>
           </NavLink>
         </div>
@@ -38,13 +38,15 @@ export default function Navbar() {
                       <NavLink to={"/"}>
                         <Button variant="ghost" size="lg"><p className="text-base">home</p></Button>
                       </NavLink>
-                      <NavLink to={"/search"}>
+                      <NavLink to={"/racklist"}>
                         <Button variant="ghost" size="lg"><p className="text-base">your rack</p></Button>
                       </NavLink>
                       <NavLink to={"/search"}>
                         <Button variant="ghost" size="lg"><p className="text-base">search</p></Button>
                       </NavLink>
-                      <Button variant="ghost" size="lg"><p className="text-base">about</p></Button>
+                      <NavLink to={"/about"}>
+                        <Button variant="ghost" size="lg"><p className="text-base">about</p></Button>
+                      </NavLink>
                     </li>
                   </ul>
                 </NavigationMenuContent>
