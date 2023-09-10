@@ -15,7 +15,7 @@ export default function HomePage() {
                     </p>
                     <div className="flex flex-col gap-4 mt-8">
                         <p className="max-w-3xl text-base xl:text-xl mx-auto tracking-tight">
-                            As a fan of everything related to music, I love keeping track of the songs and albums I love and sharing them with the people around me. But the huge amount of decentralized streaming platforms and social media that we can access music on makes this more difficult. <span className="font-bold">Record Rack</span> is the ultimate solution to this problem.
+                            As a fan of everything related to music, I love keeping track of the songs and albums I love and sharing them with the people around me. But because people use such a wide variety of streaming platforms (i.e Spotify, Apple Music, Amazon, YouTube), it can be hard to connect and share music digitally. <span className="font-bold">Record Rack</span> is the ultimate solution to this problem.
                         </p>
                         <p className="max-w-3xl text-base xl:text-xl mx-auto tracking-tight">
                             Record Rack allows you to curate a digital musical collection. Paying homage to that feeling of community at your local record store, it isn't just about cataloging your music; it's about connecting with a community of fellow music enthusiasts so you can forge connections and explore the musical multiverse.
