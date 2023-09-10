@@ -7,6 +7,7 @@ import RackPage from "@/features/rack/RackPage";
 import RackView from "@/features/rack/RackView";
 import RegisterPage from "@/features/auth/RegisterPage";
 import LoginPage from "@/features/auth/LoginPage";
+import NotFound from "../layout/NotFound";
 
 
 // Define the routes of the MPA
@@ -23,6 +24,9 @@ export const routes: RouteObject[] = [
             { path: 'about', element: <AboutPage /> },
             { path: 'register', element: <RegisterPage /> },
             { path: 'login', element: <LoginPage /> },
+
+            { path: '*', element: <NotFound /> },
+
         ]
     }
 ]
