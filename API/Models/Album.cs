@@ -10,12 +10,13 @@ namespace AlbumAPI.Models
         public int ID { get; set; }
         public string AlbumName { get; set; } = string.Empty;
         public string ArtistName { get; set; } = string.Empty;
-        public string YearReleased { get; set; } = string.Empty;
-        public string AlbumGenre { get; set; } = string.Empty;
+        public string ReleaseDate { get; set; } = string.Empty;
+        public string AlbumType { get; set; } = string.Empty;
         public string AlbumDescription { get; set; } = string.Empty;
-        public double AlbumRating { get; set; } 
-        public string photoURL { get; set; } = string.Empty;
-        public string publicID { get; set; } = string.Empty;
+        public DateTime DateAdded { get; set; }
+        public string PhotoURL { get; set; } = string.Empty;
+        public string SpotifyID { get; set; } = string.Empty;
+        public bool isPrivate { get; set; }
         public User? User { get; set; }
     }
 }
