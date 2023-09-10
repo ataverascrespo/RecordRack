@@ -57,17 +57,14 @@ namespace AlbumAPI.Services.AlbumServices
         }
 
         //Method to return the list of all albums
-        public async Task<ServiceResponse<List<GetAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum, ImageUploadResult result)
+        public async Task<ServiceResponse<List<GetAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum)
         {
             //Create wrapper model for album DTO list
             var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
 
-            //Map AddCharacterDTO to Album Model w/ AutoMapper
+            //Map AddAlbumDTO to Album Model w/ AutoMapper
             var album = _mapper.Map<Album>(newAlbum);
             album.User = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
-
-            album.photoURL = result.SecureUrl.AbsoluteUri;
-            album.publicID = result.PublicId;
 
             //Add album to the DB albums table and auto generate a new ID
             _context.Albums.Add(album);
@@ -82,6 +79,7 @@ namespace AlbumAPI.Services.AlbumServices
             return serviceResponse;
         }
 
+        // Method to return updated album fields (literally just the description and privacy settings)
         public async Task<ServiceResponse<GetAlbumDTO>> UpdateAlbum(UpdateAlbumDTO updateAlbum)
         {
             //Create wrapper model for album DTO
@@ -96,12 +94,8 @@ namespace AlbumAPI.Services.AlbumServices
                     throw new Exception($"Album with ID '{updateAlbum.ID}' not found");
                 }
 
-                album.AlbumName = updateAlbum.AlbumName;
-                album.ArtistName = updateAlbum.ArtistName;
-                album.YearReleased = updateAlbum.YearReleased;
-                album.AlbumGenre = updateAlbum.AlbumGenre;
                 album.AlbumDescription = updateAlbum.AlbumDescription;
-                album.AlbumRating = updateAlbum.AlbumRating;
+                album.isPrivate = updateAlbum.isPrivate;
 
                 //Save changes to database Album table
                 await _context.SaveChangesAsync();

@@ -44,18 +44,33 @@ namespace AlbumAPI.Controllers
             return Ok(await _albumService.GetAlbumByID(ID));
         }
 
+
+        /*
+
+            Old HTTP Post method that included the file upload
+            Not gonna delete this yet so i can use it for user profiles
+        */
+        // //HTTP POST method
+        // //Add an album to the list of albums
+        // [HttpPost]
+        // //Specify Content-Type header for client
+        // [Consumes("multipart/form-data")]
+        // public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> AddAlbum([FromForm] AddAlbumDTO newAlbum, [FromForm] IFormFile file)
+        // {
+        //     var result = await _photoService.AddPhotoAsync(file);
+        //     if (result.Error != null) return BadRequest(result.Error.Message);
+
+        //     //Return status code response upon completion of albumService.AddAlbum() thread
+        //     return Ok(await _albumService.AddAlbum(newAlbum, result));
+        // }
+
         //HTTP POST method
         //Add an album to the list of albums
         [HttpPost]
-        //Specify Content-Type header for client
-        [Consumes("multipart/form-data")]
-        public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> AddAlbum([FromForm] AddAlbumDTO newAlbum, [FromForm] IFormFile file)
+        public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> AddAlbum(AddAlbumDTO newAlbum)
         {
-            var result = await _photoService.AddPhotoAsync(file);
-            if (result.Error != null) return BadRequest(result.Error.Message);
-
             //Return status code response upon completion of albumService.AddAlbum() thread
-            return Ok(await _albumService.AddAlbum(newAlbum, result));
+            return Ok(await _albumService.AddAlbum(newAlbum));
         }
 
         //HTTP PUT method
