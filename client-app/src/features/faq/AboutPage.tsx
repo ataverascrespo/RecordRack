@@ -1,6 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import Footer from "@/app/layout/Footer"
 
 export default function HomePage() {
     return (
@@ -106,10 +107,8 @@ export default function HomePage() {
                     </CardFooter>
                 </Card>
                 <img className="hidden lg:flex lg:w-[20%]" src="./src/assets/about-contact.svg" alt="hero" draggable="false" />
-
             </div>
-
-
+            <Footer></Footer>
         </section>
     )
 }
