@@ -10,7 +10,7 @@ import { Outlet } from "react-router-dom";
 function App() {  
   
   return (
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <div className="App">
         <Navbar></Navbar>
           <Outlet />
