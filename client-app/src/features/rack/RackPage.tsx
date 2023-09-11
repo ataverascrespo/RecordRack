@@ -10,7 +10,7 @@ function SearchPage() {
 
     return (
         <div className="container">
-            <div className="h-full mt-[9.75rem] mb-24 flex flex-col justify-start gap-12 items-start ">
+            <div className="h-full mt-[12.75rem] mb-24 flex flex-col justify-start gap-12 items-start ">
                 {/* Your own record rack */}
                 <div className="flex flex-col gap-2 items-start">
                     <h2 className="font-semibold text-sm sm:text-base md:text-lg xl:text-xl text-neutral-400 dark:text-neutral-600">Hey username,</h2>
@@ -25,14 +25,14 @@ function SearchPage() {
                 {searchStore.searchAlbums.length != 0
                     ? <RackList results={searchStore.searchAlbums}></RackList>
                     :
-                    <div className="lg:h-[50vh] z-0 mt-48 lg:mt-0 flex flex-col justify-end lg:flex-row lg:justify-start items-center">
-                        <div className="flex flex-col items-center lg:items-start gap-6">
-                            <h2 className="max-w-2xl mt-6 text-base lg:text-xl text-neutral-600dark:text-neutral-300">Looks like your rack is empty! Let's search for some records...</h2>
+                    <div className="lg:h-[33vh] z-0 lg:mt-0 flex flex-col justify-end lg:flex-row lg:justify-start items-start">
+                        <div className="flex flex-col items-start gap-6">
+                            <h2 className="max-w-2xl mt-6 text-base lg:text-xl text-neutral-400 dark:text-neutral-700">Looks like your rack is empty! Let's search for some records...</h2>
                             <NavLink to={"/search"}>
-                                <Button size="lg"><p className="text-base">Search</p></Button>
+                                <Button variant="secondary" size="lg"><p className="text-base text-neutral-600 dark:text-neutral-400">Search</p></Button>
                             </NavLink>
                         </div>
-                        <img className="w-[15%] mt-12 lg:mt-0" src="./src/assets/empty.svg" alt="hero" draggable="false" />
+                        <img className="hidden lg:flex w-[15%] mt-12 lg:mt-0" src="./src/assets/empty.svg" alt="hero" draggable="false" />
                     </div>
                 }
             </div>
