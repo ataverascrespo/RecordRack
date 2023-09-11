@@ -1,9 +1,7 @@
 import { observer } from "mobx-react-lite";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import LoginForm from "./LoginForm";
 
 function LoginPage() {
     return (
@@ -13,32 +11,28 @@ function LoginPage() {
                 {/* header */}
                 <div className="flex flex-col gap-2 items-center">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-800 dark:text-neutral-50">Sign into your account</h1>
-                    <div className="flex flex-row gap-2 items-center">
-                        <h2 className="text-base md:text-lg font-light">Don't have an account?</h2>
-                        <NavLink to={"/register"}>
-                            <p className="text-base md:text-lg font-bold hover:underline">Register</p>
-                        </NavLink>
-                    </div>
                 </div>
+                <Card className="h-full w-full md:w-2/3 lg:w-1/2 xl:w-1/3 p-2 pt-6">
 
-                <Card className="h-full w-full md:w-2/3 lg:w-1/2 xl:w-1/3 p-2">
-                    <CardHeader className="space-y-1">
-                        <CardTitle>
-                            <p className="text-base md:text-lg">Enter your details below to sign in</p>
-                        </CardTitle>
-                    </CardHeader>
                     <CardContent className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" placeholder="m@example.com" />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input id="password" type="password" />
+                        <LoginForm></LoginForm>
+                        <div className="flex">
+                            <Link className="text-center font-semibold text-xs hover:underline" to={"/forgotPassword"}>
+                                Forgot your password?
+                            </Link>
                         </div>
                     </CardContent>
+
                     <CardFooter>
-                        <Button className="w-full">Sign in to account</Button>
+                        <div className="flex flex-col w-full items-center">
+                            <div className="mx-auto flex w-full items-center font-light justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-neutral-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-neutral-400">
+                                or
+                            </div>
+                            <p className="mt-4 text-base text-center">Don't have an account?&nbsp;
+                                <Link className="text-base font-bold hover:underline" to={"/register"}> Register&nbsp;</Link>
+                            </p>
+                        </div>
+
                     </CardFooter>
                 </Card>
             </div>
