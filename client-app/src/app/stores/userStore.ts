@@ -1,6 +1,8 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { User, UserLogin, UserRegister, UserVerify } from "../models/user";
 import agent from "../api/serviceAgent";
+import { store } from "./store";
+import { router } from "../router/Routes";
 
 // User data store class
 export default class UserStore {
@@ -17,9 +19,35 @@ export default class UserStore {
     login = async (creds: UserLogin) => {
         try {
             const response = await agent.Account.login(creds);
+
+            //Store the JWT upon sign in and update the user object
+            store.commonStore.setToken(response.data.token)
+            runInAction(() => this.user = response.data)
+
+            console.log(response.data)
+
+            //If the API call succeeded, navigate to rack page
+            if (response.success === true) {
+                router.navigate(`/racklist/${this.user!.userName}`)
+            }
             return (response);
         } catch (error) {
             return(error);
+        }
+    }
+
+    logout = () => {
+        store.commonStore.setToken(null);
+        this.user = null;
+        router.navigate('/')
+    }
+
+    getUser = async () => {
+        try {
+            const user = await agent.Account.current();
+            runInAction(() => this.user = user);
+        } catch(error) {
+            throw(error);
         }
     }
 
