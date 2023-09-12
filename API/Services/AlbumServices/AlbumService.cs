@@ -56,6 +56,24 @@ namespace AlbumAPI.Services.AlbumServices
             return serviceResponse;
         }
 
+         //Method to return the list of albums for a specified user ID
+        public async Task<ServiceResponse<List<GetAlbumDTO>>> GetAlbumsByUserID(int UserID)
+        {
+            //Create wrapper model for album DTO 
+            var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
+            
+            //Access database albums table where album and users ID are valid
+            //Remove albums where isPrivate is = true. 
+            var dbAlbums = await _context.Albums.Where(a => a.User!.ID == UserID && !a.isPrivate).ToListAsync();
+            
+            //Add list of albums to wrapper object and return
+            //The previous null check in this method can be removed as the wrapper object's properties are nullable
+             //Map all Album models to GetAlbumDTO w/ AutoMapper
+            serviceResponse.Data = dbAlbums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
+            return serviceResponse;
+        }
+
+
         //Method to return the list of all albums
         public async Task<ServiceResponse<List<GetAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum)
         {

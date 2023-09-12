@@ -44,6 +44,14 @@ namespace AlbumAPI.Controllers
             return Ok(await _albumService.GetAlbumByID(ID));
         }
 
+         //HTTP GET method
+        //Return a single album based on passed parameter ID
+        [HttpGet("GetAlbumsByUserID/{UserID}")]
+        public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> GetAlbumsByUserID(int UserID)
+        {
+            //Return status code response and model upon completion of albumService.GetAlbums() thread
+            return Ok(await _albumService.GetAlbumsByUserID(UserID));
+        }
 
         /*
 
