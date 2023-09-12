@@ -75,7 +75,7 @@ namespace AlbumAPI.Data
         }
 
         //Method to add new user + user info, and return generated ID
-        public async Task<ServiceResponse<int>> Register(User user, string password, string username)
+        public async Task<ServiceResponse<int>> Register(User user, string password)
         {
             var serviceResponse = new ServiceResponse<int>();
 
@@ -83,7 +83,13 @@ namespace AlbumAPI.Data
             if (await EmailExists(user.Email))
             {
                 serviceResponse.Success = false;
-                serviceResponse.ReturnMessage = "Email address has already been used.";
+                serviceResponse.ReturnMessage = "That email address has already been used.";
+                return serviceResponse;
+            }
+            if (await UserExists(user.UserName)) 
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "That username has already been used.";
                 return serviceResponse;
             }
 
@@ -93,7 +99,6 @@ namespace AlbumAPI.Data
             //add computed fields to user object
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            user.UserName = username;
             user.Created = DateTime.UtcNow;
             user.VerificationToken = CreateRandomToken();
             
@@ -113,22 +118,15 @@ namespace AlbumAPI.Data
         {
             //Return true if passed username is in database
             //Cast both to lower to ignore case
-            if(await _context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower()))
-            {
-                return true;
-            }
-            return false;
+            return await _context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower());
         }
+
         //Method to assess whether passed email exists upon registration
         public async Task<bool> EmailExists(string Email)
         {
             //Return true if passed username is in database
             //Cast both to lower to ignore case
-            if(await _context.Users.AnyAsync(u => u.Email.ToLower() == Email.ToLower()))
-            {
-                return true;
-            }
-            return false;
+            return await _context.Users.AnyAsync(u => u.Email.ToLower() == Email.ToLower());
         }
 
         //Method to validate refresh token

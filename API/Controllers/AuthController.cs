@@ -23,7 +23,7 @@ namespace AlbumAPI.Controllers
 
             var serviceResponse = await _authRepo.Register(
                 //Create a new email object with passed params
-                new User { Email = request.Email }, request.Password, request.UserName
+                new User { Email = request.Email, UserName = request.UserName}, request.Password
             );
             
             if(!serviceResponse.Success)
