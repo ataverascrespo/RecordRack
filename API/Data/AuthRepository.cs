@@ -25,9 +25,9 @@ namespace AlbumAPI.Data
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<ServiceResponse<string>> Login(string email, string password)
+        public async Task<ServiceResponse<UserDTO>> Login(string email, string password)
         {
-            var serviceResponse = new ServiceResponse<string>();
+            var serviceResponse = new ServiceResponse<UserDTO>();
 
             //Find first or default instance where passed username is equal to existing username
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
@@ -36,7 +36,7 @@ namespace AlbumAPI.Data
                 serviceResponse.Success = false;
 
                 //Error message
-                serviceResponse.ReturnMessage = "User not found.";
+                serviceResponse.ReturnMessage = "That user could not be found.";
             }
              //If password for user does not match
             else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
@@ -44,24 +44,28 @@ namespace AlbumAPI.Data
                 serviceResponse.Success = false;
 
                 //Error message
-                serviceResponse.ReturnMessage = "Wrong password.";
+                serviceResponse.ReturnMessage = "Incorrect password entered.";
             }
             else if (user.VerifiedAt == null)
             {
                 serviceResponse.Success = false;
 
                 //Error message
-                serviceResponse.ReturnMessage = "User not yet verified.";
+                serviceResponse.ReturnMessage = "User has not yet verified their account";
             }
             else
             {
                 //Call the method to create a JSON web token
                 //Store result in service data
-                serviceResponse.Data = CreateToken(user);
+
+                UserDTO loggedInUser = CreateUserDTO(user);
+                loggedInUser.Token = CreateToken(user);
                 
                 //Generate refresh token
                 var newRefreshToken = GenerateRefreshToken();
                 SetRefreshToken(user, newRefreshToken);
+
+                serviceResponse.Data = loggedInUser;
 
                 //Save changes to DB table
                 await _context.SaveChangesAsync();
@@ -79,7 +83,7 @@ namespace AlbumAPI.Data
             if (await EmailExists(user.Email))
             {
                 serviceResponse.Success = false;
-                serviceResponse.ReturnMessage = "Email already used.";
+                serviceResponse.ReturnMessage = "Email address has already been used.";
                 return serviceResponse;
             }
 
@@ -155,7 +159,7 @@ namespace AlbumAPI.Data
                 await _context.SaveChangesAsync();
 
                 serviceResponse.Success = true;
-                serviceResponse.ReturnMessage = "Refresh token valid.";
+                serviceResponse.ReturnMessage = "Refresh token is valid.";
                 serviceResponse.Data = token;
             }
 
@@ -173,7 +177,7 @@ namespace AlbumAPI.Data
                 serviceResponse.Success = false;
 
                 //Error message
-                serviceResponse.ReturnMessage = "Invalid token.";
+                serviceResponse.ReturnMessage = "Invalid verification token.";
             }
             else
             {
@@ -182,7 +186,7 @@ namespace AlbumAPI.Data
                 await _context.SaveChangesAsync();
 
                 serviceResponse.Success = true;
-                serviceResponse.ReturnMessage = "User verified.";
+                serviceResponse.ReturnMessage = "User has been verified.";
             }
             
             return serviceResponse;
@@ -218,6 +222,19 @@ namespace AlbumAPI.Data
                 //Return the result of the computed + password Hash comparison
                 return computedHash.SequenceEqual(passwordHash);
             }
+        }
+
+        //Method to create a UserDTO to return upon login
+        private UserDTO CreateUserDTO(User user)
+        {
+            return new UserDTO
+            {
+                ID = user.ID,
+                Email = user.Email,
+                UserName = user.UserName,
+                Token = "",                 //Initialized as empty but gets set in calling method
+                //Eventually image
+            };
         }
 
         //Method to create to create a JSON web token
