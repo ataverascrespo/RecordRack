@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+
 /// <summary>
 /// Serializes authentication data into a proper format
 /// </summary>
@@ -13,6 +15,16 @@ namespace AlbumAPI.Controllers
         public AuthController(IAuthRepository authRepo)
         {
             _authRepo = authRepo;
+        }
+
+        //HTTP GET method
+        //Return current user
+        [Authorize]
+        [HttpGet("GetCurrentUser")]
+        public async Task<ActionResult<ServiceResponse<List<GetAlbumDTO>>>> GetAlbums() 
+        {
+            //Return status code response upon completion of albumService.GetAllAlbums() thread
+            return Ok(await _authRepo.GetCurrentUser());
         }
 
         //HTTP POST metod
@@ -90,5 +102,6 @@ namespace AlbumAPI.Controllers
             //Return status code response
             return Ok(serviceResponse);
         }
+        
     }
 }

@@ -25,6 +25,35 @@ namespace AlbumAPI.Data
             _httpContextAccessor = httpContextAccessor;
         }
 
+        //Return User ID
+        private int GetUserID() => int.Parse(_httpContextAccessor.HttpContext!.User
+            .FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+        //Method to retrieve the current signed in user
+        public async Task<ServiceResponse<UserDTO>> GetCurrentUser(){
+
+            var serviceResponse = new ServiceResponse<UserDTO>();
+
+            //Get the first or default instance where logged in existing user IDs is equal to user ID
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "There is no current user signed in.";
+            }
+            else {
+                UserDTO currentUser = CreateUserDTO(user);
+                
+                //Store DTO in service data
+                serviceResponse.Data = currentUser;
+            }
+            
+            return serviceResponse;
+        }
+
+        //Method to login based on user params
         public async Task<ServiceResponse<UserDTO>> Login(string email, string password)
         {
             var serviceResponse = new ServiceResponse<UserDTO>();
@@ -55,16 +84,13 @@ namespace AlbumAPI.Data
             }
             else
             {
-                //Call the method to create a JSON web token
-                //Store result in service data
-
                 UserDTO loggedInUser = CreateUserDTO(user);
-                loggedInUser.Token = CreateToken(user);
                 
                 //Generate refresh token
                 var newRefreshToken = GenerateRefreshToken();
                 SetRefreshToken(user, newRefreshToken);
-
+                
+                //Store DTO in service data
                 serviceResponse.Data = loggedInUser;
 
                 //Save changes to DB table
@@ -230,7 +256,7 @@ namespace AlbumAPI.Data
                 ID = user.ID,
                 Email = user.Email,
                 UserName = user.UserName,
-                Token = "",                 //Initialized as empty but gets set in calling method
+                Token = CreateToken(user),   //Call method to create JWT   
                 //Eventually image
             };
         }
