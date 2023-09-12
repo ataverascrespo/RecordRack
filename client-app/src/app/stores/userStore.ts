@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { User, UserLoginSchema, UserRegisterSchema } from "../models/user";
+import { User, UserLogin, UserRegister } from "../models/user";
 import agent from "../api/serviceAgent";
 
 // User data store class
@@ -14,7 +14,7 @@ export default class UserStore {
         return !!this.user;
     }
 
-    login = async (creds: UserLoginSchema) => {
+    login = async (creds: UserLogin) => {
         try {
             const response = await agent.Account.login(creds);
             return (response);
@@ -23,7 +23,7 @@ export default class UserStore {
         }
     }
 
-    register = async (creds: UserRegisterSchema) => {
+    register = async (creds: UserRegister) => {
         try {
             const response = await agent.Account.register(creds);
             return (response);
@@ -31,4 +31,6 @@ export default class UserStore {
             return(error);
         }
     }
+
+
 }

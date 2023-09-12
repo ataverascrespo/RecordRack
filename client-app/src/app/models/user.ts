@@ -4,13 +4,17 @@ export interface User {
     refreshToken: string;
 }
 
-export interface UserLoginSchema {
+export interface UserLogin {
     email: string;
     password: string;
 }
 
-export interface UserRegisterSchema {
+export interface UserRegister {
     email: string;
     username: string;
     password: string;
+}
+
+export interface UserVerify {
+    token: string;
 }
