@@ -52,10 +52,8 @@ function RegisterForm() {
     const onSubmit = async (values: AccountSchema) => {
         try {
             const response: any = await userStore.register(values);
-
-            if (response.success === true) {
-                console.log("Registration successful");
-            } else {
+            //If the success field is not true, set invalid
+            if (response.success !== true) {
                 toast({
                     variant: "destructive",
                     title: "Oh no! Something went wrong.",

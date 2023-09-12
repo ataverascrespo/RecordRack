@@ -47,9 +47,8 @@ function LoginForm() {
     const onSubmit = async (values: LoginSchema) => {
         try {
             const response: any = await userStore.login(values)
-            if (response.success === true) {
-                console.log("Registration successful");
-            } else {
+            //If the success field is not true, set invalid
+            if (response.success !== true) {
                 toast({
                     variant: "destructive",
                     title: "Oh no! Something went wrong.",
@@ -68,6 +67,7 @@ function LoginForm() {
 
     return (
         <Form {...form}>
+            {/* Call form submission handler */}
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
                 <FormField
                     control={form.control}
@@ -97,7 +97,7 @@ function LoginForm() {
                             <FormMessage />
                         </FormItem>
                     )} />
-                <Button className="w-full" type="submit">Create account</Button>
+                <Button className="w-full" type="submit">Sign in</Button>
             </form>
         </Form>
     )
