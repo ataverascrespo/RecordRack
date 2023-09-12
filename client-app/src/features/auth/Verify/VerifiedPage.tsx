@@ -20,7 +20,7 @@ function VerifiedPage() {
     const token = searchParams.get("");
 
     useEffect(() => {
-        if (token) {
+        if (token !== null) {
             //Set the state of the verification token 
             verificationToken.token = token!;
 
@@ -28,6 +28,9 @@ function VerifiedPage() {
                 .catch((error) => {
                     console.error("Error verifying token:", error);
                 });
+        }
+        else {
+            setIsTokenValid(false); // Token is null
         }
     }, [token]);
 
