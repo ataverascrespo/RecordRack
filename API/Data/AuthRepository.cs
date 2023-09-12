@@ -38,20 +38,20 @@ namespace AlbumAPI.Data
                 //Error message
                 serviceResponse.ReturnMessage = "User not found.";
             }
-            else if (user.VerifiedAt == null)
-            {
-                serviceResponse.Success = false;
-
-                //Error message
-                serviceResponse.ReturnMessage = "User not yet verified.";
-            }
-            //If password for user does not match
+             //If password for user does not match
             else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 serviceResponse.Success = false;
 
                 //Error message
                 serviceResponse.ReturnMessage = "Wrong password.";
+            }
+            else if (user.VerifiedAt == null)
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "User not yet verified.";
             }
             else
             {
@@ -80,13 +80,6 @@ namespace AlbumAPI.Data
             {
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = "Email already used.";
-                return serviceResponse;
-            }
-            //Assess if the username is already registered
-            if (await UserExists(user.UserName))
-            {
-                serviceResponse.Success = false;
-                serviceResponse.ReturnMessage = "User already exists";
                 return serviceResponse;
             }
 
