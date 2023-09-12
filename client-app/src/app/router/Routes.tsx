@@ -10,6 +10,8 @@ import LoginPage from "@/features/auth/LoginPage";
 import NotFound from "../layout/NotFound";
 import ProfilePage from "@/features/profile/ProfilePage";
 import PasswordForgotPage from "@/features/auth/Password/PasswordForgotPage";
+import VerifyPage from "@/features/auth/Verify/VerifyPage";
+import VerifiedPage from "@/features/auth/Verify/VerifiedPage";
 
 
 // Define the routes of the MPA
@@ -27,6 +29,9 @@ export const routes: RouteObject[] = [
             { path: 'profile', element: <ProfilePage /> },
             { path: 'register', element: <RegisterPage /> },
             { path: 'login', element: <LoginPage /> },
+            { path: 'verify', element: <VerifyPage /> },
+            { path: 'verified', element: <VerifiedPage/> },
+
             { path: 'forgotPassword', element: <PasswordForgotPage /> },
 
             { path: '*', element: <NotFound /> },

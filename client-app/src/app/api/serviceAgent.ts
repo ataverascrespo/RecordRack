@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios"
-import { User, UserLoginSchema, UserRegisterSchema } from "../models/user";
+import { User, UserLogin, UserRegister, UserVerify } from "../models/user";
 
 // Define default URL
 axios.defaults.baseURL = "http://localhost:5184"
@@ -19,8 +19,9 @@ const Records = {
 
 const Account = {
     current: () => requests.get<User>('/account'),
-    login: (user: UserLoginSchema) => requests.post("Auth/Login", user),
-    register: (user: UserRegisterSchema) => requests.post("Auth/register", user),
+    login: (user: UserLogin) => requests.post("Auth/Login", user),
+    register: (user: UserRegister) => requests.post("Auth/register", user),
+    verify: (token: UserVerify) => requests.post("Auth/Verify", token),
 }
 
 const agent = {

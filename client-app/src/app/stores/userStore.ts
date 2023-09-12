@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { User, UserLogin, UserRegister } from "../models/user";
+import { User, UserLogin, UserRegister, UserVerify } from "../models/user";
 import agent from "../api/serviceAgent";
 
 // User data store class
@@ -32,5 +32,12 @@ export default class UserStore {
         }
     }
 
-
+    verify = async (creds: UserVerify) => {
+        try {
+            const response = await agent.Account.verify(creds);
+            return (response);
+        } catch (error) {
+            return(error);
+        }
+    }
 }
