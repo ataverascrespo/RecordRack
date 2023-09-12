@@ -3,9 +3,12 @@ import { Form, FormControl, FormField, FormItem, FormMessage, } from "@/componen
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast"
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useStore } from "@/app/stores/store";
+import { observer } from "mobx-react-lite";
 
 /* 
   Form schema for login validation
@@ -14,7 +17,7 @@ const loginFormSchema = z.object({
     email: z.string().min(1, { message: "Email is required for login" }).email({
         message: "Must be a valid email",
     }),
-    password: z.string().min(7, { message: "Password is required for login" }),
+    password: z.string().min(1, { message: "Password is required for login" }),
 })
 
 /* 
@@ -23,6 +26,10 @@ const loginFormSchema = z.object({
 type LoginSchema = z.infer<typeof loginFormSchema>;
 
 function LoginForm() {
+
+    const { userStore } = useStore();
+    const { toast } = useToast()
+
     /* 
         Define the form and form type
     */
@@ -37,8 +44,26 @@ function LoginForm() {
     /* 
         Define submission handler
     */
-    const onSubmit = (values: LoginSchema) => {
-        console.log(values);
+    const onSubmit = async (values: LoginSchema) => {
+        try {
+            const response: any = await userStore.login(values)
+            if (response.success === true) {
+                console.log("Registration successful");
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Oh no! Something went wrong.",
+                    description: response.response.data.returnMessage,
+                })
+            }
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Oh no! Something went wrong.",
+                description: "Please try again later.",
+            })
+            throw (error)
+        }
     }
 
     return (
@@ -75,8 +100,7 @@ function LoginForm() {
                 <Button className="w-full" type="submit">Create account</Button>
             </form>
         </Form>
-
     )
 }
 
-export default LoginForm
+export default observer(LoginForm)

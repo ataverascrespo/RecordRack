@@ -3,9 +3,11 @@ import { Form, FormControl, FormField, FormItem, FormMessage, } from "@/componen
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast"
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useStore } from "@/app/stores/store";
 
 /* 
   Form schema for account register validation
@@ -28,6 +30,10 @@ const accountFormSchema = z.object({
 type AccountSchema = z.infer<typeof accountFormSchema>;
 
 function RegisterForm() {
+
+    const { userStore } = useStore();
+    const { toast } = useToast()
+
     /* 
         Define the form and form type
     */
@@ -43,8 +49,27 @@ function RegisterForm() {
     /* 
         Define submission handler
     */
-    const onSubmit = (values: AccountSchema) => {
-        console.log(values);
+    const onSubmit = async (values: AccountSchema) => {
+        try {
+            const response: any = await userStore.register(values);
+
+            if (response.success === true) {
+                console.log("Registration successful");
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Oh no! Something went wrong.",
+                    description: response.response.data.returnMessage,
+                })
+            }
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Oh no! Something went wrong.",
+                description: "Please try again later.",
+            })
+            throw (error)
+        }
     }
 
     return (
@@ -72,7 +97,7 @@ function RegisterForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="email">Username</Label>
-                                    <Input id="user" type="username" {...field} />
+                                    <Input id="user" type="username" placeholder="i.e John Doe or johndoe123"{...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />
