@@ -1,14 +1,17 @@
 import { createContext, useContext } from "react";
 import SearchStore from "./searchStore";
+import UserStore from "./userStore";
 
 // Create an interface to store all of the app's global states
 interface Store {
-    searchStore: SearchStore
+    searchStore: SearchStore;
+    userStore: UserStore;
 }
 
 export const store: Store = {
     // Create a new instance of the search store
-    searchStore: new SearchStore()
+    searchStore: new SearchStore(),
+    userStore: new UserStore(),
 }
 
 // Create the app context using store interface
