@@ -1,7 +1,10 @@
 export interface User {
+    id: number;
     email: string;
-    username: string;
-    refreshToken: string;
+    userName: string;
+    token: string;
+    //created = Date;
+    //image: string;
 }
 
 export interface UserLogin {
