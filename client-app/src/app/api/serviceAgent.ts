@@ -14,6 +14,30 @@ axios.interceptors.request.use(config => {
     return config;
 })
 
+axios.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      const config = error?.config;
+  
+        if (error.response.status === 401 && !config?.sent) {
+        config.sent = true;
+  
+        const response = await agent.Account.refresh();
+        store.commonStore.setToken(response.data)
+
+        if (response?.data.accessToken) {
+          config.headers = {
+            ...config.headers,
+            authorization: `Bearer ${response?.data.accessToken}`,
+          };
+        }
+
+        return axios(config);
+      }
+      return Promise.reject(error);
+    }
+  );
+
 const requests = {
     get: <T>(url: string) => axios.get<T>(url).then(responseBody),
     post: <T>(url: string, body: {}) => axios.post<T>(url, body, { withCredentials: true }).then(responseBody),
@@ -26,7 +50,7 @@ const Records = {
 }
 
 const Account = {
-    current: () => requests.get<User>('/Auth/GetCurrentUser'),
+    current: () => requests.get<User>('Auth/GetCurrentUser'),
     login: (user: UserLogin) => requests.post("Auth/Login", user),
     register: (user: UserRegister) => requests.post("Auth/Register", user),
     verify: (token: UserVerify) => requests.post("Auth/Verify", token),
