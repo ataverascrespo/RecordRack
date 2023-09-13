@@ -24,8 +24,6 @@ export default class UserStore {
             store.commonStore.setToken(response.data.token)
             runInAction(() => this.user = response.data)
 
-            console.log(response.data)
-
             //If the API call succeeded, navigate to rack page
             if (response.success === true) {
                 router.navigate(`/racklist/${this.user!.userName}`)
@@ -42,16 +40,26 @@ export default class UserStore {
         router.navigate('/')
     }
 
-    refresh = async () => {
+    getUser = async () => {
         try {
-            const user = await agent.Account.refresh();
-            store.commonStore.setToken(user.data.token)
-            console.log(user);
+            const response = await agent.Account.current();
+            const user: User = response.data;
             runInAction(() => this.user = user);
-        } catch(error) {
-            throw (error);
+        } catch (error) {
+            console.log(error);
         }
     }
+
+    //This is currently not being used. Don't wanna delete yet though
+    //
+    // refresh = async () => {
+    //     try {
+    //         const response = await agent.Account.refresh();
+    //         store.commonStore.setToken(response.data)
+    //     } catch(error) {
+    //         throw (error);
+    //     }
+    // }
 
     register = async (creds: UserRegister) => {
         try {
@@ -70,17 +78,4 @@ export default class UserStore {
             return(error);
         }
     }
-
-    // refresh = async () => {
-    //     try {
-    //         const response = await agent.Account.refresh();
-    //         console.log(response);
-    //         if (response.success === true) {
-    //             //Store the JWT upon refresh and update the user object
-    //             store.commonStore.setToken(response.data.token)
-    //         }
-    //     } catch (error) {
-    //         throw(error);
-    //     }
-    // }
 }
