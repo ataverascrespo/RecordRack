@@ -6,13 +6,18 @@ export const Icons = {
     spinner: Loader2,
 };
 
-function Loading() {
+// Define the component props
+interface Props {
+    text: string;
+}
+
+function Loading({ text }: Props) {
     return (
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
             <div className="container">
                 <div className="h-screen flex flex-col justify-center items-center gap-4">
                     <Icons.spinner className="w-[10vw] h-[10vh] animate-spin" />
-                    <h2 className="text-xl font-bold">App Loading...</h2>
+                    <h2 className="text-xl font-bold">{text}</h2>
                 </div>
             </div>
         </ThemeProvider>
