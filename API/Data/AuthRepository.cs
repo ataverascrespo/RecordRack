@@ -85,7 +85,8 @@ namespace AlbumAPI.Data
             else
             {
                 UserDTO loggedInUser = CreateUserDTO(user);
-                
+                loggedInUser.Token = CreateToken(user);
+
                 //Generate refresh token
                 var newRefreshToken = GenerateRefreshToken();
                 SetRefreshToken(user, newRefreshToken);
@@ -156,9 +157,9 @@ namespace AlbumAPI.Data
         }
 
         //Method to validate refresh token
-        public async Task<ServiceResponse<string>> ValidateRefreshToken(string refreshToken)
+        public async Task<ServiceResponse<UserDTO>> ValidateRefreshToken(string refreshToken)
         {
-            var serviceResponse = new ServiceResponse<string>();
+            var serviceResponse = new ServiceResponse<UserDTO>();
 
             // Look up the refresh token in the database
             var user = await _context.Users.SingleOrDefaultAsync(u => u.RefreshToken == refreshToken);
@@ -166,12 +167,12 @@ namespace AlbumAPI.Data
             // Check if the refresh token was found and has not expired
             if (user == null){
                 serviceResponse.Success = false;
-                serviceResponse.ReturnMessage = "Invalid refresh token.";
+                serviceResponse.ReturnMessage = "This refresh token does not exist.";
             }
             else if (user != null && user.RefreshTokenExpiration < DateTime.UtcNow)
             {
                 serviceResponse.Success = false;
-                serviceResponse.ReturnMessage = "Invalid refresh token.";
+                serviceResponse.ReturnMessage = "This refresh token is expired.";
             }
             else if (user != null && user.RefreshTokenExpiration > DateTime.UtcNow)
             {
@@ -182,9 +183,12 @@ namespace AlbumAPI.Data
                 //Save changes to DB table
                 await _context.SaveChangesAsync();
 
+                UserDTO currentUser = CreateUserDTO(user);
+                currentUser.Token = token;
+
                 serviceResponse.Success = true;
-                serviceResponse.ReturnMessage = "Refresh token is valid.";
-                serviceResponse.Data = token;
+                serviceResponse.ReturnMessage = "This refresh token is valid.";
+                serviceResponse.Data = currentUser;
             }
 
             return serviceResponse;
@@ -256,7 +260,7 @@ namespace AlbumAPI.Data
                 ID = user.ID,
                 Email = user.Email,
                 UserName = user.UserName,
-                Token = CreateToken(user),   //Call method to create JWT   
+                Token = "",   //when possible, use the method to create JWT   
                 //Eventually image
             };
         }
@@ -291,7 +295,7 @@ namespace AlbumAPI.Data
             {
                 Subject = new ClaimsIdentity(claims),
                 //Set expiration to a day after creation
-                Expires = DateTime.Now.AddMinutes(10),
+                Expires = DateTime.Now.AddMinutes(1),
                 NotBefore = DateTime.Now,
                 SigningCredentials = creds
             };

@@ -42,12 +42,14 @@ export default class UserStore {
         router.navigate('/')
     }
 
-    getUser = async () => {
+    refresh = async () => {
         try {
-            const user = await agent.Account.current();
+            const user = await agent.Account.refresh();
+            store.commonStore.setToken(user.data.token)
+            console.log(user);
             runInAction(() => this.user = user);
         } catch(error) {
-            throw(error);
+            throw (error);
         }
     }
 
@@ -68,4 +70,17 @@ export default class UserStore {
             return(error);
         }
     }
+
+    // refresh = async () => {
+    //     try {
+    //         const response = await agent.Account.refresh();
+    //         console.log(response);
+    //         if (response.success === true) {
+    //             //Store the JWT upon refresh and update the user object
+    //             store.commonStore.setToken(response.data.token)
+    //         }
+    //     } catch (error) {
+    //         throw(error);
+    //     }
+    // }
 }

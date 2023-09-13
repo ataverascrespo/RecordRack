@@ -20,6 +20,6 @@ namespace AlbumAPI.Data
         Task<bool> UserExists(string Email);
         
         //Method to validate refresh token
-        Task<ServiceResponse<string>> ValidateRefreshToken(string refreshToken);
+        Task<ServiceResponse<UserDTO>> ValidateRefreshToken(string refreshToken);
     }
 }
