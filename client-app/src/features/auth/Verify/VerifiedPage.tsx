@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { NavLink, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useStore } from "@/app/stores/store";
 import { UserVerify } from "@/app/models/user";
@@ -75,7 +75,7 @@ function VerifiedPage() {
                             <h1 className="text-4xl md:text-5xl font-bold mb-4">Not Verified</h1>
                             <h2 className="max-w-xl text-2xl font-light "> There was an issue verifying your account. Ensure that the token is valid and has not expired. </h2>
                         </div>
-                        <img className="mt-8 w-full md:w-2/3 lg:w-1/2" src="./src/assets/not-verified.svg" alt="verification sent" draggable="false" />
+                        <img className="mt-8 w-full md:w-2/3 lg:w-1/2" src="./src/assets/not-verified.svg" alt="verification failed" draggable="false" />
                     </div>
                 </div>
             </div>
@@ -91,9 +91,9 @@ function VerifiedPage() {
                         <div className="flex flex-col items-center gap-2 text-center">
                             <h1 className="text-4xl md:text-5xl font-bold">Verified</h1>
                             <h2 className="text-2xl font-light mb-4 "> Your account has been verified - you're good to go. </h2>
-                            <NavLink to={"/login"}>
+                            <Link to={"/login"}>
                                 <Button size="lg"><p className="text-base">Login</p></Button>
-                            </NavLink>
+                            </Link>
                         </div>
                         <img className="mt-8 w-full md:w-2/3 lg:w-1/2" src="./src/assets/verified.svg" alt="verification sent" draggable="false" />
                     </div>
