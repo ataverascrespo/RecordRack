@@ -18,13 +18,33 @@ namespace AlbumAPI.Controllers
         }
 
         //HTTP GET method
+        //Return all users
+        [Authorize]
+        [HttpGet("GetUsers")]
+        public async Task<ActionResult<ServiceResponse<List<UserDTO>>>> GetUsers() 
+        {
+            //Return status code response upon completion
+            return Ok(await _authRepo.GetUsers());
+        }
+
+        //HTTP GET method
         //Return current user
         [Authorize]
         [HttpGet("GetCurrentUser")]
-        public async Task<ActionResult<ServiceResponse<List<GetAlbumDTO>>>> GetAlbums() 
+        public async Task<ActionResult<ServiceResponse<UserDTO>>> GetCurrentUser() 
         {
-            //Return status code response upon completion of albumService.GetAllAlbums() thread
+            //Return status code response upon completion
             return Ok(await _authRepo.GetCurrentUser());
+        }
+
+        //HTTP POST method
+        //Return user with given name
+        [Authorize]
+        [HttpPost("GetUserByName")]
+        public async Task<ActionResult<ServiceResponse<UserDTO>>> GetUserByName(string userName) 
+        {
+            //Return status code response upon completion
+            return Ok(await _authRepo.GetUserByName(userName));
         }
 
         //HTTP POST metod
@@ -32,9 +52,8 @@ namespace AlbumAPI.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDTO request)
         {
-
             var serviceResponse = await _authRepo.Register(
-                //Create a new email object with passed params
+                //Create a new user object with passed params
                 new User { Email = request.Email, UserName = request.UserName}, request.Password
             );
             

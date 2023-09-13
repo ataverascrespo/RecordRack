@@ -16,6 +16,8 @@ namespace AlbumAPI
             CreateMap<Album, GetAlbumDTO>();
             //Create a mapping profile for AddAlbumDTO to Album
             CreateMap<AddAlbumDTO, Album>();
+            //Create a mapping profile for User to UserDTO
+            CreateMap<User, UserDTO>();
         }
     }
 }

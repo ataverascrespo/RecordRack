@@ -11,6 +11,7 @@ namespace AlbumAPI.Data
 {
     public class AuthRepository : IAuthRepository
     {
+        private readonly IMapper _mapper;
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -18,8 +19,9 @@ namespace AlbumAPI.Data
 
         //Inject data context, needed for DB access
         //Inject IConfiguration, needed to access JSON token
-        public AuthRepository(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public AuthRepository(IMapper mapper, DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
+            _mapper = mapper;
             _context = context;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
@@ -28,6 +30,40 @@ namespace AlbumAPI.Data
         //Return User ID
         private int GetUserID() => int.Parse(_httpContextAccessor.HttpContext!.User
             .FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+        public async Task<ServiceResponse<List<UserDTO>>> GetUsers(){
+
+            var serviceResponse = new ServiceResponse<List<UserDTO>>();
+
+            //Get all the users in the database
+            var users = await _context.Users.ToListAsync();
+            
+            //Map all Album models to GetAlbumDTO w/ AutoMapper
+            serviceResponse.Data = users.Select(u => _mapper.Map<UserDTO>(u)).ToList();
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<UserDTO>> GetUserByName(string userName)
+        {
+            var serviceResponse = new ServiceResponse<UserDTO>();
+
+            //Get the first or default instance where logged in existing user IDs is equal to user ID
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName.ToLower() == userName.ToLower());
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "That user does not exist.";
+            }
+            else {
+                UserDTO searchedUser = CreateUserDTO(user);
+                
+                //Store DTO in service data
+                serviceResponse.Data = searchedUser;
+            }
+            return serviceResponse;
+        }
 
         //Method to retrieve the current signed in user
         public async Task<ServiceResponse<UserDTO>> GetCurrentUser(){
@@ -157,12 +193,12 @@ namespace AlbumAPI.Data
         }
 
         //Method to validate refresh token
-        public async Task<ServiceResponse<UserDTO>> ValidateRefreshToken(string refreshToken)
+        public async Task<ServiceResponse<string>> ValidateRefreshToken(string refreshToken)
         {
-            var serviceResponse = new ServiceResponse<UserDTO>();
+            var serviceResponse = new ServiceResponse<string>();
 
             // Look up the refresh token in the database
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.RefreshToken == refreshToken);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.RefreshToken.Equals(refreshToken));
 
             // Check if the refresh token was found and has not expired
             if (user == null){
@@ -188,7 +224,7 @@ namespace AlbumAPI.Data
 
                 serviceResponse.Success = true;
                 serviceResponse.ReturnMessage = "This refresh token is valid.";
-                serviceResponse.Data = currentUser;
+                serviceResponse.Data = token;
             }
 
             return serviceResponse;
@@ -295,7 +331,7 @@ namespace AlbumAPI.Data
             {
                 Subject = new ClaimsIdentity(claims),
                 //Set expiration to a day after creation
-                Expires = DateTime.Now.AddMinutes(1),
+                Expires = DateTime.Now.AddMinutes(10),
                 NotBefore = DateTime.Now,
                 SigningCredentials = creds
             };
