@@ -29,8 +29,9 @@ function SearchPage() {
         // Request body
         const data = 'grant_type=client_credentials';
 
-        // Make a POST request to get the access token
-        axios.post('https://accounts.spotify.com/api/token', data, {
+        //Creates an instance of axios that is not affected by the custom interceptors with bearer scheme
+        const uninterceptedAxiosInstance = axios.create();
+        uninterceptedAxiosInstance.post('https://accounts.spotify.com/api/token', data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': `Basic ${credentials}`,

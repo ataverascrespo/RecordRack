@@ -40,7 +40,7 @@ export function SearchForm({ accessToken }: Props) {
 
   //Initialize the toast notification
   const { toast } = useToast()
-  
+
   /* 
      Define the form and form type
   */
@@ -52,7 +52,7 @@ export function SearchForm({ accessToken }: Props) {
     },
   })
 
-  
+
   /* 
       Define form submission handler for an empty result
   */
@@ -68,13 +68,14 @@ export function SearchForm({ accessToken }: Props) {
       Define form submission handler for album
   */
   function onSubmitAlbum(data: z.infer<typeof FormSchema>) {
-    axios.get(`https://api.spotify.com/v1/search?q=${data.album}&type=album&market=ES&limit=40`, {
+    const uninterceptedAxiosInstance = axios.create();
+    uninterceptedAxiosInstance.get(`https://api.spotify.com/v1/search?q=${data.album}&type=album&market=ES&limit=40`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
       }
     })
       .then((response) => {
-      
+
         // Create an array of unique albums and a set of seen albums
         // this allows me to filter out albums that are duplicates (i.e explicit/non-explicit, re-releases)
         const uniqueAlbums: any[] = [];
@@ -106,13 +107,14 @@ export function SearchForm({ accessToken }: Props) {
       Define form submission handler for track
   */
   function onSubmitTrack(data: z.infer<typeof FormSchema>) {
-    axios.get(`https://api.spotify.com/v1/search?q=${data.album}&type=track&market=ES&limit=40`, {
+    const uninterceptedAxiosInstance = axios.create();
+    uninterceptedAxiosInstance.get(`https://api.spotify.com/v1/search?q=${data.album}&type=track&market=ES&limit=40`, {
       headers: {
         'Authorization': `Bearer ${accessToken}`
       }
     })
       .then((response) => {
-        
+
         // Create an array of unique tracks and a set of seen tracks
         // this allows me to filter out tracks that are duplicates (i.e explicit/non-explicit, re-releases)
         const uniqueTracks: any[] = [];
@@ -139,53 +141,53 @@ export function SearchForm({ accessToken }: Props) {
   }
 
   return (
-      <div className="w-full lg:w-2/3 h-full flex flex-col items-center justify-center">
-        <Tabs className="w-full space-y-6" defaultValue="album">
-          <TabsList className="w-full md:w-2/3 lg:w-1/3">
-            <TabsTrigger className="w-1/2" value="album">Albums</TabsTrigger>
-            <TabsTrigger className="w-1/2" value="track">Tracks</TabsTrigger>
-          </TabsList>
-          <TabsContent value="album" className="w-full">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmitAlbum)} className="w-full lg:w-2/3 space-y-6">
-                <FormField
-                  control={form.control}
-                  name="album"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <div className="flex flex-row gap-4 items-center">
-                          <Input className="text-sm lg:text-base" placeholder="Enter album/artist name..." {...field} />
-                          <Button className="px-3 lg:px-8" type="submit" size="lg"><p className="text-sm md:text-base">Search</p></Button>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )} />
+    <div className="w-full lg:w-2/3 h-full flex flex-col items-center justify-center">
+      <Tabs className="w-full space-y-6" defaultValue="album">
+        <TabsList className="w-full md:w-2/3 lg:w-1/3">
+          <TabsTrigger className="w-1/2" value="album">Albums</TabsTrigger>
+          <TabsTrigger className="w-1/2" value="track">Tracks</TabsTrigger>
+        </TabsList>
+        <TabsContent value="album" className="w-full">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmitAlbum)} className="w-full lg:w-2/3 space-y-6">
+              <FormField
+                control={form.control}
+                name="album"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex flex-row gap-4 items-center">
+                        <Input className="text-sm lg:text-base" placeholder="Enter album/artist name..." {...field} />
+                        <Button className="px-3 lg:px-8" type="submit" size="lg"><p className="text-sm md:text-base">Search</p></Button>
+                      </div>
+                    </FormControl>
+                  </FormItem>
+                )} />
 
-              </form>
-            </Form>
+            </form>
+          </Form>
 
-          </TabsContent>
-          <TabsContent value="track">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmitTrack)} className="w-full md:w-2/3 space-y-6">
-                <FormField
-                  control={form.control}
-                  name="album"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <div className="flex flex-row gap-4 items-center">
-                          <Input className="text-sm lg:text-base" placeholder="Enter track/artist name..." {...field} />
-                          <Button className="px-3 lg:px-8" type="submit" size="lg"><p className="text-sm md:text-base">Search</p></Button>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )} />
-              </form>
-            </Form>
-          </TabsContent>
-        </Tabs>
+        </TabsContent>
+        <TabsContent value="track">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmitTrack)} className="w-full md:w-2/3 space-y-6">
+              <FormField
+                control={form.control}
+                name="album"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex flex-row gap-4 items-center">
+                        <Input className="text-sm lg:text-base" placeholder="Enter track/artist name..." {...field} />
+                        <Button className="px-3 lg:px-8" type="submit" size="lg"><p className="text-sm md:text-base">Search</p></Button>
+                      </div>
+                    </FormControl>
+                  </FormItem>
+                )} />
+            </form>
+          </Form>
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }
