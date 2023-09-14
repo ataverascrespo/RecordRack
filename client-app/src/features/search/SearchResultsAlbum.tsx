@@ -15,7 +15,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AddRecord } from "@/app/models/record";
 import { useStore } from "@/app/stores/store";
-import { useState } from "react";
 
 // Define the component props
 interface Props {
