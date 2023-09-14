@@ -27,13 +27,13 @@ function RackViewHeader({ albumName }: Props) {
             // Calculate a base font size based on the container width and album name length
             let baseFontSize = headerElement.clientWidth / (albumName.length * 0.6);
             // Define minimum and maximum font sizes 
-            const minFontSize = 12;
+            const minFontSize = 22;
             const maxFontSize = 64;
             // Ensure the calculated font size is within the specified range
             baseFontSize = Math.min(maxFontSize, Math.max(minFontSize, baseFontSize));
 
             // Check if font size exceeds the threshold for adding margin
-            if (baseFontSize < 45) {
+            if (baseFontSize > 45) {
                 setHasMargin(true);
             } else {
                 setHasMargin(false);
@@ -51,9 +51,9 @@ function RackViewHeader({ albumName }: Props) {
     }, [albumName]);
 
     return (
-        <div ref={headerRef} className={`w-full ${hasMargin ? 'ml-1' : ''}`}>
+        <div ref={headerRef} className={`w-full ${hasMargin ? '-ml-1' : 'mb-1'}`}>
             <h1
-                className="font-bold text-neutral-900 dark:text-neutral-50"
+                className="font-black text-neutral-900 leading-none dark:text-neutral-50"
                 style={{ fontSize: fontSize ? `${fontSize}px` : 'inherit' }}
             >
                 {albumName}
