@@ -2,7 +2,8 @@ import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/serviceAgent";
 import { store } from "./store";
 import { router } from "../router/Routes";
-import { SavedRecord } from "../models/savedRecord";
+import { AddRecord, SavedRecord } from "../models/record";
+import { SpotifyAlbum } from "../models/spotifyAlbum";
 
 // User data store class
 export default class RecordStore {
@@ -21,6 +22,19 @@ export default class RecordStore {
             return (records);
         } catch (error) { 
             throw(error)
+        }
+    }
+
+    addRecord = async (record: AddRecord) => {
+        try {
+            const response = await agent.Records.add(record);
+            //If the API call succeeded, re-navigate to search page to close dialog modal
+            if (response.success === true) {
+                router.navigate('/search')
+            }
+            return (response);
+        } catch (error) {
+            return(error);
         }
     }
 

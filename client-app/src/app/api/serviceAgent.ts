@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios"
 import { User, UserLogin, UserRegister, UserVerify } from "../models/user";
 import { store } from '../stores/store';
+import { AddRecord, SavedRecord } from "../models/record";
 
 // Define default URL
 axios.defaults.baseURL = "http://localhost:5184";
@@ -46,7 +47,8 @@ const requests = {
 }
 
 const Records = {
-    list: () => requests.get('api/Album/GetAll')
+  list: () => requests.get('api/Album/GetAll'),
+  add: (record: AddRecord) => requests.post('api/Album', record),
 }
 
 const Account = {
