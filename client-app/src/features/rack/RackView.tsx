@@ -4,8 +4,37 @@ import { Spotify } from "@/components/ui/spotify-embed";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
+import { useStore } from "@/app/stores/store";
+import { observer } from "mobx-react-lite";
+import { useParams } from 'react-router-dom';
+import { useEffect, useRef } from "react";
 
-export default function RackView() {
+
+function RackView() {
+    const params = useParams();
+    //useRef hook to persist value between renders
+    const isMounted = useRef(false);
+    // Access the global Mobx stores
+    const { recordStore, userStore: { user } } = useStore();
+
+    console.log(params.id);
+    console.log(user?.userName);
+    useEffect(() => {
+
+        //also need to check. Get the user based on dynamic segment. If that user is current signed in user. display "their own rack"
+        /*
+        - Use the useRef hook to create an object with a mutable .current prop
+        - Checking if the prop is 'mounted' prevents useEffect from running the code on the first render 
+        */
+        if (!isMounted.current) {
+            if (params.id) {
+                recordStore.getRecordByID((parseInt(params.id, 10)));
+            }
+        }
+        //Set this to true after the initial render
+        isMounted.current = true;
+    }, [recordStore]);
+    
     return (
         <div className="container h-full mb-24 flex flex-col gap-12">
             <div className="flex flex-col md:flex-row gap-4 md:gap-10 lg:gap-24 items-center">
@@ -15,7 +44,7 @@ export default function RackView() {
                     <Button variant="link" className="pl-0">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.84182 3.13514C9.04327 3.32401 9.05348 3.64042 8.86462 3.84188L5.43521 7.49991L8.86462 11.1579C9.05348 11.3594 9.04327 11.6758 8.84182 11.8647C8.64036 12.0535 8.32394 12.0433 8.13508 11.8419L4.38508 7.84188C4.20477 7.64955 4.20477 7.35027 4.38508 7.15794L8.13508 3.15794C8.32394 2.95648 8.64036 2.94628 8.84182 3.13514Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
                         </svg>
-                        <p className="text-xs">Back to otherUsername's rack</p>
+                        <p className="text-xs">Back to {user?.userName}'s record rack</p>
                     </Button>
                     <img className="mt-0 rounded-xl shadow-lg" src="https://i.scdn.co/image/ab67616d0000b27310e6745bb2f179dd3616b85f" alt="hero" draggable="false" />
                 </div>
@@ -27,7 +56,7 @@ export default function RackView() {
                     <div className="flex flex-col items-start">
                         <h1 className="max-w-2xl text-3xl lg:text-5xl font-bold text-neutral-800 dark:text-neutral-50">The Off-Season</h1>
                         <h2 className="max-w-xl mt-2 text-xl font-semibold xl:text-2xl text-neutral-600 text-center lg:text-left dark:text-neutral-100">Album by J.Cole</h2>
-                        <h3 className="max-w-xl mt-2 text-base text-neutral-700 text-center lg:text-left dark:text-neutral-400">on otherUsername's rack</h3>
+                        <h3 className="max-w-xl mt-2 text-base text-neutral-700 text-center lg:text-left dark:text-neutral-400">on {user?.userName}'s record rack</h3>
 
                         {/* If on someone elses rack */}
                         <Dialog>
@@ -84,3 +113,5 @@ export default function RackView() {
         </div>
     )
 }
+
+export default observer(RackView);
