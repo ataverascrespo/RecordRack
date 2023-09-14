@@ -47,7 +47,11 @@ namespace AlbumAPI.Services.AlbumServices
             var serviceResponse = new ServiceResponse<GetAlbumDTO>();
             
             //Access database albums table where album and users ID are valid
-            var dbAlbum = await _context.Albums.FirstOrDefaultAsync((a => a.ID == ID && a.User!.ID == GetUserID()));
+            var dbAlbum = await _context.Albums.FirstOrDefaultAsync((a => a.ID == ID && !a.isPrivate));
+            if (dbAlbum == null) {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Could not return that album";
+            }
             
             //Add list of albums to wrapper object and return
             //The previous null check in this method can be removed as the wrapper object's properties are nullable

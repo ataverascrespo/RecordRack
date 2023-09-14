@@ -37,7 +37,7 @@ namespace AlbumAPI.Controllers
 
         //HTTP GET method
         //Return a single album based on passed parameter ID
-        [HttpGet("{ID}")]
+        [HttpPost("GetAlbumByID/{ID}")]
         public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> GetAlbum(int ID)
         {
             //Return status code response and model upon completion of albumService.GetAlbums() thread
@@ -45,7 +45,7 @@ namespace AlbumAPI.Controllers
         }
 
          //HTTP GET method
-        //Return a single album based on passed parameter ID
+        //Return a single album based on passed parameter user ID
         [HttpGet("GetAlbumsByUserID/{UserID}")]
         public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> GetAlbumsByUserID(int UserID)
         {
@@ -75,7 +75,7 @@ namespace AlbumAPI.Controllers
         //HTTP POST method
         //Add an album to the list of albums
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> AddAlbum(AddAlbumDTO newAlbum)
+        public async Task<ActionResult<ServiceResponse<List<GetAlbumDTO>>>> AddAlbum(AddAlbumDTO newAlbum)
         {
             //Return status code response upon completion of albumService.AddAlbum() thread
             return Ok(await _albumService.AddAlbum(newAlbum));
@@ -84,7 +84,7 @@ namespace AlbumAPI.Controllers
         //HTTP PUT method
         //Update an album from the list of albums
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> UpdateAlbum(UpdateAlbumDTO updateAlbum)
+        public async Task<ActionResult<ServiceResponse<List<GetAlbumDTO>>>> UpdateAlbum(UpdateAlbumDTO updateAlbum)
         {        
             var response = await _albumService.UpdateAlbum(updateAlbum);
             if (response.Data == null) {
