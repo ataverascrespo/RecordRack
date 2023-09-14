@@ -75,7 +75,7 @@ function VerifiedPage() {
                             <h1 className="text-4xl md:text-5xl font-bold mb-4">Not Verified</h1>
                             <h2 className="max-w-xl text-2xl font-light "> There was an issue verifying your account. Ensure that the token is valid and has not expired. </h2>
                         </div>
-                        <img className="mt-8 w-full md:w-2/3 lg:w-1/2" src="./src/assets/not-verified.svg" alt="verification failed" draggable="false" />
+                        <img className="mt-8 w-full md:w-2/3 lg:w-1/2" src="/src/assets/not-verified.svg" alt="verification failed" draggable="false" />
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@ function VerifiedPage() {
                                 <Button size="lg"><p className="text-base">Login</p></Button>
                             </Link>
                         </div>
-                        <img className="mt-8 w-full md:w-2/3 lg:w-1/2" src="./src/assets/verified.svg" alt="verification sent" draggable="false" />
+                        <img className="mt-8 w-full md:w-2/3 lg:w-1/2" src="/src/assets/verified.svg" alt="verification sent" draggable="false" />
                     </div>
                 </div>
             </div>

@@ -47,8 +47,14 @@ function LoginForm() {
     const onSubmit = async (values: LoginSchema) => {
         try {
             const response: any = await userStore.login(values)
-            //If the success field is not true, set invalid
-            if (response.success !== true) {
+            //If the success field is true, display success toast
+            if (response.success === true) {
+                toast({
+                    title: `Logged in ${response.data.userName}!`,
+                })
+            }
+            //If the success field is false, display error msg toast
+            else {
                 toast({
                     variant: "destructive",
                     title: "Oh no! Something went wrong.",
@@ -56,6 +62,7 @@ function LoginForm() {
                 })
             }
         } catch (error) {
+            //If there is no response at all, display general error
             toast({
                 variant: "destructive",
                 title: "Oh no! Something went wrong.",

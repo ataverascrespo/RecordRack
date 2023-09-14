@@ -31,7 +31,9 @@ type AccountSchema = z.infer<typeof accountFormSchema>;
 
 function RegisterForm() {
 
+    //Initialize user store
     const { userStore } = useStore();
+    //Initialize toast component
     const { toast } = useToast()
 
     /* 
@@ -52,8 +54,14 @@ function RegisterForm() {
     const onSubmit = async (values: AccountSchema) => {
         try {
             const response: any = await userStore.register(values);
-            //If the success field is not true, set invalid
-            if (response.success !== true) {
+            //If the success field is true, set valid
+            if (response.success === true) {
+                toast({
+                    title: "Account successfully created!",
+                })
+            }
+            //If the success field is false, display error msg toast
+            else {
                 toast({
                     variant: "destructive",
                     title: "Oh no! Something went wrong.",
@@ -61,6 +69,7 @@ function RegisterForm() {
                 })
             }
         } catch (error) {
+            //If there is no response at all, display general error
             toast({
                 variant: "destructive",
                 title: "Oh no! Something went wrong.",
@@ -95,7 +104,7 @@ function RegisterForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="email">Username</Label>
-                                    <Input id="user" type="username" placeholder="i.e John Doe or johndoe123"{...field} />
+                                    <Input id="username" type="username" placeholder="i.e John Doe or johndoe123"{...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />

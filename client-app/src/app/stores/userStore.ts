@@ -64,6 +64,10 @@ export default class UserStore {
     register = async (creds: UserRegister) => {
         try {
             const response = await agent.Account.register(creds);
+            //If the API call succeeded, navigate to rack page
+            if (response.success === true) {
+                router.navigate('/verify')
+            }
             return (response);
         } catch (error) {
             return(error);

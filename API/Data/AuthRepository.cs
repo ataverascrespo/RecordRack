@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using AlbumAPI.Services.EmailServices;
 using Microsoft.IdentityModel.Tokens;
 
 /// <summary>
@@ -164,7 +165,10 @@ namespace AlbumAPI.Data
             user.PasswordSalt = passwordSalt;
             user.Created = DateTime.UtcNow;
             user.VerificationToken = CreateRandomToken();
-            
+
+            //Call the method that creates the email for verification
+            CreateVerificationEmail(user);
+
             //Add user to DB Users table
             _context.Users.Add(user);
 
@@ -374,6 +378,24 @@ namespace AlbumAPI.Data
         private string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
+        //Method that accesses instance of EmailService to compose and send a verification email
+        private void CreateVerificationEmail(User user) {
+            // EMAIL CONFIRMATION
+            // Create user registration confirmation email fields
+            string emailSubject = "Record Rack Account Verification";
+            string emailUsername = user.UserName;
+            string toEmail = user.Email;
+            string emailMessage = "<p>Hey " + emailUsername + "!</p>\n" +
+                "<p>Thanks for signing up for Record Rack! I'm thrilled to have you join.<p>\n" +
+                "<p>To complete your registration and start using Record Rack, please confirm your email address:<p> \n" + 
+                "<a href='http://localhost:5173/verified/?="+user.VerificationToken+"'>Click here to verify your account</a> \n"+
+                "<p>See you soon,</p> \n" + "<p>Alex from Record Rack</p>";
+                    
+            //Create the emailservice object and send the email
+            EmailService emailer = new EmailService();
+            emailer.SendEmail(emailSubject, emailMessage, toEmail, emailUsername).Wait();
         }
     }
 }
