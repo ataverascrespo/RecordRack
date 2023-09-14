@@ -5,10 +5,16 @@ import { NavLink } from "react-router-dom"
 import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar"
 import { useStore } from "../stores/store"
 import { observer } from "mobx-react-lite"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
+
 
 function Navbar() {
-  //Initialize user store with user object and loggedIn check
-  const { userStore: { user, isLoggedIn } } = useStore();
+  //Initialize user store with user object and loggedIn method
+  const { userStore, userStore: { user, isLoggedIn } } = useStore();
+
+  function handleLogout() {
+    userStore.logout();
+  }
 
   return (
     <nav className="sticky top-0 z-50 -mt-24 border-b-2 shadow-md bg-background border-neutral-100 dark:border-neutral-950 text-neutral-800 dark:text-neutral-50">
@@ -24,7 +30,7 @@ function Navbar() {
           </div>
 
           <div className='hidden md:flex flex-row'>
-            <NavLink to={`/racklist/${user?.userName}`}>
+            <NavLink to={`${user?.userName}/racklist`}>
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">your rack</p></Button>
             </NavLink>
             <NavLink to={"/search"}>
@@ -37,13 +43,29 @@ function Navbar() {
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">about</p></Button>
             </NavLink>
             <div className="ml-8">
-              <NavLink to={"/profile"}>
+              <NavLink to={`${user?.userName}/profile`}>
                 <Avatar>
                   <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </NavLink>
             </div>
+            <Dialog>
+              <DialogTrigger asChild className="cursor-pointer">
+                <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">logout (temp)</p></Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-[75vw] lg:max-w-[500px]">
+                <DialogHeader>
+                  <DialogTitle>
+                    <p className="mb-12">Are you sure you want to log out?</p>
+                  </DialogTitle>
+                  <DialogFooter>
+                    <Button size="lg" onClick={handleLogout}><p className="text-sm lg:text-base xl:text-lg">Log Out</p></Button>
+                  </DialogFooter>
+                </DialogHeader>
+              </DialogContent>
+
+            </Dialog>
           </div>
 
           <div className="block md:hidden">
@@ -54,17 +76,20 @@ function Navbar() {
                   <NavigationMenuContent >
                     <ul className="grid gap-3 p-4 w-[170px] md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       <li className="row-span-3">
-                        <NavLink to={"/racklist"}>
-                          <Button variant="ghost" size="lg"><p className="text-base">your rack</p></Button>
+                        <NavLink to={`${user?.userName}/racklist`}>
+                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">your rack</p></Button>
                         </NavLink>
                         <NavLink to={"/search"}>
-                          <Button variant="ghost" size="lg"><p className="text-base">search</p></Button>
+                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">search</p></Button>
+                        </NavLink>
+                        <NavLink to={"/"}>
+                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">connect</p></Button>
                         </NavLink>
                         <NavLink to={"/about"}>
-                          <Button variant="ghost" size="lg"><p className="text-base">about</p></Button>
+                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">about</p></Button>
                         </NavLink>
-                        <div className="ml-8 my-2">
-                          <NavLink to={"/"}>
+                        <div className="ml-8 my-3">
+                          <NavLink to={`${user?.userName}/profile`}>
                             <Avatar>
                               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
                               <AvatarFallback>CN</AvatarFallback>

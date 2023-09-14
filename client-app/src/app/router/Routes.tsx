@@ -13,6 +13,7 @@ import PasswordForgotPage from "@/features/auth/Password/PasswordForgotPage";
 import VerifyPage from "@/features/auth/Verify/VerifyPage";
 import VerifiedPage from "@/features/auth/Verify/VerifiedPage";
 import Authorized from "./Authorized";
+import RedirectToProfile from "@/features/profile/RedirectToProfile";
 
 
 // Define the routes of the MPA
@@ -23,10 +24,11 @@ export const routes: RouteObject[] = [
         // Define child routes to navigate through
         children: [
             {element: <Authorized />, children: [
-                { path: 'racklist/:username', element: <RackPage /> },
-                { path: 'record/:id', element: <RackView /> },
+                { path: ':username/racklist/', element: <RackPage /> },
+                { path: ':username/record/:id', element: <RackView /> },
                 { path: 'search', element: <SearchPage /> },
-                { path: 'profile:/username', element: <ProfilePage /> },
+                { path: ':username/profile', element: <ProfilePage /> },
+                { path: ':username', element: <RedirectToProfile />},
             ]},
             { path: '', element: <HomePage /> },
             { path: 'about', element: <AboutPage /> },
