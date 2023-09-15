@@ -73,16 +73,18 @@ function RackView() {
                         {/* Name, artist, etc */}
                         <div className="w-full flex flex-col items-start">
                             <RackViewHeader albumName={recordStore.selectedRecord?.albumName}></RackViewHeader>
-                            <h2 className="max-w-xl text-lg md:text-xl font-semibold text-neutral-800 text-left dark:text-neutral-100">
+                            <h2 className="max-w-xl text-lg md:text-2xl font-semibold text-neutral-800 text-left dark:text-neutral-100">
                                 {(recordStore.selectedRecord!.albumType).charAt(0).toUpperCase() + recordStore.selectedRecord!.albumType.slice(1)} by {recordStore.selectedRecord?.artistName}
                             </h2>
-                            <h2 className="max-w-xl mt-8 text-lg text-neutral-800 text-left dark:text-neutral-100">
-                                Released on {recordStore.selectedRecord?.releaseDate}
-                            </h2>
-                            <h3 className="max-w-xl text-base lg:text-sm text-neutral-700 text-left dark:text-neutral-400">
-                                Added on {formatAddedDate(recordStore.selectedRecord!.dateAdded)}
-                            </h3>
-
+                            <div className="flex flex-col mt-8 lg:flex-row items-start lg:items-center">
+                                <h2 className="max-w-xl text-lg lg:text-xl text-neutral-800 text-left dark:text-neutral-100">
+                                    Released on {recordStore.selectedRecord?.releaseDate}
+                                </h2>
+                                <p className="hidden lg:block mx-3 text-xl leading-0 ">&#x2022;</p>
+                                <h3 className="max-w-xl text-lg lg:text-xl text-neutral-700 text-left dark:text-neutral-400">
+                                    Added on {formatAddedDate(recordStore.selectedRecord!.dateAdded)}
+                                </h3>
+                            </div>
                         </div>
 
                         {/* RECORD DESCRIPTION */}
@@ -94,11 +96,37 @@ function RackView() {
                         </div>
 
                         <div className="w-full flex flex-col items-start">
-                            <div className="flex gap-4 flex-row">
-                                <Label htmlFor="private" className="text-base md:text-xl font-bold">Private</Label>
-                                <Switch id="private" disabled checked={recordStore.selectedRecord?.isPrivate} />
-                                {params.username == user?.userName ? <div></div>
-                                    : <div>
+                            <div className="flex gap-12 flex-row items-center">
+                                <div className="flex flex-row gap-4 items-center">
+                                    <Label htmlFor="private" className="text-base md:text-xl font-bold">Private</Label>
+                                    <Switch id="private" disabled checked={recordStore.selectedRecord?.isPrivate} />
+                                </div>
+                                {params.username == user?.userName ?
+                                    <div>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button>Edit Fields</Button>
+                                            </DialogTrigger>
+                                            <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
+                                                <DialogHeader>
+                                                    <DialogTitle className="mt-4 lg:mt-0">Editing {recordStore.selectedRecord!.albumType} {recordStore.selectedRecord!.albumName} by {recordStore.selectedRecord!.artistName}</DialogTitle>
+                                                    <DialogDescription>
+                                                        You can edit these fields.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <div className="grid gap-4 py-4">
+                                                    <Label htmlFor="message">Record Description</Label>
+                                                    <Textarea placeholder="Change your notes or thoughts about the record." />
+                                                    <Label htmlFor="private">Set as Private?</Label>
+                                                    <Switch id="private" />
+                                                </div>
+                                                <DialogFooter>
+                                                    <Button type="submit">Add to Rack</Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </div>
+                                    : <div className="flex flex-row gap-4">
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button>Add to Your Rack</Button>

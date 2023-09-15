@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import ProfileFollowing from "./ProfileFollowing";
 import ProfileFollower from "./ProfileFollower";
+import { useStore } from "@/app/stores/store";
 
 function ProfilePage() {
     return (

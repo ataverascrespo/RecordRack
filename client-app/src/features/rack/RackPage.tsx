@@ -2,10 +2,11 @@ import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
 import RackList from "@/features/rack/RackList";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
 function RackPage() {
+    const params = useParams();
     //useRef hook to persist value between renders
     const isMounted = useRef(false);
     // Access the global Mobx stores
@@ -13,20 +14,28 @@ function RackPage() {
 
     useEffect(() => {
 
-        //also need to check. Get the user based on dynamic segment. If that user is current signed in user. display "their own rack"
+        //also need to check. Get the user based on dynamic segment. If that user is current signed in user. display "their own rack
+
+        
         /*
         - Use the useRef hook to create an object with a mutable .current prop
         - Checking if the prop is 'mounted' prevents useEffect from running the code on the first render 
         */
         if (!isMounted.current) {
-            const loadRecords = async () => {
-                try {
-                    await recordStore.loadRecords();
-                } catch (error) {
-                    throw (error)
+           // if (params.username === user?.userName) {
+                const loadRecords = async () => {
+                    try {
+                        await recordStore.loadRecords();
+                    } catch (error) {
+                        throw (error)
+                    }
                 }
-            }
-            loadRecords();
+                
+                loadRecords();
+           // } else {
+          //      console.log("yo")
+           // }
+    
         }
         //Set this to true after the initial render
         isMounted.current = true;
