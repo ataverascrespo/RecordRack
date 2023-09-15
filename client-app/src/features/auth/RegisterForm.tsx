@@ -18,8 +18,8 @@ const accountFormSchema = z.object({
     }),
     username: z.string().min(2, {
         message: "Username must be at least 2 characters.",
-    }).max(30, {
-        message: "Username must not be longer than 30 characters.",
+    }).max(32, {
+        message: "Username must not be longer than 32 characters.",
     }),
     password: z.string().min(7, { message: "Password must be atleast 7 characters" }),
 })
