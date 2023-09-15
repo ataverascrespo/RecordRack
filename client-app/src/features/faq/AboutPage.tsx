@@ -34,7 +34,7 @@ export default function HomePage() {
                         <AccordionTrigger>Why can’t I find the album/track/artist I’m looking for?
                         </AccordionTrigger>
                         <AccordionContent>
-                            Because the search system is powered by Spotify, we can only access the albums, tracks and artists that Spotify has made available in any of their digital markets. Unfortunately, that means any music not accessible on Spotify, is also not accessible on Record Rack.
+                            Because the search system is powered by Spotify, you can only access the albums, tracks and artists that Spotify has made available in any of their digital markets. <strong>Unfortunately, that means any music not accessible on Spotify, is also not accessible on Record Rack.</strong>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-2">
@@ -50,17 +50,23 @@ export default function HomePage() {
                         </AccordionTrigger>
                         <AccordionContent>
                             You have full control over the privacy of your music collection. You can customize the privacy settings for individual tracks or albums when you add them to your rack. Your music, your rules!
-
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-4">
-                        <AccordionTrigger>Does Record Rack collect or share any of my personal data?
+                        <AccordionTrigger>What data does Record Rack collect?
                         </AccordionTrigger>
                         <AccordionContent>
-                            Record Rack does not collect any of your personal data, apart from the few details you provide during account creation. This site uses industry-standard security approaches to protect that information! However, note that we do share your email address with SendGrid so we can send you some important emails like verifying your account or resettting your password. SendGrid is owned by Twilio and is the same service behind Uber, Booking.com, Spotify, and many more. You can learn more here: https://www.twilio.com/en-us/legal/privacy.
+                            Record Rack <strong>does not collect any of your personal data, apart from the few details you provide during account creation</strong>. No tracking, analytics, nothing. For that data that is collected, this app uses industry-standard security approaches to protect your information. <a href="" className="font-bold underline"> You can read more about this on our privacy policy.</a>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-5">
+                        <AccordionTrigger>Is there any data that Record Rack shares?
+                        </AccordionTrigger>
+                        <AccordionContent>
+                            The ONLY thing Record Rack shares about you is your email address, which is shared with SendGrid. Their API integration lets this app send you some important emails <strong>like account verification or password resets.</strong> But don't worry - SendGrid is the main digital communications service that powers big companies like Uber, Airbnb, Yelp, Spotify, and many more businesses (80,000 more to be exact). If they can trust SendGrid, so can you! If you're still unsure, <a href="https://www.twilio.com/en-us/legal/privacy." className="font-bold underline">you can find Twilio's (their parent company) privacy policy here.</a>
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-6">
                         <AccordionTrigger>What if I encounter issues or have feedback about the app?
                         </AccordionTrigger>
                         <AccordionContent>
@@ -70,7 +76,7 @@ export default function HomePage() {
                 </Accordion>
             </div>
 
-            <div className="lg:h-[50vh] z-0 mt-24 mb-24 xl:mt-0 flex flex-col lg:flex-row lg:justify-between items-center">
+            <div className="lg:h-[75vh] z-0 mt-24 mb-24 xl:mt-0 flex flex-col lg:flex-row lg:justify-between items-center">
                 <Card className="w-full lg:w-2/3">
                     <CardHeader>
                         <CardTitle> Record Rack is completely free to use, with absolutely no ads.</CardTitle>

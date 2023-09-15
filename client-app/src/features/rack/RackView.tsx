@@ -6,9 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import RackViewHeader from "./RackViewHeader";
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from "react";
+import { Textfit } from 'react-textfit';
 
 
 function RackView() {
@@ -56,13 +56,7 @@ function RackView() {
 
                     {/* Image */}
                     <div className="flex flex-col mt-28 w-full sm:w-3/4 md:w-2/3 gap-6 items-start justify-between lg:justify-center sm:self-start lg:self-center">
-                        <Button variant="link" className="pl-0">
-                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.84182 3.13514C9.04327 3.32401 9.05348 3.64042 8.86462 3.84188L5.43521 7.49991L8.86462 11.1579C9.05348 11.3594 9.04327 11.6758 8.84182 11.8647C8.64036 12.0535 8.32394 12.0433 8.13508 11.8419L4.38508 7.84188C4.20477 7.64955 4.20477 7.35027 4.38508 7.15794L8.13508 3.15794C8.32394 2.95648 8.64036 2.94628 8.84182 3.13514Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path>
-                            </svg>
-                            <Link to={`/${params.username}/racklist`} onClick={recordStore.unselectRecord}>
-                                <p className="text-base">Back to {params.username}'s record rack</p>
-                            </Link>
-                        </Button>
+                        <p className="text-base">Viewing {params.username}'s record rack</p>
                         <img className="mt-0 rounded-xl shadow-lg"
                             src={recordStore.selectedRecord?.photoURL} alt="hero" draggable="false" />
                     </div>
@@ -72,7 +66,14 @@ function RackView() {
 
                         {/* Name, artist, etc */}
                         <div className="w-full flex flex-col items-start">
-                            <RackViewHeader albumName={recordStore.selectedRecord?.albumName}></RackViewHeader>
+                            <div className="w-full h-auto md:h-[75px] ">
+                                <Textfit className="h-full" mode="multi" forceSingleModeWidth={true} min={16} max={64}>
+                                    <h1 className="w-full font-black text-neutral-900 leading-none dark:text-neutral-50">
+                                        {recordStore.selectedRecord?.albumName}
+                                    </h1>
+                                </Textfit>
+                            </div>
+                            {/* <RackViewHeader content={recordStore.selectedRecord?.albumName}></RackViewHeader> */}
                             <h2 className="max-w-xl text-lg md:text-2xl font-semibold text-neutral-800 text-left dark:text-neutral-100">
                                 {(recordStore.selectedRecord!.albumType).charAt(0).toUpperCase() + recordStore.selectedRecord!.albumType.slice(1)} by {recordStore.selectedRecord?.artistName}
                             </h2>

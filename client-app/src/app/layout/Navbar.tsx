@@ -30,8 +30,8 @@ function Navbar() {
           </div>
 
           <div className='hidden md:flex flex-row'>
-            <NavLink to={`${user?.userName}/racklist`}>
-              <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">your rack</p></Button>
+            <NavLink to={"/about"}>
+              <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">about</p></Button>
             </NavLink>
             <NavLink to={"/search"}>
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">search</p></Button>
@@ -39,33 +39,14 @@ function Navbar() {
             <NavLink to={"/"}>
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">connect</p></Button>
             </NavLink>
-            <NavLink to={"/about"}>
-              <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">about</p></Button>
-            </NavLink>
             <div className="ml-8">
-              <NavLink to={`${user?.userName}/profile`}>
+              <NavLink to={`${user?.userName}`}>
                 <Avatar>
                   <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </NavLink>
             </div>
-            <Dialog>
-              <DialogTrigger asChild className="cursor-pointer">
-                <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">logout (temp)</p></Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-[75vw] lg:max-w-[500px]">
-                <DialogHeader>
-                  <DialogTitle>
-                    <p className="mb-12">Are you sure you want to log out?</p>
-                  </DialogTitle>
-                  <DialogFooter>
-                    <Button size="lg" onClick={handleLogout}><p className="text-sm lg:text-base xl:text-lg">Log Out</p></Button>
-                  </DialogFooter>
-                </DialogHeader>
-              </DialogContent>
-
-            </Dialog>
           </div>
 
           <div className="block md:hidden">

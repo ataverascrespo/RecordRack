@@ -1,41 +1,45 @@
+/*
+
+    This page is responsible for the main functionality of this app.
+    Splits off into two seperate features - profile and rack
+
+*/
+
+
 import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
 import RackList from "@/features/rack/RackList";
 import { Button } from "@/components/ui/button";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
+import ProfilePage from "../profile/ProfilePage";
 
 function RackPage() {
-    const params = useParams();
+    //const params = useParams();
     //useRef hook to persist value between renders
     const isMounted = useRef(false);
     // Access the global Mobx stores
     const { recordStore, userStore: { user } } = useStore();
 
     useEffect(() => {
-
-        //also need to check. Get the user based on dynamic segment. If that user is current signed in user. display "their own rack
-
-        
         /*
         - Use the useRef hook to create an object with a mutable .current prop
         - Checking if the prop is 'mounted' prevents useEffect from running the code on the first render 
         */
         if (!isMounted.current) {
-           // if (params.username === user?.userName) {
-                const loadRecords = async () => {
-                    try {
-                        await recordStore.loadRecords();
-                    } catch (error) {
-                        throw (error)
-                    }
+            //also need to check. Get the user based on dynamic segment. If that user is current signed in user. display "their own rack
+            // if (params.username === user?.userName) {
+            const loadRecords = async () => {
+                try {
+                    await recordStore.loadRecords();
+                } catch (error) {
+                    throw (error)
                 }
-                
-                loadRecords();
-           // } else {
-          //      console.log("yo")
-           // }
-    
+            }
+            loadRecords();
+            // } else {
+            //      console.log("yo")
+            // }
         }
         //Set this to true after the initial render
         isMounted.current = true;
@@ -43,18 +47,12 @@ function RackPage() {
 
     return (
         <div className="container">
-            <div className="h-full mt-[12.5rem] mb-24 flex flex-col justify-start gap-12 items-start ">
-                {/* Your own record rack */}
-                <div className="flex flex-col gap-2 items-start">
-                    <h2 className="font-semibold text-sm sm:text-base md:text-lg xl:text-2xl text-neutral-500 dark:text-neutral-600">Hey {user?.userName} </h2>
-                    <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-neutral-800 dark:text-neutral-50">Welcome to your record rack</h1>
-                </div>
+            <div className="h-full mt-[13.5rem] mb-24 flex flex-col justify-start gap-12 items-start ">
+                
+                {/* Profile Portion */}
+                <ProfilePage></ProfilePage>
 
-                {/* <div className="flex flex-col gap-2 items-start">
-                        <h2 className="font-semibold text-sm sm:text-base md:text-lg xl:text-xl text-neutral-400 dark:text-neutral-600">Hey username,</h2>
-                        <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-neutral-800 dark:text-neutral-50">This is OtherUsername's record rack</h1>
-                    </div> */}
-
+                {/* Rack List Portion */}
                 {recordStore.savedRecords.length != 0
                     ? <RackList results={recordStore.savedRecords} user={user!} ></RackList>
                     :
