@@ -8,11 +8,11 @@
 
 import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
-import RackList from "@/features/rack/RackList";
+import RackList from "@/features/main/rack/RackList";
 import { Button } from "@/components/ui/button";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import ProfilePage from "../profile/ProfilePage";
+import ProfilePage from "./profile/ProfilePage";
 
 function RackPage() {
     //const params = useParams();
