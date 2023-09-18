@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { SavedRecord } from "@/app/models/record";
 import { User } from "@/app/models/user";
 import { useStore } from "@/app/stores/store";
+import { flushSync } from "react-dom";
+import { TransitionLink } from "@/components/transition-link";
 
 // Define the component props
 interface Props {
@@ -12,23 +14,34 @@ interface Props {
     user: User;
 }
 
-export default function RackList({ results, user }: Props) {
-    // Get the navigate function from React Router
-    const navigate = useNavigate();
 
-    // Access the global Mobx stores
-    const { recordStore } = useStore();
+function RackList({ results, user }: Props) {
 
-    const viewAlbum = async (id: number) => {
-        try {
-            const response = await recordStore.loadRecord(id);
-            if (response) {
-                navigate(`/${user!.userName}/record/${response!.id}`);
-            }
-        } catch (error) {
-            throw (error)
-        }
-    }
+    return (
+        <div className="h-full w-full mt-12">
+            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
+
+                {results.map((result) => {
+                    return (
+                        <TransitionLink to={`/${user.userName}/record/${result.id}`} children={<Card key={result.id}
+                            className="shadow-lg">
+                            <CardHeader className="p-0">
+                                <img
+                                    style={{ viewTransitionName: `album-cover-${result.id}`, contain: 'layout' }}
+                                    src={result.photoURL}
+                                    draggable="false"
+                                    className="rounded-sm">
+                                </img>
+                            </CardHeader>
+                        </Card>}></TransitionLink>
+
+                    )
+                })}
+            </div>
+        </div>
+    )
+
     return (
         <div className="h-full w-full mt-12">
             <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -53,7 +66,7 @@ export default function RackList({ results, user }: Props) {
                                                             Album by {result.artistName}
                                                         </DialogDescription>
                                                     </div>
-                                                    <Button type="submit" onClick={() => viewAlbum(result.id)}>
+                                                    <Button type="submit" onClick={() => (result.id)}>
                                                         View Details
                                                     </Button>
                                                 </div>
@@ -69,4 +82,6 @@ export default function RackList({ results, user }: Props) {
         </div>
     )
 }
+
+export default RackList
 

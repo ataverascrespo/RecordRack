@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Textfit } from 'react-textfit';
 
 
@@ -17,10 +17,31 @@ function RackView() {
     // Access the global Mobx stores
     const { recordStore, userStore: { user } } = useStore();
 
+    //useRef hook to persist value between renders
+    const isMounted = useRef(false);
+
     //Negates behaviour of scrolling halfway down page upon load
     useEffect(() => {
-        window.scrollTo(0, 0)
-    })
+        if (!isMounted.current) {
+            window.scrollTo(0, 0)
+
+            const loadRecord = async (id: number) => {
+                try {
+                    const response = await recordStore.loadRecord(id);
+                    if (response) {
+
+                    }
+                } catch (error) {
+                    throw (error)
+                }
+            }
+            if (params.id) {
+                loadRecord(parseInt(params.id, 10));
+            }
+        }
+        //Set this to true after the initial render
+        isMounted.current = true;
+    }, [recordStore])
 
     function formatAddedDate(date: string) {
         // Parse the original date string into a Date object
@@ -35,15 +56,9 @@ function RackView() {
         return `${year}-${month}-${day}`;
     }
 
-    //If the selected record is undefined
-    /*
-        Because of the way the viewed record is selected, navigating by URL ain't gonna cut it
-        So if you try to navigate to a user's specific record by URL rather than through their racklist,
-        you will get redirected to their racklist.
-    */
     if (recordStore.selectedRecord == undefined) {
         if (params.username) {
-            navigate(`/${params.username}/racklist`, { replace: true });
+            console.log(params.username)
         }
         else {
             navigate('/', { replace: true });
@@ -53,21 +68,25 @@ function RackView() {
         return (
             <div className="container h-full flex flex-col gap-12">
                 <div className="flex flex-col lg:flex-row gap-4 md:gap-10 lg:gap-12 xl:gap-24 items-center">
-
                     {/* Image */}
                     <div className="flex flex-col mt-28 w-full sm:w-3/4 md:w-2/3 gap-6 items-start justify-between lg:justify-center sm:self-start lg:self-center">
-                        <p className="text-base">Viewing {params.username}'s record rack</p>
-                        <img className="mt-0 rounded-xl shadow-lg"
-                            src={recordStore.selectedRecord?.photoURL} alt="hero" draggable="false" />
+                        
+                        <p className="text-base">Back to {params.username}'s record rack</p>
+                        <img
+                            style={{ viewTransitionName: `album-cover-${recordStore.selectedRecord.id}`, contain: 'layout' }}
+                            className="mt-0 rounded-xl shadow-lg"
+                            src={recordStore.selectedRecord?.photoURL}
+                            alt="hero"
+                            draggable="false"
+                        />
                     </div>
 
                     {/* Album info */}
                     <div className="w-full mt-6 sm:mt-12 lg:mt-40 flex flex-col gap-4 xl:gap-8 items-start">
-
                         {/* Name, artist, etc */}
                         <div className="w-full flex flex-col items-start">
-                            <div className="w-full h-auto md:h-[75px] ">
-                                <Textfit className="h-full" mode="multi" forceSingleModeWidth={true} min={16} max={64}>
+                            <div className="w-full h-auto md:h-[75px]">
+                                <Textfit className="h-full flex items-end" mode="multi" forceSingleModeWidth={true} min={24} max={64}>
                                     <h1 className="w-full font-black text-neutral-900 leading-none dark:text-neutral-50">
                                         {recordStore.selectedRecord?.albumName}
                                     </h1>
@@ -102,7 +121,7 @@ function RackView() {
                                     <Label htmlFor="private" className="text-base md:text-xl font-bold">Private</Label>
                                     <Switch id="private" disabled checked={recordStore.selectedRecord?.isPrivate} />
                                 </div>
-                                {params.username == user?.userName ?
+                                {params.username == user?.userName ? (
                                     <div>
                                         <Dialog>
                                             <DialogTrigger asChild>
@@ -122,12 +141,34 @@ function RackView() {
                                                     <Switch id="private" />
                                                 </div>
                                                 <DialogFooter>
-                                                    <Button type="submit">Add to Rack</Button>
+                                                    <Dialog>
+                                                        <DialogTrigger asChild>
+                                                            <Button>Edit Fields</Button>
+                                                        </DialogTrigger>
+                                                        <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
+                                                            <DialogHeader>
+                                                                <DialogTitle className="mt-4 lg:mt-0">Editing {recordStore.selectedRecord!.albumType} {recordStore.selectedRecord!.albumName} by {recordStore.selectedRecord!.artistName}</DialogTitle>
+                                                                <DialogDescription>
+                                                                    You can edit these fields.
+                                                                </DialogDescription>
+                                                            </DialogHeader>
+                                                            <div className="grid gap-4 py-4">
+                                                                <Label htmlFor="message">Record Description</Label>
+                                                                <Textarea placeholder="Change your notes or thoughts about the record." />
+                                                                <Label htmlFor="private">Set as Private?</Label>
+                                                                <Switch id="private" />
+                                                            </div>
+                                                            <DialogFooter>
+                                                                <Button type="submit">Add to Rack</Button>
+                                                            </DialogFooter>
+                                                        </DialogContent>
+                                                    </Dialog>
                                                 </DialogFooter>
                                             </DialogContent>
                                         </Dialog>
                                     </div>
-                                    : <div className="flex flex-row gap-4">
+                                ) : (
+                                    <div className="flex flex-row gap-4">
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button>Add to Your Rack</Button>
@@ -151,18 +192,18 @@ function RackView() {
                                             </DialogContent>
                                         </Dialog>
                                     </div>
-                                }
+                                )}
                             </div>
                         </div>
-
                     </div>
                 </div>
-
-                {recordStore.selectedRecord?.albumType === "album"
-                    ? (<Spotify className="mb-20" width={"100%"}
-                        link={`https://open.spotify.com/${recordStore.selectedRecord?.albumType}/${recordStore.selectedRecord?.spotifyID}`} />)
-                    : (<Spotify className="mb-8 lg:mb-0" wide
-                        link={`https://open.spotify.com/${recordStore.selectedRecord?.albumType}/${recordStore.selectedRecord?.spotifyID}`} />)}
+                <div className="mt-12">
+                    {recordStore.selectedRecord?.albumType === "album" ? (
+                        <Spotify className="mb-20" width={"100%"} link={`https://open.spotify.com/${recordStore.selectedRecord?.albumType}/${recordStore.selectedRecord?.spotifyID}`} />
+                    ) : (
+                        <Spotify className="mb-8 lg:mb-0" wide link={`https://open.spotify.com/${recordStore.selectedRecord?.albumType}/${recordStore.selectedRecord?.spotifyID}`} />
+                    )}
+                </div>
 
             </div>
         )

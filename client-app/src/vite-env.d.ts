@@ -1,22 +1,21 @@
 /// <reference types="vite/client" />
+/// <reference types="view-transitions-api-types" />
 
-declare global {
-	// preserve any customizations you have here
-	namespace App {
-		
-	}
+// preserve any customizations you have here
+declare interface Document extends DocumentViewTransition { }
 
-	// add these lines
-	interface ViewTransition {
-		updateCallbackDone: Promise<void>;
-		ready: Promise<void>;
-		finished: Promise<void>;
-		skipTransition: () => void;
-	}
-
-	interface Document {
-		startViewTransition(updateCallback: () => Promise<void>): ViewTransition;
-	}
+declare interface DocumentViewTransition {
+	/** @see https://drafts.csswg.org/css-view-transitions/#additions-to-document-api */
+	startViewTransition?(updateCallback?: UpdateCallback): ViewTransition;
 }
 
-export {};
+/** @see https://drafts.csswg.org/css-view-transitions/#viewtransition */
+interface ViewTransition {
+	readonly updateCallbackDone: Promise<void>;
+	readonly ready: Promise<void>;
+	readonly finished: Promise<void>;
+
+	skipTransition(): void;
+}
+
+type UpdateCallback = () => Promise<void>;
