@@ -3,17 +3,17 @@ import App from "../layout/App";
 import SearchPage from "@/features/search/SearchPage";
 import HomePage from "@/features/home/HomePage";
 import AboutPage from "@/features/faq/AboutPage";
-import RackView from "@/features/rack/RackView";
+import RackView from "@/features/main/rack/RackView";
 import RegisterPage from "@/features/auth/RegisterPage";
 import LoginPage from "@/features/auth/LoginPage";
 import NotFound from "../layout/NotFound";
-import ProfilePage from "@/features/profile/ProfilePage";
+import ProfilePage from "@/features/main/profile/ProfilePage";
 import PasswordForgotPage from "@/features/auth/Password/PasswordForgotPage";
 import VerifyPage from "@/features/auth/Verify/VerifyPage";
 import VerifiedPage from "@/features/auth/Verify/VerifiedPage";
 import Authorized from "./Authorized";
-import RedirectToProfile from "@/features/profile/RedirectToProfile";
-import MainUserPage from "@/features/rack/MainUserPage";
+import RedirectToProfile from "@/features/main/profile/RedirectToProfile";
+import MainUserPage from "@/features/main/MainUserPage";
 
 
 // Define the routes of the MPA

@@ -7,9 +7,10 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Textfit } from 'react-textfit';
-
+import NotFoundView from "@/app/layout/NotFoundView";
+import Loading from "@/app/layout/Loading";
 
 function RackView() {
     const navigate = useNavigate();
@@ -17,31 +18,33 @@ function RackView() {
     // Access the global Mobx stores
     const { recordStore, userStore: { user } } = useStore();
 
-    //useRef hook to persist value between renders
-    const isMounted = useRef(false);
-
     //Negates behaviour of scrolling halfway down page upon load
     useEffect(() => {
-        if (!isMounted.current) {
-            window.scrollTo(0, 0)
+        window.scrollTo(0, 0)
+
+        if (params.id) {
+
+            //If the loaded user profile is the stored view user, there's no need to re-fetch user data.
+            if (parseInt(params.id, 10) === recordStore.selectedRecord?.id) {
+                console.log("This album was already fetched. Just display the detals");
+                return;
+            }
+
+            console.log("This album was not already stored. Just display the detals");
 
             const loadRecord = async (id: number) => {
                 try {
-                    const response = await recordStore.loadRecord(id);
-                    if (response) {
-
-                    }
+                    await recordStore.loadRecord(id);
                 } catch (error) {
                     throw (error)
                 }
             }
-            if (params.id) {
-                loadRecord(parseInt(params.id, 10));
-            }
+
+            loadRecord(parseInt(params.id, 10));
+
         }
-        //Set this to true after the initial render
-        isMounted.current = true;
     }, [recordStore])
+
 
     function formatAddedDate(date: string) {
         // Parse the original date string into a Date object
@@ -56,9 +59,13 @@ function RackView() {
         return `${year}-${month}-${day}`;
     }
 
-    if (recordStore.selectedRecord == undefined) {
+    if (recordStore.loadingSelectedRecord) return <Loading text={"Loading user profile..."}></Loading>
+
+    if (recordStore.selectedRecord == undefined
+       // || params.username !== recordStore.selectedRecord
+    ) {
         if (params.username) {
-            console.log(params.username)
+            return <NotFoundView text={"Could not find that user's record."}></NotFoundView>
         }
         else {
             navigate('/', { replace: true });
@@ -70,10 +77,12 @@ function RackView() {
                 <div className="flex flex-col lg:flex-row gap-4 md:gap-10 lg:gap-12 xl:gap-24 items-center">
                     {/* Image */}
                     <div className="flex flex-col mt-28 w-full sm:w-3/4 md:w-2/3 gap-6 items-start justify-between lg:justify-center sm:self-start lg:self-center">
-                        
-                        <p className="text-base">Back to {params.username}'s record rack</p>
+
+                        <Button variant={"secondary"} onClick={() => navigate(-1)}>
+                            <p className="text-base">Back to {params.username}'s record rack</p>
+                        </Button>
                         <img
-                            style={{ viewTransitionName: `album-cover-${recordStore.selectedRecord.id}`, contain: 'layout' }}
+                            style={{ viewTransitionName: `album-cover-${recordStore.selectedRecord.id}`, contain: 'paint' }}
                             className="mt-0 rounded-xl shadow-lg"
                             src={recordStore.selectedRecord?.photoURL}
                             alt="hero"

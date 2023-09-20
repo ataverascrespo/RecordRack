@@ -4,67 +4,69 @@
     Splits off into two seperate features - profile and rack
 
 */
-
-
 import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+
 import RackList from "@/features/main/rack/RackList";
-import { Button } from "@/components/ui/button";
-import { Link, useParams } from "react-router-dom";
-import { useEffect, useRef } from "react";
 import ProfilePage from "./profile/ProfilePage";
+import Loading from "@/app/layout/Loading";
+import NotFoundView from "@/app/layout/NotFoundView";
+import RackListEmpty from "./rack/RackListEmpty";
 
 function RackPage() {
-    //const params = useParams();
-    //useRef hook to persist value between renders
-    const isMounted = useRef(false);
+    // Get the browser params
+    const params = useParams();
+  
     // Access the global Mobx stores
-    const { recordStore, userStore: { user } } = useStore();
+    const { recordStore, userStore } = useStore();
+    const { savedRecords } = recordStore;
 
     useEffect(() => {
-        /*
-        - Use the useRef hook to create an object with a mutable .current prop
-        - Checking if the prop is 'mounted' prevents useEffect from running the code on the first render 
-        */
-        if (!isMounted.current) {
-            //also need to check. Get the user based on dynamic segment. If that user is current signed in user. display "their own rack
-            // if (params.username === user?.userName) {
-            const loadRecords = async () => {
-                try {
-                    await recordStore.loadRecords();
-                } catch (error) {
-                    throw (error)
-                }
+        if (params.username) {
+
+            //If the loaded user profile is the stored view user, there's no need to re-fetch user data.
+            if (params.username === userStore.viewedUser?.userName) {
+                console.log("This user was already fetched. Just display their list!");
+                return;
             }
-            loadRecords();
-            // } else {
-            //      console.log("yo")
-            // }
+
+            const loggedInUser = userStore.user;
+            // If the user is logged in and the viewed user is the logged in user, there's no need to re-fetch user data
+            // Rather, just set the viewed user as the logged in user
+            if (loggedInUser && loggedInUser.userName === params.username) {
+                userStore.setViewedUser(loggedInUser)
+            } else {
+                // Fetch the user data based on the URL userName parameter
+                userStore.getViewedUser(params.username);
+            }
         }
-        //Set this to true after the initial render
-        isMounted.current = true;
-    }, [recordStore]);
+    }, [params.username]);
+
+    useEffect(() => {
+        if (userStore.viewedUser) {
+            // Fetch the user's list based on the user ID
+            recordStore.loadRecordsForUser(userStore.viewedUser.id)
+        }
+    }, [userStore.viewedUser]);
+
+    // Display loading spinner while loading
+    if (userStore.loadingViewedUser) return <Loading text={"Loading user profile..."}></Loading>
+    // Display error screen if the viewed user fetch returns null.
+    if (!userStore.viewedUser) return <NotFoundView text={"That user could not be found!"}></NotFoundView>
 
     return (
         <div className="container">
             <div className="h-full mt-[13.5rem] mb-24 flex flex-col justify-start gap-12 items-start ">
-                
-                {/* Profile Portion */}
+
+                {/* Profile View*/}
                 <ProfilePage></ProfilePage>
 
-                {/* Rack List Portion */}
-                {recordStore.savedRecords.length != 0
-                    ? <RackList results={recordStore.savedRecords} user={user!} ></RackList>
-                    :
-                    <div className="lg:h-[33vh] z-0 lg:mt-12 flex flex-col justify-end lg:flex-row lg:justify-start items-start">
-                        <div className="flex flex-col items-start gap-6">
-                            <h2 className="max-w-2xl mt-6 text-base lg:text-xl text-neutral-400 dark:text-neutral-700">Looks like your rack is empty! Let's search for some records...</h2>
-                            <Link to={"/search"}>
-                                <Button variant="secondary" size="lg"><p className="text-base text-neutral-600 dark:text-neutral-400">Search</p></Button>
-                            </Link>
-                        </div>
-                        <img className="hidden lg:flex w-[15%] mt-12 lg:mt-0" src="/src/assets/empty.svg" alt="hero" draggable="false" />
-                    </div>
+                {/* Rack List */}
+                {savedRecords.length != 0
+                    ? <RackList results={savedRecords} user={userStore.viewedUser!} ></RackList>
+                    : <RackListEmpty></RackListEmpty>
                 }
             </div>
         </div>

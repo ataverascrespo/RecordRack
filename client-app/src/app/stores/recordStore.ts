@@ -7,6 +7,7 @@ import { AddRecord, SavedRecord } from "../models/record";
 export default class RecordStore {
     savedRecords: SavedRecord[] = [];
     selectedRecord: SavedRecord | undefined = undefined;
+    loadingSelectedRecord = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -23,19 +24,35 @@ export default class RecordStore {
         }
     }
 
+    loadRecordsForUser = async (userID: number) => {
+        try {
+            const response = await agent.Records.getListForUser(userID);
+            const records: SavedRecord[] = response.data;
+            console.log(records);
+            runInAction(() => this.savedRecords = records);
+        } catch (error) { 
+            throw(error)
+        }
+    }
+
     loadRecord = async (id: number) => {
+        this.loadingSelectedRecord = true;
         let record = this.getRecord(id);
-        console.log(record)
         if (record) {
-            this.selectedRecord = record;
+            runInAction(() => {
+                this.selectedRecord = record;
+                this.loadingSelectedRecord = false;
+            });
             return record;
         }
         else {
             try {
-                record = await agent.Records.getSingle(id);
-                runInAction(() => this.selectedRecord = record);
-                console.log(record);
-                return record;
+                const response = await agent.Records.getSingle(id);
+                record = response.data;
+                runInAction(() => {
+                    this.selectedRecord = record;
+                    this.loadingSelectedRecord = false;
+                });
             } catch (error) {
                 throw(error);
             }

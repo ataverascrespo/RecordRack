@@ -1,12 +1,9 @@
 import { Card, CardHeader, } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { SavedRecord } from "@/app/models/record";
 import { User } from "@/app/models/user";
-import { useStore } from "@/app/stores/store";
-import { flushSync } from "react-dom";
-import { TransitionLink } from "@/components/transition-link";
 
 // Define the component props
 interface Props {
@@ -14,28 +11,28 @@ interface Props {
     user: User;
 }
 
-
 function RackList({ results, user }: Props) {
 
     return (
         <div className="h-full w-full mt-12">
             <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
-
                 {results.map((result) => {
                     return (
-                        <TransitionLink to={`/${user.userName}/record/${result.id}`} children={<Card key={result.id}
-                            className="shadow-lg">
-                            <CardHeader className="p-0">
-                                <img
-                                    style={{ viewTransitionName: `album-cover-${result.id}`, contain: 'layout' }}
-                                    src={result.photoURL}
-                                    draggable="false"
-                                    className="rounded-sm">
-                                </img>
-                            </CardHeader>
-                        </Card>}></TransitionLink>
-
+                        <Link key={result.id}
+                            to={`/${user.userName}/record/${result.id}`}>
+                            <Card
+                                className="shadow-md hover:shadow-xl hover:brightness-90 dark:hover:brightness-75 transition-all transform duration-200">
+                                <CardHeader className="p-0">
+                                    <img
+                                        style={{ viewTransitionName: `album-cover-${result.id}`, contain: 'layout' }}
+                                        src={result.photoURL}
+                                        draggable="false"
+                                        className="rounded-md">
+                                    </img>
+                                </CardHeader>
+                            </Card>
+                        </Link>
                     )
                 })}
             </div>

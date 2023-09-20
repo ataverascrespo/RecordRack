@@ -7,6 +7,9 @@ import { router } from "../router/Routes";
 // User data store class
 export default class UserStore {
     user: User | null = null;
+    viewedUser: User | undefined = undefined;
+    loadingViewedUser = false;
+
 
     constructor() {
         makeAutoObservable(this)
@@ -26,7 +29,7 @@ export default class UserStore {
 
             //If the API call succeeded, navigate to rack page
             if (response.success === true) {
-                router.navigate(`/racklist/${this.user!.userName}`)
+                router.navigate(`/${this.user!.userName}/racklist`)
             }
             return (response);
         } catch (error) {
@@ -42,12 +45,30 @@ export default class UserStore {
 
     getUser = async () => {
         try {
-            const response = await agent.Account.current();
+            const response = await agent.Account.getCurrentUser();
             const user: User = response.data;
             runInAction(() => this.user = user);
         } catch (error) {
             console.log(error);
         }
+    }
+
+    getViewedUser = async (userName: string) => {
+        this.loadingViewedUser = true;
+        try {
+            const response = await agent.Account.getUserByName(userName);
+            const viewedUser: User = response.data;
+            runInAction(() => {
+                this.viewedUser = viewedUser
+                this.loadingViewedUser = false;
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    setViewedUser = (user: User) => {
+        this.viewedUser = user;
     }
 
     //This is currently not being used. Don't wanna delete yet though
