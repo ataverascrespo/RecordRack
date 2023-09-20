@@ -17,5 +17,15 @@ namespace AlbumAPI.Data
         //Returns a database set of type User
         //Allows us to query and save users
         public DbSet<User> Users => Set<User>();
+
+        // Configure entity relationships between Album and User
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Album>()
+                .HasOne(album => album.User)
+                .WithMany(user => user.Albums);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

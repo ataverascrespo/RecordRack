@@ -15,22 +15,19 @@ import Loading from "@/app/layout/Loading";
 function RackView() {
     const navigate = useNavigate();
     const params = useParams();
-    // Access the global Mobx stores
-    const { recordStore, userStore: { user } } = useStore();
 
-    //Negates behaviour of scrolling halfway down page upon load
+    // Access the global Mobx stores
+    const { recordStore, userStore: { user, viewedUser} } = useStore();
+
     useEffect(() => {
+        //Negates behaviour of scrolling halfway down page upon load
         window.scrollTo(0, 0)
 
         if (params.id) {
-
-            //If the loaded user profile is the stored view user, there's no need to re-fetch user data.
+            //If the loaded record is equal to the selected record to view, there's no need to re-fetch data.
             if (parseInt(params.id, 10) === recordStore.selectedRecord?.id) {
-                console.log("This album was already fetched. Just display the detals");
                 return;
             }
-
-            console.log("This album was not already stored. Just display the detals");
 
             const loadRecord = async (id: number) => {
                 try {
@@ -41,11 +38,34 @@ function RackView() {
             }
 
             loadRecord(parseInt(params.id, 10));
-
         }
     }, [recordStore])
 
 
+    /*
+        Function to handle back navigation on rack view page
+    */
+    function handleBackNavigation() {
+        //Two cases
+        //  The user navigated to rack page via rack list. 
+        //  In this case, viewed user should be same as username in param, so navigate -1 pages back
+        
+        //  The user navigated to rack page via URL. 
+        //  In this case, there is probably no viewed user. So we need to navigate back to their list page URL rather than a page back
+        
+        //Case 2
+        if (viewedUser != params.username) {
+            navigate(`/${params.username}`)
+        }
+        //Case 1
+        else {
+            navigate(-1);
+        }
+    }
+
+    /*
+        Function to format the DateTime C# format to a readable format
+    */
     function formatAddedDate(date: string) {
         // Parse the original date string into a Date object
         const dateObject = new Date(date);
@@ -59,11 +79,11 @@ function RackView() {
         return `${year}-${month}-${day}`;
     }
 
+    // Display when loading
     if (recordStore.loadingSelectedRecord) return <Loading text={"Loading user profile..."}></Loading>
 
-    if (recordStore.selectedRecord == undefined
-       // || params.username !== recordStore.selectedRecord
-    ) {
+    // Display when record is undefined or record URL path username and record username don't match
+    if (recordStore.selectedRecord == undefined || params.username !== recordStore.selectedRecord.user.userName) {
         if (params.username) {
             return <NotFoundView text={"Could not find that user's record."}></NotFoundView>
         }
@@ -71,6 +91,7 @@ function RackView() {
             navigate('/', { replace: true });
         }
     }
+    
     else {
         return (
             <div className="container h-full flex flex-col gap-12">
@@ -78,7 +99,7 @@ function RackView() {
                     {/* Image */}
                     <div className="flex flex-col mt-28 w-full sm:w-3/4 md:w-2/3 gap-6 items-start justify-between lg:justify-center sm:self-start lg:self-center">
 
-                        <Button variant={"secondary"} onClick={() => navigate(-1)}>
+                        <Button variant={"secondary"} onClick={() => handleBackNavigation()}>
                             <p className="text-base">Back to {params.username}'s record rack</p>
                         </Button>
                         <img
@@ -217,8 +238,6 @@ function RackView() {
             </div>
         )
     }
-
-
 }
 
 export default observer(RackView);

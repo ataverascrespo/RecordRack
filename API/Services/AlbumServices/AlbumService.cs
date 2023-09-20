@@ -33,7 +33,7 @@ namespace AlbumAPI.Services.AlbumServices
             var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
             
             //Access database albums table where User ID is valid
-            var dbAlbums = await _context.Albums.Where(a => a.User!.ID == GetUserID()).ToListAsync();
+            var dbAlbums = await _context.Albums.Where(a => a.User!.ID == GetUserID()).Include(album => album.User).ToListAsync();
             
             //Map all Album models to GetAlbumDTO w/ AutoMapper
             serviceResponse.Data = dbAlbums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
@@ -47,7 +47,7 @@ namespace AlbumAPI.Services.AlbumServices
             var serviceResponse = new ServiceResponse<GetAlbumDTO>();
             
             //Access database albums table where album and users ID are valid
-            var dbAlbum = await _context.Albums.FirstOrDefaultAsync((a => a.ID == ID && !a.isPrivate));
+            var dbAlbum = await _context.Albums.Include(album => album.User).FirstOrDefaultAsync(a => a.ID == ID && !a.isPrivate);
             if (dbAlbum == null) {
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = "Could not return that album";
@@ -68,7 +68,7 @@ namespace AlbumAPI.Services.AlbumServices
             
             //Access database albums table where album and users ID are valid
             //Remove albums where isPrivate is = true. 
-            var dbAlbums = await _context.Albums.Where(a => a.User!.ID == UserID && !a.isPrivate).ToListAsync();
+            var dbAlbums = await _context.Albums.Where(a => a.User!.ID == UserID && !a.isPrivate).Include(album => album.User).ToListAsync();
             
             //Add list of albums to wrapper object and return
             //The previous null check in this method can be removed as the wrapper object's properties are nullable
@@ -77,8 +77,7 @@ namespace AlbumAPI.Services.AlbumServices
             return serviceResponse;
         }
 
-
-        //Method to return the list of all albums
+        //Method to return add an albums
         public async Task<ServiceResponse<List<GetAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum)
         {
             //Create wrapper model for album DTO list

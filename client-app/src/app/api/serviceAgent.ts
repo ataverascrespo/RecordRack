@@ -48,12 +48,14 @@ const requests = {
 
 const Records = {
   getList: () => requests.get('api/Album/GetAll'),
-  getSingle: (id: number) => requests.post('api/Album/GetAlbumByID/', { ID: id }),
+  getListForUser: (userID: number) => requests.get(`api/Album/GetAlbumsByUserID/${userID}`),
+  getSingle: (id: number) => requests.post(`api/Album/GetAlbumByID/${id}`, { ID: id }),
   add: (record: AddRecord) => requests.post('api/Album', record),
 }
 
 const Account = {
-  current: () => requests.get<User>('Auth/GetCurrentUser'),
+  getCurrentUser: () => requests.get<User>('Auth/GetCurrentUser'),
+  getUserByName: (userName: string) => requests.post(`Auth/GetUserByName?userName=${userName}`, userName),
   login: (user: UserLogin) => requests.post("Auth/Login", user),
   register: (user: UserRegister) => requests.post("Auth/Register", user),
   verify: (token: UserVerify) => requests.post("Auth/Verify", token),

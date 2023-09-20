@@ -25,10 +25,7 @@ namespace AlbumAPI.API.Migrations
             modelBuilder.Entity("AlbumAPI.Models.Album", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
 
                     b.Property<string>("AlbumDescription")
                         .IsRequired()
@@ -61,15 +58,13 @@ namespace AlbumAPI.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("UserID")
                         .HasColumnType("integer");
 
                     b.Property<bool>("isPrivate")
                         .HasColumnType("boolean");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Albums");
                 });
@@ -124,7 +119,9 @@ namespace AlbumAPI.API.Migrations
                 {
                     b.HasOne("AlbumAPI.Models.User", "User")
                         .WithMany("Albums")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
