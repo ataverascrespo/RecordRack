@@ -76,14 +76,13 @@ export default function SearchResults({ results }: Props) {
             albumName: result.name,
             artistName: formatArtists(result.album.artists),
             releaseDate: result.album.release_date,
-            albumType: result.album.album_type,
+            albumType: result.type,
             albumDescription: data.description,
             dateAdded: new Date().toISOString(),
             photoURL: result.album.images[0].url,
             spotifyID: result.id,
             isPrivate: data.private,
         }
-        console.log(newRecord)
 
         try {
             const response: any = await recordStore.addRecord(newRecord);

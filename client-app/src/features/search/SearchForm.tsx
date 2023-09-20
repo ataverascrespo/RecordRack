@@ -170,7 +170,7 @@ export function SearchForm({ accessToken }: Props) {
         </TabsContent>
         <TabsContent value="track">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmitTrack)} className="w-full md:w-2/3 space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmitTrack)} className="w-full lg:w-2/3 space-y-6">
               <FormField
                 control={form.control}
                 name="album"
