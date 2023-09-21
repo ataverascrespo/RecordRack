@@ -1,5 +1,3 @@
-
-
 /// <summary>
 /// Data Transfer Object responsible for sending data from client to server
 /// </summary>
@@ -11,8 +9,7 @@ namespace AlbumAPI.DTOs.User
         public string Email { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
         public string Token { get; set; } = string.Empty;
-        //public DateTime Created { get; set; }
-
-        //Eventually image
+        public string ProfilePhotoURL { get; set; } = string.Empty;
+        public string ProfilePhotoID { get; set; } = string.Empty;
     }
 }

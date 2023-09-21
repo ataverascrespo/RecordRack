@@ -18,5 +18,7 @@ namespace AlbumAPI.Models
         public List<Album>? Albums { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
         public DateTime RefreshTokenExpiration { get; set; }
+        public string ProfilePhotoURL { get; set; } = string.Empty;
+        public string ProfilePhotoID { get; set; } = string.Empty;
     }
 }
