@@ -10,7 +10,6 @@ export default class UserStore {
     viewedUser: User | undefined = undefined;
     loadingViewedUser = false;
 
-
     constructor() {
         makeAutoObservable(this)
     }
@@ -43,6 +42,29 @@ export default class UserStore {
         router.navigate('/')
     }
 
+    register = async (creds: UserRegister) => {
+        try {
+            const response = await agent.Account.register(creds);
+            //If the API call succeeded, navigate to rack page
+            if (response.success === true) {
+                router.navigate('/verify')
+            }
+            return (response);
+        } catch (error) {
+            return(error);
+        }
+    }
+
+    verify = async (creds: UserVerify) => {
+        try {
+            const response = await agent.Account.verify(creds);
+            return (response);
+        } catch (error) {
+            return(error);
+        }
+    }
+
+    // USER/PROFILE RELATED FUNCTIONS
     getUser = async () => {
         try {
             const response = await agent.Users.getCurrentUser();
@@ -71,7 +93,14 @@ export default class UserStore {
         this.viewedUser = user;
     }
 
-    //This is currently not being used. Don't wanna delete yet though
+    getProfilePhoto = () => {
+        const profilePhotoUrl
+            = this.viewedUser!.imageURL || 'https://res.cloudinary.com/dlwfuryyz/image/upload/v1695305498/album-api/jzbiw85pakr4amttznuq.jpg';
+        return profilePhotoUrl;
+    }
+
+
+      //This is currently not being used. Don't wanna delete yet though
     //
     // refresh = async () => {
     //     try {
@@ -81,26 +110,4 @@ export default class UserStore {
     //         throw (error);
     //     }
     // }
-
-    register = async (creds: UserRegister) => {
-        try {
-            const response = await agent.Account.register(creds);
-            //If the API call succeeded, navigate to rack page
-            if (response.success === true) {
-                router.navigate('/verify')
-            }
-            return (response);
-        } catch (error) {
-            return(error);
-        }
-    }
-
-    verify = async (creds: UserVerify) => {
-        try {
-            const response = await agent.Account.verify(creds);
-            return (response);
-        } catch (error) {
-            return(error);
-        }
-    }
 }

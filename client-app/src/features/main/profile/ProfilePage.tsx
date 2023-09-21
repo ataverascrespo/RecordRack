@@ -15,31 +15,31 @@ function ProfilePage() {
     }
 
     let profileH2Content;
-    let profileButtonContent; 
+    let profileButtonContent;
 
     // If the user is logged in and the viewed user is the same
     if ((user && viewedUser) && user.userName === viewedUser.userName) {
         profileH2Content = "Welcome back";
         profileButtonContent =
-            <Dialog>
-                <DialogTrigger asChild className="cursor-pointer">
-                    <Button className="col-span-2"><p className="text-sm">Log Out</p></Button>            
-                </DialogTrigger>
-                <DialogContent className="max-w-[75vw] lg:max-w-[500px]">
-                    <DialogHeader>
-                        <DialogTitle>
-                            <p className="mb-12">Are you sure you want to log out?</p>
-                        </DialogTitle>
-                        <DialogFooter>
-                            <Button size="lg" onClick={handleLogout}><p className="text-sm lg:text-base xl:text-lg">Log Out</p></Button>
-                        </DialogFooter>
-                    </DialogHeader>
-                </DialogContent>
-            </Dialog>
+            <div className="w-full">
+                <Dialog>
+                    <DialogTrigger asChild className="cursor-pointer">
+                        <Button><p className="text-sm">Log Out</p></Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-[75vw] lg:max-w-[500px] py-10">
+                        <DialogHeader>
+                            <DialogTitle>
+                                <p className="mb-6">Are you sure you want to log out?</p>
+                            </DialogTitle>
+                                <Button size="lg" onClick={handleLogout}><p className="text-sm lg:text-base xl:text-lg">Log Out</p></Button>
+                        </DialogHeader>
+                    </DialogContent>
+                </Dialog>
+            </div>
     } else {
         profileH2Content = "Viewing user";
         profileButtonContent =
-            <Button className="col-span-2"><p className="text-sm">Follow User</p></Button>                
+            <Button className="col-span-2"><p className="text-sm">Follow User</p></Button>
     }
 
 
@@ -51,7 +51,7 @@ function ProfilePage() {
             {/* Image */}
             <div className="flex flex-col w-2/3 md:w-1/6 gap-6">
                 <img className="w-full rounded-full shadow-lg"
-                    src="https://i.scdn.co/image/ab67616d0000b27310e6745bb2f179dd3616b85f" alt="profile picture" draggable="false" />
+                    src={userStore.getProfilePhoto()} alt="profile picture" draggable="false" />
             </div>
             <div className="h-full w-full md:w-1/2 lg:w-3/4 flex flex-col gap-4  items-start">
                 {/* Name*/}
