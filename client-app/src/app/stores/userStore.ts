@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { User, UserLogin, UserRegister, UserVerify } from "../models/user";
+import { User, UserForgotPassword, UserLogin, UserRegister, UserResetPassword, UserVerify } from "../models/user";
 import agent from "../api/serviceAgent";
 import { store } from "./store";
 import { router } from "../router/Routes";
@@ -32,7 +32,7 @@ export default class UserStore {
             }
             return (response);
         } catch (error) {
-            return(error);
+            return (error);
         }
     }
 
@@ -45,13 +45,13 @@ export default class UserStore {
     register = async (creds: UserRegister) => {
         try {
             const response = await agent.Account.register(creds);
-            //If the API call succeeded, navigate to rack page
+            //If the API call succeeded, navigate to verify page
             if (response.success === true) {
                 router.navigate('/verify')
             }
             return (response);
         } catch (error) {
-            return(error);
+            return (error);
         }
     }
 
@@ -60,7 +60,29 @@ export default class UserStore {
             const response = await agent.Account.verify(creds);
             return (response);
         } catch (error) {
-            return(error);
+            return (error);
+        }
+    }
+
+    forgotPassword = async (creds: UserForgotPassword) => {
+        try {
+            const response = await agent.Account.forgotPassword(creds);
+            return (response);
+        } catch (error) {
+            return (error);
+        }
+    }
+
+    resetPassword = async (creds: UserResetPassword) => {
+        try {
+            const response = await agent.Account.resetPassword(creds);
+            //If the API call succeeded, navigate to rack page
+            if (response.success === true) {
+                router.navigate('/login')
+            }
+            return (response);
+        } catch (error) {
+            return (error);
         }
     }
 

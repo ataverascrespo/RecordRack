@@ -33,8 +33,8 @@ namespace AlbumAPI.Services.EmailServices
             string toEmail = user.Email;
             string emailMessage = "<p>Hey " + emailUsername + "!</p>\n" +
                 "<p>A request has been received to reset the password for your Record Rack account.<p>\n" +
-                "<p>To reset your password, visit the following URL:<p> \n" + 
-                "<a href='http://localhost:5173/verified/?="+user.PasswordResetToken+"'>Click here to reset your password</a> \n"+
+                "<p>You have <strong>one day</strong> from the time of receiving this email to reset your password via the following URL:<p> \n" + 
+                "<a href='http://localhost:5173/reset-password/?="+user.PasswordResetToken+"'>Click here to reset your password</a> \n"+
                 "<p>If you did not request a reset, you can safely ignore this email.<p> \n" + 
                 "<p>See you soon,</p> \n" + "<p>Alex from Record Rack</p>";
                     

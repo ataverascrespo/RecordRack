@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios"
-import { User, UserLogin, UserRegister, UserVerify } from "../models/user";
+import { User, UserChangePassword, UserForgotPassword, UserLogin, UserRegister, UserResetPassword, UserVerify } from "../models/user";
 import { store } from '../stores/store';
 import { AddRecord } from "../models/record";
 
@@ -42,7 +42,7 @@ axios.interceptors.response.use(
 const requests = {
   get: <T>(url: string) => axios.get<T>(url).then(responseBody),
   post: <T>(url: string, body: {}) => axios.post<T>(url, body, { withCredentials: true }).then(responseBody),
-  put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
+  put: <T>(url: string, body: {}) => axios.put<T>(url, body, { withCredentials: true }).then(responseBody),
   del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 }
 
@@ -58,7 +58,10 @@ const Account = {
   login: (user: UserLogin) => requests.post("Auth/Login", user),
   register: (user: UserRegister) => requests.post("Auth/Register", user),
   verify: (token: UserVerify) => requests.post("Auth/Verify", token),
-  refresh: () => requests.post("Auth/RefreshToken", {})
+  refresh: () => requests.post("Auth/RefreshToken", {}),
+  forgotPassword: (request: UserForgotPassword) => requests.post("Auth/ForgotPassword", request),
+  resetPassword: (reset: UserResetPassword) => requests.post("Auth/ResetPassword", reset),
+  changePassword: (change: UserChangePassword) => requests.put("Auth/changePassword", change),
 }
 
 const Users = {

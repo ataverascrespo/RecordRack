@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import PasswordEmailForm from "./PasswordEmailForm";
+import PasswordForgotForm from "./PasswordForgotForm";
 
 function PasswordForgotPage() {
     return (
@@ -21,7 +21,8 @@ function PasswordForgotPage() {
                     </CardHeader>
 
                     <CardContent className="grid gap-4">
-                        <PasswordEmailForm></PasswordEmailForm>
+                        {/* Component for showing the form to pass email and reset password */}
+                        <PasswordForgotForm></PasswordForgotForm>
                     </CardContent>
 
                 </Card>

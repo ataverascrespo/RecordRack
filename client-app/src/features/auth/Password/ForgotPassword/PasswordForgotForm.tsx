@@ -7,12 +7,14 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react";
+import { useStore } from "@/app/stores/store";
+import { useToast } from "@/components/ui/use-toast";
 
 
 /* 
-  Form schema for PasswordReset validation
+  Form schema for PasswordForgot validation
 */
-const passwordResetFormSchema = z.object({
+const passwordForgotSchema = z.object({
     email: z.string().min(1, { message: "Email is required to reset password" }).email({
         message: "Must be a valid email",
     }),
@@ -21,17 +23,20 @@ const passwordResetFormSchema = z.object({
 /* 
     Define the inferred schema
 */
-type PasswordResetSchema = z.infer<typeof passwordResetFormSchema>;
+type PasswordForgotSchema = z.infer<typeof passwordForgotSchema>;
 
-function PasswordEmailForm() {
+function PasswordForgotForm() {
 
+    const { userStore } = useStore();
+    const { toast } = useToast()
+    
     const [isSubmitted, setSubmitted] = useState(false);
 
     /* 
         Define the form and form type
     */
-    const form = useForm<PasswordResetSchema>({
-        resolver: zodResolver(passwordResetFormSchema),
+    const form = useForm<PasswordForgotSchema>({
+        resolver: zodResolver(passwordForgotSchema),
         defaultValues: {
             email: "",
         },
@@ -40,10 +45,33 @@ function PasswordEmailForm() {
     /* 
         Define submission handler
     */
-    const onSubmit = (values: PasswordResetSchema) => {
-        setSubmitted(true);
-
-        //axios agent the api call for resetting token
+    const onSubmit = async (values: PasswordForgotSchema) => {
+        try {
+            const response: any = await userStore.forgotPassword(values)
+            //If the success field is true, display success toast
+            if (response.success === true) {
+                toast({
+                    title: 'Sucessfully sent password reset email. ',
+                })
+                setSubmitted(true);
+            }
+            //If the success field is false, display error msg toast
+            else {
+                toast({
+                    variant: "destructive",
+                    title: "Oh no! Something went wrong.",
+                    description: response.response.data.returnMessage + " Please enter a valid email.",
+                })
+            }
+        } catch (error) {
+            //If there is no response at all, display general error
+            toast({
+                variant: "destructive",
+                title: "Oh no! Something went wrong.",
+                description: "Please try again later.",
+            })
+            throw (error)
+        }
     }
 
     if (!isSubmitted) {
@@ -64,7 +92,7 @@ function PasswordEmailForm() {
                                 <FormMessage />
                             </FormItem>
                         )} />
-                    <Button className="w-full" type="submit">Reset password</Button>
+                    <Button className="w-full" type="submit">Confirm email</Button>
                 </form>
             </Form>
         )
@@ -76,4 +104,4 @@ function PasswordEmailForm() {
     }
 }
 
-export default PasswordEmailForm
+export default PasswordForgotForm

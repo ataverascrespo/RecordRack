@@ -21,3 +21,16 @@ export interface UserRegister {
 export interface UserVerify {
     token: string;
 }
+
+export interface UserForgotPassword {
+    email: string;
+}
+
+export interface UserResetPassword {
+    resetToken: string;
+    password: string;
+}
+export interface UserChangePassword {
+    email: string;
+    password: string;
+}
