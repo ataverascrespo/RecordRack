@@ -15,10 +15,12 @@ namespace AlbumAPI.Models
         public DateTime Created { get; set; }
         public string VerificationToken { get; set; } = string.Empty;
         public DateTime? VerifiedAt { get; set; }
-        public List<Album>? Albums { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
         public DateTime RefreshTokenExpiration { get; set; }
+        public string PasswordResetToken { get; set; } = string.Empty;
+        public DateTime? ResetTokenExpires { get; set; }
         public string ProfilePhotoURL { get; set; } = string.Empty;
         public string ProfilePhotoID { get; set; } = string.Empty;
+        public List<Album>? Albums { get; set; }
     }
 }

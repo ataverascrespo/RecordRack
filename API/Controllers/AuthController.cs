@@ -75,12 +75,50 @@ namespace AlbumAPI.Controllers
             return Ok(serviceResponse);
         }
 
+        //HTTP POST metod
+        //Generates a refresh token
         [HttpPost("RefreshToken")]
         public async Task<ActionResult<string>> RefreshToken()
         {
             var refreshToken = Request.Cookies["refreshToken"];
 
             var serviceResponse = await _authRepo.ValidateRefreshToken(refreshToken!);
+
+            if(!serviceResponse.Success)
+            {
+                //Return a bad request response 
+                return BadRequest(serviceResponse);
+            }
+
+            //Return status code response
+            return Ok(serviceResponse);
+        }
+
+        //HTTP POST metod
+        //Starts password reset process
+        [HttpPost("ForgotPassword")]
+        public async Task<ActionResult<ServiceResponse<int>>> ForgotPassword(UserForgotPasswordDTO user)
+        {
+
+            var serviceResponse = await _authRepo.ForgotPassword(user.email);
+
+            if(!serviceResponse.Success)
+            {
+                //Return a bad request response 
+                return BadRequest(serviceResponse);
+            }
+
+            //Return status code response
+            return Ok(serviceResponse);
+        }
+
+        //HTTP POST metod
+        //Starts password reset process
+        [HttpPost("ResetPassword")]
+        public async Task<ActionResult<ServiceResponse<int>>> ResetPassword(UserResetPasswordDTO reset)
+        {
+
+            var serviceResponse = await _authRepo.ResetPassword(reset.ResetToken, reset.Password);
 
             if(!serviceResponse.Success)
             {

@@ -14,9 +14,10 @@ namespace AlbumAPI.Data
         //Method to verify user
         Task<ServiceResponse<string>> Verify(string verifyToken);
 
-        //Method to return user account existance status
-        Task<bool> UserExists(string Email);
-        
+        Task<ServiceResponse<string>> ForgotPassword(string email);
+
+        Task<ServiceResponse<string>> ResetPassword(string resetToken, string password);
+
         //Method to validate refresh token
         Task<ServiceResponse<string>> ValidateRefreshToken(string refreshToken);
     }

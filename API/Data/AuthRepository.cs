@@ -17,7 +17,6 @@ namespace AlbumAPI.Data
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-
         //Inject data context, needed for DB access
         //Inject IConfiguration, needed to access JSON token
         public AuthRepository(IMapper mapper, DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
@@ -104,8 +103,9 @@ namespace AlbumAPI.Data
             user.Created = DateTime.UtcNow;
             user.VerificationToken = CreateRandomToken();
 
-            //Call the method that creates the email for verification
-            CreateVerificationEmail(user);
+            //Create an EmailService instance and call the method that creates the email for verification
+            EmailService emailer = new EmailService();
+            emailer.CreateVerificationEmail(user);
 
             //Add user to DB Users table
             _context.Users.Add(user);
@@ -116,22 +116,6 @@ namespace AlbumAPI.Data
             //Save user ID to wrapper object Data
             serviceResponse.Data = user.ID;
             return serviceResponse;
-        }
-
-        //Method to assess whether passed user exists upon registration
-        public async Task<bool> UserExists(string userName)
-        {
-            //Return true if passed username is in database
-            //Cast both to lower to ignore case
-            return await _context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower());
-        }
-
-        //Method to assess whether passed email exists upon registration
-        public async Task<bool> EmailExists(string Email)
-        {
-            //Return true if passed username is in database
-            //Cast both to lower to ignore case
-            return await _context.Users.AnyAsync(u => u.Email.ToLower() == Email.ToLower());
         }
 
         //Method to validate refresh token
@@ -172,7 +156,8 @@ namespace AlbumAPI.Data
             return serviceResponse;
         }
 
-         public async Task<ServiceResponse<string>> Verify(string verifyToken)
+        //Method to verify user registration
+        public async Task<ServiceResponse<string>> Verify(string verifyToken)
         {
             var serviceResponse = new ServiceResponse<string>();
 
@@ -198,7 +183,94 @@ namespace AlbumAPI.Data
             return serviceResponse;
         }
 
-    
+        //Method to start password reset process
+        public async Task<ServiceResponse<string>> ForgotPassword(string email)
+        {
+            var serviceResponse = new ServiceResponse<string>();
+
+            //Find first or default instance where passed email is equal to existing email
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "User not found.";
+            }
+            else
+            {
+                user.PasswordResetToken = CreateRandomToken();
+                user.ResetTokenExpires = DateTime.UtcNow.AddDays(1);
+
+                //Create an EmailService instance and call the method that creates the email for verification
+                EmailService emailer = new EmailService();
+                emailer.CreatePasswordResetEmail(user);
+
+                //Save changes to DB table
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Success = true;
+                serviceResponse.ReturnMessage = "Reset password process started";
+            }
+            
+            return serviceResponse;
+        }
+
+        //Method to reset user password
+        public async Task<ServiceResponse<string>> ResetPassword(string resetToken, string password)
+        {
+            var serviceResponse = new ServiceResponse<string>();
+
+            //Find first or default instance where passed email is equal to existing email
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken.Equals(resetToken));
+            if (user == null || user.ResetTokenExpires < DateTime.UtcNow)
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "Invalid reset token.";
+            }
+            else
+            {
+                //Call method to create a hashed and salted password
+                CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+                //Make changes to acquired user
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+                user.PasswordResetToken = "";
+                user.ResetTokenExpires = null;
+
+                //Save changes to DB table
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Success = true;
+                serviceResponse.ReturnMessage = "Your password has been sucessfully reset.";
+            }
+            
+            return serviceResponse;
+        }
+
+        /*
+                Helper methods for AuthRepository below.
+        */
+
+        //Method to assess whether passed user exists upon registration
+        public async Task<bool> UserExists(string userName)
+        {
+            //Return true if passed username is in database
+            //Cast both to lower to ignore case
+            return await _context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower());
+        }
+
+        //Method to assess whether passed email exists upon registration
+        public async Task<bool> EmailExists(string Email)
+        {
+            //Return true if passed username is in database
+            //Cast both to lower to ignore case
+            return await _context.Users.AnyAsync(u => u.Email.ToLower() == Email.ToLower());
+        }
+
         //Method to create a hashed and salted password
         //Out values mean we don't have to return anything
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -316,24 +388,6 @@ namespace AlbumAPI.Data
         private string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
-        }
-
-        //Method that accesses instance of EmailService to compose and send a verification email
-        private void CreateVerificationEmail(User user) {
-            // EMAIL CONFIRMATION
-            // Create user registration confirmation email fields
-            string emailSubject = "Record Rack Account Verification";
-            string emailUsername = user.UserName;
-            string toEmail = user.Email;
-            string emailMessage = "<p>Hey " + emailUsername + "!</p>\n" +
-                "<p>Thanks for signing up for Record Rack! I'm thrilled to have you join.<p>\n" +
-                "<p>To complete your registration and start using Record Rack, please confirm your email address:<p> \n" + 
-                "<a href='http://localhost:5173/verified/?="+user.VerificationToken+"'>Click here to verify your account</a> \n"+
-                "<p>See you soon,</p> \n" + "<p>Alex from Record Rack</p>";
-                    
-            //Create the emailservice object and send the email
-            EmailService emailer = new EmailService();
-            emailer.SendEmail(emailSubject, emailMessage, toEmail, emailUsername).Wait();
         }
     }
 }
