@@ -3,8 +3,8 @@ export interface User {
     email: string;
     userName: string;
     token: string;
-    //created = Date;
-    //image: string;
+    imageURL: string;
+    imageID: string;
 }
 
 export interface UserLogin {

@@ -1,3 +1,5 @@
+import { User } from "./user"
+
 export interface AddRecord {
   albumName: string
   artistName: string
@@ -21,4 +23,5 @@ export interface SavedRecord {
   photoURL: string
   spotifyID: string
   isPrivate: boolean
+  user: User;
 }
