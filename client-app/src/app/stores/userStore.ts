@@ -45,7 +45,7 @@ export default class UserStore {
 
     getUser = async () => {
         try {
-            const response = await agent.Account.getCurrentUser();
+            const response = await agent.Users.getCurrentUser();
             const user: User = response.data;
             runInAction(() => this.user = user);
         } catch (error) {
@@ -56,7 +56,7 @@ export default class UserStore {
     getViewedUser = async (userName: string) => {
         this.loadingViewedUser = true;
         try {
-            const response = await agent.Account.getUserByName(userName);
+            const response = await agent.Users.getUserByName(userName);
             const viewedUser: User = response.data;
             runInAction(() => {
                 this.viewedUser = viewedUser

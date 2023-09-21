@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios"
 import { User, UserLogin, UserRegister, UserVerify } from "../models/user";
 import { store } from '../stores/store';
-import { AddRecord, SavedRecord } from "../models/record";
+import { AddRecord } from "../models/record";
 
 // Define default URL
 axios.defaults.baseURL = "http://localhost:5184";
@@ -51,20 +51,25 @@ const Records = {
   getListForUser: (userID: number) => requests.get(`api/Album/GetAlbumsByUserID/${userID}`),
   getSingle: (id: number) => requests.post(`api/Album/GetAlbumByID/${id}`, { ID: id }),
   add: (record: AddRecord) => requests.post('api/Album', record),
+  delete: (id: number) => requests.del(`api/Album/${id}`)
 }
 
 const Account = {
-  getCurrentUser: () => requests.get<User>('Auth/GetCurrentUser'),
-  getUserByName: (userName: string) => requests.post(`Auth/GetUserByName?userName=${userName}`, userName),
   login: (user: UserLogin) => requests.post("Auth/Login", user),
   register: (user: UserRegister) => requests.post("Auth/Register", user),
   verify: (token: UserVerify) => requests.post("Auth/Verify", token),
   refresh: () => requests.post("Auth/RefreshToken", {})
 }
 
+const Users = {
+  getCurrentUser: () => requests.get<User>('User/GetCurrentUser'),
+  getUserByName: (userName: string) => requests.post(`User/GetUserByName?userName=${userName}`, userName),
+}
+
 const agent = {
   Records,
-  Account
+  Account,
+  Users
 }
 
 export default agent;
