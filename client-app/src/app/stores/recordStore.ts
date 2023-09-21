@@ -84,6 +84,15 @@ export default class RecordStore {
         }
     }
 
+    deleteRecord = async (id: number) => {
+        try {
+            await agent.Records.delete(id);
+            this.unselectRecord();
+        } catch (error) {
+            return(error);
+        }
+    }
+
     // getRecordByID = async (ID: number) => {
     //     try {
     //         const record = this.savedRecords[ID];
