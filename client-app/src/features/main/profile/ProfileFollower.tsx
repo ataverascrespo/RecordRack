@@ -11,11 +11,11 @@ function ProfileFollower() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant={"link"} className="px-0 py-0 "><p className="w-3/4 md:w-full text-sm lg:text-lg font-light text-neutral-800 text-center lg:text-left dark:text-neutral-300"><span className="font-bold">12</span> followers</p></Button>
+                <Button variant={"link"} className="px-0 py-0 "><p className="w-3/4 sm:w-full text-sm sm:text-base font-light text-neutral-800 text-center lg:text-left dark:text-neutral-300"><span className="font-bold">12</span> followers</p></Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-[75vw] lg:max-w-[500px]">
                 <DialogHeader>
-                    <DialogTitle className="">alextaveras2's followers</DialogTitle>
+                    <DialogTitle className="pt-8">alextaveras2's followers</DialogTitle>
                 </DialogHeader>
                 <ScrollArea className="h-72 w-full rounded-md border">
                     <div className="p-4">

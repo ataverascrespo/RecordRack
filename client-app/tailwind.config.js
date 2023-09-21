@@ -14,11 +14,12 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        'xs': '475px',
-        ...defaultTheme.screens,
-        "2xl": "1400px",
-      },
+    },
+    screens: {
+      'xxs': '390px',
+      'xs': '475px',
+      ...defaultTheme.screens,
+      "2xl": "1400px",
     },
     extend: {
       fontFamily: {

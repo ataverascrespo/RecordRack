@@ -18,9 +18,8 @@ function RackList({ results, user }: Props) {
             <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {results.map((result) => {
                     return (
-                        <Link to={`/${user.userName}/record/${result.id}`}>
-                            <Card key={result.id}
-                                className="shadow-md hover:shadow-xl hover:brightness-90 dark:hover:brightness-75 transition-all transform duration-200">
+                        <Link key={result.id} to={`/${user.userName}/record/${result.id}`}>
+                            <Card className="shadow-md hover:shadow-xl hover:brightness-90 dark:hover:brightness-110 transition-all transform   duration-200">
                                 <CardHeader className="p-0">
                                     <img
                                         style={{ viewTransitionName: `album-cover-${result.id}`, contain: 'layout' }}

@@ -6,7 +6,7 @@
   :root {
     color-scheme: light;
 
-    --background: 0 0% 98%;
+    --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
 
     --card: 0 0% 100%;
@@ -76,76 +76,6 @@
   .bg-dark {
     filter: invert(30%) sepia(14%) saturate(0%) hue-rotate(169deg) brightness(40%) contrast(108%);
   }
-
-  .header {
-    view-transition-name: header;
-    width: fit-content;
-  }
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-  }
-
-  @keyframes fade-out {
-    to {
-      opacity: 0;
-    }
-  }
-
-  @keyframes slide-from-right {
-    from {
-      transform: translateX(30px);
-    }
-  }
-
-  @keyframes slide-to-left {
-    to {
-      transform: translateX(-30px);
-    }
-  }
-
-  ::view-transition-old(album-cover), 
-  ::view-transition-new(album-cover) {
-    mix-blend-mode: normal;
-    animation: none;
-    height: 100%;
-    overflow: clip;
-  }
-    
-  /* Transitions for mobile */
-  ::view-transition-old(root) {
-    animation: 300ms ease-out both full-slide-to-left;
-  }
-
-  ::view-transition-new(root) {
-    animation: 300ms ease-out both full-slide-from-right;
-  }
-
-  @media (min-width: 500px) {
-    /* Overrides for larger displays.
-    This is the shared axis transition from earlier in the article. */
-    ::view-transition-old(root) {
-      animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
-        300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
-    }
-
-    ::view-transition-new(root) {
-      animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
-        300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
-    }
-  }
-  
-
-  @media (prefers-reduced-motion) {
-    ::view-transition-group(*),
-    ::view-transition-old(*),
-    ::view-transition-new(*) {
-      animation: none !important;
-  }
-}
-  
 }
  
 @layer base {

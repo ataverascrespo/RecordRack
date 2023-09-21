@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { Textfit } from 'react-textfit';
 import NotFoundView from "@/app/layout/NotFoundView";
 import Loading from "@/app/layout/Loading";
+import RackViewDelete from "./RackViewDelete";
 
 function RackView() {
     const navigate = useNavigate();
@@ -54,7 +55,7 @@ function RackView() {
         //  In this case, there is probably no viewed user. So we need to navigate back to their list page URL rather than a page back
         
         //Case 2
-        if (viewedUser != params.username) {
+        if (viewedUser?.userName != params.username) {
             navigate(`/${params.username}`)
         }
         //Case 1
@@ -94,7 +95,7 @@ function RackView() {
     
     else {
         return (
-            <div className="container h-full flex flex-col gap-12">
+            <div className="container h-full flex flex-col mb-12 gap-8">
                 <div className="flex flex-col lg:flex-row gap-4 md:gap-10 lg:gap-12 xl:gap-24 items-center">
                     {/* Image */}
                     <div className="flex flex-col mt-28 w-full sm:w-3/4 md:w-2/3 gap-6 items-start justify-between lg:justify-center sm:self-start lg:self-center">
@@ -152,7 +153,7 @@ function RackView() {
                                     <Switch id="private" disabled checked={recordStore.selectedRecord?.isPrivate} />
                                 </div>
                                 {params.username == user?.userName ? (
-                                    <div>
+                                    <div className="flex flex-row gap-4">
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button>Edit Fields</Button>
@@ -171,31 +172,12 @@ function RackView() {
                                                     <Switch id="private" />
                                                 </div>
                                                 <DialogFooter>
-                                                    <Dialog>
-                                                        <DialogTrigger asChild>
-                                                            <Button>Edit Fields</Button>
-                                                        </DialogTrigger>
-                                                        <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
-                                                            <DialogHeader>
-                                                                <DialogTitle className="mt-4 lg:mt-0">Editing {recordStore.selectedRecord!.albumType} {recordStore.selectedRecord!.albumName} by {recordStore.selectedRecord!.artistName}</DialogTitle>
-                                                                <DialogDescription>
-                                                                    You can edit these fields.
-                                                                </DialogDescription>
-                                                            </DialogHeader>
-                                                            <div className="grid gap-4 py-4">
-                                                                <Label htmlFor="message">Record Description</Label>
-                                                                <Textarea placeholder="Change your notes or thoughts about the record." />
-                                                                <Label htmlFor="private">Set as Private?</Label>
-                                                                <Switch id="private" />
-                                                            </div>
-                                                            <DialogFooter>
-                                                                <Button type="submit">Add to Rack</Button>
-                                                            </DialogFooter>
-                                                        </DialogContent>
-                                                    </Dialog>
+                                                    <Button type="submit">Edit Fields</Button>
                                                 </DialogFooter>
                                             </DialogContent>
                                         </Dialog>
+                                        
+                                        <RackViewDelete></RackViewDelete>
                                     </div>
                                 ) : (
                                     <div className="flex flex-row gap-4">
@@ -227,7 +209,7 @@ function RackView() {
                         </div>
                     </div>
                 </div>
-                <div className="mt-12">
+                <div className="mt-8">
                     {recordStore.selectedRecord?.albumType === "album" ? (
                         <Spotify className="mb-20" width={"100%"} link={`https://open.spotify.com/${recordStore.selectedRecord?.albumType}/${recordStore.selectedRecord?.spotifyID}`} />
                     ) : (
