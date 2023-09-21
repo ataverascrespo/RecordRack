@@ -1,3 +1,7 @@
+/* 
+    This page displays when a data fetch cannot find the requested data
+*/ 
+
 import { observer } from "mobx-react-lite";
 import { XCircle } from 'lucide-react';
 import { ThemeProvider } from "@/components/theme-provider";
