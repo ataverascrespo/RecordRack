@@ -221,7 +221,7 @@ namespace AlbumAPI.Data
         {
             var serviceResponse = new ServiceResponse<string>();
 
-            //Find first or default instance where passed email is equal to existing email
+            //Find first or default instance where passed token is equal to existing token
             var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken.Equals(resetToken));
             if (user == null || user.ResetTokenExpires < DateTime.UtcNow)
             {
@@ -240,12 +240,53 @@ namespace AlbumAPI.Data
                 user.PasswordSalt = passwordSalt;
                 user.PasswordResetToken = "";
                 user.ResetTokenExpires = null;
+                
+                //Create a new verification token so that all sessions will end upon next refresh
+                var newRefreshToken = GenerateRefreshToken();
+                SetRefreshToken(user, newRefreshToken);
 
                 //Save changes to DB table
                 await _context.SaveChangesAsync();
 
                 serviceResponse.Success = true;
                 serviceResponse.ReturnMessage = "Your password has been sucessfully reset.";
+            }
+            
+            return serviceResponse;
+        }
+
+        //Method to reset user password
+        public async Task<ServiceResponse<string>> ChangePassword(string email, string password)
+        {
+            var serviceResponse = new ServiceResponse<string>();
+
+            //Find first or default instance where passed email is equal to existing email
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "That user was not found.";
+            }
+            else
+            {
+                //Call method to create a hashed and salted password
+                CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+                //Make changes to acquired user
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+
+                //Create a new verification token so that all sessions will end upon next refresh
+                var newRefreshToken = GenerateRefreshToken();
+                SetRefreshToken(user, newRefreshToken);
+
+                //Save changes to DB table
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Success = true;
+                serviceResponse.ReturnMessage = "Your password has been sucessfully changed.";
             }
             
             return serviceResponse;

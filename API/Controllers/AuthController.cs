@@ -17,7 +17,7 @@ namespace AlbumAPI.Controllers
             _authRepo = authRepo;
         }
 
-        //HTTP POST metod
+        //HTTP POST method
         //Adds a user to the database
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDTO request)
@@ -38,7 +38,7 @@ namespace AlbumAPI.Controllers
         }
 
 
-        //HTTP POST metod
+        //HTTP POST method
         //Logs user into account
         [HttpPost("Login")]
         public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDTO request)
@@ -57,7 +57,7 @@ namespace AlbumAPI.Controllers
         }
 
         
-        //HTTP POST metod
+        //HTTP POST method
         //Verifies user account
         [HttpPost("Verify")]
         public async Task<ActionResult<ServiceResponse<int>>> Verify(UserVerificationTokenDTO request)
@@ -75,7 +75,7 @@ namespace AlbumAPI.Controllers
             return Ok(serviceResponse);
         }
 
-        //HTTP POST metod
+        //HTTP POST method
         //Generates a refresh token
         [HttpPost("RefreshToken")]
         public async Task<ActionResult<string>> RefreshToken()
@@ -94,7 +94,7 @@ namespace AlbumAPI.Controllers
             return Ok(serviceResponse);
         }
 
-        //HTTP POST metod
+        //HTTP POST method
         //Starts password reset process
         [HttpPost("ForgotPassword")]
         public async Task<ActionResult<ServiceResponse<int>>> ForgotPassword(UserForgotPasswordDTO user)
@@ -112,13 +112,31 @@ namespace AlbumAPI.Controllers
             return Ok(serviceResponse);
         }
 
-        //HTTP POST metod
-        //Starts password reset process
+        //HTTP POST method
+        //Resets password for user
         [HttpPost("ResetPassword")]
         public async Task<ActionResult<ServiceResponse<int>>> ResetPassword(UserResetPasswordDTO reset)
         {
 
             var serviceResponse = await _authRepo.ResetPassword(reset.ResetToken, reset.Password);
+
+            if(!serviceResponse.Success)
+            {
+                //Return a bad request response 
+                return BadRequest(serviceResponse);
+            }
+
+            //Return status code response
+            return Ok(serviceResponse);
+        }
+
+        //HTTP PUT method
+        //Changes the user's existing password
+        [HttpPut("ChangePassword")]
+        public async Task<ActionResult<ServiceResponse<int>>> ChangePassword(UserChangePasswordDTO request)
+        {
+
+            var serviceResponse = await _authRepo.ChangePassword(request.Email, request.Password);
 
             if(!serviceResponse.Success)
             {
