@@ -43,7 +43,7 @@ namespace AlbumAPI.Controllers
 
         //HTTP POST method
         //Return user with given name
-        [HttpPost("GetUserByName")]
+        [HttpGet("GetUserByName/{UserName}")]
         public async Task<ActionResult<ServiceResponse<UserDTO>>> GetUserByName(string userName) 
         {
             //Return status code response upon completion

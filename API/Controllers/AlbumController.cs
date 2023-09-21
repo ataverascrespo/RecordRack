@@ -33,7 +33,7 @@ namespace AlbumAPI.Controllers
 
         //HTTP GET method
         //Return a single album based on passed parameter ID
-        [HttpPost("GetAlbumByID/{ID}")]
+        [HttpGet("GetAlbumByID/{ID}")]
         public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> GetAlbum(int ID)
         {
             //Return status code response and model upon completion of albumService.GetAlbums() thread
