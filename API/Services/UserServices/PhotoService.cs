@@ -2,12 +2,11 @@ using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Options;
 
-namespace AlbumAPI.Services.AlbumServices
+namespace AlbumAPI.Services.UserServices
 {
     public class PhotoService : IPhotoService
     {
         private readonly IConfiguration _configuration;
-
 
         //Inject Cloudinary configuration
         public PhotoService(IConfiguration configuration)
@@ -61,7 +60,7 @@ namespace AlbumAPI.Services.AlbumServices
         }
 
         //Method to delete an existing file based on passed ID
-        public async Task<DeletionResult> DeletePhotoASync(string publicID)
+        public async Task<DeletionResult> DeletePhotoAsync(string publicID)
         {
             Cloudinary _cloudinary = GetCloudinaryAccount();
 
