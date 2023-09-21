@@ -56,7 +56,7 @@ function RackView() {
         
         //Case 2
         if (viewedUser?.userName != params.username) {
-            navigate(`/${params.username}`)
+            navigate(`/${params.username}/profile`)
         }
         //Case 1
         else {

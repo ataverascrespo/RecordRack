@@ -28,7 +28,7 @@ export default class UserStore {
 
             //If the API call succeeded, navigate to rack page
             if (response.success === true) {
-                router.navigate(`/${this.user!.userName}/racklist`)
+                router.navigate(`/${this.user!.userName}/profile`)
             }
             return (response);
         } catch (error) {
@@ -94,9 +94,11 @@ export default class UserStore {
     }
 
     getProfilePhoto = () => {
-        const profilePhotoUrl
-            = this.viewedUser!.imageURL || 'https://res.cloudinary.com/dlwfuryyz/image/upload/v1695305498/album-api/jzbiw85pakr4amttznuq.jpg';
-        return profilePhotoUrl;
+        if (this.viewedUser?.imageURL) {
+            return this.viewedUser?.imageURL;
+        } else {
+            return 'https://res.cloudinary.com/dlwfuryyz/image/upload/v1695305498/album-api/jzbiw85pakr4amttznuq.jpg';
+        }
     }
 
 

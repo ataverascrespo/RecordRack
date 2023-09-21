@@ -38,7 +38,7 @@ function Navbar() {
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">connect</p></Button>
             </NavLink>
             <div>
-              <NavLink to={`${user?.userName}`}>
+              <NavLink to={`${user?.userName}/profile`}>
                 <Button variant="ghost" size="lg">
                   <div className="flex flex-row gap-4 items-center">
                   <p className="text-sm lg:text-base xl:text-lg">your rack</p>
@@ -70,7 +70,7 @@ function Navbar() {
                           <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">connect</p></Button>
                         </NavLink>
                         <div className="ml-8 my-3">
-                          <NavLink to={`${user?.userName}`}>
+                          <NavLink to={`${user?.userName}/profile`}>
                             <Avatar>
                               <AvatarImage src={userStore.getProfilePhoto()} alt="@shadcn" />
                               <AvatarFallback>CN</AvatarFallback>

@@ -24,7 +24,7 @@ export const routes: RouteObject[] = [
         // Define child routes to navigate through
         children: [
             {element: <Authorized />, children: [
-                { path: ':username', element: <MainUserPage /> },
+                { path: ':username/profile', element: <MainUserPage /> },
                 { path: ':username/record/:id', element: <RackView /> },
                 { path: 'search', element: <SearchPage /> },
             ]},

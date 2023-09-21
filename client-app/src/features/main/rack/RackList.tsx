@@ -22,7 +22,6 @@ function RackList({ results, user }: Props) {
                             <Card className="shadow-md hover:shadow-xl hover:brightness-90 dark:hover:brightness-110 transition-all transform   duration-200">
                                 <CardHeader className="p-0">
                                     <img
-                                        style={{ viewTransitionName: `album-cover-${result.id}`, contain: 'layout' }}
                                         src={result.photoURL}
                                         draggable="false"
                                         className="rounded-md">
