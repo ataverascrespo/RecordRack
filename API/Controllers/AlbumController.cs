@@ -15,15 +15,11 @@ namespace AlbumAPI.Controllers
         //Private album service field
         private readonly IAlbumService _albumService;
 
-        //Private photo service field
-        private readonly IPhotoService _photoService;
-
         //Inject the IAlbumController interface
         //Inject the IPhotoService for uploading photos
-        public AlbumController(IAlbumService albumService, IPhotoService photoService)
+        public AlbumController(IAlbumService albumService)
         {
             _albumService = albumService;
-            _photoService = photoService;
         }
 
         //HTTP GET method
@@ -52,25 +48,6 @@ namespace AlbumAPI.Controllers
             //Return status code response and model upon completion of albumService.GetAlbums() thread
             return Ok(await _albumService.GetAlbumsByUserID(UserID));
         }
-
-        /*
-
-            Old HTTP Post method that included the file upload
-            Not gonna delete this yet so i can use it for user profiles
-        */
-        // //HTTP POST method
-        // //Add an album to the list of albums
-        // [HttpPost]
-        // //Specify Content-Type header for client
-        // [Consumes("multipart/form-data")]
-        // public async Task<ActionResult<ServiceResponse<List<AddAlbumDTO>>>> AddAlbum([FromForm] AddAlbumDTO newAlbum, [FromForm] IFormFile file)
-        // {
-        //     var result = await _photoService.AddPhotoAsync(file);
-        //     if (result.Error != null) return BadRequest(result.Error.Message);
-
-        //     //Return status code response upon completion of albumService.AddAlbum() thread
-        //     return Ok(await _albumService.AddAlbum(newAlbum, result));
-        // }
 
         //HTTP POST method
         //Add an album to the list of albums
@@ -109,14 +86,6 @@ namespace AlbumAPI.Controllers
 
             //Return status code response upon completion of albumService.DeleteeAlbum() thread
             return Ok();
-        }
-
-        [HttpDelete("DeletePhoto")]
-        public  async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> DeletePhoto(string ID)
-        {
-            //Return status code response upon completion of photoService.deletePhotoAsync thread
-            return Ok(await _photoService.DeletePhotoASync(ID));
-        }
-       
+        }       
     }
 }

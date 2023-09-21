@@ -84,6 +84,32 @@ namespace AlbumAPI.Services.UserServices
             return serviceResponse;
         }
 
+        //Method to retrieve the current signed in user
+        public async Task<ServiceResponse<UserDTO>> AddProfilePhoto(ImageUploadResult result) {
+
+            var serviceResponse = new ServiceResponse<UserDTO>();
+
+            //Get the first or default instance where logged in existing user IDs is equal to user ID
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+                //Error message
+                serviceResponse.ReturnMessage = "There is no current user signed in.";
+            }
+            else {
+
+                user.ProfilePhotoURL = result.SecureUrl.AbsoluteUri;
+                user.ProfilePhotoID = result.PublicId;
+
+                UserDTO currentUser = CreateUserDTO(user);
+                //Store DTO in service data
+                serviceResponse.Data = currentUser;
+            }
+            
+            return serviceResponse;
+        }
+
         //Method to create a UserDTO to return upon login
         private UserDTO CreateUserDTO(User user)
         {
@@ -92,8 +118,9 @@ namespace AlbumAPI.Services.UserServices
                 ID = user.ID,
                 Email = user.Email,
                 UserName = user.UserName,
-                Token = "",   //when possible, use the method to create JWT   
-                //Eventually image
+                Token = "",
+                ProfilePhotoURL = user.ProfilePhotoURL,
+                ProfilePhotoID = user.ProfilePhotoID   
             };
         }
     }

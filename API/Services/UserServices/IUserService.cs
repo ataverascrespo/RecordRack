@@ -15,5 +15,7 @@ namespace AlbumAPI.Services.UserServices
 
         //Method to get current user
         Task<ServiceResponse<UserDTO>> GetCurrentUser();
+
+        Task<ServiceResponse<UserDTO>> AddProfilePhoto(ImageUploadResult result);
     }
 }

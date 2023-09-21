@@ -10,13 +10,17 @@ namespace AlbumAPI.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        //Private album service field
+        //Private user service field
         private readonly IUserService _userService;
 
+        //Private photo service field
+        private readonly IPhotoService _photoService;
+
         //Inject the IUserService interface
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IPhotoService photoService)
         {
             _userService = userService;
+            _photoService = photoService;
         }
 
         //HTTP GET method
@@ -46,5 +50,25 @@ namespace AlbumAPI.Controllers
             return Ok(await _userService.GetUserByName(userName));
         }
 
+        //HTTP POST method
+        //Adds profile picure to specified user
+        [HttpPost("ProfilePhoto")]
+        //Specify Content-Type header for client
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult<ServiceResponse<UserDTO>>> AddUserProfilePhoto([FromForm] IFormFile file)
+        {
+            var result = await _photoService.AddPhotoAsync(file);
+            if (result.Error != null) return BadRequest(result.Error.Message);
+
+            //Return status code response upon completion of albumService.AddAlbum() thread
+            return Ok(await _userService.AddProfilePhoto(result));
+        }
+
+        [HttpDelete("DeletePhoto")]
+        public  async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> DeletePhoto(string ID)
+        {
+            //Return status code response upon completion of photoService.deletePhotoAsync thread
+            return Ok(await _photoService.DeletePhotoAsync(ID));
+        }
     }
 }
