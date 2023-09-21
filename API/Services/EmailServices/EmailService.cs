@@ -10,6 +10,38 @@ namespace AlbumAPI.Services.EmailServices
 {
     public class EmailService
     {
+        //Method that accesses instance of EmailService to compose and send a verification email
+        public void CreateVerificationEmail(User user) {
+            // Create user registration confirmation email fields
+            string emailSubject = "Record Rack Account Verification";
+            string emailUsername = user.UserName;
+            string toEmail = user.Email;
+            string emailMessage = "<p>Hey " + emailUsername + "!</p>\n" +
+                "<p>Thanks for signing up for Record Rack! I'm thrilled to have you join.<p>\n" +
+                "<p>To complete your registration and start using Record Rack, please confirm your email address:<p> \n" + 
+                "<a href='http://localhost:5173/verified/?="+user.VerificationToken+"'>Click here to verify your account</a> \n"+
+                "<p>See you soon,</p> \n" + "<p>Alex from Record Rack</p>";
+                    
+            SendEmail(emailSubject, emailMessage, toEmail, emailUsername).Wait();
+        }
+
+        //Method that accesses instance of EmailService to compose and send a password reset email
+        public void CreatePasswordResetEmail(User user) {
+            // Create user password reset  email fields
+            string emailSubject = "Record Rack - " + user.UserName + " password reset";
+            string emailUsername = user.UserName;
+            string toEmail = user.Email;
+            string emailMessage = "<p>Hey " + emailUsername + "!</p>\n" +
+                "<p>A request has been received to reset the password for your Record Rack account.<p>\n" +
+                "<p>To reset your password, visit the following URL:<p> \n" + 
+                "<a href='http://localhost:5173/verified/?="+user.PasswordResetToken+"'>Click here to reset your password</a> \n"+
+                "<p>If you did not request a reset, you can safely ignore this email.<p> \n" + 
+                "<p>See you soon,</p> \n" + "<p>Alex from Record Rack</p>";
+                    
+            SendEmail(emailSubject, emailMessage, toEmail, emailUsername).Wait();
+        }
+
+
         public async Task SendEmail(string subject, string message, string toEmail, string username)
         {
             //Test api key
