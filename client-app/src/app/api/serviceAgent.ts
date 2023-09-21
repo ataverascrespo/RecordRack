@@ -49,7 +49,7 @@ const requests = {
 const Records = {
   getList: () => requests.get('api/Album/GetAll'),
   getListForUser: (userID: number) => requests.get(`api/Album/GetAlbumsByUserID/${userID}`),
-  getSingle: (id: number) => requests.post(`api/Album/GetAlbumByID/${id}`, { ID: id }),
+  getSingle: (id: number) => requests.get(`api/Album/GetAlbumByID/${id}`),
   add: (record: AddRecord) => requests.post('api/Album', record),
   delete: (id: number) => requests.del(`api/Album/${id}`)
 }
@@ -63,7 +63,7 @@ const Account = {
 
 const Users = {
   getCurrentUser: () => requests.get<User>('User/GetCurrentUser'),
-  getUserByName: (userName: string) => requests.post(`User/GetUserByName?userName=${userName}`, userName),
+  getUserByName: (userName: string) => requests.get(`User/GetUserByName/${userName}`),
 }
 
 const agent = {
