@@ -17,36 +17,6 @@ namespace AlbumAPI.Controllers
             _authRepo = authRepo;
         }
 
-        //HTTP GET method
-        //Return all users
-        [Authorize]
-        [HttpGet("GetUsers")]
-        public async Task<ActionResult<ServiceResponse<List<UserDTO>>>> GetUsers() 
-        {
-            //Return status code response upon completion
-            return Ok(await _authRepo.GetUsers());
-        }
-
-        //HTTP GET method
-        //Return current user
-        [Authorize]
-        [HttpGet("GetCurrentUser")]
-        public async Task<ActionResult<ServiceResponse<UserDTO>>> GetCurrentUser() 
-        {
-            //Return status code response upon completion
-            return Ok(await _authRepo.GetCurrentUser());
-        }
-
-        //HTTP POST method
-        //Return user with given name
-        [Authorize]
-        [HttpPost("GetUserByName")]
-        public async Task<ActionResult<ServiceResponse<UserDTO>>> GetUserByName(string userName) 
-        {
-            //Return status code response upon completion
-            return Ok(await _authRepo.GetUserByName(userName));
-        }
-
         //HTTP POST metod
         //Adds a user to the database
         [HttpPost("Register")]

@@ -1,5 +1,6 @@
 global using AlbumAPI.Models;
 global using AlbumAPI.Services.AlbumServices;
+global using AlbumAPI.Services.UserServices;
 global using AlbumAPI.DTOs.Album;
 global using AlbumAPI.DTOs;
 global using AlbumAPI.DTOs.User;
@@ -64,6 +65,9 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 //Create a new instance of the requested album services 
 builder.Services.AddScoped<IAlbumService, AlbumService>();
+
+//Create a new instance of the requested user services 
+builder.Services.AddScoped<IUserService, UserService>();
 
 //Create a new instance of the requested user services 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
