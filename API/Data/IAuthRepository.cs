@@ -18,10 +18,10 @@ namespace AlbumAPI.Data
         Task<ServiceResponse<string>> ForgotPassword(string email);
 
         //Method to reset password
-        Task<ServiceResponse<string>> ResetPassword(string email, string password);
+        Task<ServiceResponse<string>> ResetPassword(string resetToken, string password);
 
         //Method to change existing password
-        Task<ServiceResponse<string>> ChangePassword(string resetToken, string password);
+        Task<ServiceResponse<string>> ChangePassword(string email, string oldPassword, string newPassword);
 
         //Method to validate refresh token
         Task<ServiceResponse<string>> ValidateRefreshToken(string refreshToken);

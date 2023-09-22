@@ -61,7 +61,7 @@ const Account = {
   refresh: () => requests.post("Auth/RefreshToken", {}),
   forgotPassword: (request: UserForgotPassword) => requests.post("Auth/ForgotPassword", request),
   resetPassword: (reset: UserResetPassword) => requests.post("Auth/ResetPassword", reset),
-  changePassword: (change: UserChangePassword) => requests.put("Auth/changePassword", change),
+  changePassword: (change: UserChangePassword) => requests.post("Auth/changePassword", change),
 }
 
 const Users = {

@@ -256,7 +256,7 @@ namespace AlbumAPI.Data
         }
 
         //Method to reset user password
-        public async Task<ServiceResponse<string>> ChangePassword(string email, string password)
+        public async Task<ServiceResponse<string>> ChangePassword(string email, string oldPassword, string newPassword)
         {
             var serviceResponse = new ServiceResponse<string>();
 
@@ -269,10 +269,18 @@ namespace AlbumAPI.Data
                 //Error message
                 serviceResponse.ReturnMessage = "That user was not found.";
             }
+            //If password for user does not match
+            else if (!VerifyPasswordHash(oldPassword, user.PasswordHash, user.PasswordSalt))
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "Incorrect password entered.";
+            }
             else
             {
                 //Call method to create a hashed and salted password
-                CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+                CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
 
                 //Make changes to acquired user
                 user.PasswordHash = passwordHash;

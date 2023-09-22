@@ -1,7 +1,7 @@
 import { useStore } from "@/app/stores/store";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
-import ProfilePhotoForm from "./ProfilePhotoForm";
+import ProfilePageSettings from "./settings/ProfilePageSettings";
 
 function ProfileButtons() {
     const { userStore, profileStore } = useStore();
@@ -32,8 +32,8 @@ function ProfileButtons() {
                     </DialogContent>
                 </Dialog>
 
-                {/* Component for uploading a photo via zod form */}
-                <ProfilePhotoForm></ProfilePhotoForm>
+                {/* Component for account settings*/}
+                <ProfilePageSettings></ProfilePageSettings>
             </div>
         )
     } else {

@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { User, UserForgotPassword, UserLogin, UserRegister, UserResetPassword, UserVerify } from "../models/user";
+import { User, UserChangePassword, UserForgotPassword, UserLogin, UserRegister, UserResetPassword, UserVerify } from "../models/user";
 import agent from "../api/serviceAgent";
 import { store } from "./store";
 import { router } from "../router/Routes";
@@ -74,9 +74,22 @@ export default class UserStore {
     resetPassword = async (creds: UserResetPassword) => {
         try {
             const response = await agent.Account.resetPassword(creds);
-            //If the API call succeeded, navigate to rack page
+            //If the API call succeeded, navigate to login page
             if (response.success === true) {
                 router.navigate('/login')
+            }
+            return (response);
+        } catch (error) {
+            return (error);
+        }
+    }
+
+    changePassword = async (creds: UserChangePassword) => {
+        try {
+            const response = await agent.Account.changePassword(creds);
+            //If the API call succeeded, log user out
+            if (response.success === true) {
+                this.logout();
             }
             return (response);
         } catch (error) {

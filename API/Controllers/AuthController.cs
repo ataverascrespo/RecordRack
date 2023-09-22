@@ -130,13 +130,15 @@ namespace AlbumAPI.Controllers
             return Ok(serviceResponse);
         }
 
-        //HTTP PUT method
+        //HTTP POST method
         //Changes the user's existing password
-        [HttpPut("ChangePassword")]
+        //Chose to POST instead of PUT because this call wouldnt be idempotent
+        [HttpPost("ChangePassword")]
+        [Authorize]
         public async Task<ActionResult<ServiceResponse<int>>> ChangePassword(UserChangePasswordDTO request)
         {
 
-            var serviceResponse = await _authRepo.ChangePassword(request.Email, request.Password);
+            var serviceResponse = await _authRepo.ChangePassword(request.Email, request.OldPassword, request.NewPassword);
 
             if(!serviceResponse.Success)
             {
