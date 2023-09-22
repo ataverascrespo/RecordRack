@@ -61,7 +61,7 @@ function ProfilePageSettings() {
             <SheetTrigger asChild>
                 <Button className="w-full md:w-1/4 lg:w-1/6"><p className="text-sm">Settings</p></Button>
             </SheetTrigger>
-            <SheetContent className="sm:max-w-[50vw] lg:max-w-[45vw]">
+            <SheetContent className="sm:max-w-[50vw] lg:max-w-[45vw] overflow-y-scroll max-h-screen">
                 <SheetHeader>
                     <SheetTitle>Account Settings</SheetTitle>
                     <SheetDescription>

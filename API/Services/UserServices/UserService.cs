@@ -105,6 +105,9 @@ namespace AlbumAPI.Services.UserServices
                 UserDTO currentUser = CreateUserDTO(user);
                 //Store DTO in service data
                 serviceResponse.Data = currentUser;
+
+                //Save changes to database table
+                await _context.SaveChangesAsync();
             }
             
             return serviceResponse;
@@ -119,8 +122,8 @@ namespace AlbumAPI.Services.UserServices
                 Email = user.Email,
                 UserName = user.UserName,
                 Token = "",
-                ProfilePhotoURL = user.ProfilePhotoURL,
-                ProfilePhotoID = user.ProfilePhotoID   
+                ImageURL = user.ProfilePhotoURL,
+                ImageID = user.ProfilePhotoID   
             };
         }
     }

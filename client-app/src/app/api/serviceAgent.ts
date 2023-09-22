@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios"
 import { User, UserChangePassword, UserForgotPassword, UserLogin, UserRegister, UserResetPassword, UserVerify } from "../models/user";
 import { store } from '../stores/store';
 import { AddRecord } from "../models/record";
+import { ImageType } from "react-images-uploading";
 
 // Define default URL
 axios.defaults.baseURL = "http://localhost:5184";
@@ -67,6 +68,14 @@ const Account = {
 const Users = {
   getCurrentUser: () => requests.get<User>('User/GetCurrentUser'),
   getUserByName: (userName: string) => requests.get(`User/GetUserByName/${userName}`),
+  uploadPhoto: (file: File) => {
+    let formData = new FormData();
+    formData.append('File', file);
+    return axios.post('User/ProfilePhoto', formData, {
+      headers: {'Content-Type': 'multipart/form-data'}
+    })
+  },
+  deletePhoto: (id: string) => requests.del(`User/DeletePhoto?ID=${id}`),
 }
 
 const agent = {

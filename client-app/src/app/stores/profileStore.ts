@@ -2,11 +2,13 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { User } from "../models/user";
 import agent from "../api/serviceAgent";
 import { store } from "./store";
+import { router } from "../router/Routes";
 
 // User data store class
 export default class ProfileStore {
     viewedUser: User | undefined = undefined;
     loadingViewedUser = false;
+    uploadingPhoto = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -18,6 +20,7 @@ export default class ProfileStore {
         if (store.userStore.user && this.viewedUser) {
             return store.userStore.user.userName === this.viewedUser.userName;
         }
+        return false;
     }
 
     getViewedUser = async (userName: string) => {
@@ -31,6 +34,9 @@ export default class ProfileStore {
             });
         } catch (error) {
             console.log(error);
+            runInAction(() => {
+                this.loadingViewedUser = false;
+            });
         }
     }
 
@@ -46,7 +52,38 @@ export default class ProfileStore {
         }
     }
 
-    setProfilePhoto = async () => {
-        
+    uploadProfilePhoto = async (file: File) => {
+        this.uploadingPhoto = true; 
+
+        //If the user already has a profile picture, delete the prev one before continuing
+        if (this.viewedUser?.imageURL && this.viewedUser?.imageID) {
+            this.deleteProfilePhoto(this.viewedUser.imageID)
+        }
+        try {
+            const response = await agent.Users.uploadPhoto(file);
+            if (response.data.success === true) {
+                router.navigate(0)
+                runInAction(() => {
+                    this.uploadingPhoto = false;
+                    if (store.userStore.user) {
+                        store.userStore.user.imageURL = response.data.data.imageURL;
+                        store.userStore.user.imageID = response.data.data.imageID;
+                    }
+                });
+            }
+            return response.data;
+        } catch (error) {
+            runInAction(() => {
+                this.uploadingPhoto = false;
+            });
+        }
+    }
+
+    deleteProfilePhoto = async (id: string) => {
+        try {
+            await agent.Users.deletePhoto(id);
+        } catch (error) {
+            throw (error);
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace AlbumAPI.Services.UserServices
                 var uploadParams = new ImageUploadParams
                 {
                     File = new FileDescription(file.FileName, stream),
-                    Transformation = new Transformation().Height(500).Width(500),
+                    Transformation = new Transformation().Height(360).Width(360).Crop("fill"),
                     Folder = "album-api"
                 };
 

@@ -9,7 +9,7 @@ namespace AlbumAPI.DTOs.User
         public string Email { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
         public string Token { get; set; } = string.Empty;
-        public string ProfilePhotoURL { get; set; } = string.Empty;
-        public string ProfilePhotoID { get; set; } = string.Empty;
+        public string ImageURL { get; set; } = string.Empty;
+        public string ImageID{ get; set; } = string.Empty;
     }
 }
