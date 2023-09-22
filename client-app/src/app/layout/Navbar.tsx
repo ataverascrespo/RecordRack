@@ -10,7 +10,9 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 
 function Navbar() {
   //Initialize user store with user object and loggedIn method
-  const { userStore, userStore: { user, isLoggedIn } } = useStore();
+  const { userStore, profileStore } = useStore();
+  const { user, isLoggedIn } = userStore;
+  const { viewedUser } = profileStore;
 
   function handleLogout() {
     userStore.logout();
@@ -43,7 +45,7 @@ function Navbar() {
                   <div className="flex flex-row gap-4 items-center">
                   <p className="text-sm lg:text-base xl:text-lg">your rack</p>
                   <Avatar className="h-6 w-6">
-                    <AvatarImage src={userStore.getProfilePhoto()} alt="@shadcn" />
+                    <AvatarImage src={profileStore.getProfilePhoto()} alt="@shadcn" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   </div>
@@ -72,7 +74,7 @@ function Navbar() {
                         <div className="ml-8 my-3">
                           <NavLink to={`${user?.userName}/profile`}>
                             <Avatar>
-                              <AvatarImage src={userStore.getProfilePhoto()} alt="@shadcn" />
+                              <AvatarImage src={profileStore.getProfilePhoto()} alt="@shadcn" />
                               <AvatarFallback>CN</AvatarFallback>
                             </Avatar>
                           </NavLink>

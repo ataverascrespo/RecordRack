@@ -3,6 +3,7 @@ import SearchStore from "./searchStore";
 import UserStore from "./userStore";
 import CommonStore from "./commonStore";
 import RecordStore from "./recordStore";
+import ProfileStore from "./profileStore";
 
 // Create an interface to store all of the app's global states
 interface Store {
@@ -10,6 +11,7 @@ interface Store {
     userStore: UserStore;
     commonStore: CommonStore;
     recordStore: RecordStore;
+    profileStore: ProfileStore;
 }
 
 export const store: Store = {
@@ -18,6 +20,7 @@ export const store: Store = {
     userStore: new UserStore(),
     commonStore: new CommonStore(),
     recordStore: new RecordStore(),
+    profileStore: new ProfileStore(),
 }
 
 // Create the app context using store interface

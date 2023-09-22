@@ -20,14 +20,14 @@ function RackPage() {
     const params = useParams();
   
     // Access the global Mobx stores
-    const { recordStore, userStore } = useStore();
+    const { recordStore, userStore, profileStore } = useStore();
     const { savedRecords } = recordStore;
 
     useEffect(() => {
         if (params.username) {
 
             //If the loaded user profile is the stored view user, there's no need to re-fetch user data.
-            if (params.username === userStore.viewedUser?.userName) {
+            if (params.username === profileStore.viewedUser?.userName) {
                 console.log("This user was already fetched. Just display their list!");
                 return;
             }
@@ -36,25 +36,25 @@ function RackPage() {
             // If the user is logged in and the viewed user is the logged in user, there's no need to re-fetch user data
             // Rather, just set the viewed user as the logged in user
             if (loggedInUser && loggedInUser.userName === params.username) {
-                userStore.setViewedUser(loggedInUser)
+                profileStore.setViewedUser(loggedInUser)
             } else {
                 // Fetch the user data based on the URL userName parameter
-                userStore.getViewedUser(params.username);
+                profileStore.getViewedUser(params.username);
             }
         }
     }, [params.username]);
 
     useEffect(() => {
-        if (userStore.viewedUser) {
+        if (profileStore.viewedUser) {
             // Fetch the user's list based on the user ID
-            recordStore.loadRecordsForUser(userStore.viewedUser.id)
+            recordStore.loadRecordsForUser(profileStore.viewedUser.id)
         }
-    }, [userStore.viewedUser]);
+    }, [profileStore.viewedUser]);
 
     // Display loading spinner while loading
-    if (userStore.loadingViewedUser) return <Loading text={"Loading user profile..."}></Loading>
+    if (profileStore.loadingViewedUser) return <Loading text={"Loading user profile..."}></Loading>
     // Display error screen if the viewed user fetch returns null.
-    if (!userStore.viewedUser) return <NotFoundView text={"That user could not be found!"}></NotFoundView>
+    if (!profileStore.viewedUser) return <NotFoundView text={"That user could not be found!"}></NotFoundView>
 
     return (
         <div className="container">
@@ -65,7 +65,7 @@ function RackPage() {
 
                 {/* Rack List */}
                 {savedRecords.length != 0
-                    ? <RackList results={savedRecords} user={userStore.viewedUser!} ></RackList>
+                    ? <RackList results={savedRecords} user={profileStore.viewedUser!} ></RackList>
                     : <RackListEmpty></RackListEmpty>
                 }
             </div>
