@@ -6,13 +6,12 @@ import { useStore } from "@/app/stores/store";
 import ProfileButtons from "./ProfileButtons";
 
 function ProfilePage() {
-    const { userStore, profileStore } = useStore();
-    const { user } = userStore;
-    const { viewedUser } = profileStore;
+    const { profileStore } = useStore();
+    const { viewedUser, isCurrentUser } = profileStore;
 
     let profileH2Content;
     // If the user is logged in and the viewed user is the same
-    if ((user && viewedUser) && user.userName === viewedUser.userName) {
+    if (isCurrentUser) {
         profileH2Content = "Welcome back";
     } else {
         profileH2Content = "Viewing user";

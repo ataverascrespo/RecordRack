@@ -5,8 +5,7 @@ import ProfilePhotoForm from "./ProfilePhotoForm";
 
 function ProfileButtons() {
     const { userStore, profileStore } = useStore();
-    const { user } = userStore;
-    const { viewedUser } = profileStore;
+    const { isCurrentUser } = profileStore;
 
     /*
         Function to log the current user out
@@ -16,7 +15,7 @@ function ProfileButtons() {
     }
 
     // If the user is logged in and the viewed user is the logged in user, display content specific to that user's own profile
-    if ((user && viewedUser) && user.userName === viewedUser.userName) {
+    if (isCurrentUser) {
         return (
             <div className="w-full flex flex-row gap-2">
                 <Dialog>

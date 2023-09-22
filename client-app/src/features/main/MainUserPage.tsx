@@ -22,23 +22,21 @@ function RackPage() {
     // Access the global Mobx stores
     const { recordStore, userStore, profileStore } = useStore();
     const { savedRecords } = recordStore;
+    const { isCurrentUser, viewedUser } = profileStore;
 
     useEffect(() => {
         if (params.username) {
 
             //If the loaded user profile is the stored view user, there's no need to re-fetch user data.
-            if (params.username === profileStore.viewedUser?.userName) {
+            if (params.username === viewedUser?.userName) {
                 console.log("This user was already fetched. Just display their list!");
                 return;
             }
 
-            const loggedInUser = userStore.user;
-            // If the user is logged in and the viewed user is the logged in user, there's no need to re-fetch user data
-            // Rather, just set the viewed user as the logged in user
-            if (loggedInUser && loggedInUser.userName === params.username) {
-                profileStore.setViewedUser(loggedInUser)
+            if (isCurrentUser) {
+                profileStore.setViewedUser(userStore.user!)
             } else {
-                // Fetch the user data based on the URL userName parameter
+                // If the current viewed user is not the current user, we need to fetch that user
                 profileStore.getViewedUser(params.username);
             }
         }
@@ -65,7 +63,7 @@ function RackPage() {
 
                 {/* Rack List */}
                 {savedRecords.length != 0
-                    ? <RackList results={savedRecords} user={profileStore.viewedUser!} ></RackList>
+                    ? <RackList></RackList>
                     : <RackListEmpty></RackListEmpty>
                 }
             </div>

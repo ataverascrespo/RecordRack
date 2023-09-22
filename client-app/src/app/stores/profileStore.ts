@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { User } from "../models/user";
 import agent from "../api/serviceAgent";
+import { store } from "./store";
 
 // User data store class
 export default class ProfileStore {
@@ -9,6 +10,14 @@ export default class ProfileStore {
 
     constructor() {
         makeAutoObservable(this)
+    }
+
+    get isCurrentUser() {
+        // If the user is logged in and the viewed user is the logged in user, there's no need to re-fetch user data
+        // Rather, just set the viewed user as the logged in user
+        if (store.userStore.user && this.viewedUser) {
+            return store.userStore.user.userName === this.viewedUser.userName;
+        }
     }
 
     getViewedUser = async (userName: string) => {

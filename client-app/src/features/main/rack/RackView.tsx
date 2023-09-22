@@ -17,8 +17,10 @@ function RackView() {
     const navigate = useNavigate();
     const params = useParams();
 
-    // Access the global Mobx stores
-    const { recordStore, userStore: { user, viewedUser} } = useStore();
+     // Access the global Mobx stores
+     const { recordStore, userStore, profileStore } = useStore();
+     const { user } = userStore;
+     const { viewedUser } = profileStore;
 
     useEffect(() => {
         //Negates behaviour of scrolling halfway down page upon load

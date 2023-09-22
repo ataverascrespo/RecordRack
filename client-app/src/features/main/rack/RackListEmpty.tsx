@@ -4,12 +4,13 @@ import { useStore } from "@/app/stores/store";
 
 
 function RackListEmpty() {
-    const { userStore } = useStore();
-    const { user, viewedUser } = userStore;
+    // Access the global Mobx stores
+    const { profileStore } = useStore();
+    const { isCurrentUser, viewedUser } = profileStore;
 
     // Display this component if the viewed user and logged in user are the same 
     // Meaning user is viewing their own profile
-    if ((user && viewedUser) && user.userName === viewedUser.userName) {
+    if (isCurrentUser) {
         return (
             <div className="lg:h-[33vh] z-0 lg:mt-12 flex flex-col justify-end lg:flex-row lg:justify-center items-start">
                 <div className="flex flex-col items-start gap-6">
