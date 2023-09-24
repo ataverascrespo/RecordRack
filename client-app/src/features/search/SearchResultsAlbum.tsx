@@ -41,9 +41,7 @@ export default function SearchResults({ results }: Props) {
     const { recordStore } = useStore();
     //Initialize toast component
     const { toast } = useToast()
-
     const [buttonDisabled, setButtonDisabled] = useState(false);
-
 
     /* 
         Define the form and form type
@@ -91,7 +89,6 @@ export default function SearchResults({ results }: Props) {
             spotifyID: result.id,
             isPrivate: data.private,
         }
-        console.log(newRecord)
 
         try {
             const response: any = await recordStore.addRecord(newRecord);
@@ -100,14 +97,13 @@ export default function SearchResults({ results }: Props) {
                 toast({
                     title: `Successfully added ${newRecord.albumName} by ${newRecord.artistName}`,
                 })
-                dialogClose();
             }
             //If the success field is false, display error msg toast
             else {
                 toast({
                     variant: "destructive",
                     title: "Oh no! Something went wrong.",
-                    description: response.response.data.returnMessage,
+                    description: response.returnMessage,
                 })
             }
         } catch (error) {
@@ -117,9 +113,9 @@ export default function SearchResults({ results }: Props) {
                 title: "Oh no! Something went wrong.",
                 description: "Please try again later.",
             })
-            throw (error)
         }
 
+        dialogClose();
         setButtonDisabled(false);
     }
 

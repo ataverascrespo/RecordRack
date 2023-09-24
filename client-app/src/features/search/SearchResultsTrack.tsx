@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AddRecord } from "@/app/models/record";
 import { useStore } from "@/app/stores/store";
+import { useState } from "react";
 
 // Define the component props
 interface Props {
@@ -40,6 +41,7 @@ export default function SearchResults({ results }: Props) {
     const { recordStore } = useStore();
     //Initialize toast component
     const { toast } = useToast()
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     /* 
         Define the form and form type
@@ -67,11 +69,14 @@ export default function SearchResults({ results }: Props) {
     const dialogClose = () => {
         document.getElementById('closeDialog')?.click();
     };
-    
+
     /* 
         Define submission handler
     */
     const onSubmit = async (data: RecordSchema, result: SpotifyTrack) => {
+        //Disable form button so that the form cannot submit multiple times
+        setButtonDisabled(true);
+
         const newRecord: AddRecord = {
             albumName: result.name,
             artistName: formatArtists(result.album.artists),
@@ -91,14 +96,13 @@ export default function SearchResults({ results }: Props) {
                 toast({
                     title: `Successfully added ${newRecord.albumName} by ${newRecord.artistName}`,
                 })
-                dialogClose();
             }
             //If the success field is false, display error msg toast
             else {
                 toast({
                     variant: "destructive",
                     title: "Oh no! Something went wrong.",
-                    description: response.response.data.returnMessage,
+                    description: response.returnMessage,
                 })
             }
         } catch (error) {
@@ -108,9 +112,10 @@ export default function SearchResults({ results }: Props) {
                 title: "Oh no! Something went wrong.",
                 description: "Please try again later.",
             })
-            throw (error)
         }
 
+        dialogClose();
+        setButtonDisabled(false);
     }
 
     return (
@@ -139,7 +144,7 @@ export default function SearchResults({ results }: Props) {
                                         </DialogTrigger>
                                         <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
                                             <DialogHeader>
-                                            <DialogTitle className="mt-4 lg:mt-0">Adding track '{result.name}' by {formatArtists(result.album.artists)} </DialogTitle>
+                                                <DialogTitle className="mt-4 lg:mt-0">Adding track '{result.name}' by {formatArtists(result.album.artists)} </DialogTitle>
                                                 <DialogDescription>
                                                     This track will be added to your racklist.
                                                 </DialogDescription>
@@ -177,7 +182,7 @@ export default function SearchResults({ results }: Props) {
                                                         )}
                                                     />
                                                     <DialogFooter>
-                                                        <Button className="w-full" type="submit">
+                                                        <Button className="w-full" type="submit" disabled={buttonDisabled}>
                                                             Add to Rack
                                                         </Button>
                                                     </DialogFooter>

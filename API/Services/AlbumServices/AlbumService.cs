@@ -48,7 +48,8 @@ namespace AlbumAPI.Services.AlbumServices
             
             //Access database albums table where album and users ID are valid
             var dbAlbum = await _context.Albums.Include(album => album.User).FirstOrDefaultAsync(a => a.ID == ID && !a.isPrivate);
-            if (dbAlbum == null) {
+            if (dbAlbum == null) 
+            {
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = "Could not return that album";
             }
@@ -83,20 +84,31 @@ namespace AlbumAPI.Services.AlbumServices
             //Create wrapper model for album DTO list
             var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
 
-            //Map AddAlbumDTO to Album Model w/ AutoMapper
-            var album = _mapper.Map<Album>(newAlbum);
-            album.User = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+            var albumExists = await _context.Albums.FirstOrDefaultAsync(a => a.SpotifyID.Equals(newAlbum.SpotifyID));
+            if (albumExists != null) 
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "That record already exists in your racklist.";
+            }
+            else 
+            {
+                //Map AddAlbumDTO to Album Model w/ AutoMapper
+                var album = _mapper.Map<Album>(newAlbum);
+                album.User = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+                
+                //Add album to the DB albums table and auto generate a new ID
+                _context.Albums.Add(album);
 
-            //Add album to the DB albums table and auto generate a new ID
-            _context.Albums.Add(album);
+                //Save changes to DB album table
+                await _context.SaveChangesAsync();
 
-            //Save changes to DB album table
-            await _context.SaveChangesAsync();
-
-            //Map current Album model to GetAlbumDTO w/ AutoMapper
-            //Add albums list to wrapper and return 
-            serviceResponse.Data = await _context.Albums.Where(
+                //Map current Album model to GetAlbumDTO w/ AutoMapper
+                //Add albums list to wrapper and return 
+                serviceResponse.Data = await _context.Albums.Where(
                 a => a.User!.ID == GetUserID()).Select(a => _mapper.Map<GetAlbumDTO>(a)).ToListAsync();
+
+            }
+            
             return serviceResponse;
         }
 
