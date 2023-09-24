@@ -45,7 +45,7 @@ function Navbar() {
                   <div className="flex flex-row gap-4 items-center">
                   <p className="text-sm lg:text-base xl:text-lg">your rack</p>
                   <Avatar className="h-6 w-6">
-                    <AvatarImage src={profileStore.getProfilePhoto()} alt="@shadcn" />
+                    <AvatarImage src={profileStore.getProfilePhotoForNavbar()} alt="@shadcn" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   </div>
