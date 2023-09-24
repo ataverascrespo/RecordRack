@@ -3,7 +3,6 @@ import App from "../layout/App";
 import SearchPage from "@/features/search/SearchPage";
 import HomePage from "@/features/home/HomePage";
 import AboutPage from "@/features/faq/AboutPage";
-import RackView from "@/features/main/rack/RackView";
 import RegisterPage from "@/features/auth/RegisterPage";
 import LoginPage from "@/features/auth/LoginPage";
 import PasswordForgotPage from "@/features/auth/Password/ForgotPassword/PasswordForgotPage";
@@ -14,6 +13,7 @@ import RedirectToProfile from "@/features/main/profile/RedirectToProfile";
 import MainUserPage from "@/features/main/MainUserPage";
 import HTTPNotFoundPage from "../layout/HTTPNotFoundPage";
 import PasswordResetPage from "@/features/auth/Password/ForgotPassword/PasswordResetPage";
+import RecordView from "@/features/main/rack/recordview/RecordView";
 
 
 // Define the routes of the MPA
@@ -25,7 +25,7 @@ export const routes: RouteObject[] = [
         children: [
             {element: <Authorized />, children: [
                 { path: ':username/profile', element: <MainUserPage /> },
-                { path: ':username/record/:id', element: <RackView /> },
+                { path: ':username/record/:id', element: <RecordView /> },
                 { path: 'search', element: <SearchPage /> },
             ]},
             { path: '', element: <HomePage /> },

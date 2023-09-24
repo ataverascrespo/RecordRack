@@ -6,7 +6,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { observer } from "mobx-react-lite";
 
 
-function RackViewDelete() {
+function RecordViewDelete() {
     
     const navigate = useNavigate();
     const { toast } = useToast()
@@ -55,4 +55,4 @@ function RackViewDelete() {
     )
 }
 
-export default observer(RackViewDelete)
+export default observer(RecordViewDelete)

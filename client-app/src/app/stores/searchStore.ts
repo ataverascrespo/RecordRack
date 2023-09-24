@@ -8,6 +8,8 @@ export default class SearchStore {
     searchTracks: SpotifyTrack[] = [];
     searchType: string = "";
 
+    selectedAlbum: SpotifyAlbum | undefined = undefined;
+
     constructor() { 
         makeAutoObservable(this)
     }
@@ -20,5 +22,13 @@ export default class SearchStore {
     setSearchTracks = (tracks: SpotifyTrack[]) => {
         this.searchTracks = tracks;
         this.searchType = "track";
+    }
+
+    selectAlbum = (id: string) => {
+        this.selectedAlbum = this.searchAlbums.find(a => a.id === id)
+    }
+
+    cancelSelectedAlbum = () => {
+        this.selectedAlbum = undefined;
     }
 }

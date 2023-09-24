@@ -3,7 +3,6 @@ import { Label } from "@/components/ui/label";
 import { Spotify } from "@/components/ui/spotify-embed";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
 import { useNavigate, useParams } from 'react-router-dom';
@@ -11,16 +10,15 @@ import { useEffect } from "react";
 import { Textfit } from 'react-textfit';
 import NotFoundView from "@/app/layout/NotFoundView";
 import Loading from "@/app/layout/Loading";
-import RackViewDelete from "./RackViewDelete";
+import RecordViewButtons from "./RecordViewButtons";
 
-function RackView() {
+function RecordView() {
     const navigate = useNavigate();
     const params = useParams();
 
-     // Access the global Mobx stores
-     const { recordStore, userStore, profileStore } = useStore();
-     const { user } = userStore;
-     const { viewedUser } = profileStore;
+    // Access the global Mobx stores
+    const { recordStore, profileStore } = useStore();
+    const { viewedUser } = profileStore;
 
     useEffect(() => {
         //Negates behaviour of scrolling halfway down page upon load
@@ -49,18 +47,11 @@ function RackView() {
         Function to handle back navigation on rack view page
     */
     function handleBackNavigation() {
-        //Two cases
-        //  The user navigated to rack page via rack list. 
-        //  In this case, viewed user should be same as username in param, so navigate -1 pages back
-        
-        //  The user navigated to rack page via URL. 
-        //  In this case, there is probably no viewed user. So we need to navigate back to their list page URL rather than a page back
-        
-        //Case 2
+        //If the user navigated to rack page via URL. 
         if (viewedUser?.userName != params.username) {
             navigate(`/${params.username}/profile`)
         }
-        //Case 1
+        //if user navigated to rack page via rack list
         else {
             navigate(-1);
         }
@@ -125,7 +116,7 @@ function RackView() {
                                     </h1>
                                 </Textfit>
                             </div>
-                            {/* <RackViewHeader content={recordStore.selectedRecord?.albumName}></RackViewHeader> */}
+                            {/* <RecordViewHeader content={recordStore.selectedRecord?.albumName}></RecordViewHeader> */}
                             <h2 className="max-w-xl text-lg md:text-2xl font-semibold text-neutral-800 text-left dark:text-neutral-100">
                                 {(recordStore.selectedRecord!.albumType).charAt(0).toUpperCase() + recordStore.selectedRecord!.albumType.slice(1)} by {recordStore.selectedRecord?.artistName}
                             </h2>
@@ -154,59 +145,9 @@ function RackView() {
                                     <Label htmlFor="private" className="text-base md:text-xl font-bold">Private</Label>
                                     <Switch id="private" disabled checked={recordStore.selectedRecord?.isPrivate} />
                                 </div>
-                                {params.username == user?.userName ? (
-                                    <div className="flex flex-row gap-4">
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button>Edit Fields</Button>
-                                            </DialogTrigger>
-                                            <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
-                                                <DialogHeader>
-                                                    <DialogTitle className="mt-4 lg:mt-0">Editing {recordStore.selectedRecord!.albumType} {recordStore.selectedRecord!.albumName} by {recordStore.selectedRecord!.artistName}</DialogTitle>
-                                                    <DialogDescription>
-                                                        You can edit these fields.
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <div className="grid gap-4 py-4">
-                                                    <Label htmlFor="message">Record Description</Label>
-                                                    <Textarea placeholder="Change your notes or thoughts about the record." />
-                                                    <Label htmlFor="private">Set as Private?</Label>
-                                                    <Switch id="private" />
-                                                </div>
-                                                <DialogFooter>
-                                                    <Button type="submit">Edit Fields</Button>
-                                                </DialogFooter>
-                                            </DialogContent>
-                                        </Dialog>
-                                        
-                                        <RackViewDelete></RackViewDelete>
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-row gap-4">
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button>Add to Your Rack</Button>
-                                            </DialogTrigger>
-                                            <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
-                                                <DialogHeader>
-                                                    <DialogTitle className="mt-4 lg:mt-0">Adding album The Off-Season by J.Cole</DialogTitle>
-                                                    <DialogDescription>
-                                                        This album will be added to your racklist.
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <div className="grid gap-4 py-4">
-                                                    <Label htmlFor="message">Record Description</Label>
-                                                    <Textarea placeholder="Add some additional notes or thoughts about the album." />
-                                                    <Label htmlFor="private">Set as Private?</Label>
-                                                    <Switch id="private" />
-                                                </div>
-                                                <DialogFooter>
-                                                    <Button type="submit">Add to Rack</Button>
-                                                </DialogFooter>
-                                            </DialogContent>
-                                        </Dialog>
-                                    </div>
-                                )}
+
+                                {/* Record View Buttons Component (based on if viewing own records) */}
+                                <RecordViewButtons></RecordViewButtons>
                             </div>
                         </div>
                     </div>
@@ -224,4 +165,4 @@ function RackView() {
     }
 }
 
-export default observer(RackView);
+export default observer(RecordView);
