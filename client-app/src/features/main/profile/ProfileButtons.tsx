@@ -1,11 +1,13 @@
 import { useStore } from "@/app/stores/store";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button";
 import ProfilePageSettings from "./settings/ProfilePageSettings";
-import { LogOutIcon } from "lucide-react";
+import { LogOutIcon, SettingsIcon } from "lucide-react";
 
 export const Icons = {
     logOut: LogOutIcon,
+    settings: SettingsIcon,
 };
 
 
@@ -43,8 +45,20 @@ function ProfileButtons() {
                     </DialogContent>
                 </Dialog>
 
-                {/* Component for account settings*/}
-                <ProfilePageSettings></ProfilePageSettings>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button className="w-full md:w-1/3 lg:w-1/6">
+                            <div className="flex flex-row gap-2 items-center justify-center">
+                                <p className="text-xs xxs:text-sm">Settings</p>
+                                <Icons.settings className="h-[3vh]" />
+                            </div>
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent className="sm:max-w-[50vw] lg:max-w-[45vw] overflow-y-scroll max-h-screen flex flex-col justify-between">
+                         {/* Component for account settings*/}
+                         <ProfilePageSettings></ProfilePageSettings>
+                    </SheetContent>
+                </Sheet>
             </div>
         )
     } else {

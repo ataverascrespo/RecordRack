@@ -1,4 +1,4 @@
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetTitle, SheetTrigger, } from "@/components/ui/sheet"
+import { SheetClose, SheetDescription, SheetFooter, SheetTitle, } from "@/components/ui/sheet"
 import { Button } from '@/components/ui/button'
 import { useStore } from "@/app/stores/store";
 import { useState } from "react";
@@ -62,32 +62,22 @@ function ProfilePageSettings() {
     }
 
     return (
-        <Sheet>
-            <SheetTrigger asChild>
-                <Button className="w-full md:w-1/3 lg:w-1/6">
-                    <div className="flex flex-row gap-2 items-center justify-center">
-                        <p className="text-xs xxs:text-sm">Settings</p>
-                        <Icons.settings className="h-[3vh]" />
+        <div>
+            <div>
+                <SheetTitle><h1 className="text-base sm:text-lg md:text-2xl lg:text-4xl font-bold text-neutral-800 dark:text-neutral-50">Account Settings</h1></SheetTitle>
+                <SheetDescription>
+                    Hey {viewedUser?.userName}. Here, you can make changes to your account.
+                </SheetDescription>
+                {sheetContent}
+            </div>
+            <SheetFooter>
+                <SheetClose asChild>
+                    <div className="w-full self-end">
+                        {sheetButton}
                     </div>
-                </Button>
-            </SheetTrigger>
-            <SheetContent className="sm:max-w-[50vw] lg:max-w-[45vw] overflow-y-scroll max-h-screen flex flex-col justify-between">
-                <div>
-                    <SheetTitle><h1 className="text-base sm:text-lg md:text-2xl lg:text-4xl font-bold text-neutral-800 dark:text-neutral-50">Account Settings</h1></SheetTitle>
-                    <SheetDescription>
-                        Hey {viewedUser?.userName}. Here, you can make changes to your account.
-                    </SheetDescription>
-                    {sheetContent}
-                </div>
-                <SheetFooter>
-                    <SheetClose asChild>
-                        <div className="w-full self-end">
-                            {sheetButton}
-                        </div>
-                    </SheetClose>
-                </SheetFooter>
-            </SheetContent>
-        </Sheet>
+                </SheetClose>
+            </SheetFooter>
+        </div>
     )
 }
 
