@@ -32,7 +32,6 @@ function RackPage() {
                 console.log("This user was already fetched. Just display their list!");
                 return;
             }
-
             if (isCurrentUser) {
                 profileStore.setViewedUser(userStore.user!)
             } else {
@@ -44,8 +43,13 @@ function RackPage() {
 
     useEffect(() => {
         if (profileStore.viewedUser) {
-            // Fetch the user's list based on the user ID
-            recordStore.loadRecordsForUser(profileStore.viewedUser.id)
+            if (isCurrentUser) {
+                // Fetch the logged in user's list.
+                recordStore.loadRecords();
+            } else {
+                // Fetch the user's list based on the user ID
+                recordStore.loadRecordsForUser(profileStore.viewedUser.id)
+            }
         }
     }, [profileStore.viewedUser]);
 

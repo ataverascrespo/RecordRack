@@ -10,7 +10,6 @@ import { useEffect } from "react";
 import { Textfit } from 'react-textfit';
 import NotFoundView from "@/app/layout/NotFoundView";
 import Loading from "@/app/layout/Loading";
-import RecordViewButtons from "./RecordViewButtons";
 import RecordViewDelete from "./RecordViewDelete";
 import RecordViewAddToRack from "./RecordViewAddToRack";
 import RecordViewEditFields from "./RecordViewEditFields";

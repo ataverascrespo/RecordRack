@@ -70,21 +70,22 @@ export default class RecordStore {
         this.selectedRecord = undefined;
     }
 
-    addRecord = async (record: AddRecord) => {
+    addRecord = async (request: AddRecord) => {
         try {
-            const response = await agent.Records.add(record);
+            const response = await agent.Records.add(request);
             return (response);
         } catch (error) {
             return(error);
         }
     }
 
-    updateRecord = async (record: UpdateRecord) => {
+    updateRecord = async (request: UpdateRecord) => {
         try {
-            const response = await agent.Records.update(record);
-            if (response.data) {
+            const response = await agent.Records.update(request);
+            const record: SavedRecord = response.data;
+            if (record) {
                 runInAction(() => {
-                    this.selectedRecord = response.data;
+                    this.selectedRecord = record;
                     this.loadingSelectedRecord = false;
                 });
             }
