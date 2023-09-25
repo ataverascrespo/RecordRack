@@ -74,10 +74,6 @@ export default class RecordStore {
     addRecord = async (record: AddRecord) => {
         try {
             const response = await agent.Records.add(record);
-            //If the API call succeeded, re-navigate to search page to close dialog modal
-            if (response.success === true) {
-                router.navigate('/search')
-            }
             return (response);
         } catch (error) {
             return(error);

@@ -11,14 +11,17 @@ import { Textfit } from 'react-textfit';
 import NotFoundView from "@/app/layout/NotFoundView";
 import Loading from "@/app/layout/Loading";
 import RecordViewButtons from "./RecordViewButtons";
+import RecordViewDelete from "./RecordViewDelete";
+import RecordViewAddToRack from "./RecordViewAddToRack";
 
 function RecordView() {
     const navigate = useNavigate();
     const params = useParams();
 
     // Access the global Mobx stores
-    const { recordStore, profileStore } = useStore();
+    const { recordStore, profileStore, userStore } = useStore();
     const { viewedUser } = profileStore;
+    const { user } = userStore;
 
     useEffect(() => {
         //Negates behaviour of scrolling halfway down page upon load
@@ -146,8 +149,14 @@ function RecordView() {
                                     <Switch id="private" disabled checked={recordStore.selectedRecord?.isPrivate} />
                                 </div>
 
-                                {/* Record View Buttons Component (based on if viewing own records) */}
-                                <RecordViewButtons></RecordViewButtons>
+                                {params.username == user?.userName 
+                                    ?
+                                        <div>
+                                            <RecordViewDelete></RecordViewDelete>
+                                        </div>
+                                    :
+                                        <RecordViewAddToRack></RecordViewAddToRack>
+                                }
                             </div>
                         </div>
                     </div>
