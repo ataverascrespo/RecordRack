@@ -1,12 +1,12 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { User } from "../models/user";
 import agent from "../api/serviceAgent";
 import { store } from "./store";
 import { router } from "../router/Routes";
+import { ProfileUser } from "../models/profile";
 
 // User data store class
 export default class ProfileStore {
-    viewedUser: User | undefined = undefined;
+    viewedUser: ProfileUser | undefined = undefined;
     loadingViewedUser = false;
     uploadingPhoto = false;
 
@@ -27,7 +27,7 @@ export default class ProfileStore {
         this.loadingViewedUser = true;
         try {
             const response = await agent.Users.getUserByName(userName);
-            const viewedUser: User = response.data;
+            const viewedUser: ProfileUser = response.data;
             runInAction(() => {
                 this.viewedUser = viewedUser
                 this.loadingViewedUser = false;
@@ -40,7 +40,7 @@ export default class ProfileStore {
         }
     }
 
-    setViewedUser = (user: User) => {
+    setViewedUser = (user: ProfileUser) => {
         this.viewedUser = user;
     }
 
