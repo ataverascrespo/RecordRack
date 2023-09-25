@@ -1,6 +1,7 @@
 import { Card, CardHeader, } from "@/components/ui/card"
 import { Link } from "react-router-dom";
 import { useStore } from "@/app/stores/store";
+import { useEffect } from "react";
 
 function RackList() {
 
@@ -8,6 +9,10 @@ function RackList() {
     const { recordStore, profileStore } = useStore();
     const { savedRecords } = recordStore;
     const { viewedUser } = profileStore;
+
+    useEffect(() => {
+        recordStore.unselectRecord();
+    })
     
     return (
         <div className="h-full w-full mt-12">

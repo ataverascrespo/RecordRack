@@ -13,6 +13,7 @@ import Loading from "@/app/layout/Loading";
 import RecordViewButtons from "./RecordViewButtons";
 import RecordViewDelete from "./RecordViewDelete";
 import RecordViewAddToRack from "./RecordViewAddToRack";
+import RecordViewEditFields from "./RecordViewEditFields";
 
 function RecordView() {
     const navigate = useNavigate();
@@ -151,10 +152,13 @@ function RecordView() {
 
                                 {params.username == user?.userName 
                                     ?
-                                        <div>
+                                    // Component for editing and deleting record off user account
+                                        <div className="flex flex-row gap-4">
                                             <RecordViewDelete></RecordViewDelete>
+                                            <RecordViewEditFields></RecordViewEditFields>
                                         </div>
                                     :
+                                    // Component for adding other user's record to your racklist
                                         <RecordViewAddToRack></RecordViewAddToRack>
                                 }
                             </div>

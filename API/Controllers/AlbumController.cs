@@ -70,7 +70,7 @@ namespace AlbumAPI.Controllers
             }
 
             //Return status code response upon completion of albumService.UpdateAlbum() thread
-            return Ok();
+            return Ok(response);
         }
 
         //HTTP DELETE method

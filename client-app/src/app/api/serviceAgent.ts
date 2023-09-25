@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from "axios"
 import { User, UserChangePassword, UserForgotPassword, UserLogin, UserRegister, UserResetPassword, UserVerify } from "../models/user";
 import { store } from '../stores/store';
-import { AddRecord } from "../models/record";
-import { ImageType } from "react-images-uploading";
+import { AddRecord, UpdateRecord } from "../models/record";
 
 // Define default URL
 axios.defaults.baseURL = "http://localhost:5184";
@@ -52,6 +51,7 @@ const Records = {
   getListForUser: (userID: number) => requests.get(`api/Album/GetAlbumsByUserID/${userID}`),
   getSingle: (id: number) => requests.get(`api/Album/GetAlbumByID/${id}`),
   add: (record: AddRecord) => requests.post('api/Album', record),
+  update: (record: UpdateRecord) => requests.put('api/Album', record),
   delete: (id: number) => requests.del(`api/Album/${id}`)
 }
 

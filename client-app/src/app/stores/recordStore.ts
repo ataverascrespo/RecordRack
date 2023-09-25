@@ -1,7 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/serviceAgent";
-import { router } from "../router/Routes";
-import { AddRecord, SavedRecord } from "../models/record";
+import { AddRecord, SavedRecord, UpdateRecord } from "../models/record";
 
 // User data store class
 export default class RecordStore {
@@ -77,6 +76,21 @@ export default class RecordStore {
             return (response);
         } catch (error) {
             return(error);
+        }
+    }
+
+    updateRecord = async (record: UpdateRecord) => {
+        try {
+            const response = await agent.Records.update(record);
+            if (response.data) {
+                runInAction(() => {
+                    this.selectedRecord = response.data;
+                    this.loadingSelectedRecord = false;
+                });
+            }
+            return (response);
+        } catch (error) {
+            return (error);
         }
     }
 

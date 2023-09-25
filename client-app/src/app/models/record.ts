@@ -12,6 +12,12 @@ export interface AddRecord {
   isPrivate: boolean
 }
 
+export interface UpdateRecord {
+  id: number
+  albumDescription: string,
+  isPrivate: boolean
+}
+
 export interface SavedRecord {
   id: number
   albumName: string
