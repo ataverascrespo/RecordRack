@@ -52,14 +52,6 @@ export default class ProfileStore {
         }
     }
 
-    getProfilePhotoForNavbar = () => {
-        if (store.userStore.user?.imageURL) {
-            return store.userStore.user?.imageURL;
-        } else {
-            return 'https://res.cloudinary.com/dlwfuryyz/image/upload/v1695305498/album-api/jzbiw85pakr4amttznuq.jpg';
-        }
-    }
-
     uploadProfilePhoto = async (file: File) => {
         this.uploadingPhoto = true; 
 
