@@ -84,7 +84,12 @@ namespace AlbumAPI.Services.AlbumServices
             //Create wrapper model for album DTO list
             var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
 
-            var albumExists = await _context.Albums.FirstOrDefaultAsync(a => a.SpotifyID.Equals(newAlbum.SpotifyID));
+            //Map AddAlbumDTO to Album Model w/ AutoMapper
+            var album = _mapper.Map<Album>(newAlbum);
+            album.User = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+
+            // Search the DB to see if there is an instance of the album where it's Spotify ID already is stored for a given user
+            var albumExists = await _context.Albums.FirstOrDefaultAsync(a => a.SpotifyID.Equals(newAlbum.SpotifyID) && a.User!.ID == album.User!.ID);
             if (albumExists != null) 
             {
                 serviceResponse.Success = false;
@@ -92,10 +97,7 @@ namespace AlbumAPI.Services.AlbumServices
             }
             else 
             {
-                //Map AddAlbumDTO to Album Model w/ AutoMapper
-                var album = _mapper.Map<Album>(newAlbum);
-                album.User = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
-                
+            
                 //Add album to the DB albums table and auto generate a new ID
                 _context.Albums.Add(album);
 
