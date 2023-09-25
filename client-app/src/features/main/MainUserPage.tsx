@@ -9,11 +9,11 @@ import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
-import RackList from "@/features/main/rack/RackList";
+import RackList from "@/features/main/rack/racklist/RackList";
 import ProfilePage from "./profile/ProfilePage";
 import Loading from "@/app/layout/Loading";
 import NotFoundView from "@/app/layout/NotFoundView";
-import RackListEmpty from "./rack/RackListEmpty";
+import RackListEmpty from "@/features/main/rack/racklist/RackListEmpty";
 
 function RackPage() {
     // Get the browser params
