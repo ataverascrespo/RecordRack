@@ -135,6 +135,7 @@ export default class RecordStore {
     }
 
     getRecordLikes = async (albumID: number) => {
+        this.loadingSelectedRecord = true;
         try {
             const response = await agent.Records.getRecordLikes(albumID);
             if (response.success === true) {
@@ -151,6 +152,8 @@ export default class RecordStore {
                 if (this.selectedRecord?.likes.some(u => u.id === store.userStore.user?.id)) {
                     runInAction(() => this.isSelectedRecordLiked = true);
                 }
+
+                runInAction(() => this.loadingSelectedRecord = false);
                 return (response);
             }
         } catch (error) {

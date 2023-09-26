@@ -9,6 +9,8 @@ export default class ProfileStore {
     viewedUser: ProfileUser | undefined = undefined;
     loadingViewedUser = false;
     uploadingPhoto = false;
+    viewedUserFollowers: ProfileUser[] | undefined = undefined;
+    viewedUserFollowing: ProfileUser[] | undefined = undefined;
 
     constructor() {
         makeAutoObservable(this)
@@ -82,6 +84,34 @@ export default class ProfileStore {
     deleteProfilePhoto = async (id: string) => {
         try {
             await agent.Users.deletePhoto(id);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    getFollowers = async (userID: number) => {
+        try {
+            const response = await agent.Users.getFollowers(userID);
+            if (response.success === true) {
+                runInAction(() => {
+                    this.viewedUserFollowers = response.data;
+                });
+            }
+            return response;
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    getFollowing = async (userID: number) => {
+        try {
+            const response = await agent.Users.getFollowing(userID);
+            if (response.success === true) {
+                runInAction(() => {
+                    this.viewedUserFollowing = response.data;
+                });
+            }
+            return response;
         } catch (error) {
             throw (error);
         }

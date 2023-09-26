@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
-import ProfileFollowing from "./ProfileFollowing";
-import ProfileFollower from "./ProfileFollower";
+import ProfileFollowing from "./following/ProfileFollowing";
+import ProfileFollower from "./followers/ProfileFollower";
 import { Separator } from "@/components/ui/separator";
 import { useStore } from "@/app/stores/store";
 import ProfileButtons from "./ProfileButtons";
@@ -43,8 +43,8 @@ function ProfilePage() {
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-6 sm:gap-12 gap-y-4 self-center">
-                            <ProfileFollower></ProfileFollower>
-                            <ProfileFollowing></ProfileFollowing>
+                            <ProfileFollower profileUser={viewedUser!} followerCount={viewedUser!.followersCount}/>
+                            <ProfileFollowing profileUser={viewedUser!} followingCount={viewedUser!.followingCount}/>
                         </div>
                     </div>
 
@@ -77,8 +77,8 @@ function ProfilePage() {
 
                     {/* Lower section */}
                     <div className="grid grid-cols-2 gap-12 gap-y-4 mt-6 md:mt-0 self-center md:self-start">
-                        <ProfileFollower></ProfileFollower>
-                        <ProfileFollowing></ProfileFollowing>
+                        <ProfileFollower profileUser={viewedUser!} followerCount={viewedUser!.followersCount}/>
+                        <ProfileFollowing profileUser={viewedUser!} followingCount={viewedUser!.followingCount}/>
                     </div>
 
                     <ProfileButtons></ProfileButtons>
