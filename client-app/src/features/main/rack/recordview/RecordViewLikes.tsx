@@ -25,8 +25,7 @@ function RecordViewLikes({ id }: Props) {
     useEffect(() => {
         if (selectedRecord?.likes == undefined) {
             const getLikes = async () => {
-                const response = await recordStore.getRecordLikes(id);
-                console.log(response);
+                await recordStore.getRecordLikes(id);
             }
             getLikes();
         } 
@@ -38,11 +37,8 @@ function RecordViewLikes({ id }: Props) {
         Define function to handle record deletion
     */
     const handleLikes = async () => {
-        console.log(selectedRecord?.likes.length)
         //Call the record store delete function
         await recordStore.likeRecord();
-        console.log(selectedRecord?.likes.length)
-
     }
     
     let likesButton, likeIconColour;

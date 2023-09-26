@@ -6,13 +6,14 @@ interface Props {
     usersLiked: ProfileUser[];
 }
 
-function RecordViewLikedBy({usersLiked}: Props) {
+function RecordViewLikedBy({ usersLiked }: Props) {
     return (
         <div className="p-4">
+            {/* Add empty likes view */}
             {usersLiked.map((user) => (
-                <>
-                    <div key={user.id} className="text-sm">
-                        <Link className="items-center hover:brightness-110 dark:hover:brightness-90 transform duration-100"
+                <div>
+                    <div className="text-sm">
+                        <Link key={user.id} className="items-center hover:brightness-110 dark:hover:brightness-90 transform duration-100"
                             to={`/${user.userName}/profile`}>
                             <div className='flex flex-row items-center justify-start gap-6'>
                                 <img
@@ -21,11 +22,11 @@ function RecordViewLikedBy({usersLiked}: Props) {
                                     className='h-10 w-10 rounded-full'
                                 />
                                 {user.userName}
-                           </div>
+                            </div>
                         </Link>
                     </div>
                     <Separator className="my-4" />
-                </>
+                </div>
             ))}
         </div>)
 }
