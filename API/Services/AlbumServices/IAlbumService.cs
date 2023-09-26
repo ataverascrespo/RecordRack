@@ -15,7 +15,6 @@ namespace AlbumAPI.Services.AlbumServices
         //Method to return the list of all albums for a specified user ID
         Task<ServiceResponse<List<GetAlbumDTO>>> GetAlbumsByUserID(int UserID);
         
-
         //Method to add album based on passed new model
         Task<ServiceResponse<List<GetAlbumDTO>>> AddAlbum(AddAlbumDTO newAlbum);
 

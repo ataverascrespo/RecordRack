@@ -31,10 +31,17 @@ namespace AlbumAPI.Services.UserServices
             var serviceResponse = new ServiceResponse<List<UserDTO>>();
 
             //Get all the users in the database
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users.Include(u => u.Followers).Include(u => u.Followings).ToListAsync();
             
-            //Map all Album models to GetAlbumDTO w/ AutoMapper
-            serviceResponse.Data = users.Select(u => _mapper.Map<UserDTO>(u)).ToList();
+            // Map all User models to UserDTOs w/ AutoMapper
+            serviceResponse.Data = users.Select(u =>
+            {
+                var userDto = _mapper.Map<UserDTO>(u);
+                userDto.FollowersCount = u.Followers.Count;
+                userDto.FollowingCount = u.Followings.Count;
+                return userDto;
+            }).ToList();
+
             return serviceResponse;
         }
 
@@ -42,8 +49,9 @@ namespace AlbumAPI.Services.UserServices
         {
             var serviceResponse = new ServiceResponse<UserDTO>();
 
-            //Get the first or default instance where logged in existing user IDs is equal to user ID
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName.ToLower() == userName.ToLower());
+            //Get the first or default instance where logged in existing username is equal to user name
+            var user = await _context.Users.Include(u => u.Followers).Include(u => u.Followings)
+                                            .FirstOrDefaultAsync(u => u.UserName.ToLower() == userName.ToLower());
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -66,7 +74,8 @@ namespace AlbumAPI.Services.UserServices
             var serviceResponse = new ServiceResponse<UserDTO>();
 
             //Get the first or default instance where logged in existing user IDs is equal to user ID
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+            var user = await _context.Users.Include(u => u.Followers).Include(u => u.Followings).
+                                            FirstOrDefaultAsync(u => u.ID == GetUserID());
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -90,7 +99,8 @@ namespace AlbumAPI.Services.UserServices
             var serviceResponse = new ServiceResponse<UserDTO>();
 
             //Get the first or default instance where logged in existing user IDs is equal to user ID
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+            var user = await _context.Users.Include(u => u.Followers).Include(u => u.Followings)
+                                            .FirstOrDefaultAsync(u => u.ID == GetUserID());
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -113,6 +123,55 @@ namespace AlbumAPI.Services.UserServices
             return serviceResponse;
         }
 
+         //Method to follow a user
+        public async Task<ServiceResponse<List<AlbumLikesDTO>>> FollowUser(int TargetID) 
+        {
+            //Create wrapper model for album DTO list
+            var serviceResponse = new ServiceResponse<List<AlbumLikesDTO>>();
+
+            var follower = await _context.Users.FirstOrDefaultAsync(f => f.ID == GetUserID());
+
+            var target = await _context.Users.FirstOrDefaultAsync(t => t.ID == TargetID);
+            if (target == null || follower == null) 
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Could not follow that user.";
+            }
+            else 
+            {
+                var following = await _context.UserFollowing.FindAsync(follower.ID, target.ID);
+
+                //If the user does not already follow target
+                if (following == null) 
+                {
+                    following = new UserFollowing
+                    {
+                        Follower = follower,
+                        Target = target,
+                    };
+
+                    _context.UserFollowing.Count();
+
+                    _context.UserFollowing.Add(following);
+                    //If following does not exist
+                    serviceResponse.Success = true;
+                    serviceResponse.ReturnMessage = "Followed user.";
+                }
+                //If the user does already follow target
+                else 
+                {
+                    _context.UserFollowing.Remove(following);
+                    //If following does not exist
+                    serviceResponse.Success = true;
+                    serviceResponse.ReturnMessage = "Unfollowed user.";
+                }
+            }
+
+            //Save the changes in DB and return the service response
+            await _context.SaveChangesAsync();
+            return serviceResponse;
+        }
+
         //Method to create a UserDTO to return upon login
         private UserDTO CreateUserDTO(User user)
         {
@@ -123,7 +182,9 @@ namespace AlbumAPI.Services.UserServices
                 UserName = user.UserName,
                 Token = "",
                 ImageURL = user.ImageURL,
-                ImageID = user.ImageID   
+                ImageID = user.ImageID,
+                FollowersCount = user.Followers.Count,
+                FollowingCount = user.Followings.Count
             };
         }
     }

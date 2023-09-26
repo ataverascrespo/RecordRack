@@ -70,5 +70,30 @@ namespace AlbumAPI.Controllers
             //Return status code response upon completion of photoService.deletePhotoAsync thread
             return Ok(await _photoService.DeletePhotoAsync(ID));
         }
+
+        [HttpPost("FollowUser/{UserID}")]
+        public async Task<ActionResult<ServiceResponse<string>>> FollowUser(int UserID)
+        {
+             //Return status code response upon completion of albumService.LikeAlbum() thread
+            return Ok(await _userService.FollowUser(UserID));
+        }
+
+        // //HTTP GET method
+        // //Return a single album based on passed parameter user ID
+        // [HttpGet("GetFollowers/{UserID}")]
+        // public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetFollowers(int UserID)
+        // {
+        //     //Return status code response and model upon completion of albumService.GetAlbums() thread
+        //     return Ok(await _albumService.(UserID));
+        // }
+
+        // //HTTP GET method
+        // //Return a single album based on passed parameter user ID
+        // [HttpGet("GetFollowing/{UserID}")]
+        // public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetFollowing(int UserID)
+        // {
+        //     //Return status code response and model upon completion of albumService.GetAlbums() thread
+        //     return Ok(await _albumService.(UserID));
+        // }
     }
 }

@@ -16,6 +16,10 @@ namespace AlbumAPI.Services.UserServices
         //Method to get current user
         Task<ServiceResponse<UserDTO>> GetCurrentUser();
 
+        //Method to add a profile picture
         Task<ServiceResponse<UserDTO>> AddProfilePhoto(ImageUploadResult result);
+
+         //Method to follow a user
+        Task<ServiceResponse<List<AlbumLikesDTO>>> FollowUser(int TargetID);
     }
 }

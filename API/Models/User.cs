@@ -22,5 +22,7 @@ namespace AlbumAPI.Models
         public string ImageURL { get; set; } = string.Empty;
         public string ImageID { get; set; } = string.Empty;
         public List<Album>? Albums { get; set; }
+        public List<UserFollowing> Followings { get; set; } = new List<UserFollowing>();
+        public List<UserFollowing> Followers { get; set; } = new List<UserFollowing>();
     }
 }
