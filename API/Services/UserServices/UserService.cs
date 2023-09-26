@@ -99,8 +99,8 @@ namespace AlbumAPI.Services.UserServices
             }
             else {
 
-                user.ProfilePhotoURL = result.SecureUrl.AbsoluteUri;
-                user.ProfilePhotoID = result.PublicId;
+                user.ImageURL = result.SecureUrl.AbsoluteUri;
+                user.ImageID = result.PublicId;
 
                 UserDTO currentUser = CreateUserDTO(user);
                 //Store DTO in service data
@@ -122,8 +122,8 @@ namespace AlbumAPI.Services.UserServices
                 Email = user.Email,
                 UserName = user.UserName,
                 Token = "",
-                ImageURL = user.ProfilePhotoURL,
-                ImageID = user.ProfilePhotoID   
+                ImageURL = user.ImageURL,
+                ImageID = user.ImageID   
             };
         }
     }
