@@ -26,17 +26,18 @@ function RackPage() {
 
     useEffect(() => {
         if (params.username) {
-
             //If the loaded user profile is the stored view user, there's no need to re-fetch user data.
             if (params.username === viewedUser?.userName) {
-                console.log("This user was already fetched. Just display their list!");
                 return;
             }
-            if (isCurrentUser) {
+            //If the logged in user is the url params, there's no need to re-fetch user data.
+            if (params.username === userStore.user!.userName) {
                 profileStore.setViewedUser(userStore.user!)
+                return;
             } else {
                 // If the current viewed user is not the current user, we need to fetch that user
                 profileStore.getViewedUser(params.username);
+                return;
             }
         }
     }, [params.username]);
