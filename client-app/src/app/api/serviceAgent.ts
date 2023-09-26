@@ -52,7 +52,9 @@ const Records = {
   getSingle: (id: number) => requests.get(`api/Album/GetAlbumByID/${id}`),
   add: (record: AddRecord) => requests.post('api/Album', record),
   update: (record: UpdateRecord) => requests.put('api/Album', record),
-  delete: (id: number) => requests.del(`api/Album/${id}`)
+  delete: (id: number) => requests.del(`api/Album/${id}`),
+  like: (id: number) => requests.post(`api/Album/${id}/Like`, id),
+  getRecordLikes: (id: number) => requests.get(`api/Album/GetAlbumLikes/${id}`) 
 }
 
 const Account = {

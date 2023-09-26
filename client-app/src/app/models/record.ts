@@ -1,3 +1,4 @@
+import { ProfileUser } from "./profile"
 import { User } from "./user"
 
 export interface AddRecord {
@@ -14,7 +15,7 @@ export interface AddRecord {
 
 export interface UpdateRecord {
   id: number
-  albumDescription: string,
+  albumDescription: string
   isPrivate: boolean
 }
 
@@ -29,5 +30,6 @@ export interface SavedRecord {
   photoURL: string
   spotifyID: string
   isPrivate: boolean
-  user: User;
+  user: User
+  likes: ProfileUser[]
 }

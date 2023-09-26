@@ -3,7 +3,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Textfit } from 'react-textfit';
 import RecordViewLikes from "./RecordViewLikes";
-import RecordViewComments from "./RecordViewComments";
 import { SavedRecord } from '@/app/models/record';
 
 interface Props {
@@ -42,10 +41,9 @@ function RecordViewInfo({ record }: Props) {
                 <h2 className="max-w-xl text-lg md:text-2xl font-semibold text-neutral-800 text-left dark:text-neutral-100">
                     {(record.albumType).charAt(0).toUpperCase() + record.albumType.slice(1)} by {record.artistName}
                 </h2>
-                            {/* <div className="flex flex-row gap-6 mt-4 w-full">
-                        <RecordViewLikes likes={record.likedBy!}></RecordViewLikes>
-                        <RecordViewComments></RecordViewComments>
-                    </div> */}
+                            <div className="flex flex-row gap-6 mt-4 w-full">
+                        <RecordViewLikes id={record.id}/>
+                    </div>
                 <div className="flex flex-col mt-12 lg:flex-row items-start lg:items-center">
                     <h2 className="max-w-xl text-lg lg:text-xl text-neutral-800 text-left dark:text-neutral-100">
                         Released on {record.releaseDate}

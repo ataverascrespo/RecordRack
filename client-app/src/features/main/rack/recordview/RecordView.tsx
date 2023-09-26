@@ -45,7 +45,7 @@ function RecordView() {
     }, [recordStore])
 
     // Display when loading
-    if (recordStore.loadingSelectedRecord) return <Loading text={"Loading user profile..."}></Loading>
+    if (recordStore.loadingSelectedRecord) return <Loading text={"Loading record.."}></Loading>
 
     // Display when record is undefined or record URL path username and record username don't match
     if (recordStore.selectedRecord == undefined || params.username !== recordStore.selectedRecord.user.userName) {

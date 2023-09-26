@@ -195,35 +195,32 @@ namespace AlbumAPI.Services.AlbumServices
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = "There was an issue with the record or user.";
             }       
-            if (user == null) 
-            {
-                serviceResponse.Success = false;
-                serviceResponse.ReturnMessage = "That user does not exist.";
-            }
-
-            var like = album!.Likes.FirstOrDefault(l => l.UserID == user!.ID);
-            if (like!= null)
-            {
-                //If the user has already liked this album, remove the like
-                album.Likes.Remove(like);
-                serviceResponse.Success = true;
-                serviceResponse.ReturnMessage = "Album un-liked.";
-            }
             else 
             {
-                //Create a new AlbumLike model with album and user information
-                like = new AlbumLike
+                var like = album!.Likes.FirstOrDefault(l => l.UserID == user!.ID);
+                if (like!= null)
                 {
-                    User = user,
-                    Album = album,
-                };
-                
-                //Add the like to the list of album likes
-                album.Likes.Add(like);
+                    //If the user has already liked this album, remove the like
+                    album.Likes.Remove(like);
+                    serviceResponse.Success = true;
+                    serviceResponse.ReturnMessage = "Album un-liked.";
+                }
+                else 
+                {
+                    //Create a new AlbumLike model with album and user information
+                    like = new AlbumLike
+                    {
+                        User = user,
+                        Album = album,
+                    };
+                    
+                    //Add the like to the list of album likes
+                    album.Likes.Add(like);
 
-                //If album does not exist
-                serviceResponse.Success = true;
-                serviceResponse.ReturnMessage = "Album liked.";
+                    //If album does not exist
+                    serviceResponse.Success = true;
+                    serviceResponse.ReturnMessage = "Album liked.";
+                }
             }
 
             //Save the changes in DB and return the service response

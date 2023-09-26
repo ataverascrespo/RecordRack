@@ -30,6 +30,7 @@ export interface UserResetPassword {
     resetToken: string;
     password: string;
 }
+
 export interface UserChangePassword {
     email: string;
     oldPassword: string;

@@ -97,7 +97,7 @@ namespace AlbumAPI.Controllers
 
         //HTTP GET method
         //Return a single album based on passed parameter user ID
-        [HttpGet("GetAlbumLikes")]
+        [HttpGet("GetAlbumLikes/{AlbumID}")]
         public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetAlbumLikes(int AlbumID)
         {
             //Return status code response and model upon completion of albumService.GetAlbums() thread
