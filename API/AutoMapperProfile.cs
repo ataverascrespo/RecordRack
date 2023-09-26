@@ -29,6 +29,14 @@ namespace AlbumAPI
                 .ForMember(d => d.User, o => o.MapFrom(s => s.User));
             //Create a mapping profile for AlbumLikes to AlbumLikes DTO
             CreateMap<UserFollowing, UserFollowingDTO>();
+            //Create a mapping profile for userfollowing to userDTO
+            CreateMap<UserFollowing, UserDTO>()
+                .ForMember(d => d.ID, o => o.MapFrom(s => s.Follower!.ID))
+                .ForMember(d => d.UserName, o => o.MapFrom(s => s.Follower!.UserName))
+                .ForMember(d => d.ImageURL, o => o.MapFrom(s => s.Follower!.ImageURL))
+                .ForMember(d => d.ImageID, o => o.MapFrom(s => s.Follower!.ImageID))
+                .ForMember(d => d.FollowersCount, o => o.MapFrom(s => s.Follower!.Followers.Count))
+                .ForMember(d => d.FollowingCount, o => o.MapFrom(s => s.Follower!.Followings.Count));
         }
     }
 }

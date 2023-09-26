@@ -172,6 +172,55 @@ namespace AlbumAPI.Services.UserServices
             return serviceResponse;
         }
 
+        //Method to return a list of followers for a given user
+        public async Task<ServiceResponse<List<UserDTO>>> GetFollowers(int UserID)
+        {
+            var serviceResponse = new ServiceResponse<List<UserDTO>>();
+
+            // Retrieve the user by userId with their Followers collection loaded
+            var user = await _context.Users.Include(u => u.Followers).FirstOrDefaultAsync(u => u.ID == UserID);
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "User not found.";
+                return serviceResponse;
+            }
+
+            // Map the Followers collection to UserDTOs
+            var followers = await _context.UserFollowing.Where(u => u.Target!.ID == UserID)
+                                                        .Select(u => u.Follower)
+                                                        .Select(f => _mapper.Map<UserDTO>(f))
+                                                        .ToListAsync();
+
+            serviceResponse.Data = followers;
+            return serviceResponse;
+        }
+
+        //Method to return a list of followed users for a given user
+        public async Task<ServiceResponse<List<UserDTO>>> GetFollowing(int UserID)
+        {
+            var serviceResponse = new ServiceResponse<List<UserDTO>>();
+
+            // Retrieve the user by userId with their Followers collection loaded
+            var user = await _context.Users.Include(u => u.Followers).FirstOrDefaultAsync(u => u.ID == UserID);
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "User not found.";
+                return serviceResponse;
+            }
+
+            // Map the Followers collection to UserDTOs
+            var following = await _context.UserFollowing.Where(u => u.Follower!.ID == UserID)
+                                                        .Select(u => u.Target)
+                                                        .Select(f => _mapper.Map<UserDTO>(f))
+                                                        .ToListAsync();
+
+            serviceResponse.Data = following;
+            return serviceResponse;
+        }
+
+
         //Method to create a UserDTO to return upon login
         private UserDTO CreateUserDTO(User user)
         {

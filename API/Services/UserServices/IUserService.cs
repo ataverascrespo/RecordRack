@@ -21,5 +21,11 @@ namespace AlbumAPI.Services.UserServices
 
          //Method to follow a user
         Task<ServiceResponse<List<AlbumLikesDTO>>> FollowUser(int TargetID);
+
+        //Method to return a list of followers for a given user
+        Task<ServiceResponse<List<UserDTO>>> GetFollowers(int UserID);
+
+        //Method to return a list of followed users for a given user
+        Task<ServiceResponse<List<UserDTO>>> GetFollowing(int UserID);
     }
 }

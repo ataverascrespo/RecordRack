@@ -78,22 +78,22 @@ namespace AlbumAPI.Controllers
             return Ok(await _userService.FollowUser(UserID));
         }
 
-        // //HTTP GET method
-        // //Return a single album based on passed parameter user ID
-        // [HttpGet("GetFollowers/{UserID}")]
-        // public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetFollowers(int UserID)
-        // {
-        //     //Return status code response and model upon completion of albumService.GetAlbums() thread
-        //     return Ok(await _albumService.(UserID));
-        // }
+        //HTTP GET method
+        //Return a single album based on passed parameter user ID
+        [HttpGet("GetFollowers/{UserID}")]
+        public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetFollowers(int UserID)
+        {
+            //Return status code response and model upon completion of albumService.GetAlbums() thread
+            return Ok(await _userService.GetFollowers(UserID));
+        }
 
-        // //HTTP GET method
-        // //Return a single album based on passed parameter user ID
-        // [HttpGet("GetFollowing/{UserID}")]
-        // public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetFollowing(int UserID)
-        // {
-        //     //Return status code response and model upon completion of albumService.GetAlbums() thread
-        //     return Ok(await _albumService.(UserID));
-        // }
+        //HTTP GET method
+        //Return a single album based on passed parameter user ID
+        [HttpGet("GetFollowing/{UserID}")]
+        public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetFollowing(int UserID)
+        {
+            //Return status code response and model upon completion of albumService.GetAlbums() thread
+            return Ok(await _userService.GetFollowing(UserID));
+        }
     }
 }
