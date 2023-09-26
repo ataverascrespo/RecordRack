@@ -87,5 +87,21 @@ namespace AlbumAPI.Controllers
             //Return status code response upon completion of albumService.DeleteeAlbum() thread
             return Ok();
         }       
+
+        [HttpPost("{AlbumID}/Like")]
+        public async Task<ActionResult<ServiceResponse<string>>> LikeAlbum(int AlbumID)
+        {
+             //Return status code response upon completion of albumService.LikeAlbum() thread
+            return Ok(await _albumService.LikeAlbum(AlbumID));
+        }
+
+        //HTTP GET method
+        //Return a single album based on passed parameter user ID
+        [HttpGet("GetAlbumLikes")]
+        public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetAlbumLikes(int AlbumID)
+        {
+            //Return status code response and model upon completion of albumService.GetAlbums() thread
+            return Ok(await _albumService.GetAllAlbumLikes(AlbumID));
+        }
     }
 }

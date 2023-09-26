@@ -24,5 +24,11 @@ namespace AlbumAPI.Services.AlbumServices
 
         //Method to delete album as per passed ID
         Task<ServiceResponse<List<GetAlbumDTO>>> DeleteAlbum(int ID);
+
+        //Method to like an album as per passed ID
+        Task<ServiceResponse<string>> LikeAlbum(int ID);
+
+        //Method to return all likes for an album
+        Task<ServiceResponse<List<AlbumLikesDTO>>> GetAllAlbumLikes(int ID);
     }
 }

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AlbumAPI.API.Migrations;
+using AlbumAPI.DTOs.Profile;
 
 /// <summary>
 /// Configures mapping profiles for NuGet AutoMapper
@@ -18,6 +20,10 @@ namespace AlbumAPI
             CreateMap<AddAlbumDTO, Album>();
             //Create a mapping profile for User to UserDTO
             CreateMap<User, UserDTO>();
+            //Create a mapping profile for User to ProfileDTO
+            CreateMap<User, ProfileDTO>();
+            //Create a mapping profile for AlbumLikes to AlbumLikes DTO
+            CreateMap<AlbumLike, AlbumLikesDTO>();
         }
     }
 }

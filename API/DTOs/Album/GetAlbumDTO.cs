@@ -18,5 +18,6 @@ namespace AlbumAPI.DTOs.Album
 
         // Include a property for User information
         public UserDTO? User { get; set; }
+        public List<AlbumLikesDTO>? Likes { get; set; }
     }
 }

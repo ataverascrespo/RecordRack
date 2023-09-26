@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using AlbumAPI.DTOs.Profile;
 /// <summary>
 /// Implementation of dependency injection
 /// Service class handles data retrieval from the database
@@ -26,7 +27,7 @@ namespace AlbumAPI.Services.AlbumServices
         private int GetUserID() => int.Parse(_httpContextAccessor.HttpContext!.User
             .FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-        //Method to add album based on passed new model
+        //Method to get albums
         public async Task<ServiceResponse<List<GetAlbumDTO>>> GetAllAlbums()
         {
             //Create wrapper model for album DTO list
@@ -97,7 +98,6 @@ namespace AlbumAPI.Services.AlbumServices
             }
             else 
             {
-            
                 //Add album to the DB albums table and auto generate a new ID
                 _context.Albums.Add(album);
 
@@ -108,9 +108,7 @@ namespace AlbumAPI.Services.AlbumServices
                 //Add albums list to wrapper and return 
                 serviceResponse.Data = await _context.Albums.Where(
                 a => a.User!.ID == GetUserID()).Select(a => _mapper.Map<GetAlbumDTO>(a)).ToListAsync();
-
             }
-            
             return serviceResponse;
         }
 
@@ -178,6 +176,72 @@ namespace AlbumAPI.Services.AlbumServices
                 serviceResponse.ReturnMessage = ex.Message;
             }
 
+            return serviceResponse;
+        }
+
+         //Method to return add an albums
+        public async Task<ServiceResponse<string>> LikeAlbum(int ID)
+        {
+            //Create wrapper model for album DTO list
+            var serviceResponse = new ServiceResponse<string>();
+
+            //Find first or default album in DB albums table where the ID of the passed album is equal 
+            var album = await _context.Albums.Include(a => a.Likes).FirstOrDefaultAsync(a => a.ID == ID);      
+            //Find first or default user in DB users table
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+
+            if (album == null || user == null) 
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "There was an issue with the record or user.";
+            }       
+            if (user == null) 
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "That user does not exist.";
+            }
+
+            var like = album!.Likes.FirstOrDefault(l => l.UserID == user!.ID);
+            if (like!= null)
+            {
+                //If the user has already liked this album, remove the like
+                album.Likes.Remove(like);
+                serviceResponse.Success = true;
+                serviceResponse.ReturnMessage = "Album un-liked.";
+            }
+            else 
+            {
+                //Create a new AlbumLike model with album and user information
+                like = new AlbumLike
+                {
+                    User = user,
+                    Album = album,
+                };
+                
+                //Add the like to the list of album likes
+                album.Likes.Add(like);
+
+                //If album does not exist
+                serviceResponse.Success = true;
+                serviceResponse.ReturnMessage = "Album liked.";
+            }
+
+            //Save the changes in DB and return the service response
+            await _context.SaveChangesAsync();
+            return serviceResponse;
+        }
+
+        //Method to get likes for albums
+        public async Task<ServiceResponse<List<AlbumLikesDTO>>> GetAllAlbumLikes(int ID)
+        {
+            //Create wrapper model for album DTO list
+            var serviceResponse = new ServiceResponse<List<AlbumLikesDTO>>();
+            
+            //Access database albums table where User ID is valid
+            var likes = await _context.AlbumLikes.Where(a => a.AlbumID == ID).Include(likes => likes.User).ToListAsync();
+            
+            //Map all Album models to GetAlbumDTO w/ AutoMapper
+            serviceResponse.Data = likes.Select(a => _mapper.Map<AlbumLikesDTO>(a)).ToList();
             return serviceResponse;
         }
     }

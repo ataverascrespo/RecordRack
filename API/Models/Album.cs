@@ -18,5 +18,6 @@ namespace AlbumAPI.Models
         public string SpotifyID { get; set; } = string.Empty;
         public bool isPrivate { get; set; }
         public User? User { get; set; }
+        public List<AlbumLike> Likes { get; set; } = new List<AlbumLike>();
     }
 }
