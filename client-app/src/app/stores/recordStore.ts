@@ -142,7 +142,8 @@ export default class RecordStore {
                     return {
                         id: userData.user.id,
                         userName: userData.user.userName,
-                        imageURL: userData.user.imageURL
+                        imageURL: userData.user.imageURL,
+                        imageID: userData.user.imageID
                     };
                 });
 

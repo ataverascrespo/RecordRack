@@ -8,5 +8,6 @@ namespace AlbumAPI.DTOs.Profile
         public int ID { get; set; }
         public string UserName { get; set; } = string.Empty;
         public string ImageURL { get; set; } = string.Empty;
+        public string ImageID { get; set; } = string.Empty;
     }
 }
