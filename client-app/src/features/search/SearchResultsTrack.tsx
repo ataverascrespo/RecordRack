@@ -125,74 +125,88 @@ export default function SearchResults({ results }: Props) {
                     Track Results ({results.length})
                 </h2>
             )}
-            <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-6 grid grid-cols-1">
                 {results.map((result) => (
-                    <div key={result.id} className="">
-                        <Card className="">
-                            <CardHeader>
-                                <img src={result.album.images[0].url} draggable="false"></img>
-                            </CardHeader>
-                            <CardContent>
-                                <CardTitle>{result.name}</CardTitle>
-                                <CardDescription>{formatArtists(result.album.artists)}</CardDescription>
-                            </CardContent>
-                            <CardFooter>
-                                <div className="md:w-1/2">
-                                    <Dialog>
-                                        <DialogTrigger asChild>
-                                            <Button>Add to Rack</Button>
-                                        </DialogTrigger>
-                                        <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
-                                            <DialogHeader>
-                                                <DialogTitle className="mt-4 lg:mt-0">Adding track '{result.name}' by {formatArtists(result.album.artists)} </DialogTitle>
-                                                <DialogDescription>
-                                                    This track will be added to your racklist.
-                                                </DialogDescription>
-                                            </DialogHeader>
-                                            <Form {...form}>
-                                                <form onSubmit={(event) => form.handleSubmit((data) => onSubmit(data, result))(event)} className="w-full space-y-6">
-                                                    <FormField
-                                                        control={form.control}
-                                                        name="description"
-                                                        render={({ field }) => (
-                                                            <FormItem>
-                                                                <FormControl>
-                                                                    <div className="grid gap-2">
-                                                                        <Label htmlFor="message">Track Description</Label>
-                                                                        <Textarea placeholder="Add some additional notes or thoughts about the track." {...field} />
-                                                                    </div>
-                                                                </FormControl>
-                                                                <FormMessage />
-                                                            </FormItem>
-                                                        )}
-                                                    />
-                                                    <FormField
-                                                        control={form.control}
-                                                        name="private"
-                                                        render={({ field }) => (
-                                                            <FormItem>
-                                                                <FormControl>
-                                                                    <div className="grid gap-2">
-                                                                        <Label htmlFor="private">Set as Private?</Label>
-                                                                        <Switch checked={field.value} onCheckedChange={field.onChange} />
-                                                                    </div>
-                                                                </FormControl>
-                                                                <FormMessage />
-                                                            </FormItem>
-                                                        )}
-                                                    />
-                                                    <DialogFooter>
-                                                        <Button className="w-full" type="submit" disabled={buttonDisabled}>
-                                                            Add to Rack
-                                                        </Button>
-                                                    </DialogFooter>
-                                                </form>
-                                            </Form>
-                                        </DialogContent>
-                                    </Dialog>
-                                </div>
-                            </CardFooter>
-                        </Card>
+
+                    <div key={result.id} className="flex flex-row items-center justify-center gap-4 sm:gap-8 md:gap-12 border-t-2 p-4 md:p-6">
+
+                        {/* Image */}
+                        <div className="flex flex-col gap-6">
+                            <div className="w-12 xxs:w-24 sm:w-32 md:w-64 lg:w-80 rounded-lg overflow-hidden shadow-lg">
+                                <img
+                                    className="w-full h-full object-cover"
+                                    src={result.album.images[0].url}
+                                    alt={result.name}
+                                    draggable="false"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Name*/}
+                        <div className="w-full flex flex-col items-start text-left gap-2 md:gap-4 lg:gap-8">
+                            <div>
+                                <h1 className="text-sm sm:text-base md:text-lg lg:text-4xl font-semibold leading-none tracking-tight">
+                                    {result.name}
+                                </h1>
+                                <h2 className="text-xs sm:text-sm lg:text-base text-neutral-500 dark:text-neutral-400">
+                                    {formatArtists(result.album.artists)}
+                                </h2>
+                            </div>
+                            <div className="md:w-1/2">
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button className="text-xs h-7 rounded-md px-3 md:h-10 md:px-4 md:py-2 lg:text-sm">Add to Rack</Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
+                                        <DialogHeader>
+                                            <DialogTitle className="mt-4 lg:mt-0">
+                                                <p className="text-xl">Adding track '{result.name}' by {formatArtists(result.album.artists)}</p>
+                                            </DialogTitle>
+                                            <DialogDescription>This track will be added to your racklist.</DialogDescription>
+                                        </DialogHeader>
+                                        <Form {...form}>
+                                            <form onSubmit={(event) => form.handleSubmit((data) => onSubmit(data, result))(event)} className="w-full space-y-6">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="description"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormControl>
+                                                                <div className="grid gap-2">
+                                                                    <Label htmlFor="message">Track Description</Label>
+                                                                    <Textarea placeholder="Add some additional notes or thoughts about the track." {...field} />
+                                                                </div>
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                                <FormField
+                                                    control={form.control}
+                                                    name="private"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormControl>
+                                                                <div className="grid gap-2">
+                                                                    <Label htmlFor="private">Set as Private?</Label>
+                                                                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                                                                </div>
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                                <DialogFooter>
+                                                    <Button className="w-full" type="submit" disabled={buttonDisabled}>
+                                                        Add to Rack
+                                                    </Button>
+                                                </DialogFooter>
+                                            </form>
+                                        </Form>
+                                    </DialogContent>
+                                </Dialog>
+                            </div>
+                        </div>
                     </div>
                 ))}
             </div>
