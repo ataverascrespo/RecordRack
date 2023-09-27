@@ -78,6 +78,7 @@ const Users = {
     })
   },
   deletePhoto: (id: string) => requests.del(`User/DeletePhoto?ID=${id}`),
+  follow: (id: number) => requests.post(`User/FollowUser/${id}`, id),
   getFollowers: (id: number) => requests.get(`User/GetFollowers/${id}`),
   getFollowing: (id: number) => requests.get(`User/GetFollowing/${id}`),
 }

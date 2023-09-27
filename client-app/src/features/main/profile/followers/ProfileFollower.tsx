@@ -3,19 +3,22 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, } from
 import { Button } from "@/components/ui/button";
 import ProfileFollowerList from "./ProfileFollowerList";
 import { ProfileUser } from "@/app/models/profile";
+import { observer } from "mobx-react-lite";
+import { useStore } from "@/app/stores/store";
 
 interface Props{
     profileUser: ProfileUser;
-    followerCount: number;
 }
 
-function ProfileFollower({ profileUser, followerCount }: Props) {
+function ProfileFollower({ profileUser }: Props) {
+    const { profileStore } = useStore();
+    const { viewedUser } = profileStore;
     
     let followersText;
-    if (!followerCount || followerCount == undefined) {
-        followersText = "followers";
+    if (!viewedUser?.followersCount || viewedUser?.followersCount == undefined) {
+        followersText = " followers";
     } else {
-        followersText = followerCount === 1 ? ' follower' : ' followers';
+        followersText = viewedUser?.followersCount === 1 ? ' follower' : ' followers';
     }
 
     return (
@@ -24,7 +27,7 @@ function ProfileFollower({ profileUser, followerCount }: Props) {
                 <Button variant={"link"} className="px-0 py-0 ">
                     <p className="w-3/4 sm:w-full text-sm sm:text-base font-light text-neutral-800 text-center lg:text-left dark:text-neutral-300">
                         <span className="font-bold">
-                            {followerCount}
+                            {viewedUser?.followersCount}
                         </span>
                         {followersText}
                     </p>
@@ -44,4 +47,4 @@ function ProfileFollower({ profileUser, followerCount }: Props) {
     )
 }
 
-export default ProfileFollower
+export default observer(ProfileFollower)

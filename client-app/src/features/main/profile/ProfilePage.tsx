@@ -43,8 +43,8 @@ function ProfilePage() {
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-6 sm:gap-12 gap-y-4 self-center">
-                            <ProfileFollower profileUser={viewedUser!} followerCount={viewedUser!.followersCount}/>
-                            <ProfileFollowing profileUser={viewedUser!} followingCount={viewedUser!.followingCount}/>
+                            <ProfileFollower profileUser={viewedUser!} />
+                            <ProfileFollowing profileUser={viewedUser!} followingCount={viewedUser!.followingCount} />
                         </div>
                     </div>
 
@@ -77,8 +77,8 @@ function ProfilePage() {
 
                     {/* Lower section */}
                     <div className="grid grid-cols-2 gap-12 gap-y-4 mt-6 md:mt-0 self-center md:self-start">
-                        <ProfileFollower profileUser={viewedUser!} followerCount={viewedUser!.followersCount}/>
-                        <ProfileFollowing profileUser={viewedUser!} followingCount={viewedUser!.followingCount}/>
+                        <ProfileFollower profileUser={viewedUser!} />
+                        <ProfileFollowing profileUser={viewedUser!} followingCount={viewedUser!.followingCount} />
                     </div>
 
                     <ProfileButtons></ProfileButtons>

@@ -33,7 +33,8 @@ namespace AlbumAPI.Data
             var serviceResponse = new ServiceResponse<UserDTO>();
 
             //Find first or default instance where passed username is equal to existing username
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
+            var user = await _context.Users.Include(u => u.Followers).Include(u => u.Followings)
+                                            .FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -359,8 +360,12 @@ namespace AlbumAPI.Data
                 ID = user.ID,
                 Email = user.Email,
                 UserName = user.UserName,
-                Token = "",   //when possible, use the method to create JWT   
-                //Eventually image
+                Token = "",
+                ImageURL = user.ImageURL,
+                ImageID = user.ImageID,
+                Following = false,
+                FollowersCount = user.Followers.Count,
+                FollowingCount = user.Followings.Count
             };
         }
 

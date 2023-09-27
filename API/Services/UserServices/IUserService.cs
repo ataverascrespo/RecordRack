@@ -20,7 +20,7 @@ namespace AlbumAPI.Services.UserServices
         Task<ServiceResponse<UserDTO>> AddProfilePhoto(ImageUploadResult result);
 
          //Method to follow a user
-        Task<ServiceResponse<List<AlbumLikesDTO>>> FollowUser(int TargetID);
+        Task<ServiceResponse<UserDTO>> FollowUser(int TargetID);
 
         //Method to return a list of followers for a given user
         Task<ServiceResponse<List<UserDTO>>> GetFollowers(int UserID);

@@ -4,17 +4,17 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button";
 import ProfilePageSettings from "./settings/ProfilePageSettings";
 import { LogOutIcon, SettingsIcon } from "lucide-react";
+import ProfileFollowButton from "./follow/ProfileFollowButton";
 
 export const Icons = {
     logOut: LogOutIcon,
     settings: SettingsIcon,
 };
 
-
 function ProfileButtons() {
     const { userStore, profileStore } = useStore();
     const { isCurrentUser } = profileStore;
-
+    
     /*
         Function to log the current user out
     */
@@ -63,7 +63,7 @@ function ProfileButtons() {
         )
     } else {
         return (
-            <Button className="w-full md:w-1/3 lg:w-1/4 "><p className="text-sm">Follow User</p></Button>
+            <ProfileFollowButton buttonText={"Follow User"} width={"w-full md:w-1/3 lg:w-1/4"} />
         )
     }
 }

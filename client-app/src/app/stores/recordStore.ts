@@ -147,12 +147,11 @@ export default class RecordStore {
                         imageID: userData.user.imageID
                     };
                 });
-
-                this.selectedRecord!.likes = profiles;
+                
+                runInAction(() => this.selectedRecord!.likes = profiles);
                 if (this.selectedRecord?.likes.some(u => u.id === store.userStore.user?.id)) {
                     runInAction(() => this.isSelectedRecordLiked = true);
                 }
-
                 runInAction(() => this.loadingSelectedRecord = false);
                 return (response);
             }

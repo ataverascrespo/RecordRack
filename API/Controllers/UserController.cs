@@ -72,7 +72,7 @@ namespace AlbumAPI.Controllers
         }
 
         [HttpPost("FollowUser/{UserID}")]
-        public async Task<ActionResult<ServiceResponse<string>>> FollowUser(int UserID)
+        public async Task<ActionResult<ServiceResponse<UserDTO>>> FollowUser(int UserID)
         {
              //Return status code response upon completion of albumService.LikeAlbum() thread
             return Ok(await _userService.FollowUser(UserID));

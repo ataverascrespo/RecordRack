@@ -5,6 +5,7 @@ export interface ProfileUser {
     userName: string;
     imageURL: string;
     imageID: string;
+    following: boolean;
     followersCount: number;
     followingCount: number;
 }
@@ -16,6 +17,7 @@ export class Profile implements ProfileUser {
         this.userName = user.userName;
         this.imageURL = user.imageURL;
         this.imageID = user.imageID;
+        this.following = user.following;
         this.followersCount = user.followersCount;
         this.followingCount = user.followingCount;
     }
@@ -24,6 +26,7 @@ export class Profile implements ProfileUser {
     userName: string;
     imageURL: string;
     imageID: string;
+    following: boolean;
     followersCount: number;
     followingCount: number;
 }

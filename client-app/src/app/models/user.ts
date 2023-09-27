@@ -5,6 +5,7 @@ export interface User {
     token: string;
     imageURL: string;
     imageID: string;
+    following: boolean;
     followersCount: number;
     followingCount: number;
 }

@@ -27,11 +27,14 @@ export default class ProfileStore {
 
     getViewedUser = async (userName: string) => {
         this.loadingViewedUser = true;
+        this.viewedUserFollowers = [];
+        this.viewedUserFollowing = [];
+
         try {
             const response = await agent.Users.getUserByName(userName);
             const viewedUser: ProfileUser = response.data;
             runInAction(() => {
-                this.viewedUser = viewedUser
+                this.viewedUser = viewedUser;
                 this.loadingViewedUser = false;
             });
         } catch (error) {
@@ -43,7 +46,14 @@ export default class ProfileStore {
     }
 
     setViewedUser = (user: ProfileUser) => {
-        this.viewedUser = user;
+        this.loadingViewedUser = true;
+        this.viewedUserFollowers = [];
+        this.viewedUserFollowing = [];
+
+        runInAction(() => {
+            this.viewedUser = user;
+            this.loadingViewedUser = false;
+        });
     }
 
     getProfilePhoto = () => {
@@ -84,6 +94,19 @@ export default class ProfileStore {
     deleteProfilePhoto = async (id: string) => {
         try {
             await agent.Users.deletePhoto(id);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    followUser = async (userID: number) => {
+        try {
+            const response = await agent.Users.follow(userID);
+            if (response.success == true) {
+                const user: ProfileUser = response.data;
+                runInAction(() => this.viewedUser = user);
+            }
+            return response;
         } catch (error) {
             throw (error);
         }
