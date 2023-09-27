@@ -2,21 +2,13 @@ import { Button } from "@/components/ui/button"
 import { ModeToggle } from '@/components/mode-toggle'
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu"
 import { NavLink } from "react-router-dom"
-import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar"
 import { useStore } from "../stores/store"
 import { observer } from "mobx-react-lite"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
-
 
 function Navbar() {
   //Initialize user store with user object and loggedIn method
-  const { userStore, profileStore } = useStore();
+  const { userStore } = useStore();
   const { user, isLoggedIn } = userStore;
-  const { viewedUser } = profileStore;
-
-  function handleLogout() {
-    userStore.logout();
-  }
 
   return (
     <nav className="sticky top-0 z-50 -mt-24 border-b-2 shadow-md bg-background border-neutral-100 dark:border-neutral-950 text-neutral-800 dark:text-neutral-50">
@@ -39,7 +31,7 @@ function Navbar() {
             <NavLink to={"/search"}>
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">search</p></Button>
             </NavLink>
-            <NavLink to={"/"}>
+            <NavLink to={"/connect"}>
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">connect</p></Button>
             </NavLink>
             <NavLink to={"/about"}>
@@ -61,7 +53,7 @@ function Navbar() {
                         <NavLink to={"/search"}>
                           <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">search</p></Button>
                         </NavLink>
-                        <NavLink to={"/"}>
+                        <NavLink to={"/connect"}>
                           <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">connect</p></Button>
                         </NavLink>
                         <NavLink to={"/about"}>

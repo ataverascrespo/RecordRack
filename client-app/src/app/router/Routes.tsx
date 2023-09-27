@@ -9,11 +9,11 @@ import PasswordForgotPage from "@/features/auth/Password/ForgotPassword/Password
 import VerifyPage from "@/features/auth/Verify/VerifyPage";
 import VerifiedPage from "@/features/auth/Verify/VerifiedPage";
 import Authorized from "./Authorized";
-import RedirectToProfile from "@/features/main/profile/RedirectToProfile";
 import MainUserPage from "@/features/main/MainUserPage";
 import HTTPNotFoundPage from "../layout/HTTPNotFoundPage";
 import PasswordResetPage from "@/features/auth/Password/ForgotPassword/PasswordResetPage";
 import RecordView from "@/features/main/rack/recordview/RecordView";
+import SocialPage from "@/features/social/SocialPage";
 
 
 // Define the routes of the MPA
@@ -27,6 +27,7 @@ export const routes: RouteObject[] = [
                 { path: ':username/profile', element: <MainUserPage /> },
                 { path: ':username/record/:id', element: <RecordView /> },
                 { path: 'search', element: <SearchPage /> },
+                { path: 'connect', element: <SocialPage /> },
             ]},
             { path: '', element: <HomePage /> },
             { path: 'about', element: <AboutPage /> },
