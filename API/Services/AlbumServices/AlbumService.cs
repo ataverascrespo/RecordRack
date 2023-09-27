@@ -48,7 +48,8 @@ namespace AlbumAPI.Services.AlbumServices
             var serviceResponse = new ServiceResponse<GetAlbumDTO>();
             
             //Access database albums table where album and users ID are valid
-            var dbAlbum = await _context.Albums.Include(album => album.User).FirstOrDefaultAsync(a => a.ID == ID && !a.isPrivate);
+            var dbAlbum = await _context.Albums.Include(album => album.User)
+                            .FirstOrDefaultAsync(a => a.ID == ID && (!a.isPrivate || a.User.ID == GetUserID()));
             if (dbAlbum == null) 
             {
                 serviceResponse.Success = false;

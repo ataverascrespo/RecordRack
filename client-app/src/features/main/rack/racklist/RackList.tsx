@@ -17,7 +17,9 @@ function RackList() {
     return (
         <div className="h-full w-full mt-12">
             <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {savedRecords.map((record) => {
+                {savedRecords
+                    .filter(record => !record.isPrivate || (profileStore.isCurrentUser && record.isPrivate))
+                    .map((record) => {
                     return (
                         <Link key={record.id} to={`/${viewedUser!.userName}/record/${record.id}`}>
                             <Card className="shadow-md hover:shadow-xl hover:brightness-90 dark:hover:brightness-110 transition-all transform   duration-200">
