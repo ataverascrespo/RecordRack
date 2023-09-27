@@ -17,7 +17,6 @@ function RecordViewImage({user, record}: Props) {
         Function to handle back navigation on rack view page
     */
     function handleBackNavigation() {
-        console.log(user);
         //If the user navigated to rack page via URL. 
         if (!user || user.userName != params.username) {
             navigate(`/${params.username}/profile`)

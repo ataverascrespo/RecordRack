@@ -7,9 +7,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from "react";
 import NotFoundView from "@/app/layout/NotFoundView";
 import Loading from "@/app/layout/Loading";
-import RecordViewDelete from "./RecordViewDelete";
-import RecordViewAddToRack from "./RecordViewAddToRack";
-import RecordViewEditFields from "./RecordViewEditFields";
+import RecordViewDelete from "./buttons/RecordViewDelete";
+import RecordViewAddToRack from "./buttons/RecordViewAddToRack";
+import RecordViewEditFields from "./buttons/RecordViewEditFields";
 import RecordViewImage from "./RecordViewImage";
 import RecordViewInfo from "./RecordViewInfo";
 

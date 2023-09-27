@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Textfit } from 'react-textfit';
-import RecordViewLikes from "./RecordViewLikes";
+import RecordViewLikes from "./likes/RecordViewLikes";
 import { SavedRecord } from '@/app/models/record';
 
 interface Props {
