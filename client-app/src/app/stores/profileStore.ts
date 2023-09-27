@@ -11,6 +11,8 @@ export default class ProfileStore {
     uploadingPhoto = false;
     viewedUserFollowers: ProfileUser[] | undefined = undefined;
     viewedUserFollowing: ProfileUser[] | undefined = undefined;
+    searchedUsers: ProfileUser[] = [];
+    searchQuery: string = "";
 
     constructor() {
         makeAutoObservable(this)
@@ -53,6 +55,22 @@ export default class ProfileStore {
         runInAction(() => {
             this.viewedUser = user;
             this.loadingViewedUser = false;
+        });
+    }
+
+    searchUsers = async (userName: string) => {
+        try {
+            const response = await agent.Users.searchUsers(userName);
+            runInAction(() => this.searchQuery = userName);
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    setSearchedUsers = (users: ProfileUser[]) => {
+        runInAction(() => {
+            this.searchedUsers = users;
         });
     }
 

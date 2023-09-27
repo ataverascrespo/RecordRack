@@ -6,10 +6,6 @@ import SearchResults from "./SearchResultsAlbum";
 import { observer } from "mobx-react-lite";
 import SearchResultsTrack from "./SearchResultsTrack";
 
-
-
-
-
 //Spotify Client ID
 const CLIENT_ID = "6b6f9f90098c40469273168487c49eb7";
 //Secret ID to be retrieved with lambda function

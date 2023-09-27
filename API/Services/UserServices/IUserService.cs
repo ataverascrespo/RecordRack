@@ -10,6 +10,9 @@ namespace AlbumAPI.Services.UserServices
        //Method to get all users
         Task<ServiceResponse<List<UserDTO>>> GetUsers();
 
+        //Method to get all users via search query
+        Task<ServiceResponse<List<UserDTO>>> GetUsersSearch(string searchQuery);
+
         //Method to get current user by passed ID
         Task<ServiceResponse<UserDTO>> GetUserByName(string userName);
 

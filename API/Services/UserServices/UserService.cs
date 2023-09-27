@@ -26,7 +26,8 @@ namespace AlbumAPI.Services.UserServices
         private int GetUserID() => int.Parse(_httpContextAccessor.HttpContext!.User
             .FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-        public async Task<ServiceResponse<List<UserDTO>>> GetUsers(){
+        public async Task<ServiceResponse<List<UserDTO>>> GetUsers()
+        {
 
             var serviceResponse = new ServiceResponse<List<UserDTO>>();
 
@@ -47,6 +48,38 @@ namespace AlbumAPI.Services.UserServices
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<List<UserDTO>>> GetUsersSearch(string searchQuery)
+        {
+
+            var serviceResponse = new ServiceResponse<List<UserDTO>>();
+
+            // Get users from the database where their names contain the search query
+            var users = await _context.Users
+                .Include(u => u.Followers)
+                .Include(u => u.Followings)
+                .Where(u => u.UserName.Contains(searchQuery)) 
+                .ToListAsync();
+
+            //Return error if no users found
+            if (users == null || users.Count == 0) 
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "No users exist with those search terms.";
+                return serviceResponse;
+            }
+            
+            // Map all User models to UserDTOs w/ AutoMapper
+            serviceResponse.Data = users.Select(u =>
+            {
+                var userDto = _mapper.Map<UserDTO>(u);
+                userDto.FollowersCount = u.Followers.Count;
+                userDto.FollowingCount = u.Followings.Count;
+                return userDto;
+            }).ToList();
+
+            return serviceResponse;
+        }
+        
         public async Task<ServiceResponse<UserDTO>> GetUserByName(string userName)
         {
             var serviceResponse = new ServiceResponse<UserDTO>();
@@ -73,7 +106,8 @@ namespace AlbumAPI.Services.UserServices
         }
 
         //Method to retrieve the current signed in user
-        public async Task<ServiceResponse<UserDTO>> GetCurrentUser() {
+        public async Task<ServiceResponse<UserDTO>> GetCurrentUser() 
+        {
 
             var serviceResponse = new ServiceResponse<UserDTO>();
 
@@ -98,7 +132,8 @@ namespace AlbumAPI.Services.UserServices
         }
 
         //Method to retrieve the current signed in user
-        public async Task<ServiceResponse<UserDTO>> AddProfilePhoto(ImageUploadResult result) {
+        public async Task<ServiceResponse<UserDTO>> AddProfilePhoto(ImageUploadResult result) 
+        {
 
             var serviceResponse = new ServiceResponse<UserDTO>();
 

@@ -20,12 +20,12 @@ export default class UserStore {
         try {
             const response = await agent.Account.login(creds);
 
+            //Store the JWT upon sign in and update the user object
+            store.commonStore.setToken(response.data.token)
+            runInAction(() => this.user = response.data)
+
             //If the API call succeeded, navigate to rack page
             if (response.success === true) {
-                //Store the JWT upon sign in and update the user object
-                store.commonStore.setToken(response.data.token)
-                runInAction(() => this.user = response.data)
-
                 router.navigate(`/${this.user!.userName}/profile`)
             }
             return (response);

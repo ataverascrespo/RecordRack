@@ -68,6 +68,7 @@ const Account = {
 }
 
 const Users = {
+  searchUsers: (userName: string) => requests.get(`User/GetUsersSearch/${userName}`),
   getCurrentUser: () => requests.get<User>('User/GetCurrentUser'),
   getUserByName: (userName: string) => requests.get(`User/GetUserByName/${userName}`),
   uploadPhoto: (file: File) => {

@@ -16,8 +16,8 @@ const accountFormSchema = z.object({
     email: z.string().min(1, { message: "Email is required" }).email({
         message: "Must be a valid email",
     }),
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
+    username: z.string().min(6, {
+        message: "Username must be at least 6 characters.",
     }).max(32, {
         message: "Username must not be longer than 32 characters.",
     }),

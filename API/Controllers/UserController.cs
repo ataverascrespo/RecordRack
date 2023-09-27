@@ -33,6 +33,15 @@ namespace AlbumAPI.Controllers
         }
 
         //HTTP GET method
+        //Return all users
+        [HttpGet("GetUsersSearch/{SearchQuery}")]
+        public async Task<ActionResult<ServiceResponse<List<UserDTO>>>> GetUsersSearch(string searchQuery) 
+        {
+            //Return status code response upon completion
+            return Ok(await _userService.GetUsersSearch(searchQuery));
+        }
+
+        //HTTP GET method
         //Return current user
         [HttpGet("GetCurrentUser")]
         public async Task<ActionResult<ServiceResponse<UserDTO>>> GetCurrentUser() 
