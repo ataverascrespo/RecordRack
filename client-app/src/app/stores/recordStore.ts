@@ -8,6 +8,7 @@ import { Profile, ProfileUser } from "../models/profile";
 export default class RecordStore {
     savedRecords: SavedRecord[] = [];
     loadingRecords = false;
+    savedRecordsSortOrder = "asc";
     
     selectedRecord: SavedRecord | undefined = undefined;
     loadingSelectedRecord = false;
@@ -25,6 +26,7 @@ export default class RecordStore {
             runInAction(() => {
                 this.savedRecords = records;
                 this.loadingRecords = false;
+                this.sortRecords(this.savedRecordsSortOrder)
             });
             return (records);
         } catch (error) {
@@ -37,15 +39,36 @@ export default class RecordStore {
         try {
             const response = await agent.Records.getListForUser(userID);
             const records: SavedRecord[] = response.data;
+            const dateObject = new Date(records[0].dateAdded);
+            console.log(dateObject);
             runInAction(() => {
                 this.savedRecords = records;
                 this.loadingRecords = false;
+                this.sortRecords(this.savedRecordsSortOrder)
             });
         } catch (error) {
             throw (error)
         }
     }
 
+    sortRecords(sortOrder: string): SavedRecord[] {
+        runInAction(() => {
+            this.savedRecordsSortOrder = sortOrder;
+        });
+        return this.savedRecords.sort((a, b) => {
+            if (sortOrder === "asc") {
+                var aTime = new Date(a.dateAdded);
+                var bTime = new Date(b.dateAdded);
+                return aTime.getTime() - bTime.getTime()
+            } else if (sortOrder === "desc") {
+                var bTime = new Date(b.dateAdded);
+                var aTime = new Date(a.dateAdded);
+                return bTime.getTime() - aTime.getTime()
+            } else {
+                throw new Error("Invalid sortOrder");
+            }
+        });
+    }
  
     loadRecord = async (id: number) => {
         this.loadingSelectedRecord = true;

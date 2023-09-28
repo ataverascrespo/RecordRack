@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useStore } from "@/app/stores/store";
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
@@ -11,7 +12,7 @@ function RackList() {
 
     // Access the global Mobx stores
     const { recordStore, profileStore } = useStore();
-    const { savedRecords, loadingRecords } = recordStore;
+    const { savedRecords, loadingRecords, savedRecordsSortOrder } = recordStore;
     const { viewedUserRecordType } = profileStore;
 
     useEffect(() => {
@@ -19,22 +20,43 @@ function RackList() {
         recordStore.unselectRecord();
     })
 
+    const sortRecords = (sortValue: string) => {
+        recordStore.sortRecords(sortValue);
+    }
+
     // Display loading spinner while loading
     if (loadingRecords) {
         return <Loading text={"Loading records..."} height={"h-full"}></Loading>
     }
     // Display error screen if the records are null, undefined, or length of 0
     else if (!savedRecords || savedRecords == undefined || savedRecords.length === 0) {
-        return <RackListEmpty/>
+        return <RackListEmpty />
     }
     else {
         return (
             <Tabs className="w-full mt-12 space-y-6" defaultValue={viewedUserRecordType}>
 
-                <TabsList className="w-full md:w-2/3 lg:w-1/2">
-                    <TabsTrigger className="w-1/2" value="album">Albums</TabsTrigger>
-                    <TabsTrigger className="w-1/2" value="track">Tracks</TabsTrigger>
-                </TabsList>
+                <div className="flex flex-col md:flex-row justify-between gap-4">
+                    <TabsList className="w-full md:w-2/3 lg:w-1/2">
+                        <TabsTrigger className="w-1/2" value="album">Albums</TabsTrigger>
+                        <TabsTrigger className="w-1/2" value="track">Tracks</TabsTrigger>
+                    </TabsList>
+
+                    
+                    <Select defaultValue={savedRecordsSortOrder} onValueChange={((value) => sortRecords(value))} >
+                        <SelectTrigger className="w-full md:w-1/6">
+                            <SelectValue  />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel><p className="text-base">Filter by Date</p></SelectLabel>
+                                <SelectItem value="asc">Oldest first</SelectItem>
+                                <SelectItem value="desc">Newest first</SelectItem> 
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+
                 <TabsContent value="album" className="w-full">
                     <div className="h-full w-full mt-12">
                         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

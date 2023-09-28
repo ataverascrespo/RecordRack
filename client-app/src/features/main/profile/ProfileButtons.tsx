@@ -28,7 +28,7 @@ function ProfileButtons() {
             <div className="w-full flex flex-row gap-2">
                 <Dialog>
                     <DialogTrigger asChild className="cursor-pointer">
-                        <Button variant={"secondary"} className="w-full md:w-1/3 lg:w-1/6 ">
+                        <Button variant={"secondary"} className="w-full md:w-1/3 lg:w-1/5 xl:w-1/6 ">
                             <div className="flex flex-row gap-2 items-center justify-center">
                                  <p className="text-xs xxs:text-sm">Log Out</p>
                                 <Icons.logOut className="h-[2vh]" />
