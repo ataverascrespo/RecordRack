@@ -102,7 +102,7 @@ function RecordViewEditFields() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Edit Fields</Button>
+                <Button className="w-full md:w-1/2">Edit Fields</Button>
             </DialogTrigger>
             <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
                 <DialogHeader>

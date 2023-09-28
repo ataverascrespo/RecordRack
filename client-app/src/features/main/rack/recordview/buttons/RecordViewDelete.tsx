@@ -38,7 +38,7 @@ function RecordViewDelete() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Delete Record</Button>
+                <Button className="w-full md:w-1/2">Delete Record</Button>
             </DialogTrigger>
             <DialogContent className="max-w-[75vw] lg:max-w-[725px] py-8">
                 <DialogHeader>

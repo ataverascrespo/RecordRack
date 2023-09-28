@@ -53,15 +53,15 @@ function RecordViewLikes({ id }: Props) {
     if (isLoading) return <div></div>
     else {
         return (
-            <div className="flex flex-row items-center">
-                <Button onClick={handleLikes} size={"icon"} variant={"ghost"}>
+            <div className="flex flex-row items-center -ml-2">
+                <Button onClick={handleLikes} size={"icon"} variant={"link"}>
                     <Icons.likeIcon fill={likeIconColour} className="h-[3vh]" />
                 </Button>
                 <Dialog>
                     <DialogTrigger asChild>
                         <Button size={"sm"} variant={"link"}>
                             <div className="flex flex-row gap-2 items-center justify-center">
-                                <p className="text-xs xxs:text-sm md:text-base">{likesButton}</p>
+                                <p className="text-base">{likesButton}</p>
                             </div>
                         </Button>
                     </DialogTrigger>

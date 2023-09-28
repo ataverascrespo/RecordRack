@@ -65,18 +65,20 @@ function RecordView() {
 
                     <div className="w-full mt-6 sm:mt-12 lg:mt-40 flex flex-col gap-4 xl:gap-8 items-start">
                         <RecordViewInfo record={recordStore.selectedRecord} />
-                        <div className="flex gap-12 flex-row items-center">
+                        <div className="w-full flex gap-12 flex-row items-center">
 
                             {params.username == user!.userName
                                 ?
                                 // Component for editing and deleting record off user account
-                                <div className="flex flex-row gap-8 items-center">
+                                <div className="w-full flex flex-col md:flex-row gap-8 items-start md:items-center">
                                     <div className="flex flex-row gap-2 items-center">
-                                        <Label htmlFor="private" className="text-base md:text-xl font-bold">Private</Label>
+                                        <Label htmlFor="private" className="font-medium text-base text-neutral-900 dark:text-neutral-400 text-left">Private?</Label>
                                         <Switch id="private" disabled checked={recordStore.selectedRecord.isPrivate} />
                                     </div>
-                                    <RecordViewEditFields />
-                                    <RecordViewDelete />
+                                    <div className="flex flex-row gap-4 w-full md:w-1/2">
+                                        <RecordViewEditFields />
+                                        <RecordViewDelete />
+                                    </div>
                                 </div>
                                 :
                                 // Component for adding other user's record to your racklist
