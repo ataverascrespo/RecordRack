@@ -28,7 +28,7 @@ function RecordViewDelete() {
         await recordStore.deleteRecord(recordStore.selectedRecord!.id);
 
         //Navigate back to user racklist
-        navigate(`/${userStore.user?.userName}/profile`)
+        navigate(`/${userStore.user?.userName}`)
         toast({
             title: `Successfully deleted record.`,
         })

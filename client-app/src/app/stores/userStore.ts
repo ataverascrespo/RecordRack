@@ -26,7 +26,7 @@ export default class UserStore {
 
             //If the API call succeeded, navigate to rack page
             if (response.success === true) {
-                router.navigate(`/${this.user!.userName}/profile`)
+                router.navigate(`/${this.user!.userName}`)
             }
             return (response);
         } catch (error) {
@@ -45,7 +45,7 @@ export default class UserStore {
             const response = await agent.Account.register(creds);
             //If the API call succeeded, navigate to verify page
             if (response.success === true) {
-                router.navigate('/verify')
+                router.navigate('accounts/verify')
             }
             return (response);
         } catch (error) {
@@ -76,7 +76,7 @@ export default class UserStore {
             const response = await agent.Account.resetPassword(creds);
             //If the API call succeeded, navigate to login page
             if (response.success === true) {
-                router.navigate('/login')
+                router.navigate('accounts/login')
             }
             return (response);
         } catch (error) {

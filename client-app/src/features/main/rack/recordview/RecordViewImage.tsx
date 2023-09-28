@@ -19,7 +19,7 @@ function RecordViewImage({user, record}: Props) {
     function handleBackNavigation() {
         //If the user navigated to rack page via URL. 
         if (!user || user.userName != params.username) {
-            navigate(`/${params.username}/profile`)
+            navigate(`/${params.username}`)
         }
         //if user navigated to rack page via rack list
         else {

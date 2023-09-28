@@ -17,13 +17,12 @@ function PasswordResetPage() {
     const token = searchParams.get("");
 
     useEffect(() => {
-        console.log(token)
         if (token !== null) {
             //Set the reset token 
             passwordReset.resetToken = token!;
         }
         else {
-            navigate('/forgot-password')
+            navigate('accounts/forgot-password')
         }
     }, [token]);
 

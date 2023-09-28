@@ -25,13 +25,13 @@ function Navbar() {
 
           <div className='hidden md:flex flex-row items-center'>
 
-            <NavLink to={`${user?.userName}/profile`}>
+            <NavLink to={`${user?.userName}`}>
               <Button variant="ghost" size="lg"> <p className="text-sm lg:text-base xl:text-lg">your rack</p> </Button>
             </NavLink>
-            <NavLink to={"/search"}>
-              <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">search</p></Button>
+            <NavLink to={'search/music'}>
+              <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">add music</p></Button>
             </NavLink>
-            <NavLink to={"/connect"}>
+            <NavLink to={'search/users'}>
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">connect</p></Button>
             </NavLink>
             <NavLink to={"/about"}>
@@ -47,13 +47,13 @@ function Navbar() {
                   <NavigationMenuContent >
                     <ul className="grid gap-3 p-4 w-[170px] md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       <li className="row-span-3">
-                        <NavLink to={`${user?.userName}/profile`}>
+                        <NavLink to={`${user?.userName}`}>
                           <Button variant="ghost" size="lg"> <p className="text-sm lg:text-base xl:text-lg">your rack</p> </Button>
                         </NavLink>
-                        <NavLink to={"/search"}>
-                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">search</p></Button>
+                        <NavLink to={'search/music'}>
+                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">add music</p></Button>
                         </NavLink>
-                        <NavLink to={"/connect"}>
+                        <NavLink to={'search/users'}>
                           <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">connect</p></Button>
                         </NavLink>
                         <NavLink to={"/about"}>
@@ -83,10 +83,10 @@ function Navbar() {
             <NavLink to={"/about"}>
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">about</p></Button>
             </NavLink>
-            <NavLink to={"/login"}>
+            <NavLink to={"accounts/login"}>
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">log in</p></Button>
             </NavLink>
-            <NavLink to={"/register"}>
+            <NavLink to={"accounts/register"}>
               <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">register</p></Button>
             </NavLink>
           </div>
@@ -102,10 +102,10 @@ function Navbar() {
                         <NavLink to={"/about"}>
                           <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">about</p></Button>
                         </NavLink>
-                        <NavLink to={"/login"}>
+                        <NavLink to={"accounts/login"}>
                           <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">log in</p></Button>
                         </NavLink>
-                        <NavLink to={"/register"}>
+                        <NavLink to={"accounts/register"}>
                           <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">register</p></Button>
                         </NavLink>
                       </li>
