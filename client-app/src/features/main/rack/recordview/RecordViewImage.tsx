@@ -31,7 +31,7 @@ function RecordViewImage({user, record}: Props) {
     <div className="flex flex-col mt-28 w-full sm:w-3/4 md:w-2/3 gap-6 items-start justify-between lg:justify-center sm:self-start lg:self-center">
 
         <Button variant={"secondary"} onClick={() => handleBackNavigation()}>
-            <p className="text-base">Back to {params.username}'s record rack</p>
+            <p className="text-xs xxs:text-base">Back to {params.username}'s record rack</p>
         </Button>
         <img
             className="mt-0 rounded-xl shadow-lg"

@@ -34,7 +34,7 @@ function RackList() {
                             .map((record) => {
                                 return (
                                     // Individual record display component
-                                    <RackListRecords record={record}/>
+                                    <RackListRecords key={record.id} record={record}/>
                                 )
                             })}
                     </div>
@@ -51,7 +51,7 @@ function RackList() {
                             .map((record) => {
                                 return (
                                     // Individual record display component
-                                    <RackListRecords record={record}/>
+                                    <RackListRecords key={record.id} record={record}/>
                                 )
                             })}
                     </div>

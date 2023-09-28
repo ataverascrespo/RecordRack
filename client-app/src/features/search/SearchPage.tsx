@@ -5,6 +5,7 @@ import { useStore } from "@/app/stores/store";
 import SearchResults from "./SearchResultsAlbum";
 import { observer } from "mobx-react-lite";
 import SearchResultsTrack from "./SearchResultsTrack";
+import Footer from "@/app/layout/Footer";
 
 //Spotify Client ID
 const CLIENT_ID = "6b6f9f90098c40469273168487c49eb7";
@@ -43,7 +44,7 @@ function SearchPage() {
 
     return (
         <div className="container">
-            <div className="h-full mt-48 mb-24 flex flex-col justify-start gap-12 items-start">
+            <div className="h-full mt-48 mb-48 flex flex-col justify-start gap-12 items-start">
 
                 <div className="flex flex-col gap-4 items-start">
                     <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-neutral-800 dark:text-neutral-50">Add a new record to your collection</h1>
@@ -64,6 +65,7 @@ function SearchPage() {
                 )}
 
             </div>
+            <Footer/>
         </div>
     )
 }

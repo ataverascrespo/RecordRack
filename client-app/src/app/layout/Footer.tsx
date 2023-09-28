@@ -9,15 +9,17 @@ export default function Footer() {
                 </span>
                 <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
                     <NavLink to={"/about"}>
-                        <Button variant="ghost"><p className="text-sm">about</p></Button>
+                        <Button className="px-0 xxs:px-2 sm:px-4" variant="ghost"><p className="text-xs xxs:text-sm">about</p></Button>
                     </NavLink>
-
-                    <Button variant="ghost"><a href="" className="text-sm">contact</a></Button>
-
-                    <Button variant="ghost"><a href="https://github.com/ataverascrespo/RecordRack" className="text-sm">github repo</a></Button>
-
-                    <Button variant="ghost"><a href="" className="text-sm">donate</a></Button>
-
+                    <Button className="px-0 xxs:px-2 sm:px-4" variant="ghost">
+                        <a href="" className="text-xs xxs:text-sm">contact</a>
+                    </Button>
+                    <Button className="px-0 xxs:px-2 sm:px-4" variant="ghost">
+                        <a href="https://github.com/ataverascrespo/RecordRack" className="text-xs xxs:text-sm">github repo</a>
+                    </Button>
+                    <Button variant="ghost">
+                        <a href="" className="text-xs xxs:text-sm">donate</a>
+                    </Button>
                 </ul>
             </div>
         </footer>
