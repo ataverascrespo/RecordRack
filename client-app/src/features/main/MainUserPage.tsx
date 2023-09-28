@@ -63,7 +63,7 @@ function RackPage() {
     // Display loading spinner while loading
     if (profileStore.loadingViewedUser) return <Loading text={"Loading user profile..."} height={"h-screen"}></Loading>
     // Display error screen if the viewed user fetch returns null.
-    else if (!profileStore.viewedUser) return <NotFoundView text={"That user could not be found!"}></NotFoundView>
+    else if (!profileStore.viewedUser) return <NotFoundView text={"That user could not be found!"} height={"h-screen"}></NotFoundView>
     else {
         return (
             <div className="container">

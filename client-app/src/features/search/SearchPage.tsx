@@ -6,6 +6,7 @@ import SearchResults from "./SearchResultsAlbum";
 import { observer } from "mobx-react-lite";
 import SearchResultsTrack from "./SearchResultsTrack";
 import Footer from "@/app/layout/Footer";
+import Loading from "@/app/layout/Loading";
 
 //Spotify Client ID
 const CLIENT_ID = "6b6f9f90098c40469273168487c49eb7";
@@ -58,14 +59,21 @@ function SearchPage() {
                 <SearchForm accessToken={accessToken}></SearchForm>
 
                 {/* Retrieve global state store props and pass them, based on the search type that was saved most recently*/}
-                {searchStore.searchType === "album" ? (
-                    <SearchResults results={searchStore.searchAlbums}></SearchResults>
-                ) : (
-                    <SearchResultsTrack results={searchStore.searchTracks}></SearchResultsTrack>
-                )}
 
+                {
+                    searchStore.isSearchLoading
+                        ? <Loading text={"Loading..."} height={"h-[40vh]"}></Loading>
+                        : (
+                            searchStore.searchType === "album" ? (
+                                <SearchResults results={searchStore.searchAlbums}></SearchResults>
+                            ) : (
+                                <SearchResultsTrack results={searchStore.searchTracks}></SearchResultsTrack>
+                            )
+                        )
+                }
+                
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

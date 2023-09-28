@@ -68,6 +68,9 @@ export function SearchForm({ accessToken }: Props) {
       Define form submission handler for album
   */
   function onSubmitAlbum(data: z.infer<typeof FormSchema>) {
+    //Set the search as loading
+    searchStore.setSearchLoading();
+
     const uninterceptedAxiosInstance = axios.create();
     uninterceptedAxiosInstance.get(`https://api.spotify.com/v1/search?q=${data.album}&type=album&market=ES&limit=40`, {
       headers: {
@@ -107,6 +110,9 @@ export function SearchForm({ accessToken }: Props) {
       Define form submission handler for track
   */
   function onSubmitTrack(data: z.infer<typeof FormSchema>) {
+    //Set the search as loading
+    searchStore.setSearchLoading();
+    
     const uninterceptedAxiosInstance = axios.create();
     uninterceptedAxiosInstance.get(`https://api.spotify.com/v1/search?q=${data.album}&type=track&market=ES&limit=40`, {
       headers: {

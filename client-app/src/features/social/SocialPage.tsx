@@ -3,6 +3,7 @@ import { SocialForm } from "./SocialForm";
 import { useStore } from "@/app/stores/store";
 import SocialSearchResults from "./SocialSearchResults";
 import Footer from "@/app/layout/Footer";
+import Loading from "@/app/layout/Loading";
 
 function SocialPage() {
     // Access the global Mobx stores
@@ -21,8 +22,14 @@ function SocialPage() {
 
                 {/* Form component */}
                 <SocialForm />
-                {/* Form search results component */}
-                <SocialSearchResults results={searchedUsers}/>
+
+                {
+                    profileStore.loadingSearchedUsers
+                        ? <Loading text={"Loading..."} height={"h-[40vh]"}></Loading>
+                        : //Form search results component
+                          <SocialSearchResults results={searchedUsers}/>
+                }
+                
             </div>
             <Footer/>
         </div>

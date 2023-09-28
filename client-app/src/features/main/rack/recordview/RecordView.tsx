@@ -45,12 +45,12 @@ function RecordView() {
     }, [recordStore])
 
     // Display when loading
-    if (recordStore.loadingSelectedRecord) return <Loading text={"Loading record.."}></Loading>
+    if (recordStore.loadingSelectedRecord) return <Loading text={"Loading record.."} height={"h-screen"}></Loading>
 
     // Display when record is undefined or record URL path username and record username don't match
     if (recordStore.selectedRecord == undefined || params.username !== recordStore.selectedRecord.user.userName) {
         if (params.username) {
-            return <NotFoundView text={"Could not find that user's record."}></NotFoundView>
+            return <NotFoundView text={"Could not find that user's record."} height={"h-screen"}></NotFoundView>
         }
         else {
             navigate('/', { replace: true });

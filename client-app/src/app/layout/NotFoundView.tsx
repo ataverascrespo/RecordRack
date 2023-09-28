@@ -13,13 +13,14 @@ export const Icons = {
 // Define the component props
 interface Props {
     text: string;
+    height: string;
 }
 
-function NotFoundView({ text }: Props) {
+function NotFoundView({ text, height }: Props) {
     return (
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
             <div className="container">
-                <div className="h-screen flex flex-col justify-center items-center gap-4">
+                <div className={`${height} flex flex-col justify-center items-center gap-4`}>
                     <Icons.error className="w-[10vw] h-[10vh]" />
                     <h2 className="text-xl font-bold">{text}</h2>
                 </div>

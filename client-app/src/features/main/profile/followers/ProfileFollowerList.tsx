@@ -3,6 +3,8 @@ import { Separator } from "@/components/ui/separator"
 import { useStore } from "@/app/stores/store";
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
+import Loading from "@/app/layout/Loading";
+import NotFoundView from "@/app/layout/NotFoundView";
 
 function ProfileFollowerList() {
     // Access the global Mobx stores
@@ -27,10 +29,10 @@ function ProfileFollowerList() {
 
     //If followers are loading, or there are no followers, return an empty display
     if (isLoading) {
-        return <div className="h-[50vh] flex flex-row items-center justify-center">Loading...</div>
+        return <Loading text={"Loading followers..."} height={"h-[50vh]"}></Loading>
     }
     else if (viewedUserFollowers == undefined || viewedUserFollowers.length == 0) {
-        return <div className="h-[50vh] flex flex-row items-center justify-center">No followers.</div>
+        return <NotFoundView text={"No followers."} height={"h-[50vh]"}></NotFoundView>
     }
     else {
         return (

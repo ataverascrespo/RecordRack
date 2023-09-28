@@ -1,9 +1,10 @@
-import {makeAutoObservable} from "mobx";
+import {makeAutoObservable, runInAction} from "mobx";
 import { SpotifyAlbum } from "../models/spotifyAlbum";
 import { SpotifyTrack } from "../models/spotifyTrack";
 
 // Spotify search data store class
 export default class SearchStore {
+    isSearchLoading = false;
     searchAlbums: SpotifyAlbum[] = [];
     searchTracks: SpotifyTrack[] = [];
     searchType: string = "";
@@ -15,13 +16,19 @@ export default class SearchStore {
     }
 
     setSearchAlbums = (albums: SpotifyAlbum[]) => {
-        this.searchAlbums = albums;
-        this.searchType = "album";
+        runInAction(() => {
+            this.searchAlbums = albums;
+            this.searchType = "album";
+            this.isSearchLoading = false;
+        })
     }
 
     setSearchTracks = (tracks: SpotifyTrack[]) => {
-        this.searchTracks = tracks;
-        this.searchType = "track";
+        runInAction(() => {
+            this.searchTracks = tracks;
+            this.searchType = "track";
+            this.isSearchLoading = false;
+        })
     }
 
     selectAlbum = (id: string) => {
@@ -30,5 +37,9 @@ export default class SearchStore {
 
     cancelSelectedAlbum = () => {
         this.selectedAlbum = undefined;
+    }
+
+    setSearchLoading = () => {
+        this.isSearchLoading = true;
     }
 }

@@ -34,7 +34,7 @@ function App() {
   }, [commonStore, userStore]);
 
   //If the app is loading, display loading component
-  if (!commonStore.appLoaded) return <Loading text={"App loading..."}></Loading>
+  if (!commonStore.appLoaded) return <Loading text={"App loading..."} height={"h-screen"}></Loading>
 
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">

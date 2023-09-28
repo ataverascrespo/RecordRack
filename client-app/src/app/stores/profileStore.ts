@@ -12,8 +12,10 @@ export default class ProfileStore {
     uploadingPhoto = false;
     viewedUserFollowers: ProfileUser[] | undefined = undefined;
     viewedUserFollowing: ProfileUser[] | undefined = undefined;
+
     searchedUsers: ProfileUser[] = [];
     searchQuery: string = "";
+    loadingSearchedUsers = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -62,6 +64,7 @@ export default class ProfileStore {
     }
 
     searchUsers = async (userName: string) => {
+        this.loadingSearchedUsers = true;
         try {
             const response = await agent.Users.searchUsers(userName);
             runInAction(() => this.searchQuery = userName);
@@ -74,6 +77,7 @@ export default class ProfileStore {
     setSearchedUsers = (users: ProfileUser[]) => {
         runInAction(() => {
             this.searchedUsers = users;
+            this.loadingSearchedUsers = false;
         });
     }
 
