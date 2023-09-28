@@ -31,7 +31,8 @@ export default function HomePage() {
 
                 <Accordion type="single" collapsible className="w-full lg:w-[45%]">
                     <AccordionItem value="item-1">
-                        <AccordionTrigger>Why can’t I find the album/track/artist I’m looking for?
+                        <AccordionTrigger>
+                            <p className="text-left">Why can’t I find the album/track/artist I’m looking for?</p>
                         </AccordionTrigger>
                         <AccordionContent>
                             Because the search system is powered by Spotify, you can only access the albums, tracks and artists that Spotify has made available in any of their digital markets. <strong>Unfortunately, that means any music not accessible on Spotify, is also not accessible on Record Rack.</strong>
@@ -39,35 +40,39 @@ export default function HomePage() {
                     </AccordionItem>
                     <AccordionItem value="item-2">
                         <AccordionTrigger>
-                            Is there any way to upload data that isn’t available via Spotify?
+                            <p className="text-left">Is there any way to upload data that isn’t available via Spotify?</p>
                         </AccordionTrigger>
                         <AccordionContent>
-                            At this time, there is no way to upload custom albums or tracks.
+                            <p className="text-left">At this time, there is no way to upload custom albums or tracks.</p>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
-                        <AccordionTrigger>Can I make my music collection private or public?
+                        <AccordionTrigger>
+                            <p className="text-left">Can I make my music collection private or public?</p>
                         </AccordionTrigger>
                         <AccordionContent>
                             You have full control over the privacy of your music collection. You can customize the privacy settings for individual tracks or albums when you add them to your rack. Your music, your rules!
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-4">
-                        <AccordionTrigger>What data does Record Rack collect?
+                        <AccordionTrigger>
+                            <p className="text-left">What data does Record Rack collect?</p>
                         </AccordionTrigger>
                         <AccordionContent>
                             Record Rack <strong>does not collect any of your personal data, apart from the few details you provide during account creation</strong>. No tracking, analytics, nothing. For that data that is collected, this app uses industry-standard security approaches to protect your information. <a href="" className="font-bold underline"> You can read more about this on our privacy policy.</a>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-5">
-                        <AccordionTrigger>Is there any data that Record Rack shares?
+                        <AccordionTrigger>
+                            <p className="text-left">Is there any data that Record Rack shares?</p>
                         </AccordionTrigger>
                         <AccordionContent>
                             The ONLY thing Record Rack shares about you is your email address, which is shared with SendGrid. Their API integration lets this app send you some important emails <strong>like account verification or password resets.</strong> But don't worry - SendGrid is the main digital communications service that powers big companies like Uber, Airbnb, Yelp, Spotify, and many more businesses (80,000 more to be exact). If they can trust SendGrid, so can you! If you're still unsure, <a href="https://www.twilio.com/en-us/legal/privacy." className="font-bold underline">you can find Twilio's (their parent company) privacy policy here.</a>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-6">
-                        <AccordionTrigger>What if I encounter issues or have feedback about the app?
+                        <AccordionTrigger>
+                            <p className="text-left">What if I encounter issues or have feedback about the app?</p>
                         </AccordionTrigger>
                         <AccordionContent>
                             I’m here to help! If you encounter any issues or have feedback to share, you can reach out to me via email, or open a ticket on the GitHub page. Your feedback is invaluable in making Record Rack even more fun to use.
