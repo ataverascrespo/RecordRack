@@ -7,6 +7,7 @@ import { ProfileUser } from "../models/profile";
 // User data store class
 export default class ProfileStore {
     viewedUser: ProfileUser | undefined = undefined;
+    viewedUserRecordType: string = "album";
     loadingViewedUser = false;
     uploadingPhoto = false;
     viewedUserFollowers: ProfileUser[] | undefined = undefined;
@@ -29,6 +30,7 @@ export default class ProfileStore {
 
     getViewedUser = async (userName: string) => {
         this.loadingViewedUser = true;
+        this.viewedUserRecordType = "album";
         this.viewedUserFollowers = [];
         this.viewedUserFollowing = [];
 

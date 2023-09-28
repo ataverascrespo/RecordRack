@@ -39,10 +39,12 @@ export default class RecordStore {
     loadRecord = async (id: number) => {
         this.loadingSelectedRecord = true;
         this.isSelectedRecordLiked = false;
+
         let record = this.getRecord(id);
         if (record) {
             runInAction(() => {
                 this.selectedRecord = record;
+                store.profileStore.viewedUserRecordType = record!.albumType;
                 this.loadingSelectedRecord = false;
             });
             return record;
@@ -53,6 +55,7 @@ export default class RecordStore {
                 record = response.data;
                 runInAction(() => {
                     this.selectedRecord = record;
+                    store.profileStore.viewedUserRecordType = record!.albumType;
                     this.loadingSelectedRecord = false;
                 });
             } catch (error) {
@@ -111,7 +114,6 @@ export default class RecordStore {
         const user = store.userStore.user;
         try {
             const response = await agent.Records.like(this.selectedRecord!.id);
-            console.log(response);
             if (response.success === true) {
                 runInAction(() => {
                     if (this.selectedRecord?.likes.some(u => u.id === user?.id)) {
