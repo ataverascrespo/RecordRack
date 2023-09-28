@@ -14,7 +14,7 @@ function RecordViewLikedBy({ usersLiked }: Props) {
                 <div>
                     <div className="text-sm">
                         <Link key={user.id} className="items-center hover:brightness-110 dark:hover:brightness-90 transform duration-100"
-                            to={`/${user.userName}/profile`}>
+                            to={`/${user.userName}`}>
                             <div className='flex flex-row items-center justify-start gap-6'>
                                 <img
                                     src={user.imageURL || 'https://res.cloudinary.com/dlwfuryyz/image/upload/v1695305498/album-api/jzbiw85pakr4amttznuq.jpg'}
