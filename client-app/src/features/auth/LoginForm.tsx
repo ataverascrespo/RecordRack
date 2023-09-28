@@ -98,7 +98,7 @@ function LoginForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input id="password" type="password"  {...field} />
+                                    <Input id="password" autoComplete="on" type="password"  {...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />

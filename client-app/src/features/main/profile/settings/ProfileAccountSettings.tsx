@@ -6,7 +6,7 @@ function ProfileAccountSettings() {
 
       {/* header */}
       <div className="flex flex-col gap-2">
-        <h1 className="text-base sm:text-lg md:text-2xl font-bold text-neutral-800 dark:text-neutral-50">Add your profile picture</h1>
+        <h2 className="text-base sm:text-lg md:text-2xl font-bold text-neutral-800 dark:text-neutral-50">Add your profile picture</h2>
       </div>
 
       <ProfileAccountSettingsFormPhoto></ProfileAccountSettingsFormPhoto>

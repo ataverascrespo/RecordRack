@@ -104,7 +104,7 @@ function RegisterForm() {
                         <FormItem>
                             <FormControl>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="email">Username</Label>
+                                    <Label htmlFor="username">Username</Label>
                                     <Input id="username" type="username" placeholder="i.e John Doe or johndoe123"{...field} />
                                 </div>
                             </FormControl>
@@ -119,7 +119,7 @@ function RegisterForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input id="password" type="password"  {...field} />
+                                    <Input id="password" autoComplete="off" type="password"  {...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />

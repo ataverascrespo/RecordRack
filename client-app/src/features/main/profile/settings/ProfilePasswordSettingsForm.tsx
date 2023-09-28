@@ -89,7 +89,7 @@ function ProfilePasswordSettingsForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">Current password</Label>
-                                    <Input id="password" type="password" placeholder="Enter your current password" {...field} />
+                                    <Input id="old-password" type="password" autoComplete="on" placeholder="Enter your current password" {...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -103,7 +103,7 @@ function ProfilePasswordSettingsForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">New password</Label>
-                                    <Input id="password" type="password" placeholder="Enter your new password" {...field} />
+                                    <Input id="new-password" type="password" autoComplete="off" placeholder="Enter your new password" {...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />
