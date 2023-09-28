@@ -2,12 +2,17 @@ import { Button } from '@/components/ui/button'
 import { useStore } from "@/app/stores/store";
 import { useEffect, useState } from "react";
 import { observer } from 'mobx-react-lite';
+import { User, UserCheck } from 'lucide-react';
 
 interface Props {
     buttonText: string;
     width: string;
 }
 
+export const Icons = {
+    follow: User,
+    following: UserCheck,
+};
 
 function ProfileFollowButton({buttonText, width} : Props) {
 
@@ -34,21 +39,31 @@ function ProfileFollowButton({buttonText, width} : Props) {
         }
     }
 
-    let followButton, followColour;
+    let followButton, followIcon;
 
     if (isFollowed) {
         followButton = "Following"
-        followColour = "default"
+        followIcon = <Icons.following className="h-[2vh]" />
+        return (
+            <Button variant={"default"} className={width} onClick={handleFollow}>
+                <div className="flex flex-row gap-2 items-center">
+                    <p className="text-sm">{followButton}</p>
+                    {followIcon}
+                </div>
+            </Button>
+        )
     } else {
         followButton = buttonText;
-        followColour = "secondary"
+        followIcon = <Icons.follow className="h-[2vh]" />
+        return (
+            <Button variant={"secondary"} className={width} onClick={handleFollow}>
+                <div className="flex flex-row gap-2 items-center">
+                    <p className="text-sm">{followButton}</p>
+                    {followIcon}
+                </div>
+            </Button>
+        )
     }
-
-    return (
-        <Button className={width} onClick={handleFollow}>
-            <p className="text-sm">{followButton}</p>
-        </Button>
-    )
 }
 
 export default observer(ProfileFollowButton)
