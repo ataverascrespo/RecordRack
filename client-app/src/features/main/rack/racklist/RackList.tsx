@@ -37,14 +37,14 @@ function RackList() {
             <Tabs className="w-full mt-12 space-y-6" defaultValue={viewedUserRecordType}>
 
                 <div className="flex flex-col md:flex-row justify-between gap-4">
-                    <TabsList className="w-full md:w-2/3 lg:w-1/2">
+                    <TabsList className="w-full md:w-2/3 lg:w-2/5">
                         <TabsTrigger className="w-1/2" value="album">Albums</TabsTrigger>
                         <TabsTrigger className="w-1/2" value="track">Tracks</TabsTrigger>
                     </TabsList>
 
                     
                     <Select defaultValue={savedRecordsSortOrder} onValueChange={((value) => sortRecords(value))} >
-                        <SelectTrigger className="w-full md:w-1/6">
+                        <SelectTrigger className="w-full md:w-1/5">
                             <SelectValue  />
                         </SelectTrigger>
                         <SelectContent>
