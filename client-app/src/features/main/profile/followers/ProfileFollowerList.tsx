@@ -13,11 +13,10 @@ function ProfileFollowerList() {
     useEffect(() => {
         const getFollowers = async (id: number) => {
             await profileStore.getFollowers(id);
+            //Once the followers are fetched, stop loading
+            setIsLoading(false);
         }
         getFollowers(viewedUser!.id);
-
-        //Once the followers are fetched, stop loading
-        setIsLoading(false);
     }, []);
 
     // Export a dialog close function by pulling the custom dialog ID. 
