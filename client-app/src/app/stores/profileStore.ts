@@ -30,6 +30,7 @@ export default class ProfileStore {
 
     getViewedUser = async (userName: string) => {
         this.loadingViewedUser = true;
+        store.recordStore.savedRecords = [];
         this.viewedUserRecordType = "album";
         this.viewedUserFollowers = [];
         this.viewedUserFollowing = [];

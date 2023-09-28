@@ -1,14 +1,17 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs"
 import { useStore } from "@/app/stores/store";
 import { useEffect } from "react";
-import RackListRecords from "./RackListRecords";
 import { observer } from "mobx-react-lite";
+
+import Loading from "@/app/layout/Loading";
+import RackListRecords from "./RackListRecords";
+import RackListEmpty from "@/features/main/rack/racklist/RackListEmpty";
 
 function RackList() {
 
     // Access the global Mobx stores
     const { recordStore, profileStore } = useStore();
-    const { savedRecords } = recordStore;
+    const { savedRecords, loadingRecords } = recordStore;
     const { viewedUserRecordType } = profileStore;
 
     useEffect(() => {
@@ -16,49 +19,59 @@ function RackList() {
         recordStore.unselectRecord();
     })
 
-    return (
-        <Tabs className="w-full mt-12 space-y-6" defaultValue={viewedUserRecordType}>
+    // Display loading spinner while loading
+    if (loadingRecords) {
+        return <Loading text={"Loading records..."} height={"h-full"}></Loading>
+    }
+    // Display error screen if the records are null, undefined, or length of 0
+    else if (!savedRecords || savedRecords == undefined || savedRecords.length === 0) {
+        return <RackListEmpty/>
+    }
+    else {
+        return (
+            <Tabs className="w-full mt-12 space-y-6" defaultValue={viewedUserRecordType}>
 
-            <TabsList className="w-full md:w-2/3 lg:w-1/3">
-                <TabsTrigger className="w-1/2" value="album">Albums</TabsTrigger>
-                <TabsTrigger className="w-1/2" value="track">Tracks</TabsTrigger>
-            </TabsList>
-            <TabsContent value="album" className="w-full">
-                <div className="h-full w-full mt-12">
-                    <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {savedRecords
-                            //Only grab albums where the record is NOT private. If user signed in, grab albums where user is signed is and record may also be private
-                            .filter(record => !record.isPrivate || (profileStore.isCurrentUser && record.isPrivate))
-                            //Only grab record where the type is album
-                            .filter(record => record.albumType == "album")
-                            .map((record) => {
-                                return (
-                                    // Individual record display component
-                                    <RackListRecords key={record.id} record={record}/>
-                                )
-                            })}
+                <TabsList className="w-full md:w-2/3 lg:w-1/3">
+                    <TabsTrigger className="w-1/2" value="album">Albums</TabsTrigger>
+                    <TabsTrigger className="w-1/2" value="track">Tracks</TabsTrigger>
+                </TabsList>
+                <TabsContent value="album" className="w-full">
+                    <div className="h-full w-full mt-12">
+                        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            {savedRecords
+                                //Only grab albums where the record is NOT private. If user signed in, grab albums where user is signed is and record may also be private
+                                .filter(record => !record.isPrivate || (profileStore.isCurrentUser && record.isPrivate))
+                                //Only grab record where the type is album
+                                .filter(record => record.albumType == "album")
+                                .map((record) => {
+                                    return (
+                                        // Individual record display component
+                                        <RackListRecords key={record.id} record={record} />
+                                    )
+                                })}
+                        </div>
                     </div>
-                </div>
-            </TabsContent>
-            <TabsContent value="track">
-                <div className="h-full w-full mt-12">
-                    <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {savedRecords
-                            //Only grab record where the record is NOT private. If user signed in, grab albums where user is signed is and record may also be private
-                            .filter(record => !record.isPrivate || (profileStore.isCurrentUser && record.isPrivate))
-                            //Only grab record where the type is track
-                            .filter(record => record.albumType == "track")
-                            .map((record) => {
-                                return (
-                                    // Individual record display component
-                                    <RackListRecords key={record.id} record={record}/>
-                                )
-                            })}
+                </TabsContent>
+                <TabsContent value="track">
+                    <div className="h-full w-full mt-12">
+                        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            {savedRecords
+                                //Only grab record where the record is NOT private. If user signed in, grab albums where user is signed is and record may also be private
+                                .filter(record => !record.isPrivate || (profileStore.isCurrentUser && record.isPrivate))
+                                //Only grab record where the type is track
+                                .filter(record => record.albumType == "track")
+                                .map((record) => {
+                                    return (
+                                        // Individual record display component
+                                        <RackListRecords key={record.id} record={record} />
+                                    )
+                                })}
+                        </div>
                     </div>
-                </div>
-            </TabsContent>
-        </Tabs>
-    )
+                </TabsContent>
+            </Tabs>
+        )
+    }
 }
 
 export default observer(RackList)

@@ -13,7 +13,6 @@ import RackList from "@/features/main/rack/racklist/RackList";
 import ProfilePage from "./profile/ProfilePage";
 import Loading from "@/app/layout/Loading";
 import NotFoundView from "@/app/layout/NotFoundView";
-import RackListEmpty from "@/features/main/rack/racklist/RackListEmpty";
 
 function RackPage() {
     // Get the browser params
@@ -21,59 +20,65 @@ function RackPage() {
   
     // Access the global Mobx stores
     const { recordStore, userStore, profileStore } = useStore();
-    const { savedRecords } = recordStore;
     const { isCurrentUser, viewedUser } = profileStore;
 
     useEffect(() => {
-        if (params.username) {
-            //If the loaded user profile is the stored view user, there's no need to re-fetch user data.
-            if (params.username === viewedUser?.userName) {
-                return;
-            }
-            //If the logged in user is the url params, there's no need to re-fetch user data.
-            if (params.username === userStore.user!.userName) {
-                profileStore.setViewedUser(userStore.user!)
-                return;
-            } else {
-                // If the current viewed user is not the current user, we need to fetch that user
-                profileStore.getViewedUser(params.username);
-                return;
+        const checkUser = async () => {
+            if (params.username) {
+                //If the loaded user profile is the stored view user, there's no need to re-fetch user data.
+                if (params.username === viewedUser?.userName) {
+                    return;
+                }
+                //If the logged in user is the url params, there's no need to re-fetch user data.
+                if (params.username === userStore.user!.userName) {
+                    await profileStore.setViewedUser(userStore.user!)
+                    return;
+                } else {
+                    // If the current viewed user is not the current user, we need to fetch that user
+                    await profileStore.getViewedUser(params.username);
+                    return;
+                }
             }
         }
+
+        checkUser();
     }, [params.username]);
 
     useEffect(() => {
-        if (profileStore.viewedUser) {
-            if (isCurrentUser) {
-                // Fetch the logged in user's list.
-                recordStore.loadRecords();
-            } else {
-                // Fetch the user's list based on the user ID
-                recordStore.loadRecordsForUser(profileStore.viewedUser.id)
+        const loadRecords = async () => {
+            if (profileStore.viewedUser) {
+                if (isCurrentUser) {
+                    // Fetch the logged in user's list.
+                    await recordStore.loadRecords();
+                } else {
+                    // Fetch the user's list based on the user ID
+                    await recordStore.loadRecordsForUser(profileStore.viewedUser.id)
+                }
             }
         }
+        loadRecords();
     }, [profileStore.viewedUser]);
 
+    
     // Display loading spinner while loading
-    if (profileStore.loadingViewedUser) return <Loading text={"Loading user profile..."}></Loading>
+    if (profileStore.loadingViewedUser) return <Loading text={"Loading user profile..."} height={"h-screen"}></Loading>
     // Display error screen if the viewed user fetch returns null.
-    if (!profileStore.viewedUser) return <NotFoundView text={"That user could not be found!"}></NotFoundView>
-
-    return (
-        <div className="container">
-            <div className="h-full mt-[13.5rem] mb-24 flex flex-col justify-start gap-12 items-start ">
-
-                {/* Profile View*/}
-                <ProfilePage></ProfilePage>
-
-                {/* Rack List */}
-                {savedRecords.length != 0
-                    ? <RackList></RackList>
-                    : <RackListEmpty></RackListEmpty>
-                }
+    else if (!profileStore.viewedUser) return <NotFoundView text={"That user could not be found!"}></NotFoundView>
+    else {
+        return (
+            <div className="container">
+                <div className="h-full mt-[13.5rem] mb-24 flex flex-col justify-start gap-12 items-start ">
+    
+                    {/* Profile View*/}
+                    <ProfilePage></ProfilePage>
+    
+                    {/* Rack List */}
+                    <RackList></RackList>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
+    
 }
 
 export default observer(RackPage)

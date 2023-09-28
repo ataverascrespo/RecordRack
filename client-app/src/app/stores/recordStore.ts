@@ -7,6 +7,8 @@ import { Profile, ProfileUser } from "../models/profile";
 // User data store class
 export default class RecordStore {
     savedRecords: SavedRecord[] = [];
+    loadingRecords = false;
+    
     selectedRecord: SavedRecord | undefined = undefined;
     loadingSelectedRecord = false;
     isSelectedRecordLiked = false;
@@ -16,10 +18,14 @@ export default class RecordStore {
     }
 
     loadRecords = async () => {
+        this.loadingRecords = true;
         try {
             const response = await agent.Records.getList();
             const records: SavedRecord[] = response.data;
-            runInAction(() => this.savedRecords = records);
+            runInAction(() => {
+                this.savedRecords = records;
+                this.loadingRecords = false;
+            });
             return (records);
         } catch (error) {
             throw (error)
@@ -27,15 +33,20 @@ export default class RecordStore {
     }
 
     loadRecordsForUser = async (userID: number) => {
+        this.loadingRecords = true;
         try {
             const response = await agent.Records.getListForUser(userID);
             const records: SavedRecord[] = response.data;
-            runInAction(() => this.savedRecords = records);
+            runInAction(() => {
+                this.savedRecords = records;
+                this.loadingRecords = false;
+            });
         } catch (error) {
             throw (error)
         }
     }
 
+ 
     loadRecord = async (id: number) => {
         this.loadingSelectedRecord = true;
         this.isSelectedRecordLiked = false;
