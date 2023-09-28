@@ -20,7 +20,8 @@ const accountFormSchema = z.object({
         message: "Username must be at least 6 characters.",
     }).max(32, {
         message: "Username must not be longer than 32 characters.",
-    }),
+    }).regex(/^[a-zA-Z0-9\-_\.]+$/, 'Username can only contain symbols from - _ . (other symbols or spaces not supported)'
+    ) .refine(s => !s.includes(' '), 'Username cannot contain spaces.'),
     password: z.string().min(7, { message: "Password must be atleast 7 characters" }),
 })
 

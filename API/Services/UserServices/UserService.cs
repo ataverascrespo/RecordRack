@@ -53,12 +53,16 @@ namespace AlbumAPI.Services.UserServices
 
             var serviceResponse = new ServiceResponse<List<UserDTO>>();
 
-            // Get users from the database where their names contain the search query
+           // Get all the users from the database
             var users = await _context.Users
                 .Include(u => u.Followers)
                 .Include(u => u.Followings)
-                .Where(u => u.UserName.Contains(searchQuery)) 
                 .ToListAsync();
+
+            // Filter the users in-memory based on the search query
+            users = users
+                .Where(u => u.UserName.IndexOf(searchQuery, StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToList();
 
             //Return error if no users found
             if (users == null || users.Count == 0) 
