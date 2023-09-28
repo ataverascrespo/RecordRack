@@ -35,12 +35,16 @@ export function SocialForm() {
                         title: "Uh oh! Something went wrong.",
                         description: response.returnMessage
                     })
+                    //Set the users as empty
+                    profileStore.setSearchedUsers([]);
                 }
             } catch (error) {
                 toast({
                     variant: "destructive",
                     title: "Uh oh! Something went wrong.",
                 })
+                //Set the users as empty
+                profileStore.setSearchedUsers([]);
                 throw (error);
             }
         }
