@@ -31,7 +31,7 @@ function RackList() {
         return (
             <Tabs className="w-full mt-12 space-y-6" defaultValue={viewedUserRecordType}>
 
-                <TabsList className="w-full md:w-2/3 lg:w-1/3">
+                <TabsList className="w-full md:w-2/3 lg:w-1/2">
                     <TabsTrigger className="w-1/2" value="album">Albums</TabsTrigger>
                     <TabsTrigger className="w-1/2" value="track">Tracks</TabsTrigger>
                 </TabsList>

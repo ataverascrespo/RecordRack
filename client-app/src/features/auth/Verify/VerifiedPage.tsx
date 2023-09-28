@@ -91,7 +91,7 @@ function VerifiedPage() {
                         <div className="flex flex-col items-center gap-2 text-center">
                             <h1 className="text-4xl md:text-5xl font-bold">Verified</h1>
                             <h2 className="text-2xl font-light mb-4 "> Your account has been verified - you're good to go. </h2>
-                            <Link to={"/login"}>
+                            <Link to={"accounts/login"}>
                                 <Button size="lg"><p className="text-base">Login</p></Button>
                             </Link>
                         </div>

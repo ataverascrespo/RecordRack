@@ -41,7 +41,7 @@ function ProfileFollowingList() {
                     <div key={following!.id}>
                         <div className="text-sm flex flex-row items-center justify-between">
                             <Link onClick={dialogClose} className="items-center hover:brightness-110 dark:hover:brightness-90 transform duration-100"
-                                to={`/${following!.userName}/profile`}>
+                                to={`/${following!.userName}`}>
                                 <div className='flex flex-row items-center justify-start gap-6'>
                                     <img
                                         src={following?.imageURL || 'https://res.cloudinary.com/dlwfuryyz/image/upload/v1695305498/album-api/jzbiw85pakr4amttznuq.jpg'}
