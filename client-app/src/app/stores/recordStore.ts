@@ -7,9 +7,11 @@ import { Profile, ProfileUser } from "../models/profile";
 // User data store class
 export default class RecordStore {
     savedRecords: SavedRecord[] = [];
-    filteredRecords: SavedRecord[] = [];
     loadingRecords = false;
-    savedRecordsSortOrder = "asc";
+
+    savedRecordsSortType: string = "album";
+    savedRecordsSortOrder: string = "asc";
+    savedRecordsSearchQuery: string = "";
     
     selectedRecord: SavedRecord | undefined = undefined;
     loadingSelectedRecord = false;
@@ -25,9 +27,13 @@ export default class RecordStore {
             const response = await agent.Records.getList();
             const records: SavedRecord[] = response.data;
             runInAction(() => {
-                this.savedRecords = records;
+                this.savedRecords = records
+                    .filter((record) => !record.isPrivate || (store.profileStore.isCurrentUser && record.isPrivate))
                 this.loadingRecords = false;
-                this.sortRecords(this.savedRecordsSortOrder)
+
+                this.sortRecordsOrder(this.savedRecordsSortOrder)
+                this.sortRecordsType(this.savedRecordsSortType);
+                
             });
             return (records);
         } catch (error) {
@@ -42,20 +48,23 @@ export default class RecordStore {
             const records: SavedRecord[] = response.data;
 
             runInAction(() => {
-                this.savedRecords = records;
+                this.savedRecords = records
+                    .filter((record) => !record.isPrivate || (store.profileStore.isCurrentUser && record.isPrivate))
                 this.loadingRecords = false;
-                this.sortRecords(this.savedRecordsSortOrder)
+
+                this.sortRecordsOrder(this.savedRecordsSortOrder)
+                this.sortRecordsType(this.savedRecordsSortType);
             });
         } catch (error) {
             throw (error)
         }
     }
 
-    sortRecords(sortOrder: string): SavedRecord[] {
+    sortRecordsOrder(sortOrder: string): SavedRecord[] {
         runInAction(() => {
             this.savedRecordsSortOrder = sortOrder;
         });
-        return this.filteredRecords.sort((a, b) => {
+        return this.savedRecords.sort((a, b) => {
             if (sortOrder === "asc") {
                 var aTime = new Date(a.dateAdded);
                 var bTime = new Date(b.dateAdded);
@@ -70,9 +79,15 @@ export default class RecordStore {
         });
     }
 
-    setFilteredRecords(records: SavedRecord[]) {
+    sortRecordsType(sortType: string) {
         runInAction(() => {
-            this.filteredRecords = records;
+            this.savedRecordsSortType = sortType;
+        });
+    }
+
+    setRecordsSearchQuery(searchQuery: string) {
+        runInAction(() => {
+            this.savedRecordsSearchQuery = searchQuery;
         });
     }
  
@@ -84,7 +99,7 @@ export default class RecordStore {
         if (record) {
             runInAction(() => {
                 this.selectedRecord = record;
-                store.profileStore.viewedUserRecordType = record!.albumType;
+                this.savedRecordsSortType = record!.albumType;
                 this.loadingSelectedRecord = false;
             });
             return record;
@@ -95,7 +110,7 @@ export default class RecordStore {
                 record = response.data;
                 runInAction(() => {
                     this.selectedRecord = record;
-                    store.profileStore.viewedUserRecordType = record!.albumType;
+                    this.savedRecordsSortType = record!.albumType;
                     this.loadingSelectedRecord = false;
                 });
             } catch (error) {

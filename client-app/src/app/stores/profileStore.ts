@@ -7,7 +7,7 @@ import { ProfileUser } from "../models/profile";
 // User data store class
 export default class ProfileStore {
     viewedUser: ProfileUser | undefined = undefined;
-    viewedUserRecordType: string = "album";
+
     loadingViewedUser = false;
     uploadingPhoto = false;
     viewedUserFollowers: ProfileUser[] | undefined = undefined;
@@ -32,9 +32,12 @@ export default class ProfileStore {
 
     getViewedUser = async (userName: string) => {
         this.loadingViewedUser = true;
+        
+        //Reset all record fields when the app opens a new viewed user profile
         store.recordStore.savedRecords = [];
         store.recordStore.savedRecordsSortOrder = "asc";
-        this.viewedUserRecordType = "album";
+        store.recordStore.savedRecordsSortType = "album";
+        store.recordStore.savedRecordsSearchQuery = " "
         this.viewedUserFollowers = [];
         this.viewedUserFollowing = [];
 
