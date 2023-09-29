@@ -24,7 +24,7 @@ function RegisterPage() {
                                 or
                             </div>
                             <p className="mt-4 text-base text-center">Already have an account?&nbsp;
-                                <Link className="text-base font-bold hover:underline" to={"accounts/login"}> Login&nbsp;</Link>
+                                <Link className="text-base font-bold hover:underline" to={"/accounts/login"}> Login&nbsp;</Link>
                             </p>
                         </div>
 

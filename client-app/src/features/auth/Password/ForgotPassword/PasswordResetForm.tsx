@@ -95,13 +95,13 @@ function PasswordResetForm({ resetToken }: Props) {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input id="password" type="password" placeholder="Enter your password" {...field} />
+                                    <Input className="shadow-inner" id="password" type="password" placeholder="Enter your password" {...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )} />
-                <Button className="w-full" type="submit">Reset password</Button>
+                <Button className="w-full shadow-md" type="submit">Reset password</Button>
             </form>
         </Form>
     )

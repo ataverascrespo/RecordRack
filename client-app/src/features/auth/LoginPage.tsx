@@ -17,7 +17,7 @@ function LoginPage() {
                     <CardContent className="grid gap-4">
                         <LoginForm></LoginForm>
                         <div className="flex">
-                            <Link className="text-center font-semibold text-sm hover:underline" to={"accounts/forgot-password"}>
+                            <Link className="text-center font-semibold text-sm hover:underline" to={"/accounts/forgot-password"}>
                                 Forgot your password?
                             </Link>
                         </div>
@@ -29,7 +29,7 @@ function LoginPage() {
                                 or
                             </div>
                             <p className="mt-4 text-base text-center">Don't have an account?&nbsp;
-                                <Link className="text-base font-bold hover:underline" to={"accounts/register"}> Register&nbsp;</Link>
+                                <Link className="text-base font-bold hover:underline" to={"/accounts/register"}> Register&nbsp;</Link>
                             </p>
                         </div>
 

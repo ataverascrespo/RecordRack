@@ -163,7 +163,7 @@ export function SearchForm({ accessToken }: Props) {
                   <FormItem>
                     <FormControl>
                       <div className="flex flex-row gap-4 items-center">
-                        <Input className="text-sm lg:text-base shadow-md" placeholder="Enter album/artist name..." {...field} />
+                        <Input className="text-sm lg:text-base shadow-inner" placeholder="Enter album/artist name..." {...field} />
                         <Button className="px-3 lg:px-8 shadow-md" type="submit" size="lg"><p className="text-sm md:text-base">Search</p></Button>
                       </div>
                     </FormControl>

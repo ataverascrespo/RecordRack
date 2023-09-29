@@ -26,7 +26,7 @@ function SocialSearchResults({ results }: Props) {
 
                     {/* Name*/}
                     <div className="w-full flex flex-col items-start text-left">
-                        <h1 className="font-medium text-neutral-800 text-sm sm:text-base md:text-2xl lg:text-3xl leading-none dark:text-neutral-50">
+                        <h1 className="font-normal text-neutral-800 text-sm sm:text-base md:text-2xl leading-none dark:text-neutral-50">
                             {result.userName}
                         </h1>
                     </div>

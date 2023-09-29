@@ -91,7 +91,7 @@ function RegisterForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="email">Email</Label>
-                                    <Input id="email" type="email" placeholder="m@example.com" {...field} />
+                                    <Input className="shadow-inner" id="email" type="email" placeholder="m@example.com" {...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -105,7 +105,7 @@ function RegisterForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="username">Username</Label>
-                                    <Input id="username" type="username" placeholder="i.e John Doe or johndoe123"{...field} />
+                                    <Input className="shadow-inner" id="username" type="username" placeholder="i.e John Doe or johndoe123"{...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -119,13 +119,13 @@ function RegisterForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input id="password" autoComplete="off" type="password"  {...field} />
+                                    <Input className="shadow-inner" id="password" autoComplete="off" type="password"  {...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )} />
-                <Button className="w-full" type="submit">Create account</Button>
+                <Button className="w-full shadow-md" type="submit">Create account</Button>
             </form>
         </Form>
 

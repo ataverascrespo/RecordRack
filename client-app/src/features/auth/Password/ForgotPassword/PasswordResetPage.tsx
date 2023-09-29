@@ -22,7 +22,7 @@ function PasswordResetPage() {
             passwordReset.resetToken = token!;
         }
         else {
-            navigate('accounts/forgot-password')
+            navigate('/accounts/forgot-password')
         }
     }, [token]);
 

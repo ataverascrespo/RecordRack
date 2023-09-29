@@ -86,13 +86,13 @@ function PasswordForgotForm() {
                                 <FormControl>
                                     <div className="grid gap-2">
                                         <Label htmlFor="email">Email</Label>
-                                        <Input id="email" type="email" placeholder="m@example.com" {...field} />
+                                        <Input className="shadow-inner" id="email" type="email" placeholder="m@example.com" {...field} />
                                     </div>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )} />
-                    <Button className="w-full" type="submit">Confirm email</Button>
+                    <Button className="w-full shadow-md" type="submit">Confirm email</Button>
                 </form>
             </Form>
         )
