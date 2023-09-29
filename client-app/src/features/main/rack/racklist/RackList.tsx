@@ -14,8 +14,6 @@ function RackList() {
     const { recordStore } = useStore();
     const { savedRecords, savedRecordsSortOrder, savedRecordsSortType, savedRecordsSearchQuery } = recordStore;
 
-    const [searchQuery, setSearchQuery] = useState('');
-
     useEffect(() => {
         //When navigating back to here i.e from Rackview, we need to unselect the viewed record.
         recordStore.unselectRecord();
@@ -34,7 +32,7 @@ function RackList() {
     const sortRecordsType = (sortValue: string) => {
         recordStore.sortRecordsType(sortValue);
     }
-    
+
     /*
         Function to set the search query to filter the records
     */
@@ -48,9 +46,9 @@ function RackList() {
     else {
         return (
             <div className="w-full">
-                <div className="w-full flex flex-row justify-between gap-4">
+                <div className="w-full flex flex-col-reverse md:flex-row gap-2 md:gap-4">
                     <DebounceInput
-                        className="flex h-10 w-1/2 xxs:w-3/5 md:w-3/4 rounded-md border shadow-md border-neutral-200 bg-white px-3 py-2 text-xs md:text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus-visible:ring-neutral-300"
+                        className="flex h-10 w-full rounded-md border shadow-md border-neutral-200 bg-white px-3 py-2 text-xs md:text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus-visible:ring-neutral-300"
                         placeholder={"Search records..."}
                         minLength={0}
                         debounceTimeout={750}
@@ -58,34 +56,36 @@ function RackList() {
                         onChange={event => searchRecords(event.target.value)}
                     />
 
-                    {/* Set default type to stored global type */}
-                    <Select defaultValue={savedRecordsSortType} onValueChange={((value) => sortRecordsType(value))} >
-                        <SelectTrigger className="shadow-md w-1/2 xxs:w-2/5 md:w-1/5 text-xs md:text-sm">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                {/* Filter Items */}
-                                <SelectLabel><p className="text-base">Filter by Type</p></SelectLabel>
-                                <SelectItem value="album">Albums</SelectItem>
-                                <SelectItem value="track">Track</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+                    <div className="w-full flex flex-row gap-2 items-center">
+                        {/* Set default type to stored global type */}
+                        <Select defaultValue={savedRecordsSortType} onValueChange={((value) => sortRecordsType(value))} >
+                            <SelectTrigger className="shadow-md w-1/2 text-xs md:text-sm">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    {/* Filter Items */}
+                                    <SelectLabel><p className="text-base">Filter by Type</p></SelectLabel>
+                                    <SelectItem value="album">View Albums</SelectItem>
+                                    <SelectItem value="track">View Tracks</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
 
-                    <Select defaultValue={savedRecordsSortOrder} onValueChange={((value) => sortRecordsOrder(value))} >
-                        <SelectTrigger className="shadow-md w-1/2 xxs:w-2/5 md:w-1/5 text-xs md:text-sm">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                {/* Filter Items */}
-                                <SelectLabel><p className="text-base">Filter by Date</p></SelectLabel>
-                                <SelectItem value="asc">Oldest first</SelectItem>
-                                <SelectItem value="desc">Newest first</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+                        <Select defaultValue={savedRecordsSortOrder} onValueChange={((value) => sortRecordsOrder(value))} >
+                            <SelectTrigger className="shadow-md w-1/2 text-xs md:text-sm">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    {/* Filter Items */}
+                                    <SelectLabel><p className="text-base">Filter by Date</p></SelectLabel>
+                                    <SelectItem value="asc">Oldest first</SelectItem>
+                                    <SelectItem value="desc">Newest first</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
 
 
@@ -94,7 +94,7 @@ function RackList() {
                         {savedRecords.filter(record => record.albumType === savedRecordsSortType).length == 0 ? (
                             // If there are no records when filtered, display empty
                             <div className="w-full col-span-4">
-                                <NotFoundView text={"No records found."} height={"h-[30vh] md:h-[50vh]"}/>
+                                <NotFoundView text={"No records found."} height={"h-[30vh] md:h-[50vh]"} />
                             </div>
                         ) : (
                             // Show records only of the selected record type, and with the search query
