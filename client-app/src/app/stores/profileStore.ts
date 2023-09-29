@@ -37,7 +37,7 @@ export default class ProfileStore {
         store.recordStore.savedRecords = [];
         store.recordStore.savedRecordsSortOrder = "asc";
         store.recordStore.savedRecordsSortType = "album";
-        store.recordStore.savedRecordsSearchQuery = " "
+        store.recordStore.savedRecordsSearchQuery = ""
         this.viewedUserFollowers = [];
         this.viewedUserFollowing = [];
 

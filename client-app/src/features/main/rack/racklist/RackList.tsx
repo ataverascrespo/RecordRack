@@ -12,7 +12,7 @@ function RackList() {
 
     // Access the global Mobx stores
     const { recordStore } = useStore();
-    const { savedRecords, savedRecordsSortOrder, savedRecordsSortType, savedRecordsSearchQuery } = recordStore;
+    const { savedRecords, loadingRecords, savedRecordsSortOrder, savedRecordsSortType, savedRecordsSearchQuery } = recordStore;
 
     useEffect(() => {
         //When navigating back to here i.e from Rackview, we need to unselect the viewed record.
@@ -40,8 +40,9 @@ function RackList() {
         recordStore.setRecordsSearchQuery(queryValue);
     }
 
-    if (!savedRecords || savedRecords.length == 0 || savedRecords == undefined) {
-        return <RackListEmpty />
+    // Prevents the wrong records from being shown on page load 
+    if (loadingRecords) {
+        return <div className="h-screen"></div>
     }
     else {
         return (
