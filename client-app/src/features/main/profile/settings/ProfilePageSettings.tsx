@@ -37,7 +37,7 @@ function ProfilePageSettings() {
     if (profileSettings) {
         sheetContent =
             <div className="my-8 flex flex-col gap-4">
-                <Button variant={"secondary"} onClick={handleHome} className="w-full">Back to Settings</Button>
+                <Button variant={"secondary"} onClick={handleHome} className="w-full shadow-md">Back to Settings</Button>
                 <ProfileAccountSettings></ProfileAccountSettings>
             </div>
         sheetButton = <div></div>
@@ -45,7 +45,7 @@ function ProfilePageSettings() {
     else if (passwordSettings) {
         sheetContent =
             <div className="my-8 flex flex-col gap-4">
-                <Button variant={"secondary"} onClick={handleHome} className="w-full">Back to Settings</Button>
+                <Button variant={"secondary"} onClick={handleHome} className="w-full shadow-md">Back to Settings</Button>
                 <ProfilePasswordSettings></ProfilePasswordSettings>
             </div>
         sheetButton = <div></div>
@@ -54,8 +54,8 @@ function ProfilePageSettings() {
     else {
         sheetContent =
             <div className="my-8 flex flex-col gap-4">
-                <Button variant={"secondary"} onClick={handleProfile} className="w-full">Profile Settings</Button>
-                <Button variant={"secondary"} onClick={handlePassword} className="w-full">Change Password</Button>
+                <Button variant={"secondary"} onClick={handleProfile} className="w-full shadow-md">Profile Settings</Button>
+                <Button variant={"secondary"} onClick={handlePassword} className="w-full shadow-md">Change Password</Button>
             </div>
         sheetButton = <Button type="submit" className="w-full">Exit</Button>
 

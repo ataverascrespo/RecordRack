@@ -45,7 +45,7 @@ function ProfileFollowButton({buttonText, width} : Props) {
         followButton = "Following"
         followIcon = <Icons.following className="h-[2vh]" />
         return (
-            <Button variant={"default"} className={width} onClick={handleFollow}>
+            <Button variant={"default"} className={`${width} shadow-md`} onClick={handleFollow}>
                 <div className="flex flex-row gap-2 items-center">
                     <p className="text-sm">{followButton}</p>
                     {followIcon}
@@ -56,7 +56,7 @@ function ProfileFollowButton({buttonText, width} : Props) {
         followButton = buttonText;
         followIcon = <Icons.follow className="h-[2vh]" />
         return (
-            <Button variant={"secondary"} className={width} onClick={handleFollow}>
+            <Button variant={"secondary"} className={`${width} shadow-md`} onClick={handleFollow}>
                 <div className="flex flex-row gap-2 items-center">
                     <p className="text-sm">{followButton}</p>
                     {followIcon}
