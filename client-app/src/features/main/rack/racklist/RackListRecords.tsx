@@ -19,7 +19,8 @@ function RackListRecords({ record }: Props) {
                     <img
                         src={record.photoURL}
                         draggable="false"
-                        className="rounded-md">
+                        className="rounded-md"
+                        loading="lazy">
                     </img>
                 </CardHeader>
             </Card>

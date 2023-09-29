@@ -38,12 +38,12 @@ function RecordViewInfo({ record }: Props) {
                         </h1>
                     </Textfit>
                 </div>
-                <h2 className="max-w-xl text-xl font-medium text-neutral-900 dark:text-neutral-400">
+                <h2 className="max-w-xl text-sm xxs:text-base md:text-xl font-medium text-neutral-900 dark:text-neutral-400">
                     {(record.albumType).charAt(0).toUpperCase() + record.albumType.slice(1)} by {record.artistName}
                 </h2>
-                            <div className="flex flex-row gap-6 mt-4 w-full">
-                        <RecordViewLikes id={record.id}/>
-                    </div> 
+                <div className="flex flex-row gap-6 mt-4 w-full">
+                    <RecordViewLikes id={record.id}/>
+                </div> 
             </div>
 
             <div className='w-full'>
@@ -51,7 +51,7 @@ function RecordViewInfo({ record }: Props) {
                 <div className="flex flex-row gap-12 mt-4 lg:mt-0 items-start w-full text-neutral-800 dark:text-neutral-50">
                     <div className="grid w-full gap-1 pb-4">
                         <Label htmlFor="message" className="font-medium text-base text-neutral-900 dark:text-neutral-400 text-left">Description</Label>
-                        <Textarea className="resize-none xl:h-[120px] placeholder:text-neutral-950 bg-neutral-200" placeholder={record?.albumDescription} disabled />
+                        <Textarea className="resize-none xl:h-[120px] placeholder:text-neutral-950 bg-neutral-200 shadow-sm" placeholder={record?.albumDescription} disabled />
                     </div>
                 </div>
 

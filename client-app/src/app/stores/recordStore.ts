@@ -7,6 +7,7 @@ import { Profile, ProfileUser } from "../models/profile";
 // User data store class
 export default class RecordStore {
     savedRecords: SavedRecord[] = [];
+    filteredRecords: SavedRecord[] = [];
     loadingRecords = false;
     savedRecordsSortOrder = "asc";
     
@@ -39,8 +40,7 @@ export default class RecordStore {
         try {
             const response = await agent.Records.getListForUser(userID);
             const records: SavedRecord[] = response.data;
-            const dateObject = new Date(records[0].dateAdded);
-            console.log(dateObject);
+
             runInAction(() => {
                 this.savedRecords = records;
                 this.loadingRecords = false;
@@ -55,7 +55,7 @@ export default class RecordStore {
         runInAction(() => {
             this.savedRecordsSortOrder = sortOrder;
         });
-        return this.savedRecords.sort((a, b) => {
+        return this.filteredRecords.sort((a, b) => {
             if (sortOrder === "asc") {
                 var aTime = new Date(a.dateAdded);
                 var bTime = new Date(b.dateAdded);
@@ -67,6 +67,12 @@ export default class RecordStore {
             } else {
                 throw new Error("Invalid sortOrder");
             }
+        });
+    }
+
+    setFilteredRecords(records: SavedRecord[]) {
+        runInAction(() => {
+            this.filteredRecords = records;
         });
     }
  
