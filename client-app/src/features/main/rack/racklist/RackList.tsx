@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 import RackListRecords from "./RackListRecords";
 import { DebounceInput } from "react-debounce-input";
 import NotFoundView from "@/app/layout/NotFoundView";
+import Loading from "@/app/layout/Loading";
 
 function RackList() {
 
@@ -41,7 +42,7 @@ function RackList() {
 
     // Prevents the wrong records from being shown on page load 
     if (loadingRecords) {
-        return <div className="h-screen"></div>
+        return <Loading text={"Loading records"} height={"h-screen"}></Loading>
     }
     else {
         return (

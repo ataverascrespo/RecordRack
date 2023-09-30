@@ -78,6 +78,8 @@ namespace AlbumAPI.Services.UserServices
                 var userDto = _mapper.Map<UserDTO>(u);
                 userDto.FollowersCount = u.Followers.Count;
                 userDto.FollowingCount = u.Followings.Count;
+                //Remove the email prop - not necessary to return here
+                userDto.Email = "";
                 return userDto;
             }).ToList();
 
@@ -102,7 +104,8 @@ namespace AlbumAPI.Services.UserServices
                 searchedUser.FollowersCount = user.Followers.Count;
                 searchedUser.FollowingCount = user.Followings.Count;
                 searchedUser.Following = _context.UserFollowing.Any(uf => uf.FollowerID == GetUserID() && uf.TargetID == user.ID);
-
+                //Remove the email prop - not necessary to return here
+                searchedUser.Email = "";
                 //Store DTO in service data
                 serviceResponse.Data = searchedUser;
             }
@@ -202,6 +205,8 @@ namespace AlbumAPI.Services.UserServices
                     user.FollowersCount = _context.UserFollowing.Count(uf => uf.TargetID == user.ID);
                     user.FollowingCount = _context.UserFollowing.Count(uf => uf.FollowerID == user.ID);
                     user.Following = _context.UserFollowing.Any(uf => uf.FollowerID == GetUserID() && uf.TargetID == user.ID);
+                    //Remove the email prop - not necessary to return here
+                    user.Email = "";
 
                     serviceResponse.Data = user;
                     serviceResponse.Success = true;
@@ -219,7 +224,9 @@ namespace AlbumAPI.Services.UserServices
                     user.FollowersCount = _context.UserFollowing.Count(uf => uf.TargetID == user.ID);
                     user.FollowingCount = _context.UserFollowing.Count(uf => uf.FollowerID == user.ID);
                     user.Following = _context.UserFollowing.Any(uf => uf.FollowerID == GetUserID() && uf.TargetID == user.ID);
-
+                    //Remove the email prop - not necessary to return here
+                    user.Email = "";
+                    
                     serviceResponse.Data = user;
                     serviceResponse.Success = true;
                     serviceResponse.ReturnMessage = "Unfollowed user.";

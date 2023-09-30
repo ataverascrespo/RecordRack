@@ -16,7 +16,6 @@ namespace AlbumAPI.Controllers
         private readonly IAlbumService _albumService;
 
         //Inject the IAlbumController interface
-        //Inject the IPhotoService for uploading photos
         public AlbumController(IAlbumService albumService)
         {
             _albumService = albumService;
