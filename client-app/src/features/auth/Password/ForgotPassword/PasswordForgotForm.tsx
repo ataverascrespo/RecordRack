@@ -99,7 +99,10 @@ function PasswordForgotForm() {
     }
     else {
         return (
-            <p className="text-base md:text-lg font-bold">We have sent you an email with reset instructions.</p>
+            <div className="w-full">
+                <p className="text-base md:text-lg font-bold mb-2">We have sent you an email with reset instructions.</p>
+                <p className="text-sm font-light "> Make sure to check your junk/spam if you don't see it.</p>
+           </div>
         )
     }
 }

@@ -1,5 +1,6 @@
 // using SendGrid's C# Library
 // https://github.com/sendgrid/sendgrid-csharp
+using API.Services.EmailServices;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 /// <summary>
@@ -8,8 +9,22 @@ using SendGrid.Helpers.Mail;
 /// </summary>
 namespace AlbumAPI.Services.EmailServices
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
+
+        private readonly IConfiguration _configuration;
+        private String _sendgridAPIKey;
+        private String _sendgridEmail;
+
+        //Inject Email services configuration
+        public EmailService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _sendgridAPIKey = _configuration.GetSection("SendgridSettings:ApiKey").Value!;
+            _sendgridEmail = _configuration.GetSection("SendgridSettings:FromEmail").Value!;
+        }
+
+
         //Method that accesses instance of EmailService to compose and send a verification email
         public void CreateVerificationEmail(User user) {
             // Create user registration confirmation email fields
@@ -41,15 +56,14 @@ namespace AlbumAPI.Services.EmailServices
             SendEmail(emailSubject, emailMessage, toEmail, emailUsername).Wait();
         }
 
-
+        //Method to send an email
         public async Task SendEmail(string subject, string message, string toEmail, string username)
         {
-            //Test api key
-            var apiKey = "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";
-            var client = new SendGridClient(apiKey);
+            //Create a new client using config API key
+            var client = new SendGridClient(_sendgridAPIKey);
 
             //temp email format
-            var from = new EmailAddress("alexmanuelt@hotmail.com", "Record Rack");
+            var from = new EmailAddress(_sendgridEmail, "Record Rack");
             var to = new EmailAddress(toEmail, username);
             var plainTextContent = "";
             var htmlContent = message;

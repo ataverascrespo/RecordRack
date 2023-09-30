@@ -14,6 +14,8 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
 using API.Services.APIServices;
+using API.Services.EmailServices;
+using AlbumAPI.Services.EmailServices;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,6 +77,9 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 //Create a new instance of the requested photo service
 builder.Services.AddScoped<IPhotoService, PhotoService>();
+
+//Create a new instance of the requested email service
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 //Create a new instance of the requested API service and HTTP client to perform HTTP requests
 builder.Services.AddHttpClient();

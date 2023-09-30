@@ -95,7 +95,7 @@ function VerifiedPage() {
                                 <Button size="lg"><p className="text-base">Login</p></Button>
                             </Link>
                         </div>
-                        <img className="mt-8 w-full md:w-2/3 lg:w-1/2" src="/src/assets/verified.svg" alt="verification sent" draggable="false" />
+                        <img className="mt-8 w-full md:w-2/3 lg:w-1/2" src="../src/assets/verified.svg" alt="verification sent" draggable="false" />
                     </div>
                 </div>
             </div>

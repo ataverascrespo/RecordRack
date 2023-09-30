@@ -105,7 +105,7 @@ namespace AlbumAPI.Data
             user.VerificationToken = CreateRandomToken();
 
             //Create an EmailService instance and call the method that creates the email for verification
-            EmailService emailer = new EmailService();
+            EmailService emailer = new EmailService(_configuration);
             emailer.CreateVerificationEmail(user);
 
             //Add user to DB Users table
@@ -204,7 +204,7 @@ namespace AlbumAPI.Data
                 user.ResetTokenExpires = DateTime.UtcNow.AddDays(1);
 
                 //Create an EmailService instance and call the method that creates the email for verification
-                EmailService emailer = new EmailService();
+                EmailService emailer = new EmailService(_configuration);
                 emailer.CreatePasswordResetEmail(user);
 
                 //Save changes to DB table
