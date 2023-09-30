@@ -84,10 +84,16 @@ const Users = {
   getFollowing: (id: number) => requests.get(`User/GetFollowing/${id}`),
 }
 
+const Spotify = {
+  getAlbums: (searchQuery: string) => requests.get(`API/SpotifyAlbumSearch?albumQuery=${searchQuery}`),
+  getTracks: (searchQuery: string) => requests.get(`API/SpotifyTrackSearch?trackQuery=${searchQuery}`),
+}
+
 const agent = {
   Records,
   Account,
-  Users
+  Users,
+  Spotify
 }
 
 export default agent;

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.OpenApi.Models;
+using API.Services.APIServices;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -69,11 +70,15 @@ builder.Services.AddScoped<IAlbumService, AlbumService>();
 //Create a new instance of the requested user services 
 builder.Services.AddScoped<IUserService, UserService>();
 
-//Create a new instance of the requested user services 
+//Create a new instance of the requested auth services 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 //Create a new instance of the requested photo service
 builder.Services.AddScoped<IPhotoService, PhotoService>();
+
+//Create a new instance of the requested API service and HTTP client to perform HTTP requests
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IAPIService, APIService>();
 
 //Adds authentication scheme to web service
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import axios from 'axios';
 import { SearchForm } from "@/features/search/SearchForm";
 import { useStore } from "@/app/stores/store";
 import SearchResults from "./SearchResultsAlbum";
@@ -8,40 +6,9 @@ import SearchResultsTrack from "./SearchResultsTrack";
 import Footer from "@/app/layout/Footer";
 import Loading from "@/app/layout/Loading";
 
-//Spotify Client ID
-const CLIENT_ID = "6b6f9f90098c40469273168487c49eb7";
-//Secret ID to be retrieved with lambda function
-const CLIENT_SECRET = 'ccff73d29e974becbb028bb7a547c45f';
-
 function SearchPage() {
-
-    const [accessToken, setAccessToken] = useState("");
-
     // Access the global Mobx stores
     const { searchStore } = useStore();
-
-    useEffect(() => {
-        // Encode the Client ID and Client Secret for Basic Authentication
-        const credentials = btoa(`${CLIENT_ID}:${CLIENT_SECRET}`);
-
-        // Request body
-        const data = 'grant_type=client_credentials';
-
-        //Creates an instance of axios that is not affected by the custom interceptors with bearer scheme
-        const uninterceptedAxiosInstance = axios.create();
-        uninterceptedAxiosInstance.post('https://accounts.spotify.com/api/token', data, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': `Basic ${credentials}`,
-            }
-        })
-            .then((response) => {
-                setAccessToken(response.data.access_token);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
 
     return (
         <div className="container">
@@ -56,10 +23,9 @@ function SearchPage() {
                 </div>
 
                 {/* Call form component, pass props */}
-                <SearchForm accessToken={accessToken}></SearchForm>
+                <SearchForm></SearchForm>
 
                 {/* Retrieve global state store props and pass them, based on the search type that was saved most recently*/}
-
                 {
                     searchStore.isSearchLoading
                         ? <Loading text={"Loading..."} height={"h-[40vh]"}></Loading>
