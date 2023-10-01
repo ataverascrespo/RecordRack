@@ -1,6 +1,7 @@
 import Footer from "@/app/layout/Footer"
 import { useStore } from "@/app/stores/store";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from "react-router-dom";
@@ -9,6 +10,11 @@ export default function HomePage() {
     //Get the mobx global stores
     const { userStore } = useStore();
     const { user } = userStore;
+
+    useEffect(() => {
+        //Negates behaviour of scrolling halfway down page upon load
+        window.scrollTo(0, 0)
+    });
 
     let route;
     if (user == undefined) {
