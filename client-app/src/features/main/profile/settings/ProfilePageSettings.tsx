@@ -65,9 +65,9 @@ function ProfilePageSettings() {
         <div>
             <div>
                 <SheetTitle>
-                    <h1 className="text-base sm:text-lg md:text-2xl lg:text-4xl font-bold text-neutral-800 dark:text-neutral-50">
+                    <p className="text-base sm:text-lg md:text-2xl lg:text-4xl font-bold text-neutral-800 dark:text-neutral-50">
                         Account Settings
-                    </h1>
+                    </p>
                 </SheetTitle>
                 <SheetDescription>
                     Hey {viewedUser?.userName}. Here, you can make changes to your account.

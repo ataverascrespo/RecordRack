@@ -29,11 +29,8 @@ export default class RecordStore {
             runInAction(() => {
                 this.savedRecords = records
                     .filter((record) => !record.isPrivate || (store.profileStore.isCurrentUser && record.isPrivate))
-                this.loadingRecords = false;
-
                 this.sortRecordsOrder(this.savedRecordsSortOrder)
                 this.sortRecordsType(this.savedRecordsSortType);
-                
             });
             return (records);
         } catch (error) {
@@ -50,8 +47,6 @@ export default class RecordStore {
             runInAction(() => {
                 this.savedRecords = records
                     .filter((record) => !record.isPrivate || (store.profileStore.isCurrentUser && record.isPrivate))
-                this.loadingRecords = false;
-
                 this.sortRecordsOrder(this.savedRecordsSortOrder)
                 this.sortRecordsType(this.savedRecordsSortType);
             });
@@ -82,6 +77,7 @@ export default class RecordStore {
     sortRecordsType(sortType: string) {
         runInAction(() => {
             this.savedRecordsSortType = sortType;
+            this.loadingRecords = false;
         });
     }
 
