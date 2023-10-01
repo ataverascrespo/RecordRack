@@ -16,10 +16,12 @@ module.exports = {
       padding: "2rem",
     },
     screens: {
+      'xxxs': '375px',
       'xxs': '390px',
       'xs': '475px',
       ...defaultTheme.screens,
       "2xl": "1400px",
+      "3xl": "2000px",
     },
     extend: {
       fontFamily: {

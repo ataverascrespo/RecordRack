@@ -1,8 +1,13 @@
 import { ProfileUser } from '@/app/models/profile';
 import { SavedRecord } from '@/app/models/record';
 import { Button } from '@/components/ui/button'
+import { ChevronLeft } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate, useParams } from 'react-router-dom';
+
+export const Icons = {
+    back: ChevronLeft
+};
 
 interface Props {
     user: ProfileUser;
@@ -31,7 +36,10 @@ function RecordViewImage({user, record}: Props) {
     <div className="flex flex-col mt-28 w-full sm:w-3/4 md:w-2/3 gap-6 items-start justify-between lg:justify-center sm:self-start lg:self-center">
 
         <Button variant={"secondary"} onClick={() => handleBackNavigation()}>
-            <p className="text-xs xxs:text-base">Back to {params.username}'s record rack</p>
+              <div className="flex flex-row gap-2 items-center justify-center">
+                <Icons.back className="h-[2vh]" />
+                <p className="text-xs xxs:text-base mr-2">{params.username}</p>
+            </div>
         </Button>
         <img
             className="mt-0 rounded-xl shadow-lg"

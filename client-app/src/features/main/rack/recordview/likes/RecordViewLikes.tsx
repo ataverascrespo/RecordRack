@@ -20,7 +20,10 @@ function RecordViewLikes({ id }: Props) {
     // Access the global Mobx stores
     const { recordStore } = useStore();
     const { selectedRecord } = recordStore;
+
+    //Store loading and animation states
     const [isLoading, setIsLoading] = useState(true);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     useEffect(() => {
         if (selectedRecord?.likes == undefined) {
@@ -37,24 +40,34 @@ function RecordViewLikes({ id }: Props) {
         Define function to handle record deletion
     */
     const handleLikes = async () => {
+        // Check if the record is already liked, and if it is, don't trigger animation when unliking
+        if (!recordStore.isSelectedRecordLiked) {
+            setIsAnimating(true);
+        }
+
         //Call the record store delete function
-        await recordStore.likeRecord();
+        const response = await recordStore.likeRecord();
+        if (response.success == true) {
+            setIsAnimating(false);
+        }
     }
     
-    let likesButton, likeIconColour;
+    let likesButton, likeIconColour, likeHover;
     if (selectedRecord?.likes == undefined) {
         likesButton = "0 likes";
         likeIconColour = "none"
+        likeHover = ""
     } else {
         likesButton = selectedRecord?.likes?.length === 1 ? '1 like' : `${selectedRecord?.likes?.length} likes`;
         likeIconColour = recordStore.isSelectedRecordLiked ? "red" : "none"
+        likeHover = recordStore.isSelectedRecordLiked ? "" : "hover:opacity-40 transition-all duration-100"
     }
 
     if (isLoading) return <div></div>
     else {
         return (
             <div className="flex flex-row items-center -ml-2">
-                <Button onClick={handleLikes} size={"icon"} variant={"link"}>
+                <Button onClick={handleLikes} size={"icon"} variant={"link"} className={`${likeHover} ${isAnimating ? 'is_animating' : ''}`}>
                     <Icons.likeIcon fill={likeIconColour} className="h-[3vh]" />
                 </Button>
                 <Dialog>

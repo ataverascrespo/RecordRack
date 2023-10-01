@@ -76,6 +76,26 @@
   .bg-dark {
     filter: invert(30%) sepia(14%) saturate(0%) hue-rotate(169deg) brightness(40%) contrast(108%);
   }
+
+  .is_animating {
+    animation: heartAnimation 2.5s;
+  }
+
+  @keyframes heartAnimation {
+    0% {
+      /* Define the initial state of the animation */
+      transform: scale(1);
+    }
+    50% {
+      /* Define intermediate states of the animation */
+      transform: scale(1.2);
+    }
+    100% {
+      /* Define the final state of the animation */
+      transform: scale(1);
+    }
+  }
+
 }
  
 @layer base {
