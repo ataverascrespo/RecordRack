@@ -64,7 +64,7 @@ export default function HomePage() {
             <div className="hidden lg:flex w-full h-full -z-10 absolute overflow-hidden flex-row items-center">
                 {/* Lazy load the hero image */}
                 <LazyLoadImage
-                    className="relative w-full  lg:w-[80%] xl:w-[70%] lg:left-[700px] 2xl:left-[1100px] 3xl:left-[1300px] px-8 sm:px-24 md:px-40 lg:px-0"
+                    className="relative w-full  lg:w-[80%] xl:w-[70%] lg:left-[700px] 2xl:left-[1050px] 3xl:left-[1300px] px-8 sm:px-24 md:px-40 lg:px-0"
                     src="https://res.cloudinary.com/dlwfuryyz/image/upload/v1696172995/Group_23_crzpne.png"
                     alt="hero"
                     effect="blur"

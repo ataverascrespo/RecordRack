@@ -2,13 +2,14 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Footer from "@/app/layout/Footer"
+import { Separator } from "@/components/ui/separator"
 
 export default function HomePage() {
     return (
         <section id="about-page" className="container">
-            <div className="lg:h-[100vh] z-0 mt-48 lg:mt-0 flex flex-col justify-end lg:flex-row lg:justify-between items-center gap-8 lg:gap-16" >
-                <img className="w-full md:w-[70%] lg:w-[50%] mt-0 lg:mt-24" src="./src/assets/about.svg" alt="hero" draggable="false" />
-                <div className="flex flex-col mt-0 lg:mt-24 items-start gap-2 ">
+            <div className="lg:h-[50vh] mt-24 mb-24 lg:mt-48 z-0 lg:mb-48 flex flex-col justify-start lg:flex-row lg:justify-between items-center gap-8 lg:gap-16" >
+                <img className="w-full md:w-[70%] lg:w-[50%]" src="./src/assets/about.svg" alt="hero" draggable="false" />
+                <div className="flex flex-col items-start gap-2 ">
                     <h1 className="max-w-xl text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-neutral-800 dark:text-neutral-50"> About Record Rack</h1>
                     <div className="flex flex-col gap-4 mt-8">
                         <p className="max-w-3xl text-base xl:text-xl mx-auto tracking-tight">
@@ -21,7 +22,9 @@ export default function HomePage() {
                 </div>
             </div>
 
-            <div className="lg:h-[50vh] z-0 mt-48 xl:mt-0 flex flex-col justify-end lg:flex-row lg:justify-between items-center gap-8 lg:gap-16">
+            <Separator className="h-0.5 bg-neutral-200 dark:bg-neutral-800 rounded-md"></Separator>
+
+            <div className="z-0 mt-24 mb-24 lg:mt-48 lg:mb-48 flex flex-col justify-start lg:flex-row lg:justify-between items-center gap-8 lg:gap-16">
                 <div className="flex flex-col items-start lg:justify-center gap-2">
                     <h1 className="lg:max-w-xl text-5xl xl:text-6xl font-bold text-neutral-800 dark:text-neutral-50"> FAQ</h1>
                     <p className="lg:max-w-xl text-base lg:text-2xl font-semibold tracking-tight">
@@ -81,7 +84,9 @@ export default function HomePage() {
                 </Accordion>
             </div>
 
-            <div className="lg:h-[75vh] z-0 mt-24 mb-24 xl:mt-0 flex flex-col lg:flex-row lg:justify-between items-center">
+            <Separator className="h-0.5 bg-neutral-200 dark:bg-neutral-800 rounded-md"></Separator>
+
+            <div className="z-0 mt-24 mb-24 lg:mt-48 lg:mb-48 flex flex-col lg:flex-row lg:justify-between items-center">
                 <Card className="w-full lg:w-2/3">
                     <CardHeader>
                         <CardTitle> Record Rack is completely free to use, with absolutely no ads.</CardTitle>
