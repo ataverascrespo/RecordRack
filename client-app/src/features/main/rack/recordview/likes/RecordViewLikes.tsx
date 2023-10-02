@@ -12,7 +12,7 @@ export const Icons = {
 };
 
 interface Props {
-    id: number;
+    id: string;
 }
 
 function RecordViewLikes({ id }: Props) {
