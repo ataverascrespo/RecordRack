@@ -87,11 +87,11 @@ export default class RecordStore {
         });
     }
  
-    loadRecord = async (id: number) => {
+    loadRecord = async (id: string) => {
         this.loadingSelectedRecord = true;
         this.isSelectedRecordLiked = false;
-
-        let record = this.getRecord(id);
+        
+        let record = this.getRecord(id);                                   
         if (record) {
             runInAction(() => {
                 this.selectedRecord = record;
@@ -103,7 +103,7 @@ export default class RecordStore {
         else {
             try {
                 const response = await agent.Records.getSingle(id);
-                record = response.data;
+                record = response.data;                                         
                 runInAction(() => {
                     this.selectedRecord = record;
                     this.savedRecordsSortType = record!.albumType;
@@ -115,11 +115,11 @@ export default class RecordStore {
         }
     }
 
-    getRecord = (id: number) => {
+    getRecord = (id: string) => {
         return this.savedRecords.find(a => a.id === id)
     }
 
-    selectRecord = (id: number) => {
+    selectRecord = (id: string) => {
         this.selectedRecord = this.savedRecords.find(a => a.id === id)
     }
 
@@ -152,7 +152,7 @@ export default class RecordStore {
         }
     }
 
-    deleteRecord = async (id: number) => {
+    deleteRecord = async (id: string) => {
         try {
             await agent.Records.delete(id);
             this.unselectRecord();
@@ -187,7 +187,7 @@ export default class RecordStore {
         }
     }
 
-    getRecordLikes = async (albumID: number) => {
+    getRecordLikes = async (albumID: string) => {
         this.loadingSelectedRecord = true;
         try {
             const response = await agent.Records.getRecordLikes(albumID);
@@ -216,15 +216,4 @@ export default class RecordStore {
     get isRecordLiked() {
         return this.isSelectedRecordLiked;
     }
-
-    // getRecordByID = async (ID: number) => {
-    //     try {
-    //         const record = this.savedRecords[ID];
-    //         console.log(this.savedRecords)
-
-    //     } catch (error) { 
-    //         throw(error)
-    //     }
-    // }
-
 }

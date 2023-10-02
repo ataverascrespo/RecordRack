@@ -11,9 +11,9 @@ function RecordViewLikedBy({ usersLiked }: Props) {
         <div className="p-4">
             {/* Add empty likes view */}
             {usersLiked.map((user) => (
-                <div>
+                <div key={user.id}>
                     <div className="text-sm">
-                        <Link key={user.id} className="items-center hover:brightness-110 dark:hover:brightness-90 transform duration-100"
+                        <Link className="items-center hover:brightness-110 dark:hover:brightness-90 transform duration-100"
                             to={`/${user.userName}`}>
                             <div className='flex flex-row items-center justify-start gap-6'>
                                 <img

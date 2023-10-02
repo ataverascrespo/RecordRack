@@ -49,12 +49,12 @@ const requests = {
 const Records = {
   getList: () => requests.get('api/Album/GetAll'),
   getListForUser: (userID: number) => requests.get(`api/Album/GetAlbumsByUserID/${userID}`),
-  getSingle: (id: number) => requests.get(`api/Album/GetAlbumByID/${id}`),
+  getSingle: (id: string) => requests.get(`api/Album/GetAlbumByID/${id}`),
   add: (record: AddRecord) => requests.post('api/Album', record),
   update: (record: UpdateRecord) => requests.put('api/Album', record),
-  delete: (id: number) => requests.del(`api/Album/${id}`),
-  like: (id: number) => requests.post(`api/Album/${id}/Like`, id),
-  getRecordLikes: (id: number) => requests.get(`api/Album/GetAlbumLikes/${id}`) 
+  delete: (id: string) => requests.del(`api/Album/${id}`),
+  like: (id: string) => requests.post(`api/Album/${id}/Like`, id),
+  getRecordLikes: (id: string) => requests.get(`api/Album/GetAlbumLikes/${id}`) 
 }
 
 const Account = {

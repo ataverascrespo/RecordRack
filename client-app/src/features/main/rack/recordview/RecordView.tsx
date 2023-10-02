@@ -28,11 +28,11 @@ function RecordView() {
 
         if (params.id) {
             //If the loaded record is equal to the selected record to view, there's no need to re-fetch data.
-            if (parseInt(params.id, 10) === recordStore.selectedRecord?.id) {
+            if (params.id === recordStore.selectedRecord?.id) {
                 return;
             }
 
-            const loadRecord = async (id: number) => {
+            const loadRecord = async (id: string) => {
                 try {
                     await recordStore.loadRecord(id);
                 } catch (error) {
@@ -40,7 +40,7 @@ function RecordView() {
                 }
             }
 
-            loadRecord(parseInt(params.id, 10));
+            loadRecord(params.id);
         }
     }, [recordStore])
 

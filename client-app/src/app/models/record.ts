@@ -14,13 +14,13 @@ export interface AddRecord {
 }
 
 export interface UpdateRecord {
-  id: number
+  id: string
   albumDescription: string
   isPrivate: boolean
 }
 
 export interface SavedRecord {
-  id: number
+  id: string
   albumName: string
   artistName: string
   releaseDate: string
