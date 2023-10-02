@@ -5,7 +5,7 @@ namespace AlbumAPI.DTOs.Album
 {
     public class UpdateAlbumDTO
     {
-        public int ID { get; set; }
+        public string ID { get; set; } = string.Empty;
         public string AlbumDescription { get; set; } = string.Empty;
         public bool isPrivate { get; set; }
     }

@@ -10,7 +10,7 @@ namespace AlbumAPI.Services.AlbumServices
         Task<ServiceResponse<List<GetAlbumDTO>>> GetAllAlbums();
         
         //Method to return the specified album as per ID
-        Task<ServiceResponse<GetAlbumDTO>> GetAlbumByID(int ID);
+        Task<ServiceResponse<GetAlbumDTO>> GetAlbumByID(string ID);
 
         //Method to return the list of all albums for a specified user ID
         Task<ServiceResponse<List<GetAlbumDTO>>> GetAlbumsByUserID(int UserID);
@@ -22,12 +22,12 @@ namespace AlbumAPI.Services.AlbumServices
         Task<ServiceResponse<GetAlbumDTO>> UpdateAlbum(UpdateAlbumDTO updateAlbum);
 
         //Method to delete album as per passed ID
-        Task<ServiceResponse<List<GetAlbumDTO>>> DeleteAlbum(int ID);
+        Task<ServiceResponse<List<GetAlbumDTO>>> DeleteAlbum(string ID);
 
         //Method to like an album as per passed ID
-        Task<ServiceResponse<string>> LikeAlbum(int ID);
+        Task<ServiceResponse<string>> LikeAlbum(string ID);
 
         //Method to return all likes for an album
-        Task<ServiceResponse<List<AlbumLikesDTO>>> GetAllAlbumLikes(int ID);
+        Task<ServiceResponse<List<AlbumLikesDTO>>> GetAllAlbumLikes(string ID);
     }
 }

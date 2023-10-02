@@ -15,7 +15,8 @@ namespace AlbumAPI
         public AutoMapperProfile()
         {
             //Create a mapping profile for Album to AddAlbumDTO
-            CreateMap<Album, GetAlbumDTO>();
+            CreateMap<Album, GetAlbumDTO>()
+                .ForMember(dest => dest.ID, opt => opt.MapFrom<SqidsIDResolver>());
             //Create a mapping profile for AddAlbumDTO to Album
             CreateMap<AddAlbumDTO, Album>();
             //Create a mapping profile for User to UserDTO

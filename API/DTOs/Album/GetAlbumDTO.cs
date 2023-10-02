@@ -5,7 +5,7 @@ namespace AlbumAPI.DTOs.Album
 {
     public class GetAlbumDTO
     {
-        public int ID { get; set; }
+        public string ID { get; set; } = string.Empty;
         public string AlbumName { get; set; } = string.Empty;
         public string ArtistName { get; set; } = string.Empty;
         public string ReleaseDate { get; set; } = string.Empty;

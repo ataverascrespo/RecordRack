@@ -16,20 +16,16 @@ using Microsoft.OpenApi.Models;
 using API.Services.APIServices;
 using API.Services.EmailServices;
 using AlbumAPI.Services.EmailServices;
-
+using Sqids;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Configure AWS systems manager
-builder.WebHost.ConfigureAppConfiguration(
-                c => {
-                    c.AddSystemsManager(source => {
+builder.Configuration.AddSystemsManager(source => {
                         source.Path = "/recordrack";
                         source.ReloadAfter =
                             TimeSpan.FromMinutes(10);
                     });
-                }
-            );
 
 builder.Services.AddCors(options =>
 {
@@ -99,6 +95,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 builder.Services.AddHttpContextAccessor();
+
+//Instantiate singleton instance of SQID encoder 
+builder.Services.AddSingleton(new SqidsEncoder<int>(new()
+{
+    Alphabet=builder.Configuration.GetSection("SqidsSettings:Alphabet").Value!,
+    MinLength = 18,
+}));
+
 
 var app = builder.Build();
 

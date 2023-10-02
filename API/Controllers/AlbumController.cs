@@ -33,7 +33,7 @@ namespace AlbumAPI.Controllers
         //HTTP GET method
         //Return a single album based on passed parameter ID
         [HttpGet("GetAlbumByID/{ID}")]
-        public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> GetAlbum(int ID)
+        public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> GetAlbum(string ID)
         {
             //Return status code response and model upon completion of albumService.GetAlbums() thread
             return Ok(await _albumService.GetAlbumByID(ID));
@@ -75,7 +75,7 @@ namespace AlbumAPI.Controllers
         //HTTP DELETE method
         //Return a single album based on passed parameter ID
         [HttpDelete("{ID}")]
-        public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> DeleteAlbum(int ID)
+        public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> DeleteAlbum(string ID)
         {
             var response = await _albumService.DeleteAlbum(ID);
             if (response.Data == null) {
@@ -88,7 +88,7 @@ namespace AlbumAPI.Controllers
         }       
 
         [HttpPost("{AlbumID}/Like")]
-        public async Task<ActionResult<ServiceResponse<string>>> LikeAlbum(int AlbumID)
+        public async Task<ActionResult<ServiceResponse<string>>> LikeAlbum(string AlbumID)
         {
              //Return status code response upon completion of albumService.LikeAlbum() thread
             return Ok(await _albumService.LikeAlbum(AlbumID));
@@ -97,7 +97,7 @@ namespace AlbumAPI.Controllers
         //HTTP GET method
         //Return a single album based on passed parameter user ID
         [HttpGet("GetAlbumLikes/{AlbumID}")]
-        public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetAlbumLikes(int AlbumID)
+        public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetAlbumLikes(string AlbumID)
         {
             //Return status code response and model upon completion of albumService.GetAlbums() thread
             return Ok(await _albumService.GetAllAlbumLikes(AlbumID));
