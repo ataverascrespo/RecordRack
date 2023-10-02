@@ -1,28 +1,28 @@
 export interface SpotifyTrack {
     album: SpotifyTrackAlbum
-    external_urls: SpotifyTrackURL
+    externalUrls: SpotifyTrackURL
     name: string
     id: string
     type: string
 }
 
 export interface SpotifyTrackAlbum {
-    album_type: string
+    albumType: string
     artists: SpotifyTrackArtist[]
     href: string
     id: string
     images: SpotifyTrackImage[]
-    is_playable: boolean
+    isPlayable: boolean
     name: string
-    release_date: string
-    release_date_precision: string
-    total_tracks: number
+    releaseDate: string
+    releaseDatePrecision: string
+    totalTracks: number
     type: string
     uri: string
 }
 
 export interface SpotifyTrackArtist {
-    external_urls: SpotifyTrackExternalUrls
+    externalUrls: SpotifyTrackExternalUrls
     href: string
     id: string
     name: string

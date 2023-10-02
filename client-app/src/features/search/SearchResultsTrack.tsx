@@ -79,8 +79,8 @@ export default function SearchResults({ results }: Props) {
         const newRecord: AddRecord = {
             albumName: result.name,
             artistName: formatArtists(result.album.artists),
-            releaseDate: result.album.release_date,
-            albumType: result.type,
+            releaseDate: result.album.releaseDate,
+            albumType: "track",
             albumDescription: data.description,
             dateAdded: new Date().toISOString(),
             photoURL: result.album.images[0].url,
@@ -156,10 +156,10 @@ export default function SearchResults({ results }: Props) {
                                     <DialogTrigger asChild>
                                         <Button className="text-xs h-7 rounded-md px-3 md:h-10 md:px-4 md:py-2 lg:text-sm">Add to Rack</Button>
                                     </DialogTrigger>
-                                    <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
-                                        <DialogHeader>
+                                    <DialogContent className="max-w-[85vw] lg:max-w-[725px]">
+                                        <DialogHeader className="text-left mb-8">
                                             <DialogTitle className="mt-4 lg:mt-0">
-                                                <p className="text-xl">Adding track '{result.name}' by {formatArtists(result.album.artists)}</p>
+                                                <p className="text-lg md:text-xl">Adding track '{result.name}' by {formatArtists(result.album.artists)}</p>
                                             </DialogTitle>
                                             <DialogDescription>This track will be added to your racklist.</DialogDescription>
                                         </DialogHeader>

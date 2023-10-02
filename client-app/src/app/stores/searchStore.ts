@@ -8,7 +8,10 @@ export default class SearchStore {
     isSearchLoading = false;
     searchAlbums: SpotifyAlbum[] = [];
     searchTracks: SpotifyTrack[] = [];
-    searchType: string = "";
+    
+    //Set default search type string to album for first render
+    searchType: string = "album";
+    searchQuery: string = "";
 
     selectedAlbum: SpotifyAlbum | undefined = undefined;
 
@@ -17,9 +20,13 @@ export default class SearchStore {
     }
 
     getAlbums = async (searchQuery: string) => {
-        runInAction(() => this.isSearchLoading = true);
+        runInAction(() => {
+            this.isSearchLoading = true;
+            this.searchQuery = searchQuery;
+        });
         try {
             const response = await agent.Spotify.getAlbums(searchQuery);
+            console.log(response);
             
             if (response.success === true) {
                 // Create an array of unique albums and a set of seen albums
@@ -30,7 +37,6 @@ export default class SearchStore {
                 response.data.albums.items.forEach((album: SpotifyAlbum) => {
                     // Create an identifier for each returned album
                     const albumIdentifier = `${album.name} - ${album.artists[0].name}`;
-
                     if (!seenAlbums.has(albumIdentifier)) {
                         seenAlbums.add(albumIdentifier);
                         uniqueAlbums.push(album);
@@ -48,9 +54,14 @@ export default class SearchStore {
     }
 
     getTracks = async (searchQuery: string) => {
-        runInAction(() => this.isSearchLoading = true);
+        runInAction(() => {
+            this.isSearchLoading = true;
+            this.searchQuery = searchQuery;
+        });
         try {
             const response = await agent.Spotify.getTracks(searchQuery);
+            console.log(response);
+
             if (response.success == true) {
                 // Create an array of unique tracks and a set of seen tracks
                 // this allows me to filter out tracks that are duplicates (i.e explicit/non-explicit, re-releases)

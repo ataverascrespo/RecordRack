@@ -36,7 +36,7 @@ export function SearchForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      album: "",
+      album: searchStore.searchQuery,
       type: "album"
     },
   })
@@ -87,7 +87,7 @@ export function SearchForm() {
 
   return (
     <div className="w-full lg:w-2/3 h-full flex flex-col items-center justify-center">
-      <Tabs className="w-full space-y-6" defaultValue="album">
+      <Tabs className="w-full space-y-6" defaultValue={searchStore.searchType}>
         <TabsList className="w-full md:w-2/3 lg:w-1/3">
           <TabsTrigger className="w-1/2" value="album">Albums</TabsTrigger>
           <TabsTrigger className="w-1/2" value="track">Tracks</TabsTrigger>
