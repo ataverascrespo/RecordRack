@@ -4,11 +4,14 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 import { NavLink } from "react-router-dom"
 import { useStore } from "../stores/store"
 import { observer } from "mobx-react-lite"
+import { useState } from "react"
 
 function Navbar() {
   //Initialize user store with user object and loggedIn method
   const { userStore } = useStore();
   const { user, isLoggedIn } = userStore;
+
+  const [value, setValue] = useState("");
 
   return (
     <nav className="sticky top-0 z-50 -mt-24 border-b-2 shadow-md bg-background border-neutral-100 dark:border-neutral-950 text-neutral-800 dark:text-neutral-50">
@@ -40,7 +43,7 @@ function Navbar() {
           </div>
 
           <div className="block md:hidden">
-            <NavigationMenu className="relative -left-32">
+            <NavigationMenu className="relative -left-32" value={value} onValueChange={setValue} >
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="relative left-32"></NavigationMenuTrigger>
@@ -48,16 +51,24 @@ function Navbar() {
                     <ul className="grid gap-3 p-4 w-[170px] md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       <li className="row-span-3">
                         <NavLink to={`${user?.userName}`}>
-                          <Button variant="ghost" size="lg"> <p className="text-sm lg:text-base xl:text-lg">your rack</p> </Button>
+                          <Button variant="ghost" size="lg" onClick={() => setValue("")}>
+                            <p className="text-sm lg:text-base xl:text-lg">your rack</p>
+                          </Button>
                         </NavLink>
                         <NavLink to={'search/music'}>
-                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">add music</p></Button>
+                          <Button variant="ghost" size="lg" onClick={() => setValue("")}>
+                            <p className="text-sm lg:text-base xl:text-lg">add music</p>
+                          </Button>
                         </NavLink>
                         <NavLink to={'search/users'}>
-                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">connect</p></Button>
+                          <Button variant="ghost" size="lg" onClick={() => setValue("")} >
+                            <p className="text-sm lg:text-base xl:text-lg">connect</p>
+                          </Button>
                         </NavLink>
                         <NavLink to={"/about"}>
-                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">about</p></Button>
+                          <Button variant="ghost" size="lg" onClick={() => setValue("")}>
+                            <p className="text-sm lg:text-base xl:text-lg">about</p>
+                          </Button>
                         </NavLink>
                       </li>
                     </ul>
@@ -92,21 +103,27 @@ function Navbar() {
           </div>
 
           <div className="block md:hidden">
-            <NavigationMenu className="relative -left-32">
+            <NavigationMenu className="relative -left-32" value={value} onValueChange={setValue}>
               <NavigationMenuList>
-                <NavigationMenuItem>
+                <NavigationMenuItem >
                   <NavigationMenuTrigger className="relative left-32"></NavigationMenuTrigger>
-                  <NavigationMenuContent >
+                  <NavigationMenuContent>
                     <ul className="grid gap-3 p-4 w-[170px] md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                       <li className="row-span-3">
                         <NavLink to={"/about"}>
-                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">about</p></Button>
+                          <Button variant="ghost" size="lg" onClick={() => setValue("")}>
+                            <p className="text-sm lg:text-base xl:text-lg">about</p>
+                          </Button>
                         </NavLink>
                         <NavLink to={"accounts/login"}>
-                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">log in</p></Button>
+                          <Button variant="ghost" size="lg" onClick={() => setValue("")} >
+                            <p className="text-sm lg:text-base xl:text-lg">log in</p>
+                          </Button>
                         </NavLink>
                         <NavLink to={"accounts/register"}>
-                          <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">register</p></Button>
+                          <Button variant="ghost" size="lg" onClick={() => setValue("")}>
+                            <p className="text-sm lg:text-base xl:text-lg">register</p>
+                          </Button>
                         </NavLink>
                       </li>
                     </ul>
