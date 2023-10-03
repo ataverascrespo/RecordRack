@@ -26,7 +26,6 @@ export default class SearchStore {
         });
         try {
             const response = await agent.Spotify.getAlbums(searchQuery);
-            console.log(response);
             
             if (response.success === true) {
                 // Create an array of unique albums and a set of seen albums
@@ -60,7 +59,6 @@ export default class SearchStore {
         });
         try {
             const response = await agent.Spotify.getTracks(searchQuery);
-            console.log(response);
 
             if (response.success == true) {
                 // Create an array of unique tracks and a set of seen tracks

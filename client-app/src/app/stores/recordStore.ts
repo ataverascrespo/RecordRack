@@ -26,13 +26,15 @@ export default class RecordStore {
         try {
             const response = await agent.Records.getList();
             const records: SavedRecord[] = response.data;
-            runInAction(() => {
-                this.savedRecords = records
-                    .filter((record) => !record.isPrivate || (store.profileStore.isCurrentUser && record.isPrivate))
-                this.sortRecordsOrder(this.savedRecordsSortOrder)
-                this.sortRecordsType(this.savedRecordsSortType);
-            });
-            return (records);
+            if (records != undefined) {
+                runInAction(() => {
+                    this.savedRecords = records
+                        .filter((record) => !record.isPrivate || (store.profileStore.isCurrentUser && record.isPrivate))
+                    this.sortRecordsOrder(this.savedRecordsSortOrder)
+                    this.sortRecordsType(this.savedRecordsSortType);
+                });
+            }
+            return (response);
         } catch (error) {
             throw (error)
         }
@@ -44,12 +46,15 @@ export default class RecordStore {
             const response = await agent.Records.getListForUser(userID);
             const records: SavedRecord[] = response.data;
 
-            runInAction(() => {
-                this.savedRecords = records
-                    .filter((record) => !record.isPrivate || (store.profileStore.isCurrentUser && record.isPrivate))
-                this.sortRecordsOrder(this.savedRecordsSortOrder)
-                this.sortRecordsType(this.savedRecordsSortType);
-            });
+            if (records != undefined) {
+                runInAction(() => {
+                    this.savedRecords = records
+                        .filter((record) => !record.isPrivate || (store.profileStore.isCurrentUser && record.isPrivate))
+                    this.sortRecordsOrder(this.savedRecordsSortOrder)
+                    this.sortRecordsType(this.savedRecordsSortType);
+                });
+            }
+            return (response);
         } catch (error) {
             throw (error)
         }
