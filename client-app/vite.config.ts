@@ -1,6 +1,6 @@
 import path from "path"
 import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import { defineConfig } from 'vitest/config';
 import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
 
 const manifestForPlugIn: Partial<VitePWAOptions> = {
@@ -45,6 +45,10 @@ const manifestForPlugIn: Partial<VitePWAOptions> = {
 
 export default defineConfig({
   plugins: [react(), VitePWA(manifestForPlugIn)],
+  test: {
+    globals: true,
+    environment: 'happy-dom'
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
