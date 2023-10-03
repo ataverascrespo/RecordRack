@@ -5,8 +5,8 @@ import { useEffect } from "react";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from "react-router-dom";
-import darkLogo from "./assets/logo-darkmode.svg";
-import lightLogo from "./assets/logo-lightmode.svg";
+import darkLogo from "./src/assets/logo-darkmode.svg";
+import lightLogo from "./src/assets/logo-lightmode.svg";
 
 
 export default function HomePage() {
