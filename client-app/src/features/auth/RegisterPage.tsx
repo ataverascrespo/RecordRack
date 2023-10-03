@@ -10,7 +10,7 @@ function RegisterPage() {
 
                 {/* header */}
                 <div className="flex flex-col gap-2 items-center">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-800 dark:text-neutral-50">Create an account</h1>
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-neutral-800 dark:text-neutral-50">Create an account</h1>
                 </div>
                 <Card className="h-full w-full md:w-2/3 lg:w-1/2 xl:w-1/3 p-2 pt-6">
 
