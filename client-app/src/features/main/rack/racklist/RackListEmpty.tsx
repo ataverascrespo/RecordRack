@@ -6,7 +6,7 @@ function RackListEmpty() {
                     Looks like this rack is empty!
                 </h2>
             </div>
-            <img className="hidden lg:flex w-[15%] mt-12 lg:mt-0" src="/src/assets/empty.svg" alt="hero" draggable="false" />
+            <img className="hidden lg:flex w-[15%] mt-12 lg:mt-0" src="/assets/empty.svg" alt="hero" draggable="false" />
         </div>
     )
 }

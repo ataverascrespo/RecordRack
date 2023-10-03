@@ -7,8 +7,8 @@ import { Separator } from "@/components/ui/separator"
 export default function HomePage() {
     return (
         <section id="about-page" className="container">
-            <div className="lg:h-[50vh] mt-24 mb-24 lg:mt-48 z-0 lg:mb-48 flex flex-col justify-start lg:flex-row lg:justify-between items-center gap-8 lg:gap-16" >
-                <img className="w-full md:w-[70%] lg:w-[50%]" src="./src/assets/about.svg" alt="hero" draggable="false" />
+            <div className="lg:h-[50vh] mb-24 mt-48 z-0 lg:mb-48 flex flex-col justify-start lg:flex-row lg:justify-between items-center gap-8 lg:gap-16" >
+                <img className="w-full md:w-[70%] lg:w-[50%]" src="/assets/about.svg" alt="hero" draggable="false" />
                 <div className="flex flex-col items-start gap-2 ">
                     <h1 className="max-w-xl text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-neutral-800 dark:text-neutral-50"> About Record Rack</h1>
                     <div className="flex flex-col gap-4 mt-8">
@@ -119,7 +119,7 @@ export default function HomePage() {
                         </Button>
                     </CardFooter>
                 </Card>
-                <img className="hidden lg:flex lg:w-[20%]" src="./src/assets/about-contact.svg" alt="hero" draggable="false" />
+                <img className="hidden lg:flex lg:w-[20%]" src="/assets/about-contact.svg" alt="hero" draggable="false" />
             </div>
             <Footer></Footer>
         </section>

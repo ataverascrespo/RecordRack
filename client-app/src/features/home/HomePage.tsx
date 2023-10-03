@@ -5,9 +5,6 @@ import { useEffect } from "react";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from "react-router-dom";
-import darkLogo from "./src/assets/logo-darkmode.svg";
-import lightLogo from "./src/assets/logo-lightmode.svg";
-
 
 export default function HomePage() {
     //Get the mobx global stores
@@ -35,9 +32,9 @@ export default function HomePage() {
                         {/* Header */}
                         <h1 className="max-w-xl text-base xxs:text-lg sm:text-xl lg:text-2xl xl:text-4xl font-semibold text-neutral-800 dark:text-neutral-50">Unlock the world of music with</h1>
                         {/* Dark hero text */}
-                        <img className="w-full hidden dark:block" src={darkLogo} draggable="false" alt="" />
+                        <img className="w-full hidden dark:block" src={"/assets/logo-darkmode.svg"} draggable="false" alt="logo" />
                         {/* Light hero text  */}
-                        <img className="w-full block dark:hidden" src={lightLogo} draggable="false" alt="" />
+                        <img className="w-full block dark:hidden" src="/assets/logo-lightmode.svg" draggable="false" alt="logo" />
                         {/* Subheader */}
                         <h2 className="max-w-xl mt-4 sm:mt-6 text-xs xs:text-base lg:text-lg xl:text-2xl font-light text-neutral-600 text-left dark:text-neutral-300">The all-digital music network, always a click away</h2>
                         {/* Btns */}
