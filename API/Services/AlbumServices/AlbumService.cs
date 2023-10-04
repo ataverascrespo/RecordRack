@@ -46,7 +46,12 @@ namespace AlbumAPI.Services.AlbumServices
                 .ToListAsync();
                     
             //Map all Album models to GetAlbumDTO w/ AutoMapper
-            serviceResponse.Data = dbAlbums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
+            serviceResponse.Data = dbAlbums.Select(a =>  
+            {
+                var albumDTO = _mapper.Map<GetAlbumDTO>(a);
+                albumDTO.User!.Email = "";
+                return albumDTO;
+            }).ToList();
             return serviceResponse;
         }
 
@@ -98,8 +103,14 @@ namespace AlbumAPI.Services.AlbumServices
             
             //Add list of albums to wrapper object and return
             //The previous null check in this method can be removed as the wrapper object's properties are nullable
-             //Map all Album models to GetAlbumDTO w/ AutoMapper
-            serviceResponse.Data = dbAlbums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
+            //Map all Album models to GetAlbumDTO w/ AutoMapper
+            serviceResponse.Data = dbAlbums.Select(a =>  
+            {
+                var albumDTO = _mapper.Map<GetAlbumDTO>(a);
+                albumDTO.User!.Email = "";
+                return albumDTO;
+            }).ToList();
+
             return serviceResponse;
         }
 
