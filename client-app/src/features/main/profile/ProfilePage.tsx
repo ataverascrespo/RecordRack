@@ -26,7 +26,7 @@ function ProfilePage() {
                 <div className="h-full w-full flex flex-col gap-6 items-center">
                     {/* Name*/}
                     <div className="w-full xs:w-3/4 flex-grow flex flex-col items-start text-center ">
-                        <h2 className="font-semibold text-base leading-none text-neutral-700 dark:text-neutral-600">{profileH2Content}</h2>
+                        <h2 className="font-semibold text-base leading-none text-neutral-400 dark:text-neutral-600">{profileH2Content}</h2>
                         <div className="mt-2 md:mt-0 w-auto flex flex-col md:flex-row items-center gap-8">
                             <h1 className="font-black text-neutral-950 text-lg xs:text-2xl sm:text-3xl leading-none dark:text-neutral-50">
                                 {viewedUser?.userName}
