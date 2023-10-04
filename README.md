@@ -30,7 +30,7 @@ As a fan of everything related to music, I love keeping track of the songs and a
 ## Technology Stack
 
 <div class="flex flex-col">
-  <h3>Front End</h1> 
+  <h3>Front End - React, TypeScript, Tailwind CSS, MobX</h1> 
   
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" alt="react" width="100"/>
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/512px-Typescript_logo_2020.svg.png?20221110153201" alt="TypeScript" width="100"/>
@@ -39,7 +39,7 @@ As a fan of everything related to music, I love keeping track of the songs and a
 </div>
 
 <div class="flex flex-col">
-  <h3>Back End</h1> 
+  <h3>Back End - .NET Core, C#, PostgreSQL</h1> 
   
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/2048px-.NET_Core_Logo.svg.png" alt=".NET" width="100"/>
 <img src="https://seeklogo.com/images/C/c-sharp-c-logo-02F17714BA-seeklogo.com.png" alt="C#" width="100"/>
@@ -48,7 +48,7 @@ As a fan of everything related to music, I love keeping track of the songs and a
 
 
 <div class="flex flex-col">
-  <h3>Hosting/Deployment</h1> 
+  <h3>Hosting/Deployment - Docker, NGINX, AWS EC2 and RDS</h1> 
   
   <img src="https://images.crunchbase.com/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/ywjqppks5ffcnbfjuttq" alt="Docker" width="100"/>
 <img src="https://managedserver.it/wp-content/uploads/2021/11/nginx.png" alt="NGINX" width="100"/>
