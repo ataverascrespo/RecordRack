@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
             builder  =>
             {
                 builder
-                .WithOrigins("recordrack.ca")
+                .WithOrigins("https://recordrack.ca")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();
