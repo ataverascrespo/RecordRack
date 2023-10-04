@@ -63,7 +63,7 @@ export default function HomePage() {
                             <p className="text-left">What data does Record Rack collect?</p>
                         </AccordionTrigger>
                         <AccordionContent>
-                            Record Rack <strong>does not collect any of your personal data, apart from the few details you provide during account creation</strong>. No tracking, analytics, nothing. For that data that is collected, this app uses industry-standard security approaches to protect your information. <a href="" className="font-bold underline"> You can read more about this on our privacy policy.</a>
+                            Record Rack <strong>does not collect any of your personal data, apart from the few details you provide during account creation</strong>. No tracking, analytics, nothing. For that data that is collected, this app uses industry-standard security approaches to protect your information.
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-5">

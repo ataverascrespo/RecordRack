@@ -4,7 +4,7 @@ import { store } from '../stores/store';
 import { AddRecord, UpdateRecord } from "../models/record";
 
 // Define default URL
-axios.defaults.baseURL = "http://localhost:5184";
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 const responseBody = (response: AxiosResponse) => response.data;
 
