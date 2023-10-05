@@ -99,6 +99,7 @@ function ProfileAccountSettingsFormPhoto() {
                                     value={images}
                                     onChange={onChange}
                                     maxFileSize={3000000}
+                                    acceptType={['jpg', 'png']}
                                 >
                                     {({
                                         imageList,
