@@ -6,7 +6,7 @@
 </a>
 
 <p align="center">
- Record Rack allows you to curate a digital music collection, powered by Spotify's Web API.
+ Record Rack allows you to curate a digital music collection, powered by Spotify's Web API. <a href="https://recordrack.ca">Access the full app here.</a>
 </p>
 
 <p align="center">
