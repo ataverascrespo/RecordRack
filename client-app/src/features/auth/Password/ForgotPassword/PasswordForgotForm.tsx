@@ -27,8 +27,12 @@ type PasswordForgotSchema = z.infer<typeof passwordForgotSchema>;
 
 function PasswordForgotForm() {
 
+    //Initialize user store
     const { userStore } = useStore();
-    const { toast } = useToast()
+    //Initialize toast component
+    const { toast } = useToast();
+    //Store state for button disabling
+    const [buttonDisabled, setButtonDisabled] = useState(false);
     
     const [isSubmitted, setSubmitted] = useState(false);
 
@@ -46,6 +50,8 @@ function PasswordForgotForm() {
         Define submission handler
     */
     const onSubmit = async (values: PasswordForgotSchema) => {
+        //Disable form button so that the form cannot submit multiple times
+        setButtonDisabled(true);
         try {
             const response: any = await userStore.forgotPassword(values)
             //If the success field is true, display success toast
@@ -72,6 +78,7 @@ function PasswordForgotForm() {
             })
             throw (error)
         }
+        setButtonDisabled(false);
     }
 
     if (!isSubmitted) {
@@ -92,7 +99,7 @@ function PasswordForgotForm() {
                                 <FormMessage />
                             </FormItem>
                         )} />
-                    <Button className="w-full shadow-md" type="submit">Confirm email</Button>
+                    <Button className="w-full shadow-md" type="submit" disabled={buttonDisabled}>Confirm email</Button>
                 </form>
             </Form>
         )

@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useStore } from "@/app/stores/store";
+import { useState } from "react";
 
 /* 
   Form schema for account register validation
@@ -35,7 +36,9 @@ function RegisterForm() {
     //Initialize user store
     const { userStore } = useStore();
     //Initialize toast component
-    const { toast } = useToast()
+    const { toast } = useToast();
+    //Store state for button disabling
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     /* 
         Define the form and form type
@@ -53,6 +56,8 @@ function RegisterForm() {
         Define submission handler
     */
     const onSubmit = async (values: AccountSchema) => {
+        //Disable form button so that the form cannot submit multiple times
+        setButtonDisabled(true);
         try {
             const response: any = await userStore.register(values);
             //If the success field is true, set valid
@@ -78,6 +83,7 @@ function RegisterForm() {
             })
             throw (error)
         }
+        setButtonDisabled(false);
     }
 
     return (
@@ -125,7 +131,7 @@ function RegisterForm() {
                             <FormMessage />
                         </FormItem>
                     )} />
-                <Button className="w-full shadow-md" type="submit">Create account</Button>
+                <Button className="w-full shadow-md" type="submit" disabled={buttonDisabled}>Create account</Button>
             </form>
         </Form>
 

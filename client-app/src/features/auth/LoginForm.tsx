@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
+import { useState } from "react";
 
 /* 
   Form schema for login validation
@@ -27,8 +28,12 @@ type LoginSchema = z.infer<typeof loginFormSchema>;
 
 function LoginForm() {
 
+    //Initialize user store
     const { userStore } = useStore();
-    const { toast } = useToast()
+    //Initialize toast component
+    const { toast } = useToast();
+    //Store state for button disabling
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     /* 
         Define the form and form type
@@ -45,6 +50,8 @@ function LoginForm() {
         Define submission handler
     */
     const onSubmit = async (values: LoginSchema) => {
+        //Disable form button so that the form cannot submit multiple times
+        setButtonDisabled(true);
         try {
             const response: any = await userStore.login(values)
             //If the success field is true, display success toast
@@ -70,6 +77,7 @@ function LoginForm() {
             })
             throw (error)
         }
+        setButtonDisabled(false);
     }
 
     return (
@@ -104,7 +112,7 @@ function LoginForm() {
                             <FormMessage />
                         </FormItem>
                     )} />
-                <Button className="w-full shadow-md" type="submit">Sign in</Button>
+                <Button className="w-full shadow-md" type="submit" disabled={buttonDisabled}>Sign in</Button>
             </form>
         </Form>
     )

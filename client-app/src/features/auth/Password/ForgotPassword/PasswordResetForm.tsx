@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useStore } from "@/app/stores/store";
 import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 /* 
   Define the props received from parent component
@@ -32,8 +33,12 @@ type PasswordResetSchema = z.infer<typeof passwordResetSchema>;
 
 function PasswordResetForm({ resetToken }: Props) {
 
+    //Initialize user store
     const { userStore } = useStore();
-    const { toast } = useToast()
+    //Initialize toast component
+    const { toast } = useToast();
+    //Store state for button disabling
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     /* 
         Define the form and form type
@@ -49,6 +54,8 @@ function PasswordResetForm({ resetToken }: Props) {
         Define submission handler
     */
     const onSubmit = async (values: PasswordResetSchema) => {
+        //Disable form button so that the form cannot submit multiple times
+        setButtonDisabled(true);
 
         // Create a new object that matches the UserResetPassword model
         // Pass in props token and form password
@@ -82,6 +89,7 @@ function PasswordResetForm({ resetToken }: Props) {
             });
             throw (error)
         }
+        setButtonDisabled(false);
     }
 
     return (
@@ -101,7 +109,7 @@ function PasswordResetForm({ resetToken }: Props) {
                             <FormMessage />
                         </FormItem>
                     )} />
-                <Button className="w-full shadow-md" type="submit">Reset password</Button>
+                <Button className="w-full shadow-md" type="submit" disabled={buttonDisabled}>Reset password</Button>
             </form>
         </Form>
     )
