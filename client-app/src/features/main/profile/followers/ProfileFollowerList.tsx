@@ -29,20 +29,20 @@ function ProfileFollowerList() {
 
     //If followers are loading, or there are no followers, return an empty display
     if (isLoading) {
-        return <Loading text={"Loading followers..."} height={"h-[50vh]"}></Loading>
+        return <Loading text={"Loading followers..."} height={"h-[40vh]"}></Loading>
     }
     else if (viewedUserFollowers == undefined || viewedUserFollowers.length == 0) {
-        return <NotFoundView text={"No followers."} height={"h-[50vh]"}></NotFoundView>
+        return <NotFoundView text={"No followers."} height={"h-[40vh]"}></NotFoundView>
     }
     else {
         return (
             <div className="p-4">
                 {viewedUserFollowers.map((follower) => (
                     <div key={follower!.id}>
-                        <div className="text-sm flex flex-row items-center justify-between">
+                        <div className="text-xs xs:text-sm flex flex-row items-center justify-between">
                             <Link onClick={dialogClose} className="items-center hover:brightness-110 dark:hover:brightness-90 transform duration-100"
                                 to={`/${follower!.userName}`}>
-                                <div className='flex flex-row items-center justify-start gap-6'>
+                                <div className='flex flex-row items-center justify-start gap-4 md:gap-6'>
                                     <img
                                         src={follower?.imageURL || 'https://res.cloudinary.com/dlwfuryyz/image/upload/v1695305498/album-api/jzbiw85pakr4amttznuq.jpg'}
                                         alt="user"

@@ -24,11 +24,11 @@ function ProfileFollowing({ profileUser, followingCount }: Props) {
                     </p>
                 </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-[75vw] lg:max-w-[500px]">
+            <DialogContent className="max-w-[85vw] lg:max-w-[500px] h-[60vh] md:h-[65vh]">
                 <DialogHeader>
                     <DialogTitle className="pt-8">{profileUser.userName} is following</DialogTitle>
                 </DialogHeader>
-                <ScrollArea className="h-[75vh] md:h-[50vh] w-full rounded-md border">
+                <ScrollArea className="h-[40vh] md:h-[50vh] w-full rounded-md border">
 
                     {/* List component with fetch */}
                     <ProfileFollowingList/>

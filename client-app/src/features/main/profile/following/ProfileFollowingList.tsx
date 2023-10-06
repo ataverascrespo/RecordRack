@@ -29,10 +29,10 @@ function ProfileFollowingList() {
 
     //If followers are loading, or there are no followers, return an empty display
     if (isLoading) {
-        return <Loading text={"Loading followed users..."} height={"h-[50vh]"}></Loading>
+        return <Loading text={"Loading followed users..."} height={"h-[40vh]"}></Loading>
     }
     else if (viewedUserFollowing == undefined || viewedUserFollowing.length == 0) {
-        return <NotFoundView text={"No followed users."} height={"h-[50vh]"}></NotFoundView>
+        return <NotFoundView text={"No followed users."} height={"h-[40vh]"}></NotFoundView>
     }
     else {
         return (
