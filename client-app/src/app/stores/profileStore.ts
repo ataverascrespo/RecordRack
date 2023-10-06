@@ -56,17 +56,6 @@ export default class ProfileStore {
         }
     }
 
-    setViewedUser = (user: ProfileUser) => {
-        this.loadingViewedUser = true;
-        this.viewedUserFollowers = [];
-        this.viewedUserFollowing = [];
-
-        runInAction(() => {
-            this.viewedUser = user;
-            this.loadingViewedUser = false;
-        });
-    }
-
     searchUsers = async (userName: string) => {
         this.loadingSearchedUsers = true;
         try {

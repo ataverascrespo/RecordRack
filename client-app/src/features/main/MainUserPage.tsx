@@ -19,7 +19,7 @@ function RackPage() {
     const params = useParams();
   
     // Access the global Mobx stores
-    const { recordStore, userStore, profileStore } = useStore();
+    const { recordStore, profileStore } = useStore();
     const { isCurrentUser, viewedUser } = profileStore;
 
     useEffect(() => {
@@ -29,12 +29,7 @@ function RackPage() {
                 if (params.username === viewedUser?.userName) {
                     return;
                 }
-                //If the logged in user is the url params, there's no need to re-fetch user data.
-                if (params.username === userStore.user!.userName) {
-                    await profileStore.setViewedUser(userStore.user!)
-                    return;
-                } else {
-                    // If the current viewed user is not the current user, we need to fetch that user
+                else {
                     await profileStore.getViewedUser(params.username);
                     return;
                 }
