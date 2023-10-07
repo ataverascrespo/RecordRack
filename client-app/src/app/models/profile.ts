@@ -1,5 +1,15 @@
+/**
+ *     Name: profile.ts
+ *     Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This file contains the interface/class definitions for Profile related models, and defines their types and structures
+ *          - ProfileUser interface
+ *          - Profile class
+*/
+
 import { User } from "./user";
 
+// Define the ProfileUser interface and properties
 export interface ProfileUser {
     id: number;
     userName: string;
