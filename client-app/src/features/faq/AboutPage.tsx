@@ -1,3 +1,11 @@
+/**
+ * Name: AboutPage.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the page that displays information about Record Rack.
+ *          Sections include About, FAQ and Links.
+*/
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -5,9 +13,10 @@ import Footer from "@/app/layout/Footer"
 import { Separator } from "@/components/ui/separator"
 import { Link } from "react-router-dom"
 
-export default function HomePage() {
+export default function AboutPage() {
     return (
         <section id="about-page" className="container">
+            {/* About section */}
             <div className="lg:h-[50vh] mb-24 mt-48 z-0 lg:mb-48 flex flex-col justify-start lg:flex-row lg:justify-between items-center gap-8 lg:gap-16" >
                 <img className="w-full md:w-[70%] lg:w-[50%]" src="/assets/about.svg" alt="hero" draggable="false" />
                 <div className="flex flex-col items-start gap-2 ">
@@ -33,6 +42,7 @@ export default function HomePage() {
                     </p>
                 </div>
 
+                {/* FAQ accordion items */}
                 <Accordion type="single" collapsible className="w-full lg:w-[45%]">
                     <AccordionItem value="item-1">
                         <AccordionTrigger>
@@ -87,6 +97,7 @@ export default function HomePage() {
 
             <Separator className="h-0.5 bg-neutral-200 dark:bg-neutral-800 rounded-md"></Separator>
 
+            {/* Bottom component with links */}
             <div className="z-0 mt-24 mb-24 lg:mt-48 lg:mb-48 flex flex-col lg:flex-row lg:justify-between items-center">
                 <Card className="w-full lg:w-2/3">
                     <CardHeader>
@@ -126,6 +137,8 @@ export default function HomePage() {
                 </Card>
                 <img className="hidden lg:flex lg:w-[20%]" src="/assets/about-contact.svg" alt="hero" draggable="false" />
             </div>
+
+            {/* Render footer component */}
             <Footer></Footer>
         </section>
     )

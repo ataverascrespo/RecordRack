@@ -1,3 +1,10 @@
+/**
+ * Name: HomePage.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the app's landing page. 
+*/
+
 import Footer from "@/app/layout/Footer"
 import { useStore } from "@/app/stores/store";
 import { Button } from "@/components/ui/button";
@@ -7,15 +14,16 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
-    //Get the mobx global stores
+    // Access the mobx global stores
     const { userStore } = useStore();
     const { user } = userStore;
 
     useEffect(() => {
-        //Negates behaviour of scrolling halfway down page upon load
+        // Negates behaviour of scrolling halfway down page upon load
         window.scrollTo(0, 0)
     });
 
+    //Define the route for the 'Get Started' button based on user login status.
     let route;
     if (user == undefined) {
         route = `/accounts/login`;
@@ -79,6 +87,7 @@ export default function HomePage() {
 
         </section>
             <div className="container mt-24 ">
+                {/* Render the footer component */}
                 <Footer />
             </div></>
     )
