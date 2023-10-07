@@ -1,7 +1,9 @@
-
-/* 
-    This page displays on a 404 Error
-*/ 
+/**
+ * Name: HTTPNotFoundPage.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the page that displays on a 404 Not Found error 
+*/
 
 import { observer } from "mobx-react-lite";
 
@@ -19,4 +21,5 @@ function HTTPNotFoundPage() {
     )
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(HTTPNotFoundPage)

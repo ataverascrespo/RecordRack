@@ -1,3 +1,10 @@
+/**
+ * Name: App.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This is the main .tsx file that renders the layout of the application
+*/
+
 import { useStore } from "../stores/store";
 import { useEffect, useRef } from "react";
 import { ThemeProvider } from "@/components/theme-provider"
@@ -37,6 +44,7 @@ function App() {
   if (!commonStore.appLoaded) return <Loading text={"App loading..."} height={"h-screen"}></Loading>
 
   return (
+    // Wrap app in ThemeProvider to enable dark and light modes
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <div className="App">
         <Navbar></Navbar>

@@ -1,7 +1,15 @@
+/**
+ * Name: Loading.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the view that displays when an app component is loading / pending API response.
+*/
+
 import { observer } from "mobx-react-lite";
 import { Loader2 } from 'lucide-react';
 import { ThemeProvider } from "@/components/theme-provider";
 
+// Define component icons
 export const Icons = {
     spinner: Loader2,
 };
@@ -14,6 +22,7 @@ interface Props {
 
 function Loading({ text, height }: Props) {
     return (
+        // Wrap in theme provider 
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
             <div className="container">
                 <div className={`${height} flex flex-col justify-center items-center gap-4 text-neutral-800`}>
@@ -25,4 +34,5 @@ function Loading({ text, height }: Props) {
     )
 }
 
+// Wrap component in observer to respond to MobX changes
 export default observer(Loading)

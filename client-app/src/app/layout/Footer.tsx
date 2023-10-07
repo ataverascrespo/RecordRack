@@ -1,3 +1,10 @@
+/**
+ * Name: Footer.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file handles the rendering of the footer
+*/
+
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
 
@@ -12,13 +19,13 @@ export default function Footer() {
                         <Button className="px-2 sm:px-4" variant="ghost"><p className="text-xs xxs:text-sm">about</p></Button>
                     </NavLink>
                     <Button className="px-2 sm:px-4" variant="ghost">
-                        <a href="" className="text-xs xxs:text-sm">contact</a>
+                        <a href="mailto:alexmanuelt@hotmail.com?subject=Record%20Rack%20Feedback%20" className="text-xs xxs:text-sm">contact</a>
                     </Button>
                     <Button className="px-2 sm:px-4" variant="ghost">
                         <a href="https://github.com/ataverascrespo/RecordRack" className="text-xs xxs:text-sm">github repo</a>
                     </Button>
                     <Button className="px-2 sm:px-4" variant="ghost">
-                        <a href="" className="text-xs xxs:text-sm">donate</a>
+                        <a href="https://www.buymeacoffee.com/ataverascrespo" className="text-xs xxs:text-sm">donate</a>
                     </Button>
                 </ul>
             </div>

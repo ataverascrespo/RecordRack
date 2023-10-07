@@ -1,3 +1,10 @@
+/**
+ * Name: Navbar.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the application navbar for mobile and desktops.
+*/
+
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from '@/components/mode-toggle'
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu"
@@ -7,10 +14,12 @@ import { observer } from "mobx-react-lite"
 import { useState } from "react"
 
 function Navbar() {
-  //Initialize user store with user object and loggedIn method
+  // Initialize user store with user object and loggedIn method
   const { userStore } = useStore();
   const { user, isLoggedIn } = userStore;
 
+  // This state variable allows the app to close the mobile navigation menu on rendering a new page
+  // This is a fix that goes down to the RadixUI level (which the components used in this app are built on)
   const [value, setValue] = useState("");
 
   return (
@@ -42,6 +51,7 @@ function Navbar() {
             </NavLink>
           </div>
 
+          {/* Mobile menu for signed in user */}
           <div className="block md:hidden">
             <NavigationMenu className="relative -left-32" value={value} onValueChange={setValue} >
               <NavigationMenuList>
@@ -102,6 +112,7 @@ function Navbar() {
             </NavLink>
           </div>
 
+          {/* Mobile menu for not signed in user*/}
           <div className="block md:hidden">
             <NavigationMenu className="relative -left-32" value={value} onValueChange={setValue}>
               <NavigationMenuList>
@@ -138,4 +149,5 @@ function Navbar() {
   )
 }
 
+// Wrap component in observer to respond to MobX changes
 export default observer(Navbar)
