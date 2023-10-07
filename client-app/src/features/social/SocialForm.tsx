@@ -16,37 +16,22 @@ export function SocialForm() {
         Define form submission handler for album
     */
     const searchUser = async (query: string) => {
-        //if the search params are empty, set the search to empty
-        if (query.length === 0) {
-            profileStore.setSearchedUsers([]);
-        }
-        //if the search params are 4 or greater, start searching
-        //This is just some performance optimization. Usernames are a min of 6 strings so no need to search way before that
-        else if (query.length >= 4) {
-            try {
-                const response = await profileStore.searchUsers(query);
-                if (response.success === true) {
-                    //Successful search, set the users
-                    profileStore.setSearchedUsers(response.data);
-                } else {
-                    //Empty search toast
-                    toast({
-                        variant: "destructive",
-                        title: "Uh oh! Something went wrong.",
-                        description: response.returnMessage
-                    })
-                    //Set the users as empty
-                    profileStore.setSearchedUsers([]);
-                }
-            } catch (error) {
+        try {
+            const response = await profileStore.searchUsers(query);
+            if (response.success != true) {
+                //Empty search toast
                 toast({
                     variant: "destructive",
                     title: "Uh oh! Something went wrong.",
+                    description: response.returnMessage
                 })
-                //Set the users as empty
-                profileStore.setSearchedUsers([]);
-                throw (error);
             }
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+            })
+            throw (error);
         }
     }
 
@@ -60,7 +45,7 @@ export function SocialForm() {
                     debounceTimeout={750}
                     value={profileStore.searchQuery}
                     onChange={event => searchUser(event.target.value)}
-                    />
+                />
             </div>
         </div>
     )
