@@ -1,5 +1,11 @@
-import * as z from "zod"
+/**
+ * Name: RecordViewAddToRack.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the dialog and form schema for adding another user's record to the current user's own rack list
+*/
 
+import * as z from "zod"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormMessage, } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
@@ -31,7 +37,6 @@ type RecordSchema = z.infer<typeof recordSchema>;
 function RecordViewAddToRack() {
 
     const { toast } = useToast()
-
     // Access the global Mobx stores
     const { recordStore } = useStore();
     const { selectedRecord } = recordStore;
@@ -54,63 +59,65 @@ function RecordViewAddToRack() {
     const dialogClose = () => {
         document.getElementById('closeDialog')?.click();
     };
-    
+
     /* 
         Define submission handler
     */
-        const onSubmit = async (data: RecordSchema) => {
-            //Disable form button so that the form cannot submit multiple times
-            setButtonDisabled(true);
-    
-            const newRecord: AddRecord = {
-                albumName: selectedRecord!.albumName,
-                artistName: selectedRecord!.artistName,
-                releaseDate: selectedRecord!.releaseDate,
-                albumType: selectedRecord!.albumType,
-                albumDescription: data.description,
-                dateAdded: new Date().toISOString(),
-                photoURL: selectedRecord!.photoURL,
-                spotifyID: selectedRecord!.spotifyID,
-                isPrivate: data.private,
+    const onSubmit = async (data: RecordSchema) => {
+        //Disable form button so that the form cannot submit multiple times
+        setButtonDisabled(true);
+
+        const newRecord: AddRecord = {
+            albumName: selectedRecord!.albumName,
+            artistName: selectedRecord!.artistName,
+            releaseDate: selectedRecord!.releaseDate,
+            albumType: selectedRecord!.albumType,
+            albumDescription: data.description,
+            dateAdded: new Date().toISOString(),
+            photoURL: selectedRecord!.photoURL,
+            spotifyID: selectedRecord!.spotifyID,
+            isPrivate: data.private,
+        }
+
+        try {
+            const response: any = await recordStore.addRecord(newRecord);
+            //If the success field is true, set valid
+            if (response.success === true) {
+                toast({
+                    title: `Successfully added ${newRecord.albumName} by ${newRecord.artistName}`,
+                })
             }
-    
-            try {
-                const response: any = await recordStore.addRecord(newRecord);
-                //If the success field is true, set valid
-                if (response.success === true) {
-                    toast({
-                        title: `Successfully added ${newRecord.albumName} by ${newRecord.artistName}`,
-                    })
-                }
-                //If the success field is false, display error msg toast
-                else {
-                    toast({
-                        variant: "destructive",
-                        title: "Oh no! Something went wrong.",
-                        description: response.returnMessage,
-                    })
-                }
-            } catch (error) {
-                //If there is no response at all, display general error
+            //If the success field is false, display error msg toast
+            else {
                 toast({
                     variant: "destructive",
                     title: "Oh no! Something went wrong.",
-                    description: "Please try again later.",
+                    description: response.returnMessage,
                 })
             }
-    
-            dialogClose();
-            setButtonDisabled(false);
+        } catch (error) {
+            //If there is no response at all, display general error
+            toast({
+                variant: "destructive",
+                title: "Oh no! Something went wrong.",
+                description: "Please try again later.",
+            })
         }
 
-    return (
+        // Close the dialog and enable the button for submission again.
+        dialogClose();
+        setButtonDisabled(false);
+    }
 
+    return (
         <Dialog>
             <DialogTrigger asChild>
+                {/* Dialog button trigger */}
                 <Button>Add to Your Rack</Button>
             </DialogTrigger>
             <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
                 <DialogHeader>
+                    {/* Header */}
                     <DialogTitle className="mt-4 lg:mt-0">
                         Adding {selectedRecord?.albumType} {selectedRecord?.albumName} by {selectedRecord?.artistName}</DialogTitle>
                     <DialogDescription>
@@ -161,4 +168,5 @@ function RecordViewAddToRack() {
     )
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(RecordViewAddToRack)

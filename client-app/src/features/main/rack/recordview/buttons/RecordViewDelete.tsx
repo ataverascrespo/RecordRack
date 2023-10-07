@@ -1,3 +1,10 @@
+/**
+ * Name: RecordViewDelete.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the dialog for a user to delete a record from their collection.
+*/
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 import { useStore } from "@/app/stores/store";
 import { Button } from "@/components/ui/button";
@@ -32,12 +39,15 @@ function RecordViewDelete() {
         toast({
             title: `Successfully deleted record.`,
         })
+
+        // Close the dialog
         dialogClose();
     }
 
     return (
         <Dialog>
             <DialogTrigger asChild>
+                {/* Dialog trigger button */}
                 <Button className="w-full md:w-1/2">Delete Record</Button>
             </DialogTrigger>
             <DialogContent className="max-w-[75vw] lg:max-w-[725px] py-8">
@@ -48,6 +58,7 @@ function RecordViewDelete() {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4">
+                    {/* Button that handles delete */}
                     <Button onClick={handleDelete}>Delete</Button>
                 </div>
             </DialogContent>
@@ -55,4 +66,5 @@ function RecordViewDelete() {
     )
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(RecordViewDelete)

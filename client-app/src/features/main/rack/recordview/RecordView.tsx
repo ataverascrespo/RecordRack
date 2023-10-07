@@ -1,3 +1,10 @@
+/**
+ * Name: RecordView.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the page that configures the layout for the Record View, including validation logic.
+*/
+
 import { Label } from "@/components/ui/label";
 import { Spotify } from "@/components/ui/spotify-embed";
 import { Switch } from "@/components/ui/switch";
@@ -23,23 +30,22 @@ function RecordView() {
     const { user } = userStore;
 
     useEffect(() => {
-        //Negates behaviour of scrolling halfway down page upon load
+        // Negates behaviour of scrolling halfway down page upon load
         window.scrollTo(0, 0)
 
         if (params.id) {
-            //If the loaded record is equal to the selected record to view, there's no need to re-fetch data.
-            if (params.id === recordStore.selectedRecord?.id) {
-                return;
-            }
+            // If the loaded record is equal to the selected record to view, there's no need to re-fetch data.
+            if (params.id === recordStore.selectedRecord?.id) { return; }
 
+            // Otherwise, we need to load the record data. 
             const loadRecord = async (id: string) => {
                 try {
+                    // Load the records from the domain store function
                     await recordStore.loadRecord(id);
                 } catch (error) {
                     throw (error)
                 }
             }
-
             loadRecord(params.id);
         }
     }, [recordStore])
@@ -50,20 +56,25 @@ function RecordView() {
     // Display when record is undefined or record URL path username and record username don't match
     if (recordStore.selectedRecord == undefined || params.username !== recordStore.selectedRecord.user.userName) {
         if (params.username) {
+            // Render not found view component
             return <NotFoundView text={"Could not find that user's record."} height={"h-screen"}></NotFoundView>
         }
         else {
+            // Navigate to home
             navigate('/', { replace: true });
         }
     }
 
+    // Display when record is successfully loaded
     else {
         return (
             <div className="container h-full flex flex-col mb-12 gap-8">
                 <div className="flex flex-col lg:flex-row gap-4 md:gap-10 lg:gap-12 xl:gap-24 items-center">
+                    {/* Render the Record View Image component */}
                     <RecordViewImage user={viewedUser!} record={recordStore.selectedRecord} />
 
                     <div className="w-full mt-6 sm:mt-12 lg:mt-40 flex flex-col gap-4 xl:gap-8 items-start">
+                        {/* Render Record View Info component */}
                         <RecordViewInfo record={recordStore.selectedRecord} />
                         <div className="w-full flex gap-12 flex-row items-center">
 
@@ -76,6 +87,7 @@ function RecordView() {
                                         <Switch id="private" disabled checked={recordStore.selectedRecord.isPrivate} />
                                     </div>
                                     <div className="flex flex-row gap-4 w-full md:w-1/2">
+                                        {/* Render Record Button components if the user is signed in*/}
                                         <RecordViewEditFields />
                                         <RecordViewDelete />
                                     </div>
@@ -83,6 +95,7 @@ function RecordView() {
                                 :
                                 // Component for adding other user's record to your racklist
                                 <div className="flex flex-row gap-4">
+                                    {/* Render Record Button components when user is not signed in */}
                                     <RecordViewAddToRack />
                                 </div>
                             }
@@ -92,6 +105,7 @@ function RecordView() {
                 </div>
 
                 <div className="mt-8">
+                    {/* Render the Spotify iframe embed component based on album or track stored type*/}
                     {recordStore.selectedRecord?.albumType === "album" ? (
                         <Spotify className="mb-20" width={"100%"} link={`https://open.spotify.com/${recordStore.selectedRecord?.albumType}/${recordStore.selectedRecord?.spotifyID}`} />
                     ) : (
@@ -103,5 +117,5 @@ function RecordView() {
         )
     }
 }
-
+// Wrap component in observer to respond to MobX state changes
 export default observer(RecordView);

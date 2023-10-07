@@ -1,5 +1,11 @@
-import * as z from "zod"
+/**
+ * Name: RecordViewEditFields.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the dialog and form schema for a user to edit the information for a saved record.
+*/
 
+import * as z from "zod"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormMessage, } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
@@ -71,6 +77,7 @@ function RecordViewEditFields() {
         }
 
         try {
+            // Call domain store API for updating record.
             const response: any = await recordStore.updateRecord(updatedRecord);
             //If the success field is true, set valid
             if (response.success === true) {
@@ -95,6 +102,7 @@ function RecordViewEditFields() {
             })
         }
 
+        // Close the dialog and enable the submission button again.
         dialogClose();
         setButtonDisabled(false);
     }
@@ -145,6 +153,7 @@ function RecordViewEditFields() {
                             )}
                         />
                         <DialogFooter>
+                            {/* Button that handles record update */}
                             <Button className="w-full" type="submit" disabled={buttonDisabled}>
                                 Save Changes
                             </Button>
@@ -156,4 +165,5 @@ function RecordViewEditFields() {
     )
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(RecordViewEditFields)

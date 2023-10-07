@@ -1,3 +1,11 @@
+/**
+ * Name: RackList.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the component that fetches the records and configures their display.
+ *          It also displays the UI responsible for triggering debounced search and filter logic.
+*/
+
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useStore } from "@/app/stores/store";
 import { useEffect } from "react";
@@ -9,7 +17,6 @@ import NotFoundView from "@/app/layout/NotFoundView";
 import Loading from "@/app/layout/Loading";
 
 function RackList() {
-
     // Access the global Mobx stores
     const { recordStore } = useStore();
     const { savedRecords, loadingRecords, savedRecordsSortOrder, savedRecordsSortType, savedRecordsSearchQuery } = recordStore;
@@ -40,6 +47,7 @@ function RackList() {
         recordStore.setRecordsSearchQuery(queryValue);
     }
 
+    // When the records are loading, return a loading view
     // Prevents the wrong records from being shown on page load 
     if (loadingRecords) {
         return (
@@ -48,10 +56,13 @@ function RackList() {
             </div>
         )
     }
+    // Render this when the records are loaded
     else {
         return (
             <div className="w-full">
                 <div className="w-full flex flex-col-reverse md:flex-row gap-2 md:gap-4">
+
+                    {/* Search input with debounced timeout. OnChange event only triggers after timeout */}
                     <DebounceInput
                         className="flex h-10 w-full rounded-md border shadow-inner border-neutral-200 bg-white px-3 py-2 text-xs md:text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus-visible:ring-neutral-300"
                         placeholder={"Search records..."}
@@ -62,6 +73,7 @@ function RackList() {
                     />
 
                     <div className="w-full flex flex-row gap-2 items-center">
+                        {/* Select tab with record type filter */}
                         {/* Set default type to stored global type */}
                         <Select defaultValue={savedRecordsSortType} onValueChange={((value) => sortRecordsType(value))} >
                             <SelectTrigger className="shadow-md w-1/2 text-xs md:text-sm">
@@ -77,6 +89,7 @@ function RackList() {
                             </SelectContent>
                         </Select>
 
+                        {/* Select tab with order by date filter */}
                         <Select defaultValue={savedRecordsSortOrder} onValueChange={((value) => sortRecordsOrder(value))} >
                             <SelectTrigger className="shadow-md w-1/2 text-xs md:text-sm">
                                 <SelectValue />
@@ -99,10 +112,11 @@ function RackList() {
                         {savedRecords.filter(record => record.albumType === savedRecordsSortType).length == 0 ? (
                             // If there are no records when filtered, display empty
                             <div className="w-full col-span-4">
+                                {/* Render NotFoundView component */}
                                 <NotFoundView text={"No records found."} height={"h-[30vh] md:h-[50vh]"} />
                             </div>
                         ) : (
-                            // Show records only of the selected record type, and with the search query
+                            // Show records only of the selected record type, and with the search query included
                             savedRecords
                                 .filter(record => record.albumType === savedRecordsSortType)
                                 .filter((record) => record.albumName.toLowerCase().includes(savedRecordsSearchQuery.toLowerCase()))
@@ -111,11 +125,9 @@ function RackList() {
                     </div>
                 </div>
             </div>
-
-
-
         )
     }
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(RackList)

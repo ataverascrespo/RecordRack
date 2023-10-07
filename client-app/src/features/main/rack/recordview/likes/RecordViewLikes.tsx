@@ -1,3 +1,11 @@
+/**
+ * Name: RecordViewLikes.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the like button for a record, and the like count next to it.
+ *          It also configures the display for the list of users who have liked it.
+*/
+
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -7,10 +15,12 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import RecordViewLikedBy from "./RecordViewLikedBy";
 
+// Define component icons
 export const Icons = {
     likeIcon: Heart,
 };
 
+// Define component props
 interface Props {
     id: string;
 }
@@ -26,6 +36,7 @@ function RecordViewLikes({ id }: Props) {
     const [isAnimating, setIsAnimating] = useState(false);
 
     useEffect(() => {
+        // If the likes is undefined for the record, fetch the likes from the domain store function
         if (selectedRecord?.likes == undefined) {
             const getLikes = async () => {
                 await recordStore.getRecordLikes(id);
@@ -52,6 +63,7 @@ function RecordViewLikes({ id }: Props) {
         }
     }
     
+    // Define the appearance of the like button based on whether user has currently liked it or not.
     let likesButton, likeIconColour, likeHover;
     if (selectedRecord?.likes == undefined) {
         likesButton = "0 likes";
@@ -63,13 +75,17 @@ function RecordViewLikes({ id }: Props) {
         likeHover = recordStore.isSelectedRecordLiked ? "" : "hover:opacity-40 transition-all duration-100"
     }
 
+    // Render an empty div when loading
     if (isLoading) return <div></div>
+
     else {
         return (
             <div className="flex flex-row items-center -ml-2">
+                {/* Display the button with dynamic props based on like status */}
                 <Button onClick={handleLikes} size={"icon"} variant={"link"} className={`${likeHover} ${isAnimating ? 'is_animating' : ''}`}>
                     <Icons.likeIcon fill={likeIconColour} className="h-[3vh]" />
                 </Button>
+                {/* Prepare the dialog component for like list */}
                 <Dialog>
                     <DialogTrigger asChild>
                         <Button size={"sm"} variant={"link"}>
@@ -83,6 +99,7 @@ function RecordViewLikes({ id }: Props) {
                             <DialogTitle className="pt-8">Liked by</DialogTitle>
                         </DialogHeader>
                         <ScrollArea className="h-72 w-full rounded-md border">
+                            {/* Render the RecordViewLiked by component */}
                             <RecordViewLikedBy usersLiked={selectedRecord!.likes}/>
                         </ScrollArea>
                     </DialogContent>
@@ -92,4 +109,5 @@ function RecordViewLikes({ id }: Props) {
     }
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(RecordViewLikes)

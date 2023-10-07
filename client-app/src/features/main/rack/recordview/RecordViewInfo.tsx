@@ -1,3 +1,11 @@
+/**
+ * Name: RecordViewInfo.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file accepts props from RecordView.tsx. 
+ *          It renders and displays the viewed record's saved information.
+*/
+
 import { observer } from 'mobx-react-lite'
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -32,6 +40,7 @@ function RecordViewInfo({ record }: Props) {
             {/* Name, artist, etc */}
             <div className="w-full flex flex-col items-start">
                 <div className="w-full h-auto md:h-[75px]">
+                    {/* Use textfit component to dynamically change text size */}
                     <Textfit className="h-full flex items-end" mode="multi" forceSingleModeWidth={true} min={24} max={64}>
                         <h1 className="w-full font-black text-neutral-900 leading-none dark:text-neutral-50">
                             {record.albumName}
@@ -42,12 +51,13 @@ function RecordViewInfo({ record }: Props) {
                     {(record.albumType).charAt(0).toUpperCase() + record.albumType.slice(1)} by {record.artistName}
                 </h2>
                 <div className="flex flex-row gap-6 mt-4 w-full">
+                    {/* Render the likes component */}
                     <RecordViewLikes id={record.id}/>
                 </div> 
             </div>
 
             <div className='w-full'>
-                {/* RECORD DESCRIPTION */}
+                {/* Display Record Description */}
                 <div className="flex flex-row gap-12 mt-4 lg:mt-0 items-start w-full text-neutral-800 dark:text-neutral-50">
                     <div className="grid w-full gap-1 pb-4">
                         <Label htmlFor="message" className="font-medium text-base text-neutral-900 dark:text-neutral-400 text-left">Description</Label>
@@ -55,6 +65,7 @@ function RecordViewInfo({ record }: Props) {
                     </div>
                 </div>
 
+                {/* Display Record date information */}
                 <div className="flex flex-col mb-4 lg:flex-row items-start lg:items-center">
                     <h2 className="max-w-xl text-lg text-neutral-800 text-left dark:text-neutral-100">
                         Released on {record.releaseDate}
@@ -69,4 +80,5 @@ function RecordViewInfo({ record }: Props) {
     )
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(RecordViewInfo)
