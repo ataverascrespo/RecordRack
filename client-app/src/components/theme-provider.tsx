@@ -1,3 +1,8 @@
+/**
+ * Name: theme-provider.tsx
+ * Written by: Shadcn/ui team
+*/
+
 import { createContext, useContext, useEffect, useState } from "react"
 
 type Theme = "dark" | "light" | "system"
