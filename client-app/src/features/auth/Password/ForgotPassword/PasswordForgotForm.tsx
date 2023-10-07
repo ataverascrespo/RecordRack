@@ -1,3 +1,10 @@
+/**
+ * Name: PasswordForgotForm.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the form used for starting the password reset process (supplying email)
+*/
+
 import * as z from "zod"
 import { Form, FormControl, FormField, FormItem, FormMessage, } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
@@ -81,6 +88,7 @@ function PasswordForgotForm() {
         setButtonDisabled(false);
     }
 
+    // Render this when the user has not submitted their email
     if (!isSubmitted) {
         return (
             <Form {...form}>
@@ -104,6 +112,7 @@ function PasswordForgotForm() {
             </Form>
         )
     }
+    // Render this when the user has submitted.
     else {
         return (
             <div className="w-full">

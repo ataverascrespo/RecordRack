@@ -1,3 +1,10 @@
+/**
+ * Name: PasswordResetForm.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the form used for resetting user password
+*/
+
 import * as z from "zod"
 import { Form, FormControl, FormField, FormItem, FormMessage, } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
@@ -14,7 +21,6 @@ import { useState } from "react";
   Define the props received from parent component
   In this case, the page's URL reset token
 */
-
 interface Props { 
     resetToken: string;
 }

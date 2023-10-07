@@ -1,3 +1,10 @@
+/**
+ * Name: RegisterForm.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the form used for registering a user's account.
+*/
+
 import * as z from "zod"
 import { Form, FormControl, FormField, FormItem, FormMessage, } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
@@ -9,9 +16,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useStore } from "@/app/stores/store";
 import { useState } from "react";
+import { observer } from "mobx-react-lite";
 
 /* 
   Form schema for account register validation
+  Custom username regex prevents against any malicious user input
 */
 const accountFormSchema = z.object({
     email: z.string().min(1, { message: "Email is required" }).email({
@@ -97,7 +106,7 @@ function RegisterForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="email">Email</Label>
-                                    <Input className="shadow-inner" id="email" type="email" placeholder="m@example.com" {...field} />
+                                    <Input className="shadow-inner" id="email" type="email" placeholder="email@example.com" {...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -111,7 +120,7 @@ function RegisterForm() {
                             <FormControl>
                                 <div className="grid gap-2">
                                     <Label htmlFor="username">Username</Label>
-                                    <Input className="shadow-inner" id="username" type="username" placeholder="i.e John Doe or johndoe123"{...field} />
+                                    <Input className="shadow-inner" id="username" type="username" placeholder="i.e johndoe123"{...field} />
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -131,6 +140,7 @@ function RegisterForm() {
                             <FormMessage />
                         </FormItem>
                     )} />
+                {/* Disable the button when submitted form */}
                 <Button className="w-full shadow-md" type="submit" disabled={buttonDisabled}>Create account</Button>
             </form>
         </Form>
@@ -138,4 +148,5 @@ function RegisterForm() {
     )
 }
 
-export default RegisterForm
+// Wrap component in observer to respond to MobX state changes
+export default observer(RegisterForm)

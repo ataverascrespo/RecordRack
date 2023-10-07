@@ -1,3 +1,10 @@
+/**
+ * Name: LoginForm.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the form used for logging a user in.
+*/
+
 import * as z from "zod"
 import { Form, FormControl, FormField, FormItem, FormMessage, } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
@@ -118,4 +125,5 @@ function LoginForm() {
     )
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(LoginForm)

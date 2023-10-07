@@ -1,3 +1,10 @@
+/**
+ * Name: LoginPage.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the page that allows a user to log in, navigate to register, or reset their password
+*/
+
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -8,13 +15,16 @@ function LoginPage() {
         <div className="container">
             <div className="h-full mt-48 mb-24 flex flex-col justify-center gap-8 items-center ">
 
-                {/* header */}
+                {/* Page header */}
                 <div className="flex flex-col gap-2 items-center">
                     <h1 className="w-full text-2xl sm:text-4xl md:text-5xl font-bold text-center text-neutral-800 dark:text-neutral-50">Sign into your account</h1>
                 </div>
+
+                {/* Login card */}
                 <Card className="h-full w-full md:w-2/3 lg:w-1/2 xl:w-1/3 p-2 pt-6">
 
                     <CardContent className="grid gap-4">
+                        {/* Render the Login Form component */}
                         <LoginForm></LoginForm>
                         <div className="flex">
                             <Link className="text-center font-semibold text-sm hover:underline" to={"/accounts/forgot-password"}>
@@ -40,4 +50,5 @@ function LoginPage() {
     )
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(LoginPage)

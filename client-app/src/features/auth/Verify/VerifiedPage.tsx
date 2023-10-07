@@ -1,3 +1,11 @@
+/**
+ * Name: VerifiedPage.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the page when a user has routed to the verify page from the verification email.
+ *          It can either render and trigger a successful verification, or render a fail.
+*/
+
 import { observer } from "mobx-react-lite";
 import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -9,8 +17,9 @@ import { Button } from "@/components/ui/button";
 
 function VerifiedPage() {
     const { toast } = useToast()
-
     const { userStore } = useStore();
+
+    // Store the verification token and validity in state
     const [verificationToken] = useState<UserVerify>({ token: "" });
     const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
 
@@ -103,4 +112,5 @@ function VerifiedPage() {
     }
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(VerifiedPage)
