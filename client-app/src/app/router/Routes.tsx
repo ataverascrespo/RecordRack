@@ -1,3 +1,11 @@
+/**
+ * Name: Routes.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file serves as the main component for defining react-router Routes for the application.
+ *          All browsing routes are defined here.
+*/
+
 import { RouteObject, createBrowserRouter } from "react-router-dom";
 import App from "../layout/App";
 import SearchPage from "@/features/search/SearchPage";
@@ -24,12 +32,15 @@ export const routes: RouteObject[] = [
         element: <App />,
         // Define child routes to navigate through
         children: [
+            // Wrap pages that require user to be signed in behind Authorized component
             {element: <Authorized />, children: [
                 { path: ':username', element: <MainUserPage /> },
                 { path: ':username/record/:id', element: <RecordView /> },
                 { path: 'search/music', element: <SearchPage /> },
                 { path: 'search/users', element: <SocialPage /> },
-            ]},
+            ]
+            },
+            // Wrap pages that require user to be signed out behind Authorized component
             {element: <SignedOut />, children: [
                 { path: 'accounts/register', element: <RegisterPage /> },
                 { path: 'accounts/login', element: <LoginPage /> },
@@ -46,6 +57,7 @@ export const routes: RouteObject[] = [
     }
 ]
 
+// Create the routes
 export const router = createBrowserRouter(routes)
 
 
