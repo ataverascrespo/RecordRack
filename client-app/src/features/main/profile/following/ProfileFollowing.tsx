@@ -1,16 +1,25 @@
+/**
+ * Name: ProfileFollowing.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the component that displays user's followeing count.
+ *          It also configures the component that displays the following list.
+*/
+
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
 import { ProfileUser } from "@/app/models/profile";
 import ProfileFollowingList from "./ProfileFollowingList";
 
+// Define the interface props
 interface Props{
     profileUser: ProfileUser;
     followingCount: number;
 }
 
 function ProfileFollowing({ profileUser, followingCount }: Props) {
-    
+    // Define the following button content
     let followingText = ' following';
     return (
         <Dialog>

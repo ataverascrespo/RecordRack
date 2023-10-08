@@ -1,3 +1,11 @@
+/**
+ * Name: ProfileButtons.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file displays the buttons for the user profile page.
+ *          The button content is dynamic based on whether the user is signed in or not. 
+*/
+
 import { useStore } from "@/app/stores/store";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -6,6 +14,7 @@ import ProfilePageSettings from "./settings/ProfilePageSettings";
 import { LogOutIcon, SettingsIcon } from "lucide-react";
 import ProfileFollowButton from "./follow/ProfileFollowButton";
 
+// Define component icons
 export const Icons = {
     logOut: LogOutIcon,
     settings: SettingsIcon,
@@ -22,7 +31,7 @@ function ProfileButtons() {
         userStore.logout();
     }
 
-    // If the user is logged in and the viewed user is the logged in user, display content specific to that user's own profile
+    // If the profile user is the logged in user, display content specific to that user's own profile
     if (isCurrentUser) {
         return (
             <div className="w-full flex flex-row gap-2">
@@ -61,7 +70,9 @@ function ProfileButtons() {
                 </Sheet>
             </div>
         )
-    } else {
+    } 
+    // If the viewed user is not the logged in user, display content specific to other users
+    else {
         return (
             <ProfileFollowButton buttonText={"Follow User"} width={"w-full md:w-1/3 lg:w-1/4"} />
         )

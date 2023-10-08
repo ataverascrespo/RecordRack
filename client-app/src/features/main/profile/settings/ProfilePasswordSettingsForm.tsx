@@ -1,3 +1,10 @@
+/**
+ * Name: ProfilePasswordSettingsForm.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the form and schema logic for changing user password in the settings
+*/
+
 import * as z from "zod"
 import { Form, FormControl, FormField, FormItem, FormMessage, } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
@@ -22,12 +29,14 @@ const passwordChangeSchema = z.object({
 type PasswordChangeSchema = z.infer<typeof passwordChangeSchema>;
 
 function ProfilePasswordSettingsForm() {
+    // Access global Mobx stores
     const { userStore } = useStore();
     const { user } = userStore;
     const { toast } = useToast()
 
     /* 
         Define the form and form type
+        Old password is required to change to new password to prevent any malicious intent
     */
     const form = useForm<PasswordChangeSchema>({
         resolver: zodResolver(passwordChangeSchema),

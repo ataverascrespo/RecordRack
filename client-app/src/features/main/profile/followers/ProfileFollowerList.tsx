@@ -1,3 +1,10 @@
+/**
+ * Name: ProfileFollowerList.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the component that displays the followers list.
+*/
+
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator"
 import { useStore } from "@/app/stores/store";
@@ -10,9 +17,11 @@ function ProfileFollowerList() {
     // Access the global Mobx stores
     const { profileStore } = useStore();
     const { viewedUser, viewedUserFollowers } = profileStore;
+    // Initiate local state
     const [ isLoading, setIsLoading ] = useState(true);
 
     useEffect(() => {
+        // Function to get the list of followers per the ID
         const getFollowers = async (id: number) => {
             await profileStore.getFollowers(id);
             //Once the followers are fetched, stop loading
@@ -27,16 +36,18 @@ function ProfileFollowerList() {
         document.getElementById('closeDialog')?.click();
     };
 
-    //If followers are loading, or there are no followers, return an empty display
+    // If followers are loading, return a loading screen
     if (isLoading) {
         return <Loading text={"Loading followers..."} height={"h-[40vh]"}></Loading>
     }
+    // If followers are falsy, return a not found screen
     else if (viewedUserFollowers == undefined || viewedUserFollowers.length == 0) {
         return <NotFoundView text={"No followers."} height={"h-[40vh]"}></NotFoundView>
     }
     else {
         return (
             <div className="p-4">
+                {/* Map the list of viewed followers to seperate profile links */}
                 {viewedUserFollowers.map((follower) => (
                     <div key={follower!.id}>
                         <div className="text-xs xs:text-sm flex flex-row items-center justify-between">
@@ -60,4 +71,5 @@ function ProfileFollowerList() {
     }
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(ProfileFollowerList)

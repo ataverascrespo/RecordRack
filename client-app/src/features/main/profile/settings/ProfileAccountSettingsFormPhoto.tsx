@@ -1,8 +1,13 @@
-/*
-    A large majority of this component was templated from react-images-uploading
-    https://www.npmjs.com/package/react-images-uploading
-    Shoutout to David Nyugen and Tony Tran!
+/**
+ * Name: ProfileAccountSettingsFormPhoto.tsx
+ * Written by: Alex Taveras-Crespo. A large majority of this component was templated from react-images-uploading
+                                    https://www.npmjs.com/package/react-images-uploading
+                                    Shoutout to David Nyugen and Tony Tran!
+ * 
+ * Purpose: This code file contains the form that allows users to upload profile pictures
 */
+
+
 import { useState } from 'react'
 import * as z from "zod"
 import { useForm } from "react-hook-form";
@@ -15,6 +20,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage, } from "@/componen
 import { useStore } from '@/app/stores/store';
 
 
+// Define component icons
 export const Icons = {
     upload: UploadIcon
 };
@@ -98,7 +104,8 @@ function ProfileAccountSettingsFormPhoto() {
                                 <ImageUploading
                                     value={images}
                                     onChange={onChange}
-                                    maxFileSize={3000000}
+                                    // Set max file size to 5mb and img types to jpg and png
+                                    maxFileSize={5000000}
                                     acceptType={['jpg', 'png']}
                                 >
                                     {({
