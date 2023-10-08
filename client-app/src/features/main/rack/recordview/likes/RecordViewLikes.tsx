@@ -28,7 +28,7 @@ interface Props {
 function RecordViewLikes({ id }: Props) {
 
     // Access the global Mobx stores
-    const { recordStore } = useStore();
+    const { recordStore, userStore } = useStore();
     const { selectedRecord } = recordStore;
 
     //Store loading and animation states
@@ -56,8 +56,8 @@ function RecordViewLikes({ id }: Props) {
             setIsAnimating(true);
         }
 
-        //Call the record store delete function
-        const response = await recordStore.likeRecord();
+        //Call the record store delete function, and pass the current user (who is doing the liking)
+        const response = await recordStore.likeRecord(userStore.user!);
         if (response.success == true) {
             setIsAnimating(false);
         }

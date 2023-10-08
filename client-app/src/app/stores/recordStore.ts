@@ -11,10 +11,11 @@ import agent from "../api/serviceAgent";
 import { AddRecord, SavedRecord, UpdateRecord } from "../models/record";
 import { store } from "./store";
 import { Profile, ProfileUser } from "../models/profile";
+import { User } from "../models/user";
 
 // Record data store class
 export default class RecordStore {
-    
+
     // Define the default class properties
     savedRecords: SavedRecord[] = [];
     loadingRecords = false;
@@ -126,18 +127,18 @@ export default class RecordStore {
             this.savedRecordsSearchQuery = searchQuery;
         });
     }
- 
+
     // Store function that fetches the properties of a specified Record
     // Accepts: string id
     loadRecord = async (id: string) => {
         this.loadingSelectedRecord = true;
         this.isSelectedRecordLiked = false;
-        
+
         try {
             // Call the API agent function to get list of records for current user
             const response = await agent.Records.getSingle(id);
-            const record = response.data;   
-            
+            const record = response.data;
+
             // Modify the state within the action (state cannot be changed outside of actions)
             runInAction(() => {
                 // Save the state of the selected record
@@ -197,7 +198,7 @@ export default class RecordStore {
         try {
             // Call the API agent function to get list of records for current user
             await agent.Records.delete(id);
-            
+
             // Modify the state within the action (state cannot be changed outside of actions)
             // Unselect the now deleted record
             runInAction(() => this.unselectRecord());
@@ -208,32 +209,14 @@ export default class RecordStore {
 
     // Store function to like a record 
     // Accepts: none
-    likeRecord = async () => {
-        // Retrieve the current user (who is doing the liking)
-        const user = store.userStore.user;
+    likeRecord = async (user: User) => {
         try {
             // Call the API agent function to like a record, pass the current selected record's ID
             const response = await agent.Records.like(this.selectedRecord!.id);
             if (response.success === true) {
-                // Modify the state within the action (state cannot be changed outside of actions)
-                runInAction(() => {
-
-                    // Check if the list of likes on the current selected record contains the current user ID
-                    if (this.selectedRecord?.likes.some(u => u.id === user?.id)) {
-                        //Remove the like from the array
-                        this.selectedRecord.likes =
-                            this.selectedRecord?.likes.filter(u => u.id !== user?.id);
-                        this.isSelectedRecordLiked = false;
-                    }
-                    else {
-                        //Create a profile class object to save as a liked user, and push onto liked array
-                        const liked = new Profile(user!);
-                        this.selectedRecord?.likes.push(liked)
-                        this.isSelectedRecordLiked = true;
-                    }
-                })
-                return (response);
+                this.handleRecordLike(user!)
             }
+            return (response);
         } catch (error) {
             throw (error);
         }
@@ -247,28 +230,56 @@ export default class RecordStore {
             // Call the API agent function to get the record likes for the passed ID
             const response = await agent.Records.getRecordLikes(recordID);
             if (response.success === true) {
-                // Map the profiles returned in the response's data to objects of type ProfileUser (and properties)
-                const profiles: ProfileUser[] = response.data.map((userData: any) => {
-                    return {
-                        id: userData.user.id,
-                        userName: userData.user.userName,
-                        imageURL: userData.user.imageURL,
-                        imageID: userData.user.imageID
-                    };
-                });
-                
-                // Modify the state within the action (state cannot be changed outside of actions) to set the list of likes
-                runInAction(() => this.selectedRecord!.likes = profiles);
-
-                // Verify if the user has liked the current selected record, so we can display the proper information of that to the user
-                if (this.selectedRecord?.likes.some(u => u.id === store.userStore.user?.id)) {
-                    runInAction(() => this.isSelectedRecordLiked = true);
-                }
-                runInAction(() => this.loadingSelectedRecord = false);
-                return (response);
+                this.handleGetRecordLikes(response);
             }
+            runInAction(() => this.loadingSelectedRecord = false);
+            return (response);
         } catch (error) {
+            runInAction(() => this.loadingSelectedRecord = false);
             throw (error);
+        }
+    }
+
+    // Store function that handles the modification of global state after liking a record. 
+    // Accepts: User model user
+    handleRecordLike = (user: User) => {
+        // Modify the state within the action (state cannot be changed outside of actions)
+        runInAction(() => {
+            // Check if the list of likes on the current selected record contains the current user ID
+            if (this.selectedRecord?.likes.some(u => u.id === user?.id)) {
+                //Remove the like from the array
+                this.selectedRecord.likes =
+                    this.selectedRecord?.likes.filter(u => u.id !== user?.id);
+                this.isSelectedRecordLiked = false;
+            }
+            else {
+                //Create a profile class object to save as a liked user, and push onto liked array
+                const liked = new Profile(user!);
+                this.selectedRecord?.likes.push(liked)
+                this.isSelectedRecordLiked = true;
+            }
+        })
+    }
+
+    // Store function that handles the modification of global state after getting the likes for a given record
+    // Accepts: User model user
+    handleGetRecordLikes = (response: any) => {
+        // Map the profiles returned in the response's data to objects of type ProfileUser (and properties)
+        const profiles: ProfileUser[] = response.data.map((userData: any) => {
+            return {
+                id: userData.user.id,
+                userName: userData.user.userName,
+                imageURL: userData.user.imageURL,
+                imageID: userData.user.imageID
+            };
+        });
+
+        // Modify the state within the action (state cannot be changed outside of actions) to set the list of likes
+        runInAction(() => this.selectedRecord!.likes = profiles);
+
+        // Verify if the user has liked the current selected record, so we can display the proper information of that to the user
+        if (this.selectedRecord?.likes.some(u => u.id === store.userStore.user?.id)) {
+            runInAction(() => this.isSelectedRecordLiked = true);
         }
     }
 
