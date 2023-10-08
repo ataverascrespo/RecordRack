@@ -1,3 +1,11 @@
+/**
+ * Name: SocialPage.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders and configures the parent display for searching the user accounts.
+*/
+
+
 import { observer } from "mobx-react-lite";
 import { SocialForm } from "./SocialForm";
 import { useStore } from "@/app/stores/store";
@@ -20,13 +28,15 @@ function SocialPage() {
                     </h1>
                 </div>
 
-                {/* Form component */}
+                {/* Render search Form component */}
                 <SocialForm />
 
                 {
                     profileStore.loadingSearchedUsers
+                    // While users are loading, display a loading component
                         ? <Loading text={"Loading..."} height={"h-[40vh]"}></Loading>
-                        : //Form search results component
+                        : 
+                    // When users have loaded, render the search results
                           <SocialSearchResults results={searchedUsers}/>
                 }
                 
@@ -36,4 +46,5 @@ function SocialPage() {
     )
 }
 
+// Wrap component in observer so that it reacts to MobX state changes
 export default observer(SocialPage)
