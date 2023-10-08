@@ -1,3 +1,10 @@
+/**
+ * Name: SearchPage.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders and configures the parent display for the Spotify album/track search feature.
+*/
+
 import { SearchForm } from "@/features/search/SearchForm";
 import { useStore } from "@/app/stores/store";
 import SearchResults from "./SearchResultsAlbum";
@@ -25,7 +32,7 @@ function SearchPage() {
                 {/* Call form component, pass props */}
                 <SearchForm></SearchForm>
 
-                {/* Retrieve global state store props and pass them, based on the search type that was saved most recently*/}
+                {/* Retrieve global state store props and pass them, based on the search type that was executed most recently*/}
                 {
                     searchStore.isSearchLoading
                         ? <Loading text={"Loading..."} height={"h-[40vh]"}></Loading>
@@ -37,11 +44,14 @@ function SearchPage() {
                             )
                         )
                 }
-                
+
             </div>
+
+            {/* Render footer */}
             <Footer />
         </div>
     )
 }
 
+// Wrap component in observer to respond to MobX state changes
 export default observer(SearchPage)

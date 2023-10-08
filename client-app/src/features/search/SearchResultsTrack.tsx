@@ -1,5 +1,12 @@
-import * as z from "zod"
+/**
+ * Name: SearchResultsTrack.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the results of searched tracks.
+ *          It also configures the form logic for adding a searched track to your collection.
+*/
 
+import * as z from "zod"
 import { SpotifyTrack } from "@/app/models/spotifyTrack";
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
@@ -22,7 +29,7 @@ interface Props {
 }
 
 /* 
-  Form schema for record save
+  Form schema for saving record to your collection
 */
 const recordSchema = z.object({
     description: z.string().min(1, { message: "Description is required" }),
@@ -76,6 +83,7 @@ export default function SearchResults({ results }: Props) {
         //Disable form button so that the form cannot submit multiple times
         setButtonDisabled(true);
 
+         // Create a new object of type AddRecord to be passed as a DTO to API cal
         const newRecord: AddRecord = {
             albumName: result.name,
             artistName: formatArtists(result.album.artists),
@@ -113,6 +121,7 @@ export default function SearchResults({ results }: Props) {
             })
         }
 
+        // Close the dialog and re-enable the button for submission
         dialogClose();
         setButtonDisabled(false);
     }
@@ -125,11 +134,10 @@ export default function SearchResults({ results }: Props) {
                 </h2>
             )}
             <div className="mt-6 grid grid-cols-1">
+                {/* Map the list of track results to individual tracks */}
                 {results.map((result) => (
-
                     <div key={result.id} className="flex flex-row items-center justify-center gap-4 sm:gap-8 md:gap-12 border-t-2 p-4 md:p-6">
-
-                        {/* Image */}
+                        {/* Track image */}
                         <div className="flex flex-col gap-6">
                             <div className="w-12 xxs:w-24 sm:w-32 md:w-64 lg:w-80 rounded-lg overflow-hidden shadow-lg">
                                 <img
@@ -141,8 +149,8 @@ export default function SearchResults({ results }: Props) {
                             </div>
                         </div>
 
-                        {/* Name*/}
                         <div className="w-full flex flex-col items-start text-left gap-2 md:gap-4 lg:gap-8">
+                            {/* Track and artist name */}
                             <div>
                                 <h1 className="text-sm sm:text-base md:text-lg lg:text-4xl font-semibold leading-none tracking-tight">
                                     {result.name}
@@ -152,6 +160,7 @@ export default function SearchResults({ results }: Props) {
                                 </h2>
                             </div>
                             <div className="md:w-1/2">
+                                {/* Dialog for adding track to collection */}
                                 <Dialog>
                                     <DialogTrigger asChild>
                                         <Button className="text-xs h-7 rounded-md px-3 md:h-10 md:px-4 md:py-2 lg:text-sm">Add to Rack</Button>

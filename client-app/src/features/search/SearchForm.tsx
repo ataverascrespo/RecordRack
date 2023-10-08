@@ -1,3 +1,10 @@
+/**
+ * Name: SearchForm.tsx
+ * Written by: Alex Taveras-Crespo
+ * 
+ * Purpose: This code file renders the form and schema logic for searching for records via Spotify API.
+*/
+
 "use client"
 import * as z from "zod"
 import { useForm } from "react-hook-form"
@@ -18,7 +25,7 @@ import { useStore } from "@/app/stores/store"
 */
 const FormSchema = z.object({
   album: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: "Must enter at least 2 characters.",
   }),
   type: z.string()
 })
@@ -58,8 +65,10 @@ export function SearchForm() {
   */
   const onSubmitAlbum = async (data: z.infer<typeof FormSchema>) => {
     try {
+      // Call search store API fetch function for searched albums
       const response = await searchStore.getAlbums(data.album);
       if (response.success == true) {
+        // If no albums are returned, display an appropriate toast
         if (searchStore.searchAlbums.length === 0) {
           onEmptyResult();
         }
@@ -74,8 +83,10 @@ export function SearchForm() {
   */
   const onSubmitTrack = async (data: z.infer<typeof FormSchema>) => {
     try {
+      // Call search store API fetch function for searched albums
       const response = await searchStore.getTracks(data.album);
       if (response.success == true) {
+        // If no tracks are returned, display an appropriate toast
         if (searchStore.searchTracks.length === 0) {
           onEmptyResult();
         }
