@@ -63,11 +63,12 @@ export default class ProfileStore {
                 this.viewedUser = viewedUser;
                 this.loadingViewedUser = false;
             });
+            return response;
         } catch (error) {
-            throw (error);
             runInAction(() => {
                 this.loadingViewedUser = false;
             });
+            throw (error);
         }
     }
 
