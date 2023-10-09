@@ -84,7 +84,7 @@ On top of this, the PostgreSQL database is hosted on an Amazon Web Services RDS 
 
 ## Testing
 
-Due to some time constraints (mostly self-imposed) I didn't have as much time to automate testing as I would have liked. I have about 10 unit tests cases using Jest so far - but soon, I'm gonna go back and do some more business logic testing with unit tests, as well as some integration and E2E testing. 
+Due to some time constraints (mostly self-imposed) I didn't have as much time to automate testing as I would have liked. I have 24 unit tests cases using Jest so far - but soon, I'm gonna go back and do some more business logic testing with unit tests, as well as some integration and E2E testing. 
 
 ## Installing
 Because Record Rack is open-source, feel free to report any issues or make contributions. 
