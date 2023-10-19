@@ -23,12 +23,12 @@ function RackListRecords({ record }: Props) {
     return (
         // Wrap the component in a link to the record view URL
         <Link key={record.id} to={`/${viewedUser!.userName}/record/${record.id}`}>
-            <Card className="shadow-md hover:shadow-xl hover:brightness-90 dark:hover:brightness-110 transition-all transform   duration-200">
+            <Card className="shadow-md hover:shadow-xl hover:brightness-90 dark:hover:brightness-110 transition-all transform  duration-200">
                 <CardHeader className="p-0">
                     <img
                         src={record.photoURL}
                         draggable="false"
-                        className="rounded-md"
+                        className="rounded-md border-0"
                         loading="lazy"/>
                 </CardHeader>
             </Card>
