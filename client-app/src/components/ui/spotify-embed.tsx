@@ -33,6 +33,7 @@ export const Spotify = ({
       width={width}
       height={height}
       allow={allow}
+      loading={"lazy"}
       className="bg-background"
       style={{
         borderRadius: 12,
