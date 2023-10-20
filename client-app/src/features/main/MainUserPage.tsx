@@ -47,8 +47,10 @@ function RackPage() {
         const loadRecords = async () => {
             if (profileStore.viewedUser) {
                 if (isCurrentUser) {
-                    // Fetch the current user's list.
-                    await recordStore.loadRecords();
+                    if (recordStore.savedRecords.length === 0) {
+                        // Fetch the current user's list.
+                        await recordStore.loadRecords();
+                    }
                 } else {
                     // Fetch the user's list based on the user ID
                     await recordStore.loadRecordsForUser(profileStore.viewedUser.id)

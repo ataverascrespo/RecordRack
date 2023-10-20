@@ -43,15 +43,6 @@ export default class ProfileStore {
     // Accepts: string userName
     getViewedUser = async (userName: string) => {
         this.loadingViewedUser = true;
-        
-        //Reset the relevant fields when the app opens a new viewed user profile
-        store.recordStore.savedRecords = [];
-        store.recordStore.savedRecordsSortOrder = "asc";
-        store.recordStore.savedRecordsSortType = "album";
-        store.recordStore.savedRecordsSearchQuery = ""
-        this.viewedUserFollowers = [];
-        this.viewedUserFollowing = [];
-
         try {
             // Call the API agent function to get user by method param userName. 
             const response = await agent.Users.getUserByName(userName);
@@ -62,6 +53,13 @@ export default class ProfileStore {
                 // Set the viewed user profile to the returned ProfileUser model from the API agent
                 this.viewedUser = viewedUser;
                 this.loadingViewedUser = false;
+                //Reset the relevant fields when the app opens a new viewed user profile
+                store.recordStore.savedRecords = [];
+                store.recordStore.savedRecordsSortOrder = "asc";
+                store.recordStore.savedRecordsSortType = "album";
+                store.recordStore.savedRecordsSearchQuery = ""
+                this.viewedUserFollowers = [];
+                this.viewedUserFollowing = [];
             });
             return response;
         } catch (error) {

@@ -51,8 +51,8 @@ function RackList() {
     // Prevents the wrong records from being shown on page load 
     if (loadingRecords) {
         return (
-            <div className="w-full">
-                <Loading text={"Loading records"} height={"h-screen"}></Loading>
+            <div className="h-full w-full">
+                <Loading text={"Loading records"} height={"h-[100vh]"}></Loading>
             </div>
         )
     }

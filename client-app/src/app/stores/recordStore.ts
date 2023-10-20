@@ -40,6 +40,7 @@ export default class RecordStore {
             // Call the API agent function to get list of records for current user
             const response = await agent.Records.getList();
             const records: SavedRecord[] = response.data;
+            console.log(records);
             if (records != undefined) {
                 // Modify the state within the action (state cannot be changed outside of actions)
                 runInAction(() => {
