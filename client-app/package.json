@@ -12,6 +12,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@ataverascrespo/react-textfit": "^1.2.1",
     "@hookform/resolvers": "^3.3.1",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.3",
@@ -43,7 +44,6 @@
     "react-lazy-load-image-component": "^1.6.0",
     "react-router-dom": "^6.15.0",
     "react-spotify-embed": "^2.0.3",
-    "react-textfit": "^1.1.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.2"

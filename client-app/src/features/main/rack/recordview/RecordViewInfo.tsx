@@ -9,7 +9,7 @@
 import { observer } from 'mobx-react-lite'
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Textfit } from 'react-textfit';
+import { Textfit } from '@ataverascrespo/react-textfit';
 import RecordViewLikes from "./likes/RecordViewLikes";
 import { SavedRecord } from '@/app/models/record';
 
@@ -41,7 +41,7 @@ function RecordViewInfo({ record }: Props) {
             <div className="w-full flex flex-col items-start">
                 <div className="w-full h-auto md:h-[75px]">
                     {/* Use textfit component to dynamically change text size */}
-                    <Textfit className="h-full flex items-end" mode="multi" forceSingleModeWidth={true} min={24} max={64}>
+                    <Textfit className="h-full flex items-end" forceSingleModeWidth={true} min={24} max={64}>
                         <h1 className="w-full font-black text-neutral-900 leading-none dark:text-neutral-50">
                             {record.albumName}
                         </h1>
