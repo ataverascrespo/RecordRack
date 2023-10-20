@@ -61,8 +61,6 @@ describe('Profile domain store - logic functions', () => {
         userStore.user = userMock;
         store.viewedUser = profileMock;
 
-        const response = store.isCurrentUser;
-
         expect(userStore.user).toStrictEqual(userMock);
     })
 
