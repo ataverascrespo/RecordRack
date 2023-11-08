@@ -56,42 +56,10 @@ As a fan of everything related to music, I love keeping track of the songs and a
 </div>
 
 
-## Front-end 
-
-The front-end is built using React and TypeScript, styled using Tailwind CSS (with some customized components from the amazing Shadcn/ui library). I took the time to configure it as a Progressive Web App, meaning mobile users can download it to their devices and have a user experience like that of a platform-specific app.
-
-As for global state management, Record Rack uses Mobx, which I ultimately chose over libraries such as Redux, Jotai and Zustand because of the built-in abstraction making the codebase a bit simpler, and because of my previous experience with similar libraries in Flutter.
-
-The front-end's music features are powered by the integrated Spotify Web API. Users don't have to know the meaningful information of the music they add - it's as easy as searching the title and/or artist!
-
-## Back-end
-
-The back-end consists of a REST API I built using the .NET Core 7 framework in C#. This API performs a variety of CRUD operations through HTTP request methods, including GET, POST, PUT and DELETE. These endpoints are securely locked behind OAuth 2.0 authorization, which is fulfilled by JSON Web Tokens in the form of refresh and access tokens. 
-
-The API uses .NET Language Integrated Queries (LINQ) to insert, delete and retrieve app data from a PostgreSQL database, which is created and maintained by Entity Framework code-first migrations. 
-
-The back-end is also supported by some additional APIs: 
-- Cloudinary API integration allows uploaded profile photos to be inserted into and retrieved from a storage bucket.
--  Twillio Sendgrid API integration allows the app to send users emails regarding account verification/password resets.
-
-## Deployment
-
-The front-end is hosted on Netlify because I think it's the easiest place to host any front-end website/web app. Their integrated GitHub deployments make CI/CD  easy - everytime I push a change to this repo, it automatically deploys a new build! Plus, Netlify distributes and auto-renews SSL certification with LetsEncrypt, so one less thing I need to worry about.
-
-The .NET 7 API is deployed onto a Docker container. The Docker container is ran on an Amazon Web Services EC2 instance, which has been configured with NGINX as a reverse proxy and load balancer. I manually installed Certbot to configure a LetsEncrypt SSL certificate on the EC2 instance, so the back-end is fully HTTPS encrypted. I added a CentOS cron task to handle the renewal of that certificate as well!
-
-On top of this, the PostgreSQL database is hosted on an Amazon Web Services RDS environment, and directly interfaces with my EC2 API container to store application data.
-
-## Testing
-
-Due to some time constraints (mostly self-imposed) I didn't have as much time to automate testing as I would have liked. I have 24 unit tests cases using Jest so far - but soon, I'm gonna go back and do some more business logic testing with unit tests, as well as some integration and E2E testing. 
-
 ## Installing
-Because Record Rack is open-source, feel free to report any issues or make contributions. 
+Because Record Rack is open-source, feel free to report any issues or make contributions/PRs.
 
-
-
-    npm install --force*
+    npm install
     
 	## To run dev environment
     npm run dev
@@ -102,8 +70,36 @@ Because Record Rack is open-source, feel free to report any issues or make contr
     ## To build a prod version
     npm run build
 
+## About Record Rack
+The following sections include some more in-depth documentation about the making of Record Rack!
+### Front-end 
 
-**Unfortunately,  **react-textfit**, while being a great asset to the project, also has caused some dependency issues for myself and others using it. It doesn't affect development or deployment - but it does mean I have to use the **--force flag** on any npm tasks even when there are no other errors. Very annoying and hopefully I can push a fix soon. **For your own use, always make sure that you resolve all conflicts in the dependencies before using --force to ignore the react-textfit conflict.***
+The front-end is built using React and TypeScript, styled using Tailwind CSS (with some customized components from the amazing Shadcn/ui library). I took the time to configure it as a Progressive Web App, meaning mobile users can download it to their devices and have a user experience like that of a platform-specific app.
+
+As for global state management, Record Rack uses Mobx, which I ultimately chose over libraries such as Redux, Jotai and Zustand because of the built-in abstraction making the codebase a bit simpler, and because of my previous experience with similar libraries in Flutter.
+
+### Back-end
+
+The back-end consists of a REST API I built using the .NET Core 7 framework in C#. This API performs a variety of CRUD operations through HTTP request methods, including GET, POST, PUT and DELETE. These endpoints are securely locked behind OAuth 2.0 authorization, which is fulfilled by JSON Web Tokens in the form of refresh and access tokens. 
+
+The API uses .NET Language Integrated Queries (LINQ) to insert, delete and retrieve app data from a PostgreSQL database, which is created and maintained by Entity Framework code-first migrations. 
+
+The back-end also features third-party API integrations:
+- Cloudinary API allows uploaded profile photos to be inserted into and retrieved from a storage bucket.
+- Twillio Sendgrid API allows the app to send users emails regarding account verification/password resets.
+- Spotify API allows users to search Spotify's database of albums, tracks, and artists. 
+
+### Deployment
+
+The front-end is hosted on Netlify because I think it's the easiest place to host any front-end website/web app. Their integrated GitHub deployments make CI/CD  easy - everytime I push a change to this repo, it automatically deploys a new build! Plus, Netlify distributes and auto-renews SSL certification with LetsEncrypt, so one less thing I need to worry about.
+
+The .NET 7 API is deployed onto a Docker container. The Docker container is ran on an Amazon Web Services EC2 instance, which has been configured with NGINX as a reverse proxy and load balancer. I manually installed Certbot to configure a LetsEncrypt SSL certificate on the EC2 instance, so the back-end is fully HTTPS encrypted. I added a CentOS cron task to handle the renewal of that certificate as well!
+
+On top of this, the PostgreSQL database is hosted on an Amazon Web Services RDS environment, and directly interfaces with my EC2 API container to store application data.
+
+### Testing
+
+Due to some time constraints (mostly self-imposed) I didn't have as much time to automate testing as I would have liked. I have 24 unit tests cases using Jest so far - but soon, I'm gonna go back and do some more business logic testing with unit tests, as well as some integration and E2E testing. 
 
 ## What I Learned
 
