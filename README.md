@@ -1,14 +1,8 @@
-<a href="https://recordrack.ca">
-  <h1 align="center">Record Rack</h1>
-  <p align="center">
-    <img alt="Record Rack Logo" src="https://res.cloudinary.com/dlwfuryyz/image/upload/v1696172995/Group_23_crzpne.png" width="600" >
-  </p>
-</a>
 
+<h1 align="center"><a href="https://recordrack.ca">Record Rack</a></h1>
 <p align="center">
  Record Rack allows you to curate a digital music collection, powered by Spotify's Web API. <a href="https://recordrack.ca">Access the full app here.</a>
 </p>
-
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
   <a href="#technology-stack"><strong>Tech Stack</strong></a> ·
@@ -25,7 +19,11 @@
 
 Welcome to Record Rack, one of my most treasured projects and one that I have been iterating/expanding on since late 2022. 
 
-As a fan of everything related to music, I love keeping track of the songs and albums I love and sharing them with the people around me. But because people use such a wide variety of streaming platforms (i.e Spotify, Apple Music, Amazon, YouTube, TIDAL, etc.) it can be hard to connect and share music digitally. And Record Rack is my interpretation of the solution to that problem.
+I love sharing my music taste with the people around me. But because people use such a wide variety of platforms (i.e Spotify, Apple Music, YouTube Music, Soundcloud, etc.) it can be hard to connect and share music tastes digitally. Record Rack is my solution to that problem!
+
+## Demo
+
+![](https://github.com/ataverascrespo/ataverascrespo/blob/main/recordrack_demo.gif)
 
 ## Technology Stack
 
