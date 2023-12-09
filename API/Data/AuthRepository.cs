@@ -167,15 +167,6 @@ namespace AlbumAPI.Data
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = "This refresh token does not exist.";
             }
-            // Refresh token is found in list, but expired
-            else if (user != null && user.RefreshTokens!.Any(rt => rt.RefreshTokenExpiration < DateTime.UtcNow))
-            {
-                serviceResponse.Success = false;
-                serviceResponse.ReturnMessage = "This refresh token is expired.";
-
-                // Remove the expired refresh token from the list of tokens
-                user.RefreshTokens!.Remove(user.RefreshTokens.FirstOrDefault(rt => rt.Token == refreshToken)!);
-            }
             // Refresh token is found in list, and is valid.
             else if (user != null && user.RefreshTokens!.Any(rt => rt.RefreshTokenExpiration > DateTime.UtcNow))
             {
@@ -282,7 +273,8 @@ namespace AlbumAPI.Data
                 user.PasswordResetToken = "";
                 user.ResetTokenExpires = null;
                 
-                //Create a new verification token so that all sessions will end upon next refresh
+                // Empty the list of refresh tokens, and generate a new refresh token for the user
+                user.RefreshTokens = new List<RefreshToken>();
                 var newRefreshToken = GenerateRefreshToken();
                 SetRefreshToken(user, newRefreshToken);
 
@@ -327,7 +319,8 @@ namespace AlbumAPI.Data
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
 
-                //Create a new verification token so that all sessions will end upon next refresh
+                // Empty the list of refresh tokens, and generate a new refresh token for the user
+                user.RefreshTokens = new List<RefreshToken>();
                 var newRefreshToken = GenerateRefreshToken();
                 SetRefreshToken(user, newRefreshToken);
 
