@@ -11,6 +11,9 @@ namespace AlbumAPI.Data
         //Method to login
         Task<ServiceResponse<UserDTO>> Login(string userName, string password);
 
+        //Method to logout
+        Task<ServiceResponse<string>> Logout(string refreshToken);
+
         //Method to verify user
         Task<ServiceResponse<string>> Verify(string verifyToken);
 
