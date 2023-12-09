@@ -77,12 +77,23 @@ export default class UserStore {
 
     // Store function that logs the user out
     // Accepts: none
-    logout = () => {
-        //Set the browser token and user object global state within the action to null
-        store.commonStore.setToken(null);
-        runInAction(() => this.user = null);
-        //Navigate to home page
-        router.navigate('/')
+    logout = async () => {
+        try {
+            // Call the API agent function to log user out
+            const response = await agent.Account.logout();
+
+            //If the REST endpoint succeeded, log out
+            if (response.success === true) {
+                //Set the browser token and user object global state within the action to null
+                store.commonStore.setToken(null);
+                runInAction(() => this.user = null);
+                //Navigate to home page
+                router.navigate('/')
+            }
+            return (response);
+        } catch (error) {
+            return (error);
+        }
     }
 
     // Store function that registers a new user to the app with the passed credentials

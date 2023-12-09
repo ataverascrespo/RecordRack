@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import ProfilePageSettings from "./settings/ProfilePageSettings";
 import { LogOutIcon, SettingsIcon } from "lucide-react";
 import ProfileFollowButton from "./follow/ProfileFollowButton";
+import { useToast } from "@/components/ui/use-toast";
 
 // Define component icons
 export const Icons = {
@@ -23,12 +24,39 @@ export const Icons = {
 function ProfileButtons() {
     const { userStore, profileStore } = useStore();
     const { isCurrentUser } = profileStore;
+
+    //Initialize toast component
+    const { toast } = useToast();
     
     /*
         Function to log the current user out
     */
-    function handleLogout() {
-        userStore.logout();
+    const handleLogout = async () => {
+        try {
+            const response: any = await userStore.logout()
+            //If the success field is true, display success toast
+            if (response.success === true) {
+                toast({
+                    title: 'Logged user out.',
+                })
+            }
+            //If the success field is false, display error msg toast
+            else {
+                toast({
+                    variant: "destructive",
+                    title: "Oh no! Something went wrong.",
+                    description: "Could not log you out at this time.",
+                })
+            }
+        } catch (error) {
+            //If there is no response at all, display general error
+            toast({
+                variant: "destructive",
+                title: "Oh no! Something went wrong.",
+                description: "Please try again later.",
+            })
+            throw (error)
+        }
     }
 
     // If the profile user is the logged in user, display content specific to that user's own profile
