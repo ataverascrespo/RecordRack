@@ -56,13 +56,24 @@ namespace AlbumAPI.Controllers
             return Ok(serviceResponse);
         }
 
-        
+        //HTTP POST method
+        //Logs user out
+        // User logout is actually handled client-side - but this removes the refresh token associated with login
+        [HttpPost("Logout")]
+        public async Task<ActionResult<ServiceResponse<string>>> Logout()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            var serviceResponse = await _authRepo.Logout(refreshToken!);
+            //Return status code response
+            return Ok(serviceResponse);
+        }
+
         //HTTP POST method
         //Verifies user account
         [HttpPost("Verify")]
         public async Task<ActionResult<ServiceResponse<int>>> Verify(UserVerificationTokenDTO request)
         {
-
             var serviceResponse = await _authRepo.Verify(request.Token);
 
             if(!serviceResponse.Success)
