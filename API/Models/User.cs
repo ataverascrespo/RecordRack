@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 /// <summary>
 /// API model 
 /// Enables model-view-controller architectural pattern
@@ -15,8 +17,6 @@ namespace AlbumAPI.Models
         public DateTime Created { get; set; }
         public string VerificationToken { get; set; } = string.Empty;
         public DateTime? VerifiedAt { get; set; }
-        public string RefreshToken { get; set; } = string.Empty;
-        public DateTime RefreshTokenExpiration { get; set; }
         public string PasswordResetToken { get; set; } = string.Empty;
         public DateTime? ResetTokenExpires { get; set; }
         public string ImageURL { get; set; } = string.Empty;
@@ -24,5 +24,8 @@ namespace AlbumAPI.Models
         public List<Album>? Albums { get; set; }
         public List<UserFollowing> Followings { get; set; } = new List<UserFollowing>();
         public List<UserFollowing> Followers { get; set; } = new List<UserFollowing>();
+
+        [Column(TypeName = "jsonb")]
+        public List<RefreshToken>? RefreshTokens { get; set; }
     }
 }

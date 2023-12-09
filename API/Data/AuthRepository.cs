@@ -119,25 +119,56 @@ namespace AlbumAPI.Data
             return serviceResponse;
         }
 
+        // Method to log user out
+        // User logout is actually handled client-side - but this removes the refresh token associated with login
+        public async Task<ServiceResponse<string>> Logout(string refreshToken)
+        {
+            var serviceResponse = new ServiceResponse<string>();
+
+            var searchRefreshToken = string.Format("[{{\"Token\": \"{0}\"}}]", refreshToken);
+            // Look up the list of refresh tokens in the DB for the associated user to find a match
+            var user = await _context.Users
+                    .FirstOrDefaultAsync(u => EF.Functions.JsonContains(u.RefreshTokens!, searchRefreshToken));
+
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+
+                //Error message
+                serviceResponse.ReturnMessage = "That user could not be found.";
+            }
+            else
+            {
+                // Remove the refresh tokens from the JSONB column.
+                user.RefreshTokens!.Remove(user.RefreshTokens.FirstOrDefault(rt => rt.Token == refreshToken)!);
+
+                serviceResponse.ReturnMessage = "Logged user out.";
+                
+                //Save changes to DB table
+                _context.Entry(user).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            
+            return serviceResponse;
+        }
+
         //Method to validate refresh token
         public async Task<ServiceResponse<string>> ValidateRefreshToken(string refreshToken)
         {
             var serviceResponse = new ServiceResponse<string>();
 
-            // Look up the refresh token in the database
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.RefreshToken.Equals(refreshToken));
+            var searchRefreshToken = string.Format("[{{\"Token\": \"{0}\"}}]", refreshToken);
+            // Look up the list of refresh tokens in the DB for the associated user to find a match
+            var user = await _context.Users
+                    .FirstOrDefaultAsync(u => EF.Functions.JsonContains(u.RefreshTokens!, searchRefreshToken));
 
-            // Check if the refresh token was found and has not expired
+            // Refresh token not found
             if (user == null){
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = "This refresh token does not exist.";
             }
-            else if (user != null && user.RefreshTokenExpiration < DateTime.UtcNow)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.ReturnMessage = "This refresh token is expired.";
-            }
-            else if (user != null && user.RefreshTokenExpiration > DateTime.UtcNow)
+            // Refresh token is found in list, and is valid.
+            else if (user != null && user.RefreshTokens!.Any(rt => rt.RefreshTokenExpiration > DateTime.UtcNow))
             {
                 string token = CreateToken(user);
                 var newRefreshToken = GenerateRefreshToken();
@@ -242,7 +273,8 @@ namespace AlbumAPI.Data
                 user.PasswordResetToken = "";
                 user.ResetTokenExpires = null;
                 
-                //Create a new verification token so that all sessions will end upon next refresh
+                // Empty the list of refresh tokens, and generate a new refresh token for the user
+                user.RefreshTokens = new List<RefreshToken>();
                 var newRefreshToken = GenerateRefreshToken();
                 SetRefreshToken(user, newRefreshToken);
 
@@ -287,7 +319,8 @@ namespace AlbumAPI.Data
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
 
-                //Create a new verification token so that all sessions will end upon next refresh
+                // Empty the list of refresh tokens, and generate a new refresh token for the user
+                user.RefreshTokens = new List<RefreshToken>();
                 var newRefreshToken = GenerateRefreshToken();
                 SetRefreshToken(user, newRefreshToken);
 
@@ -417,7 +450,7 @@ namespace AlbumAPI.Data
             var refreshToken = new RefreshTokenDTO
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.UtcNow.AddDays(7),
                 Created = DateTime.UtcNow
             };
 
@@ -432,11 +465,20 @@ namespace AlbumAPI.Data
                 HttpOnly = true,
                 Expires = newRefreshToken.Expires
             };
-            user.RefreshToken = newRefreshToken.Token;
-            user.RefreshTokenExpiration = newRefreshToken.Expires;
-
+           
             //Append the refresh token to the cookie of the client
             _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+
+            // If the refresh tokens are null, initialize the object
+            user.RefreshTokens ??= new List<RefreshToken>();
+            // Set the refresh token in the user list
+            user.RefreshTokens!.Add(new RefreshToken
+            {
+                Token = newRefreshToken.Token,
+                RefreshTokenExpiration = newRefreshToken.Expires
+            });
+
+            _context.Entry(user).State = EntityState.Modified;
         }
 
         private string CreateRandomToken()

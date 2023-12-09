@@ -77,6 +77,7 @@ const Records = {
 // Define API endpoints for app's Account features
 const Account = {
   login: (user: UserLogin) => requests.post("Auth/Login", user),
+  logout: () => requests.post("Auth/Logout", {}),
   register: (user: UserRegister) => requests.post("Auth/Register", user),
   verify: (token: UserVerify) => requests.post("Auth/Verify", token),
   refresh: () => requests.post("Auth/RefreshToken", {}),
