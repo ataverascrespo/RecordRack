@@ -457,7 +457,7 @@ namespace AlbumAPI.Data
             var refreshToken = new RefreshTokenDTO
             {
                 Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.UtcNow.AddDays(7),
                 Created = DateTime.UtcNow
             };
 
