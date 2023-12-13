@@ -35,10 +35,10 @@ namespace AlbumAPI.Controllers
         //HTTP GET method
         //Return all users
         [HttpGet("GetUsersSearch/{SearchQuery}")]
-        public async Task<ActionResult<ServiceResponse<List<UserDTO>>>> GetUsersSearch(string searchQuery) 
+        public async Task<ActionResult<ServiceResponse<List<UserDTO>>>> GetUsersSearch(string SearchQuery) 
         {
             //Return status code response upon completion
-            return Ok(await _userService.GetUsersSearch(searchQuery));
+            return Ok(await _userService.GetUsersSearch(SearchQuery));
         }
 
         //HTTP GET method
@@ -53,10 +53,10 @@ namespace AlbumAPI.Controllers
         //HTTP POST method
         //Return user with given name
         [HttpGet("GetUserByName/{UserName}")]
-        public async Task<ActionResult<ServiceResponse<UserDTO>>> GetUserByName(string userName) 
+        public async Task<ActionResult<ServiceResponse<UserDTO>>> GetUserByName(string UserName) 
         {
             //Return status code response upon completion
-            return Ok(await _userService.GetUserByName(userName));
+            return Ok(await _userService.GetUserByName(UserName));
         }
 
         //HTTP POST method

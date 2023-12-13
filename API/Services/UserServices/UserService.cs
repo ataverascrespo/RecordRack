@@ -9,16 +9,16 @@ namespace AlbumAPI.Services.UserServices
     public class UserService : IUserService
     {
         private readonly IMapper _mapper;
-        private readonly DataContext _context;
+        private readonly IUserRepository _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         //AutoMapper Constructor
-        //Inject data context for DB access
+        //Inject data context repository wrapper for DB access
         //Inject HTTP context accessor
-        public UserService(IMapper mapper, DataContext context, IHttpContextAccessor httpContextAccessor)
+        public UserService(IMapper mapper, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
-            _context = context;
+            _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -32,7 +32,7 @@ namespace AlbumAPI.Services.UserServices
             var serviceResponse = new ServiceResponse<List<UserDTO>>();
 
             //Get all the users in the database
-            var users = await _context.Users.Include(u => u.Followers).Include(u => u.Followings).ToListAsync();
+            var users = await _userRepository.GetUsers();
             
             // Map all User models to UserDTOs w/ AutoMapper
             serviceResponse.Data = users.Select(u =>
@@ -53,11 +53,8 @@ namespace AlbumAPI.Services.UserServices
 
             var serviceResponse = new ServiceResponse<List<UserDTO>>();
 
-           // Get all the users from the database
-            var users = await _context.Users
-                .Include(u => u.Followers)
-                .Include(u => u.Followings)
-                .ToListAsync();
+            //Get all the users in the database
+            var users = await _userRepository.GetUsers();
 
             // Filter the users in-memory based on the search query
             users = users
@@ -90,9 +87,9 @@ namespace AlbumAPI.Services.UserServices
         {
             var serviceResponse = new ServiceResponse<UserDTO>();
 
-            //Get the first or default instance where logged in existing username is equal to user name
-            var user = await _context.Users.Include(u => u.Followers).Include(u => u.Followings)
-                                            .FirstOrDefaultAsync(u => u.UserName.ToLower() == userName.ToLower());
+            //Get all the users in the database
+            var user = await _userRepository.GetUserByName(userName);
+
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -103,7 +100,8 @@ namespace AlbumAPI.Services.UserServices
                 var searchedUser = _mapper.Map<UserDTO>(user);
                 searchedUser.FollowersCount = user.Followers.Count;
                 searchedUser.FollowingCount = user.Followings.Count;
-                searchedUser.Following = _context.UserFollowing.Any(uf => uf.FollowerID == GetUserID() && uf.TargetID == user.ID);
+                searchedUser.Following = await _userRepository.GetUserFollowing(GetUserID(), user.ID);
+                
                 //Remove the email prop - not necessary to return here
                 searchedUser.Email = "";
                 //Store DTO in service data
@@ -118,9 +116,9 @@ namespace AlbumAPI.Services.UserServices
 
             var serviceResponse = new ServiceResponse<UserDTO>();
 
-            //Get the first or default instance where logged in existing user IDs is equal to user ID
-            var user = await _context.Users.Include(u => u.Followers).Include(u => u.Followings).
-                                            FirstOrDefaultAsync(u => u.ID == GetUserID());
+            // Retrieve the current user
+            var user = await _userRepository.GetCurrentUser(GetUserID());
+          
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -144,9 +142,9 @@ namespace AlbumAPI.Services.UserServices
 
             var serviceResponse = new ServiceResponse<UserDTO>();
 
-            //Get the first or default instance where logged in existing user IDs is equal to user ID
-            var user = await _context.Users.Include(u => u.Followers).Include(u => u.Followings)
-                                            .FirstOrDefaultAsync(u => u.ID == GetUserID());
+            // Retrieve the current user
+            var user = await _userRepository.GetCurrentUser(GetUserID());
+
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -162,22 +160,23 @@ namespace AlbumAPI.Services.UserServices
                 //Store DTO in service data
                 serviceResponse.Data = currentUser;
 
-                //Save changes to database table
-                await _context.SaveChangesAsync();
+                // Save DB changes
+                await _userRepository.SaveChanges();
             }
             
             return serviceResponse;
         }
 
          //Method to follow a user
-        public async Task<ServiceResponse<UserDTO>> FollowUser(int TargetID) 
+        public async Task<ServiceResponse<UserDTO>> FollowUser(int targetID) 
         {
             //Create wrapper model for album DTO list
             var serviceResponse = new ServiceResponse<UserDTO>();
 
-            var follower = await _context.Users.FirstOrDefaultAsync(f => f.ID == GetUserID());
+            // Call repo methods to get follower and target
+            var follower = await _userRepository.FollowUserGetFollower(GetUserID());
+            var target = await _userRepository.FollowUserGetTarget(targetID);
 
-            var target = await _context.Users.FirstOrDefaultAsync(t => t.ID == TargetID);
             if (target == null || follower == null) 
             {
                 serviceResponse.Success = false;
@@ -185,26 +184,27 @@ namespace AlbumAPI.Services.UserServices
             }
             else 
             {
-                var following = await _context.UserFollowing.FindAsync(follower.ID, target.ID);
+                var following = await _userRepository.FindFollowing(follower.ID, target.ID);
 
                 //If the user does not already follow target
                 if (following == null) 
                 {
-                    following = new UserFollowing
+                    var newFollow = new UserFollowing
                     {
                         Follower = follower,
                         Target = target,
                     };
 
-                    _context.UserFollowing.Add(following);
-                    await _context.SaveChangesAsync();
-
+                     // Add the new following and save
+                    await _userRepository.AddFollowing(newFollow);
+                    await _userRepository.SaveChanges();
+                    
                     //If following does not exist
                     //Map UserDTO to return
                     UserDTO user = CreateUserDTO(target);
-                    user.FollowersCount = _context.UserFollowing.Count(uf => uf.TargetID == user.ID);
-                    user.FollowingCount = _context.UserFollowing.Count(uf => uf.FollowerID == user.ID);
-                    user.Following = _context.UserFollowing.Any(uf => uf.FollowerID == GetUserID() && uf.TargetID == user.ID);
+                    user.FollowersCount = await _userRepository.GetUserFollowersCount(user.ID);
+                    user.FollowingCount = await _userRepository.GetUserFollowingCount(user.ID);
+                    user.Following = await _userRepository.GetUserFollowing(GetUserID(), user.ID);
                     //Remove the email prop - not necessary to return here
                     user.Email = "";
 
@@ -215,15 +215,15 @@ namespace AlbumAPI.Services.UserServices
                 //If the user does already follow target
                 else 
                 {
-                    _context.UserFollowing.Remove(following);
-                    await _context.SaveChangesAsync();
+                    // Add the new following and save
+                    await _userRepository.RemoveFollowing(following);
 
                     //If following does not exist
                     //Map UserDTO to return
                     UserDTO user = CreateUserDTO(target);
-                    user.FollowersCount = _context.UserFollowing.Count(uf => uf.TargetID == user.ID);
-                    user.FollowingCount = _context.UserFollowing.Count(uf => uf.FollowerID == user.ID);
-                    user.Following = _context.UserFollowing.Any(uf => uf.FollowerID == GetUserID() && uf.TargetID == user.ID);
+                    user.FollowersCount = await _userRepository.GetUserFollowersCount(user.ID);
+                    user.FollowingCount = await _userRepository.GetUserFollowingCount(user.ID);
+                    user.Following = await _userRepository.GetUserFollowing(GetUserID(), user.ID);
                     //Remove the email prop - not necessary to return here
                     user.Email = "";
                     
@@ -238,12 +238,13 @@ namespace AlbumAPI.Services.UserServices
         }
 
         //Method to return a list of followers for a given user
-        public async Task<ServiceResponse<List<UserDTO>>> GetFollowers(int UserID)
+        public async Task<ServiceResponse<List<UserDTO>>> GetFollowers(int targetID)
         {
             var serviceResponse = new ServiceResponse<List<UserDTO>>();
 
             // Retrieve the user by userId with their Followers collection loaded
-            var user = await _context.Users.Include(u => u.Followers).FirstOrDefaultAsync(u => u.ID == UserID);
+            var user = await _userRepository.GetUserByIDWithFollowers(targetID);
+
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -252,39 +253,20 @@ namespace AlbumAPI.Services.UserServices
             }
 
             // Map the Followers collection to UserDTOs
-            var followers = await _context.UserFollowing.Where(u => u.Target!.ID == UserID)
-                                                        .Select(u => u.Follower)
-                                                        .Select(u => new
-                                                        {
-                                                            User = u!,
-                                                            FollowersCount = u!.Followers.Count(),
-                                                            FollowingCount = u.Followings.Count(),
-                                                            IsFollowing = u.Followers.Any(f => f.Follower!.ID == GetUserID()),
-                                                            Url = u.ImageURL
-                                                        })
-                                                        .Select(u => new UserDTO
-                                                        {
-                                                            ID = u.User.ID,
-                                                            UserName = u.User.UserName,
-                                                            FollowersCount = u.FollowersCount,
-                                                            FollowingCount = u.FollowingCount,
-                                                            Following = u.IsFollowing,
-                                                            ImageURL = u.Url
-                                                        })
-                                                        .ToListAsync();
-                                                        
-
+            var followers = await _userRepository.GetFollowers(targetID, GetUserID());
             serviceResponse.Data = followers;
+
             return serviceResponse;
         }
 
         //Method to return a list of followed users for a given user
-        public async Task<ServiceResponse<List<UserDTO>>> GetFollowing(int UserID)
+        public async Task<ServiceResponse<List<UserDTO>>> GetFollowing(int followerID)
         {
             var serviceResponse = new ServiceResponse<List<UserDTO>>();
 
             // Retrieve the user by userId with their Followers collection loaded
-            var user = await _context.Users.Include(u => u.Followers).FirstOrDefaultAsync(u => u.ID == UserID);
+            var user = await _userRepository.GetUserByIDWithFollowers(followerID);
+
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -293,27 +275,9 @@ namespace AlbumAPI.Services.UserServices
             }
 
             // Map the Followers collection to UserDTOs
-            var following = await _context.UserFollowing.Where(u => u.Follower!.ID == UserID)
-                                                        .Select(u => u.Target)
-                                                        .Select(u => new
-                                                        {
-                                                            User = u!,
-                                                            FollowersCount = u!.Followers.Count(),
-                                                            FollowingCount = u.Followings.Count(),
-                                                            IsFollowed = u.Followers.Any(f => f.Follower!.ID == GetUserID()),
-                                                            Url = u.ImageURL
-                                                        })
-                                                        .Select(u => new UserDTO
-                                                        {
-                                                            ID = u.User.ID,
-                                                            UserName = u.User.UserName,
-                                                            FollowersCount = u.FollowersCount,
-                                                            FollowingCount = u.FollowingCount,
-                                                            Following = u.IsFollowed,
-                                                            ImageURL = u.Url
-                                                        })
-                                                        .ToListAsync();
+            var following = await _userRepository.GetFollowings(followerID, GetUserID());
             serviceResponse.Data = following;
+
             return serviceResponse;
         }
 
