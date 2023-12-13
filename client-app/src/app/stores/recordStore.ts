@@ -166,6 +166,8 @@ export default class RecordStore {
         try {
             // Call the API agent function to get list of records for current user
             const response = await agent.Records.add(request);
+             // re-load user records 
+            this.loadRecords();
             return (response);
         } catch (error) {
             return (error);
@@ -199,10 +201,11 @@ export default class RecordStore {
         try {
             // Call the API agent function to get list of records for current user
             await agent.Records.delete(id);
-
             // Modify the state within the action (state cannot be changed outside of actions)
             // Unselect the now deleted record
             runInAction(() => this.unselectRecord());
+            // re-load user records 
+            this.loadRecords();
         } catch (error) {
             return (error);
         }
