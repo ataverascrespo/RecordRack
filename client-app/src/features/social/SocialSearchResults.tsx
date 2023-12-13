@@ -18,7 +18,7 @@ function SocialSearchResults({ results }: Props) {
         <div className="flex flex-col w-full">
             {/* Map the resulting users to inidividual components linking to user profiles*/}
             {results.map((result) => (
-                <Link key={result.id} to={`/${result.userName}`} className="flex flex-row items-center justify-center gap-4 md:gap-12 border-t-2 p-4 md:p-6 hover:bg-neutral-100 dark:hover:bg-neutral-950 transition-all duration-300">
+                <Link key={result.id} to={`/${result.userName}`} className="flex flex-row items-center justify-center gap-4 md:gap-12 p-4 rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200">
                     {/* User Profile Image */}
                     <div className="flex flex-col gap-6">
                         <div className="w-8 h-8 xs:w-10 xs:h-10 sm:w-16 sm:h-16 md:w-24 md:h-24 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-lg">
