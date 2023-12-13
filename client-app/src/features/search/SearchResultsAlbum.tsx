@@ -129,19 +129,13 @@ export default function SearchResults({ results }: Props) {
 
     return (
         <div className="h-full w-full mt-12">
-            {results.length > 0 && (
-                <h2 className="text-lg md:text-2xl text-right font-light">
-                    Album Results ({results.length})
-                </h2>
-            )}
-            <div className="mt-6 grid grid-cols-1">
-
+            <div className="mt-2 grid grid-cols-1">
                 {/* Map the list of album results to individual albums */}
                 {results.map((result) => (
-                    <div key={result.id} className="flex flex-row items-center justify-center gap-4 sm:gap-8 md:gap-12 border-t-2 p-4 md:p-6">
+                    <div key={result.id} className="flex flex-row items-center justify-center gap-4 sm:gap-8 md:gap-12 p-4 md:p-6">
                         {/* Album image */}
                         <div className="flex flex-col gap-6">
-                            <div className="w-12 xxs:w-24 sm:w-32 md:w-64 lg:w-80 rounded-lg overflow-hidden shadow-lg">
+                            <div className="w-12 xxs:w-24 sm:w-32 md:w-64 lg:w-72 rounded-lg overflow-hidden shadow-lg">
                                 <img
                                     className="w-full h-full object-cover"
                                     src={result.images[0].url}
