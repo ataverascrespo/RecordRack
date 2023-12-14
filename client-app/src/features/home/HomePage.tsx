@@ -57,7 +57,7 @@ export default function HomePage() {
 
             {/* Parallax image section */}
             <section id="demo-image" className="relative h-[50vh] w-full bg-neutral-100 dark:bg-neutral-950">
-                <Parallax speed={10} translateY={[-20, 40]} className="h-full w-full">
+                <Parallax translateY={[-20, 40]} className="h-full w-full">
                     <div className="absolute top-[-10%] sm:top-[-20%] lg:top-[-25%] w-full h-full flex justify-center">
                         <img
                             alt="Record Rack UI"
