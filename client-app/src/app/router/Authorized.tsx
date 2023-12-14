@@ -16,7 +16,7 @@ export default function Authorized() {
 
     // If the user is not signed in and tries to access an Authorized-wrapped page, re-route them to home page
     if (!isLoggedIn) {
-        return <Navigate to='/' state={{from: location}} />
+        return <Navigate to='/accounts/login' state={{from: location}} />
     }
 
     return <Outlet />

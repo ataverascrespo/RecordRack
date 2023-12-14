@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /* 
   Form schema for login validation
@@ -41,7 +42,10 @@ function LoginForm() {
     const { toast } = useToast();
     //Store state for button disabling
     const [buttonDisabled, setButtonDisabled] = useState(false);
-
+    //Initialize the location and navigation router objects
+    const navigate = useNavigate();
+    const location = useLocation();
+   
     /* 
         Define the form and form type
     */
@@ -66,6 +70,11 @@ function LoginForm() {
                 toast({
                     title: `Logged in ${response.data.userName}!`,
                 })
+
+                // Use the state to navigate back to the authorized route that re-directed to log-in 
+                // If the state is not available, navigate to the logged in user's rack page
+                const { from } = location.state || { from: { pathname: `/${response.data.userName}` } };
+                navigate(from);
             }
             //If the success field is false, display error msg toast
             else {

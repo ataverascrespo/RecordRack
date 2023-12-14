@@ -64,11 +64,7 @@ export default class UserStore {
             // Modify the state within the action (state cannot be changed outside of actions)
             // Set the user in global state
             runInAction(() => this.user = response.data)
-
-            //If the API call succeeded, navigate to user's main page
-            if (response.success === true) {
-                router.navigate(`/${this.user!.userName}`)
-            }
+            
             return (response);
         } catch (error) {
             return (error);
