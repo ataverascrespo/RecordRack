@@ -17,11 +17,11 @@ function LoginPage() {
 
                 {/* Page header */}
                 <div className="flex flex-col gap-2 items-center">
-                    <h1 className="w-full text-2xl sm:text-4xl md:text-5xl font-bold text-center text-neutral-800 dark:text-neutral-50">Sign into your account</h1>
+                    <h1 className="w-full text-2xl sm:text-4xl md:text-5xl font-bold text-center text-neutral-800 dark:text-neutral-50">Sign In</h1>
                 </div>
 
                 {/* Login card */}
-                <Card className="h-full w-full md:w-2/3 lg:w-1/2 xl:w-1/3 p-2 pt-6">
+                <Card className="h-full w-full md:w-2/3 lg:w-1/2 xl:w-1/3 p-2 pt-6 shadow-none border-0 bg-background dark:bg-background">
 
                     <CardContent className="grid gap-4">
                         {/* Render the Login Form component */}

@@ -21,7 +21,7 @@ function RegisterPage() {
                 </div>
 
                 {/* Register Card */}
-                <Card className="h-full w-full md:w-2/3 lg:w-1/2 xl:w-1/3 p-2 pt-6">
+                <Card className="h-full w-full md:w-2/3 lg:w-1/2 xl:w-1/3 p-2 pt-3 shadow-none border-0 bg-background dark:bg-background">
 
                     <CardContent className="grid gap-4">
                         {/* Render the Register Form component */}
