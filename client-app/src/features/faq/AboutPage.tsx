@@ -17,9 +17,9 @@ export default function AboutPage() {
     return (
         <section id="about-page" className="container">
             {/* About section */}
-            <div className="lg:h-[50vh] mb-24 mt-48 z-0 lg:mb-48 flex flex-col justify-start lg:flex-row lg:justify-between items-center gap-8 lg:gap-16" >
-                <img className="w-full md:w-[70%] lg:w-[50%]" src="/assets/about.svg" alt="hero" draggable="false" />
-                <div className="flex flex-col items-start gap-2 ">
+            <div className="w-full lg:h-screen mb-12 mt-48 lg:mt-0 z-0 flex flex-col justify-start lg:flex-row items-center gap-8 lg:gap-16">
+                <img className="w-full lg:w-2/5" src="/assets/about.svg" alt="hero" draggable="false" />
+                <div className="flex flex-col items-start gap-2">
                     <h1 className="max-w-xl text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-neutral-800 dark:text-neutral-50"> About Record Rack</h1>
                     <div className="flex flex-col gap-4 mt-8">
                         <p className="max-w-3xl text-base xl:text-xl mx-auto tracking-tight">
@@ -70,13 +70,21 @@ export default function AboutPage() {
                     </AccordionItem>
                     <AccordionItem value="item-4">
                         <AccordionTrigger>
+                            <p className="text-left">Why is the Spotify player only letting me listen to song previews?</p>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                            To take full advantage of the Spotify embed player, you need to be logged into a Spotify account on the browser you are using to access Record Rack. 
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="item-5">
+                        <AccordionTrigger>
                             <p className="text-left">What data does Record Rack collect?</p>
                         </AccordionTrigger>
                         <AccordionContent>
                             Record Rack <strong>does not collect any of your personal data, apart from the few details you provide during account creation</strong>. No tracking, analytics, nothing. For that data that is collected, this app uses industry-standard security approaches to protect your information.
                         </AccordionContent>
                     </AccordionItem>
-                    <AccordionItem value="item-5">
+                    <AccordionItem value="item-6">
                         <AccordionTrigger>
                             <p className="text-left">Is there any data that Record Rack shares?</p>
                         </AccordionTrigger>
@@ -84,7 +92,7 @@ export default function AboutPage() {
                             The ONLY thing Record Rack shares about you is your email address, which is shared with SendGrid. Their API integration lets this app send you some important emails <strong>like account verification or password resets.</strong> But don't worry - SendGrid is the main digital communications service that powers big companies like Uber, Airbnb, Yelp, Spotify, and many more businesses (80,000 more to be exact). If they can trust SendGrid, so can you! If you're still unsure, <a href="https://www.twilio.com/en-us/legal/privacy." className="font-bold underline">you can find Twilio's (their parent company) privacy policy here.</a>
                         </AccordionContent>
                     </AccordionItem>
-                    <AccordionItem value="item-6">
+                    <AccordionItem value="item-7">
                         <AccordionTrigger>
                             <p className="text-left">What if I encounter issues or have feedback about the app?</p>
                         </AccordionTrigger>
