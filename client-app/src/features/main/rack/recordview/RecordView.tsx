@@ -19,6 +19,7 @@ import RecordViewAddToRack from "./buttons/RecordViewAddToRack";
 import RecordViewEditFields from "./buttons/RecordViewEditFields";
 import RecordViewImage from "./RecordViewImage";
 import RecordViewInfo from "./RecordViewInfo";
+import RecordViewShare from "./buttons/RecordViewShare";
 
 function RecordView() {
     const navigate = useNavigate();
@@ -81,8 +82,8 @@ function RecordView() {
                             {params.username == user!.userName
                                 ?
                                 // Component for editing and deleting record off user account
-                                <div className="w-full flex flex-col md:flex-row gap-8 items-start md:items-center">
-                                    <div className="flex flex-row gap-2 items-center">
+                                <div className="w-full flex flex-col md:flex-row gap-4 items-start md:items-center">
+                                    <div className="flex flex-row gap-2 items-center mr-4">
                                         <Label htmlFor="private" className="font-medium text-base text-neutral-900 dark:text-neutral-400 text-left">Private?</Label>
                                         <Switch id="private" disabled checked={recordStore.selectedRecord.isPrivate} />
                                     </div>
@@ -91,12 +92,22 @@ function RecordView() {
                                         <RecordViewEditFields />
                                         <RecordViewDelete />
                                     </div>
+                                    {recordStore.selectedRecord.isPrivate ? (
+                                    // Empty div, return nothing
+                                    <div></div>
+                                    ) : (
+                                    <div className="flex flex-row gap-4 w-full md:w-1/2">
+                                        {/* Render Record Button components if the user is signed in */}
+                                        <RecordViewShare size={"w-full md:w-1/2"} />
+                                    </div>
+                                    )}
                                 </div>
                                 :
                                 // Component for adding other user's record to your racklist
-                                <div className="flex flex-row gap-4">
+                                <div className="flex flex-row gap-4 w-full md:w-1/2 ">
                                     {/* Render Record Button components when user is not signed in */}
                                     <RecordViewAddToRack />
+                                    <RecordViewShare size={"w-1/3 sm:w-1/2"} />
                                 </div>
                             }
                         </div>
