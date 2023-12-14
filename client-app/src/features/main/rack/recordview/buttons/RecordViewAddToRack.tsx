@@ -20,6 +20,13 @@ import { useStore } from "@/app/stores/store";
 import { useToast } from "@/components/ui/use-toast";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
+import { PlusSquare } from 'lucide-react';
+
+// Define component icons
+export const Icons = {
+    add: PlusSquare
+};
+
 
 /* 
   Form schema for record save
@@ -113,7 +120,12 @@ function RecordViewAddToRack() {
         <Dialog>
             <DialogTrigger asChild>
                 {/* Dialog button trigger */}
-                <Button>Add to Your Rack</Button>
+                <Button variant={"secondary"} className="w-full md:w-1/2" >
+                <div className="flex flex-row gap-1 items-center justify-center">
+                    <Icons.add className="h-[2vh]" />
+                    <p className="mr-2">Add to Rack</p>
+                </div>
+                </Button>
             </DialogTrigger>
             <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
                 <DialogHeader>

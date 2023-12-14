@@ -20,6 +20,12 @@ import { useStore } from "@/app/stores/store";
 import { useToast } from "@/components/ui/use-toast";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
+import { PencilIcon } from 'lucide-react';
+
+// Define component icons
+export const Icons = {
+    edit: PencilIcon
+};
 
 /* 
   Form schema for record update
@@ -110,7 +116,12 @@ function RecordViewEditFields() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="w-full md:w-1/2">Edit Fields</Button>
+                <Button className="w-full md:w-1/2" variant={"secondary"} >
+                    <div className="flex flex-row gap-1 items-center justify-center">
+                        <Icons.edit className="h-[2vh]" />
+                        <p className="mr-2">Edit</p>
+                    </div>
+                </Button>
             </DialogTrigger>
             <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
                 <DialogHeader>

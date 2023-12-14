@@ -11,7 +11,12 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { observer } from "mobx-react-lite";
+import { Trash2 } from 'lucide-react';
 
+// Define component icons
+export const Icons = {
+    delete: Trash2
+};
 
 function RecordViewDelete() {
     
@@ -48,7 +53,12 @@ function RecordViewDelete() {
         <Dialog>
             <DialogTrigger asChild>
                 {/* Dialog trigger button */}
-                <Button className="w-full md:w-1/2">Delete Record</Button>
+                <Button className="w-full md:w-1/2" variant={"secondary"} >
+                    <div className="flex flex-row gap-1 items-center justify-center">
+                        <Icons.delete className="h-[2vh]" />
+                        <p className="mr-2">Delete</p>
+                    </div>
+                </Button>
             </DialogTrigger>
             <DialogContent className="max-w-[75vw] lg:max-w-[725px] py-8">
                 <DialogHeader>
