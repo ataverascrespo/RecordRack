@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Footer() {
     return (
-        <footer className="bg-background my-12">
+        <footer className="my-12">
             <div className="w-full md:flex md:items-center md:justify-between">
                 <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://www.linkedin.com/in/alex-taveras-crespo" className="hover:underline">alex taveras-crespo</a>
                 </span>

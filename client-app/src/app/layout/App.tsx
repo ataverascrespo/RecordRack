@@ -11,6 +11,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { observer } from "mobx-react-lite"
 import { Toaster } from "@/components/ui/toaster";
 import { Outlet } from "react-router-dom";
+import { ParallaxProvider } from 'react-scroll-parallax';
 
 import Navbar from "./Navbar";
 import Loading from "./Loading";
@@ -44,14 +45,15 @@ function App() {
   if (!commonStore.appLoaded) return <Loading text={"App loading..."} height={"h-screen"}></Loading>
 
   return (
-    // Wrap app in ThemeProvider to enable dark and light modes
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <div className="App">
-        <Navbar></Navbar>
-          <Outlet />
-        <Toaster />
-      </div>
-    </ThemeProvider>
+    <ParallaxProvider>
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <div className="App">
+          <Navbar></Navbar>
+            <Outlet />
+          <Toaster />
+        </div>
+      </ThemeProvider>
+    </ParallaxProvider>
   )
 }
 
