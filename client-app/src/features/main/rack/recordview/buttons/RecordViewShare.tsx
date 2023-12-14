@@ -2,7 +2,7 @@
  * Name: RecordViewShare.tsx
  * Written by: Alex Taveras-Crespo
  * 
- * Purpose: This code file renders the dialog for a user to delete a record from their collection.
+ * Purpose: This code file renders the button for a user to share the link for a record.
 */
 
 import { useStore } from "@/app/stores/store";
