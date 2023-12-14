@@ -36,7 +36,7 @@ function PasswordResetPage() {
     
     return (
         <div className="container">
-            <div className="h-full mt-48 mb-24 flex flex-col justify-center gap-8 items-center ">
+            <div className="h-full mt-48 mb-24 flex flex-col justify-center gap-8 items-center shadow-none border-0 bg-background dark:bg-background ">
 
                 {/* Page header */}
                 <div className="flex flex-col gap-2 items-center">

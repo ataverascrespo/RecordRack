@@ -20,7 +20,7 @@ function PasswordForgotPage() {
                 </div>
 
                 {/* Forgot password card */}
-                <Card className="h-full w-full md:w-2/3 lg:w-1/2 xl:w-1/3 p-2 pb-6">
+                <Card className="h-full w-full md:w-2/3 lg:w-1/2 xl:w-1/3 p-2 pb-6 shadow-none border-0 bg-background dark:bg-background">
 
                     <CardHeader className="space-y-1">
                         <CardTitle>
