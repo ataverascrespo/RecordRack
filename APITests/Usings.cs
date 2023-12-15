@@ -7,3 +7,4 @@ global using AlbumAPI.Services.UserServices;
 global using AutoMapper;
 global using Microsoft.AspNetCore.Http;
 global using NSubstitute;
+global using Microsoft.Extensions.Configuration;
