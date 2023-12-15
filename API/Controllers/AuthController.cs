@@ -9,12 +9,12 @@ namespace AlbumAPI.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _authRepo;
+        private readonly IAuthService _authService;
 
-        //Inject the IAuthRepository interface
-        public AuthController(IAuthRepository authRepo)
+        //Inject the IAuthService interface
+        public AuthController(IAuthService authService)
         {
-            _authRepo = authRepo;
+            _authService = authService;
         }
 
         //HTTP POST method
@@ -22,7 +22,7 @@ namespace AlbumAPI.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDTO request)
         {
-            var serviceResponse = await _authRepo.Register(
+            var serviceResponse = await _authService.Register(
                 //Create a new user object with passed params
                 new User { Email = request.Email, UserName = request.UserName}, request.Password
             );
@@ -44,7 +44,7 @@ namespace AlbumAPI.Controllers
         public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDTO request)
         {
 
-            var serviceResponse = await _authRepo.Login(request.Email, request.Password);
+            var serviceResponse = await _authService.Login(request.Email, request.Password);
 
             if(!serviceResponse.Success)
             {
@@ -64,7 +64,7 @@ namespace AlbumAPI.Controllers
         {
             var refreshToken = Request.Cookies["refreshToken"];
 
-            var serviceResponse = await _authRepo.Logout(refreshToken!);
+            var serviceResponse = await _authService.Logout(refreshToken!);
             //Return status code response
             return Ok(serviceResponse);
         }
@@ -74,7 +74,7 @@ namespace AlbumAPI.Controllers
         [HttpPost("Verify")]
         public async Task<ActionResult<ServiceResponse<int>>> Verify(UserVerificationTokenDTO request)
         {
-            var serviceResponse = await _authRepo.Verify(request.Token);
+            var serviceResponse = await _authService.Verify(request.Token);
 
             if(!serviceResponse.Success)
             {
@@ -93,7 +93,7 @@ namespace AlbumAPI.Controllers
         {
             var refreshToken = Request.Cookies["refreshToken"];
 
-            var serviceResponse = await _authRepo.ValidateRefreshToken(refreshToken!);
+            var serviceResponse = await _authService.ValidateRefreshToken(refreshToken!);
 
             if(!serviceResponse.Success)
             {
@@ -111,7 +111,7 @@ namespace AlbumAPI.Controllers
         public async Task<ActionResult<ServiceResponse<int>>> ForgotPassword(UserForgotPasswordDTO user)
         {
 
-            var serviceResponse = await _authRepo.ForgotPassword(user.email);
+            var serviceResponse = await _authService.ForgotPassword(user.email);
 
             if(!serviceResponse.Success)
             {
@@ -129,7 +129,7 @@ namespace AlbumAPI.Controllers
         public async Task<ActionResult<ServiceResponse<int>>> ResetPassword(UserResetPasswordDTO reset)
         {
 
-            var serviceResponse = await _authRepo.ResetPassword(reset.ResetToken, reset.Password);
+            var serviceResponse = await _authService.ResetPassword(reset.ResetToken, reset.Password);
 
             if(!serviceResponse.Success)
             {
@@ -149,7 +149,7 @@ namespace AlbumAPI.Controllers
         public async Task<ActionResult<ServiceResponse<int>>> ChangePassword(UserChangePasswordDTO request)
         {
 
-            var serviceResponse = await _authRepo.ChangePassword(request.Email, request.OldPassword, request.NewPassword);
+            var serviceResponse = await _authService.ChangePassword(request.Email, request.OldPassword, request.NewPassword);
 
             if(!serviceResponse.Success)
             {

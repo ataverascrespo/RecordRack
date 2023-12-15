@@ -3,7 +3,7 @@
 /// </summary>
 namespace AlbumAPI.Data
 {
-    public interface IAuthRepository
+    public interface IAuthService
     {
         //Method to register user account
         Task<ServiceResponse<int>> Register(User user, string password);

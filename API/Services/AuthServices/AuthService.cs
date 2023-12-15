@@ -10,19 +10,19 @@ using Microsoft.IdentityModel.Tokens;
 /// </summary>
 namespace AlbumAPI.Data
 {
-    public class AuthRepository : IAuthRepository
+    public class AuthService : IAuthService
     {
         private readonly IMapper _mapper;
-        private readonly DataContext _context;
+        private readonly IAuthRepository _authRepository;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         //Inject data context, needed for DB access
         //Inject IConfiguration, needed to access JSON token
-        public AuthRepository(IMapper mapper, DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public AuthService(IMapper mapper, IAuthRepository authRepository, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
-            _context = context;
+            _authRepository = authRepository;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -33,8 +33,7 @@ namespace AlbumAPI.Data
             var serviceResponse = new ServiceResponse<UserDTO>();
 
             //Find first or default instance where passed username is equal to existing username
-            var user = await _context.Users.Include(u => u.Followers).Include(u => u.Followings)
-                                            .FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
+            var user = await _authRepository.Login(email, password);
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -69,8 +68,7 @@ namespace AlbumAPI.Data
                 //Store DTO in service data
                 serviceResponse.Data = loggedInUser;
 
-                //Save changes to DB table
-                await _context.SaveChangesAsync();
+                await _authRepository.SaveChanges();
             }
             
             return serviceResponse;
@@ -82,13 +80,13 @@ namespace AlbumAPI.Data
             var serviceResponse = new ServiceResponse<int>();
 
             //Assess if the email is already registered
-            if (await EmailExists(user.Email))
+            if (await _authRepository.EmailExists(user.Email))
             {
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = "That email address has already been used.";
                 return serviceResponse;
             }
-            if (await UserExists(user.UserName)) 
+            if (await _authRepository.UserExists(user.UserName)) 
             {
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = "That username has already been used.";
@@ -109,10 +107,10 @@ namespace AlbumAPI.Data
             emailer.CreateVerificationEmail(user);
 
             //Add user to DB Users table
-            _context.Users.Add(user);
+            await _authRepository.Register(user);
 
             //Wait for changes to be saved
-            await _context.SaveChangesAsync();
+            await _authRepository.SaveChanges();
 
             //Save user ID to wrapper object Data
             serviceResponse.Data = user.ID;
@@ -124,11 +122,9 @@ namespace AlbumAPI.Data
         public async Task<ServiceResponse<string>> Logout(string refreshToken)
         {
             var serviceResponse = new ServiceResponse<string>();
-
-            var searchRefreshToken = string.Format("[{{\"Token\": \"{0}\"}}]", refreshToken);
-            // Look up the list of refresh tokens in the DB for the associated user to find a match
-            var user = await _context.Users
-                    .FirstOrDefaultAsync(u => EF.Functions.JsonContains(u.RefreshTokens!, searchRefreshToken));
+            
+            // Look up the current refresh token in the DB for the associated user to find a match
+            var user = await _authRepository.FindRefreshToken(refreshToken);
 
             if (user == null)
             {
@@ -139,14 +135,14 @@ namespace AlbumAPI.Data
             }
             else
             {
-                // Remove the refresh tokens from the JSONB column.
-                user.RefreshTokens!.Remove(user.RefreshTokens.FirstOrDefault(rt => rt.Token == refreshToken)!);
+                // Remove refresh token from user column
+                await _authRepository.RemoveRefreshToken(user, refreshToken);
 
                 serviceResponse.ReturnMessage = "Logged user out.";
-                
-                //Save changes to DB table
-                _context.Entry(user).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+
+                // Save the changes in the DB
+                _authRepository.MarkUserChanges(user);
+                await _authRepository.SaveChanges();
             }
             
             return serviceResponse;
@@ -157,13 +153,12 @@ namespace AlbumAPI.Data
         {
             var serviceResponse = new ServiceResponse<string>();
 
-            var searchRefreshToken = string.Format("[{{\"Token\": \"{0}\"}}]", refreshToken);
-            // Look up the list of refresh tokens in the DB for the associated user to find a match
-            var user = await _context.Users
-                    .FirstOrDefaultAsync(u => EF.Functions.JsonContains(u.RefreshTokens!, searchRefreshToken));
+            // Look up the current refresh token in the DB for the associated user to find a match
+            var user = await _authRepository.FindRefreshToken(refreshToken);
 
             // Refresh token not found
-            if (user == null){
+            if (user == null)
+            {
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = "This refresh token does not exist.";
             }
@@ -175,7 +170,7 @@ namespace AlbumAPI.Data
                 SetRefreshToken(user, newRefreshToken);
 
                 //Save changes to DB table
-                await _context.SaveChangesAsync();
+                await _authRepository.SaveChanges();
 
                 UserDTO currentUser = CreateUserDTO(user);
                 currentUser.Token = token;
@@ -188,25 +183,26 @@ namespace AlbumAPI.Data
             return serviceResponse;
         }
 
-        //Method to verify user registration
+        // Method to verify user registration
         public async Task<ServiceResponse<string>> Verify(string verifyToken)
         {
             var serviceResponse = new ServiceResponse<string>();
 
-            //Find first or default instance where passed username is equal to existing username
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.VerificationToken.Equals(verifyToken));
+            // Find first or default instance where verification tokens match
+            var user = await _authRepository.FindUserByVerificationToken(verifyToken);
+
             if (user == null)
             {
+                // Failure
                 serviceResponse.Success = false;
-
-                //Error message
+                // Error message
                 serviceResponse.ReturnMessage = "Invalid verification token.";
             }
             else
             {
                 user.VerifiedAt = DateTime.UtcNow;
-                //Save changes to DB table
-                await _context.SaveChangesAsync();
+                // Save changes to DB table
+                await _authRepository.SaveChanges();
 
                 serviceResponse.Success = true;
                 serviceResponse.ReturnMessage = "User has been verified.";
@@ -215,18 +211,19 @@ namespace AlbumAPI.Data
             return serviceResponse;
         }
 
-        //Method to start password reset process
+        // Method to start password reset process
         public async Task<ServiceResponse<string>> ForgotPassword(string email)
         {
             var serviceResponse = new ServiceResponse<string>();
 
-            //Find first or default instance where passed email is equal to existing email
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
+            // Find first or default instance where passed email is equal to existing email
+            var user = await _authRepository.FindUserByEmail(email);
+
             if (user == null)
             {
+                // Failure
                 serviceResponse.Success = false;
-
-                //Error message
+                // Error message
                 serviceResponse.ReturnMessage = "User not found.";
             }
             else
@@ -234,12 +231,12 @@ namespace AlbumAPI.Data
                 user.PasswordResetToken = CreateRandomToken();
                 user.ResetTokenExpires = DateTime.UtcNow.AddDays(1);
 
-                //Create an EmailService instance and call the method that creates the email for verification
+                // Create an EmailService instance and call the method that creates the email for verification
                 EmailService emailer = new EmailService(_configuration);
                 emailer.CreatePasswordResetEmail(user);
 
                 //Save changes to DB table
-                await _context.SaveChangesAsync();
+                await _authRepository.SaveChanges();
 
                 serviceResponse.Success = true;
                 serviceResponse.ReturnMessage = "Reset password process started";
@@ -254,11 +251,11 @@ namespace AlbumAPI.Data
             var serviceResponse = new ServiceResponse<string>();
 
             //Find first or default instance where passed token is equal to existing token
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.PasswordResetToken.Equals(resetToken));
+            var user = await _authRepository.FindUserByPasswordResetToken(resetToken);
+
             if (user == null || user.ResetTokenExpires < DateTime.UtcNow)
             {
                 serviceResponse.Success = false;
-
                 //Error message
                 serviceResponse.ReturnMessage = "Invalid reset token.";
             }
@@ -279,7 +276,7 @@ namespace AlbumAPI.Data
                 SetRefreshToken(user, newRefreshToken);
 
                 //Save changes to DB table
-                await _context.SaveChangesAsync();
+                await _authRepository.SaveChanges();
 
                 serviceResponse.Success = true;
                 serviceResponse.ReturnMessage = "Your password has been sucessfully reset.";
@@ -294,7 +291,8 @@ namespace AlbumAPI.Data
             var serviceResponse = new ServiceResponse<string>();
 
             //Find first or default instance where passed email is equal to existing email
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower().Equals(email.ToLower()));
+            var user = await _authRepository.FindUserByEmail(email);
+
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -324,8 +322,7 @@ namespace AlbumAPI.Data
                 var newRefreshToken = GenerateRefreshToken();
                 SetRefreshToken(user, newRefreshToken);
 
-                //Save changes to DB table
-                await _context.SaveChangesAsync();
+                await _authRepository.SaveChanges();
 
                 serviceResponse.Success = true;
                 serviceResponse.ReturnMessage = "Your password has been sucessfully changed.";
@@ -338,24 +335,8 @@ namespace AlbumAPI.Data
                 Helper methods for AuthRepository below.
         */
 
-        //Method to assess whether passed user exists upon registration
-        public async Task<bool> UserExists(string userName)
-        {
-            //Return true if passed username is in database
-            //Cast both to lower to ignore case
-            return await _context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower());
-        }
-
-        //Method to assess whether passed email exists upon registration
-        public async Task<bool> EmailExists(string Email)
-        {
-            //Return true if passed username is in database
-            //Cast both to lower to ignore case
-            return await _context.Users.AnyAsync(u => u.Email.ToLower() == Email.ToLower());
-        }
-
-        //Method to create a hashed and salted password
-        //Out values mean we don't have to return anything
+        // Method to create a hashed and salted password
+        // Out values mean we don't have to return anything
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             //Create an instance of HMACSHA512 cryptography algorithm 
@@ -370,7 +351,7 @@ namespace AlbumAPI.Data
             }
         }   
 
-        //Method to verify that password for specified user is correct
+        // Method to verify that password for specified user is correct
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             //Create an instance of HMACSHA512 cryptography algorithm 
@@ -385,7 +366,7 @@ namespace AlbumAPI.Data
             }
         }
 
-        //Method to create a UserDTO to return upon login
+        // Method to create a UserDTO to return upon login
         private UserDTO CreateUserDTO(User user)
         {
             return new UserDTO
@@ -402,7 +383,7 @@ namespace AlbumAPI.Data
             };
         }
 
-        //Method to create to create a JSON web token
+        // Method to create to create a JSON web token
         private string CreateToken(User user)
         {
             var claims = new List<Claim>
@@ -457,7 +438,7 @@ namespace AlbumAPI.Data
             return refreshToken;
         }
 
-        public void SetRefreshToken(User user, RefreshTokenDTO newRefreshToken)
+        public async void SetRefreshToken(User user, RefreshTokenDTO newRefreshToken)
         {
             //Create an HTTP only cookie
             var cookieOptions = new CookieOptions
@@ -478,7 +459,7 @@ namespace AlbumAPI.Data
                 RefreshTokenExpiration = newRefreshToken.Expires
             });
 
-            _context.Entry(user).State = EntityState.Modified;
+            _authRepository.MarkUserChanges(user);
         }
 
         private string CreateRandomToken()
