@@ -1,1 +1,9 @@
 global using Xunit;
+global using System.Security.Claims;
+global using AlbumAPI.Data;
+global using AlbumAPI.DTOs.User;
+global using AlbumAPI.Models;
+global using AlbumAPI.Services.UserServices;
+global using AutoMapper;
+global using Microsoft.AspNetCore.Http;
+global using NSubstitute;
