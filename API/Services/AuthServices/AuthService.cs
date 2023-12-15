@@ -12,16 +12,14 @@ namespace AlbumAPI.Data
 {
     public class AuthService : IAuthService
     {
-        private readonly IMapper _mapper;
         private readonly IAuthRepository _authRepository;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         //Inject data context, needed for DB access
         //Inject IConfiguration, needed to access JSON token
-        public AuthService(IMapper mapper, IAuthRepository authRepository, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public AuthService(IAuthRepository authRepository, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
-            _mapper = mapper;
             _authRepository = authRepository;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
@@ -33,7 +31,7 @@ namespace AlbumAPI.Data
             var serviceResponse = new ServiceResponse<UserDTO>();
 
             //Find first or default instance where passed username is equal to existing username
-            var user = await _authRepository.Login(email, password);
+            var user = await _authRepository.Login(email);
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -90,6 +88,12 @@ namespace AlbumAPI.Data
             {
                 serviceResponse.Success = false;
                 serviceResponse.ReturnMessage = "That username has already been used.";
+                return serviceResponse;
+            }
+            if (password == null || password.Length <= 0)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Provide a password.";
                 return serviceResponse;
             }
 
@@ -253,11 +257,23 @@ namespace AlbumAPI.Data
             //Find first or default instance where passed token is equal to existing token
             var user = await _authRepository.FindUserByPasswordResetToken(resetToken);
 
-            if (user == null || user.ResetTokenExpires < DateTime.UtcNow)
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+                //Error message
+                serviceResponse.ReturnMessage = "No reset token found.";
+            }
+            else if (user.ResetTokenExpires < DateTime.UtcNow)
             {
                 serviceResponse.Success = false;
                 //Error message
                 serviceResponse.ReturnMessage = "Invalid reset token.";
+            }
+            else if (password == null || password.Length <= 0)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Provide a password.";
+                return serviceResponse;
             }
             else
             {
@@ -307,6 +323,12 @@ namespace AlbumAPI.Data
 
                 //Error message
                 serviceResponse.ReturnMessage = "Incorrect password entered.";
+            }
+            else if (newPassword == null || newPassword.Length <= 0)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Provide a password.";
+                return serviceResponse;
             }
             else
             {
@@ -426,7 +448,7 @@ namespace AlbumAPI.Data
             return tokenHandler.WriteToken(token);
         }
 
-        public RefreshTokenDTO GenerateRefreshToken()
+        private RefreshTokenDTO GenerateRefreshToken()
         {
             var refreshToken = new RefreshTokenDTO
             {
@@ -438,7 +460,7 @@ namespace AlbumAPI.Data
             return refreshToken;
         }
 
-        public async void SetRefreshToken(User user, RefreshTokenDTO newRefreshToken)
+        private void SetRefreshToken(User user, RefreshTokenDTO newRefreshToken)
         {
             //Create an HTTP only cookie
             var cookieOptions = new CookieOptions
@@ -448,7 +470,7 @@ namespace AlbumAPI.Data
             };
            
             //Append the refresh token to the cookie of the client
-            _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+            _httpContextAccessor.HttpContext?.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
 
             // If the refresh tokens are null, initialize the object
             user.RefreshTokens ??= new List<RefreshToken>();

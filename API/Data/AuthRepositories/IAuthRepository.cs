@@ -13,8 +13,8 @@ namespace AlbumAPI.Data
         void MarkUserChanges(User user); 
 
         //Method to login
-        Task<User> Login(string userName, string password);
-         
+        Task<User> Login(string email);
+        
         //Method to register user account
         Task Register(User user);
 

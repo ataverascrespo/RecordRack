@@ -35,7 +35,7 @@ namespace AlbumAPI.Data
         }
 
         //Method to login based on user params
-        public async Task<User> Login(string email, string password)
+        public async Task<User> Login(string email)
         {
             //Find first or default instance where passed username is equal to existing username
             var user = await _context.Users.Include(u => u.Followers).Include(u => u.Followings)
