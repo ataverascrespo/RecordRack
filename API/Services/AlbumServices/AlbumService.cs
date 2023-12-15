@@ -13,17 +13,17 @@ namespace AlbumAPI.Services.AlbumServices
     public class AlbumService : IAlbumService
     {
         private readonly IMapper _mapper;
-        private readonly DataContext _context;
+        private readonly IAlbumRepository _albumRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SqidsEncoder<int> _sqids;
 
         //AutoMapper Constructor
         //Inject data context for DB access
         //Inject HTTP context accessor
-        public AlbumService(IMapper mapper, DataContext context, IHttpContextAccessor httpContextAccessor, SqidsEncoder<int> sqids)
+        public AlbumService(IMapper mapper, IAlbumRepository albumRepository, IHttpContextAccessor httpContextAccessor, SqidsEncoder<int> sqids)
         {
             _mapper = mapper;
-            _context = context;
+            _albumRepository = albumRepository;
             _httpContextAccessor = httpContextAccessor;
             _sqids = sqids;
         }
@@ -37,13 +37,9 @@ namespace AlbumAPI.Services.AlbumServices
         {
             //Create wrapper model for album DTO list
             var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
-            
+
             //Access database albums table where User ID is valid
-            var dbAlbums = await _context.Albums
-                .Where(a => a.User!.ID == GetUserID())
-                .OrderBy(a => a.DateAdded)
-                .Include(album => album.User)
-                .ToListAsync();
+            var dbAlbums = await _albumRepository.GetAllAlbums(GetUserID());
                     
             //Map all Album models to GetAlbumDTO w/ AutoMapper
             serviceResponse.Data = dbAlbums.Select(a =>  
@@ -65,8 +61,8 @@ namespace AlbumAPI.Services.AlbumServices
             if (_sqids.Decode(ID) is [var decodedID] && ID == _sqids.Encode(decodedID))
             {
                 //Access database albums table where album and users ID are valid
-                var dbAlbum = await _context.Albums.Include(album => album.User)
-                                .FirstOrDefaultAsync(a => a.ID == decodedID && (!a.isPrivate || a.User.ID == GetUserID()));
+                var dbAlbum = await _albumRepository.GetAlbumByUserAndAlbumID(GetUserID(), decodedID);
+                
                 if (dbAlbum == null) 
                 {
                     serviceResponse.Success = false;
@@ -92,14 +88,9 @@ namespace AlbumAPI.Services.AlbumServices
         {
             //Create wrapper model for album DTO 
             var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
-            
+
             //Access database albums table where album and users ID are valid
-            //Remove albums where isPrivate is = true. 
-            var dbAlbums = await _context.Albums
-                .Where(a => (a.User!.ID == UserID && !a.isPrivate) || (UserID == GetUserID() && a.User!.ID == UserID))
-                .OrderBy(a => a.DateAdded)
-                .Include(album => album.User)
-                .ToListAsync();
+            var dbAlbums = await _albumRepository.GetAlbumsByUserID(UserID, GetUserID());
             
             //Add list of albums to wrapper object and return
             //The previous null check in this method can be removed as the wrapper object's properties are nullable
@@ -122,10 +113,11 @@ namespace AlbumAPI.Services.AlbumServices
 
             //Map AddAlbumDTO to Album Model w/ AutoMapper
             var album = _mapper.Map<Album>(newAlbum);
-            album.User = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+            album.User = await _albumRepository.GetAlbumUser(GetUserID());
 
             // Search the DB to see if there is an instance of the album where it's Spotify ID already is stored for a given user
-            var albumExists = await _context.Albums.FirstOrDefaultAsync(a => a.SpotifyID.Equals(newAlbum.SpotifyID) && a.User!.ID == album.User!.ID);
+            var albumExists = await _albumRepository.CheckAlbumExists(newAlbum.SpotifyID, album);
+
             if (albumExists != null) 
             {
                 serviceResponse.Success = false;
@@ -134,15 +126,17 @@ namespace AlbumAPI.Services.AlbumServices
             else 
             {
                 //Add album to the DB albums table and auto generate a new ID
-                _context.Albums.Add(album);
+                await _albumRepository.AddAlbum(album);
 
                 //Save changes to DB album table
-                await _context.SaveChangesAsync();
+                await _albumRepository.SaveChanges();
 
                 //Map current Album model to GetAlbumDTO w/ AutoMapper
                 //Add albums list to wrapper and return 
-                serviceResponse.Data = await _context.Albums.Where(
-                a => a.User!.ID == GetUserID()).Select(a => _mapper.Map<GetAlbumDTO>(a)).ToListAsync();
+
+                var albums = await _albumRepository.ReturnNewAlbumListByUserID(GetUserID());
+
+                serviceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
             }
             return serviceResponse;
         }
@@ -159,7 +153,8 @@ namespace AlbumAPI.Services.AlbumServices
                 try
                 {
                     //Find first or default album in DB albums table where the ID of the passed album is equal 
-                    var album = await _context.Albums.Include(a => a.User).FirstOrDefaultAsync(a => a.ID == decodedID);               
+                    var album = await _albumRepository.GetAlbumToUpdate(decodedID);
+
                     if (album == null || album.User!.ID != GetUserID())
                     {
                         throw new Exception($"Album with ID '{updateAlbum.ID}' not found");
@@ -169,7 +164,7 @@ namespace AlbumAPI.Services.AlbumServices
                     album.isPrivate = updateAlbum.isPrivate;
 
                     //Save changes to database Album table
-                    await _context.SaveChangesAsync();
+                    await _albumRepository.SaveChanges();
 
                     //Map Album model to GetAlbumDTO w/ AutoMapper
                     //Add albums list to wrapper and return 
@@ -203,19 +198,20 @@ namespace AlbumAPI.Services.AlbumServices
                 try
                 {
                     //Find first album where the ID of the passed album and user are equal 
-                    var album = await _context.Albums.FirstOrDefaultAsync(a => a.ID == decodedID && a.User!.ID == GetUserID());
+                    var album = await _albumRepository.GetAlbumToRemove(decodedID, GetUserID());
+
                     if (album == null)
                     {
                         throw new Exception($"Album with ID '{ID}' not found");
                     }
-                    //Remove selected album from database
-                    _context.Albums.Remove(album);
 
-                    //Save changes to DB album table
-                    await _context.SaveChangesAsync();
+                    await _albumRepository.RemoveAlbum(album);
 
                     //Map all Album models to GetAlbumDTO w/ AutoMapper
-                    serviceResponse.Data = await _context.Albums.Where(a => a.User!.ID == GetUserID()).Select(a => _mapper.Map<GetAlbumDTO>(a)).ToListAsync();
+                    var albums = await _albumRepository.
+                    ReturnNewAlbumListByUserID(GetUserID());
+
+                    serviceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
                 }
                 catch (Exception ex)
                 {
@@ -245,14 +241,20 @@ namespace AlbumAPI.Services.AlbumServices
             {
 
                 //Find first or default album in DB albums table where the ID of the passed album is equal 
-                var album = await _context.Albums.Include(a => a.Likes).FirstOrDefaultAsync(a => a.ID == decodedID);
+                var album = await _albumRepository.GetAlbumByAlbumIDIncludeLikes(decodedID);
+                
                 //Find first or default user in DB users table
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.ID == GetUserID());
+                var user = await _albumRepository.GetAlbumUser(GetUserID());
 
-                if (album == null || user == null)
+                if (album == null)
                 {
                     serviceResponse.Success = false;
-                    serviceResponse.ReturnMessage = "There was an issue with the record or user.";
+                    serviceResponse.ReturnMessage = "There was an issue with the record.";
+                }
+                else if (user == null)
+                {
+                    serviceResponse.Success = false;
+                    serviceResponse.ReturnMessage = "There was an issue with the user.";
                 }
                 else
                 {
@@ -281,8 +283,8 @@ namespace AlbumAPI.Services.AlbumServices
                         serviceResponse.ReturnMessage = "Album liked.";
                     }
                 }
-                 //Save the changes in DB 
-                await _context.SaveChangesAsync();
+                //Save the changes in DB 
+                await _albumRepository.SaveChanges();
             }
             //If ID is not canonical
             else 
@@ -304,7 +306,7 @@ namespace AlbumAPI.Services.AlbumServices
             if (_sqids.Decode(ID) is [var decodedID] && ID == _sqids.Encode(decodedID))
             {
                 //Access database albums table where User ID is valid
-                var likes = await _context.AlbumLikes.Where(a => a.AlbumID == decodedID).Include(likes => likes.User).ToListAsync();
+                var likes = await _albumRepository.GetAllAlbumLikes(decodedID);
                 //Map all Album models to GetAlbumDTO w/ AutoMapper
                 serviceResponse.Data = likes.Select(a => _mapper.Map<AlbumLikesDTO>(a)).ToList();
             }

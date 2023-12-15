@@ -77,6 +77,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 //Create a new instance of the requested auth repository
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
+//Create a new instance of the requested album repository
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+
 //Create a new instance of the requested photo service
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 
