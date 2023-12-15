@@ -5,6 +5,8 @@
 /// </summary>
 
 namespace APITests;
+// Disable a nullablity warning - not pertinent to the test case class
+#pragma warning disable CS8620
 public class UserServiceTests
 {
     [Fact]
