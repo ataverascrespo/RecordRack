@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using AlbumAPI.Services.EmailServices;
 using Microsoft.IdentityModel.Tokens;
+using Sqids;
 
 /// <summary>
 /// Encapsulates logic required to access data sources
@@ -15,11 +16,15 @@ namespace AlbumAPI.Data
     {
         private readonly DataContext _context;
 
+        private readonly SqidsEncoder<int> _sqids;
+
         //Inject data context, needed for DB access
         //Inject IConfiguration, needed to access JSON token
-        public AlbumRepository(DataContext context)
+        public AlbumRepository(DataContext context, SqidsEncoder<int> sqids)
         {
             _context = context;
+            _sqids = sqids;
+
         }
 
         //General method to save DB changes
@@ -127,6 +132,19 @@ namespace AlbumAPI.Data
             //Access database albums table where User ID is valid
             var likes = await _context.AlbumLikes.Where(a => a.AlbumID == albumID).Include(likes => likes.User).ToListAsync();
             return likes!;
+        }
+
+        // Helper method to evaluate the result of the sqids ID
+        public int CheckSqidsID(string ID) 
+        {
+            if (_sqids.Decode(ID) is [var decodedID] && ID == _sqids.Encode(decodedID))
+            {
+                return decodedID;            
+            }
+            else {
+                // Return -1 instead of bool bc i can
+                return -1;
+            }
         }
     }
 }

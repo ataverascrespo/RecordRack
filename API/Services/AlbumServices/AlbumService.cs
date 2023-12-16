@@ -15,17 +15,15 @@ namespace AlbumAPI.Services.AlbumServices
         private readonly IMapper _mapper;
         private readonly IAlbumRepository _albumRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly SqidsEncoder<int> _sqids;
-
+        
         //AutoMapper Constructor
         //Inject data context for DB access
         //Inject HTTP context accessor
-        public AlbumService(IMapper mapper, IAlbumRepository albumRepository, IHttpContextAccessor httpContextAccessor, SqidsEncoder<int> sqids)
+        public AlbumService(IMapper mapper, IAlbumRepository albumRepository, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _albumRepository = albumRepository;
             _httpContextAccessor = httpContextAccessor;
-            _sqids = sqids;
         }
 
         //Return User ID
@@ -40,6 +38,12 @@ namespace AlbumAPI.Services.AlbumServices
 
             //Access database albums table where User ID is valid
             var dbAlbums = await _albumRepository.GetAllAlbums(GetUserID());
+
+            if (dbAlbums == null) 
+            {
+                serviceResponse.Success = false;
+                return serviceResponse;
+            }
                     
             //Map all Album models to GetAlbumDTO w/ AutoMapper
             serviceResponse.Data = dbAlbums.Select(a =>  
@@ -58,7 +62,8 @@ namespace AlbumAPI.Services.AlbumServices
             var serviceResponse = new ServiceResponse<GetAlbumDTO>();
 
             //Check if the passed ID is "canonical" before using its decoded value by re-encoding the decoded number and checking if the result matches the incoming ID. As described in https://github.com/sqids/sqids-dotnet#ensuring-an-id-is-canonical
-            if (_sqids.Decode(ID) is [var decodedID] && ID == _sqids.Encode(decodedID))
+            var decodedID = _albumRepository.CheckSqidsID(ID);
+            if (decodedID != -1)
             {
                 //Access database albums table where album and users ID are valid
                 var dbAlbum = await _albumRepository.GetAlbumByUserAndAlbumID(GetUserID(), decodedID);
@@ -91,6 +96,13 @@ namespace AlbumAPI.Services.AlbumServices
 
             //Access database albums table where album and users ID are valid
             var dbAlbums = await _albumRepository.GetAlbumsByUserID(UserID, GetUserID());
+
+            if (dbAlbums == null) 
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Could not get the albums.";
+                return serviceResponse;
+            }
             
             //Add list of albums to wrapper object and return
             //The previous null check in this method can be removed as the wrapper object's properties are nullable
@@ -148,34 +160,29 @@ namespace AlbumAPI.Services.AlbumServices
             var serviceResponse = new ServiceResponse<GetAlbumDTO>();
 
             //Check if the passed ID is "canonical" before using its decoded value by re-encoding the decoded number and checking if the result matches the incoming ID. As described in https://github.com/sqids/sqids-dotnet#ensuring-an-id-is-canonical
-            if (_sqids.Decode(updateAlbum.ID) is [var decodedID] && updateAlbum.ID == _sqids.Encode(decodedID))
+            var decodedID = _albumRepository.CheckSqidsID(updateAlbum.ID);
+            if (decodedID != -1)
             {
-                try
-                {
-                    //Find first or default album in DB albums table where the ID of the passed album is equal 
-                    var album = await _albumRepository.GetAlbumToUpdate(decodedID);
+                //Find first or default album in DB albums table where the ID of the passed album is equal 
+                var album = await _albumRepository.GetAlbumToUpdate(decodedID);
 
-                    if (album == null || album.User!.ID != GetUserID())
-                    {
-                        throw new Exception($"Album with ID '{updateAlbum.ID}' not found");
-                    }
-
-                    album.AlbumDescription = updateAlbum.AlbumDescription;
-                    album.isPrivate = updateAlbum.isPrivate;
-
-                    //Save changes to database Album table
-                    await _albumRepository.SaveChanges();
-
-                    //Map Album model to GetAlbumDTO w/ AutoMapper
-                    //Add albums list to wrapper and return 
-                    serviceResponse.Data = _mapper.Map<GetAlbumDTO>(album);
-                } 
-                catch (Exception ex) 
+                if (album == null || album.User!.ID != GetUserID())
                 {
                     //If album does not exist
                     serviceResponse.Success = false;
-                    serviceResponse.ReturnMessage = ex.Message;
+                    serviceResponse.ReturnMessage = "Album not found.";
+                    return serviceResponse;
                 }
+
+                album.AlbumDescription = updateAlbum.AlbumDescription;
+                album.isPrivate = updateAlbum.isPrivate;
+
+                //Save changes to database Album table
+                await _albumRepository.SaveChanges();
+
+                //Map Album model to GetAlbumDTO w/ AutoMapper
+                //Add albums list to wrapper and return 
+                serviceResponse.Data = _mapper.Map<GetAlbumDTO>(album);
             }
             //If ID is not canonical
             else 
@@ -193,32 +200,26 @@ namespace AlbumAPI.Services.AlbumServices
             var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
 
             //Check if the passed ID is "canonical" before using its decoded value by re-encoding the decoded number and checking if the result matches the incoming ID. As described in https://github.com/sqids/sqids-dotnet#ensuring-an-id-is-canonical
-            if (_sqids.Decode(ID) is [var decodedID] && ID == _sqids.Encode(decodedID))
+            var decodedID = _albumRepository.CheckSqidsID(ID);
+            if (decodedID != -1)
             {
-                try
-                {
-                    //Find first album where the ID of the passed album and user are equal 
-                    var album = await _albumRepository.GetAlbumToRemove(decodedID, GetUserID());
+                //Find first album where the ID of the passed album and user are equal 
+                var album = await _albumRepository.GetAlbumToRemove(decodedID, GetUserID());
 
-                    if (album == null)
-                    {
-                        throw new Exception($"Album with ID '{ID}' not found");
-                    }
-
-                    await _albumRepository.RemoveAlbum(album);
-
-                    //Map all Album models to GetAlbumDTO w/ AutoMapper
-                    var albums = await _albumRepository.
-                    ReturnNewAlbumListByUserID(GetUserID());
-
-                    serviceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
-                }
-                catch (Exception ex)
+                if (album == null)
                 {
                     //If album does not exist
                     serviceResponse.Success = false;
-                    serviceResponse.ReturnMessage = ex.Message;
+                    serviceResponse.ReturnMessage = "Album not found.";
+                    return serviceResponse;
                 }
+
+                await _albumRepository.RemoveAlbum(album);
+
+                //Map all Album models to GetAlbumDTO w/ AutoMapper
+                var albums = await _albumRepository.ReturnNewAlbumListByUserID(GetUserID());
+
+                serviceResponse.Data = albums.Select(a => _mapper.Map<GetAlbumDTO>(a)).ToList();
             }
             //If ID is not canonical
             else 
@@ -237,7 +238,8 @@ namespace AlbumAPI.Services.AlbumServices
             var serviceResponse = new ServiceResponse<string>();
 
             //Check if the passed ID is "canonical" before using its decoded value by re-encoding the decoded number and checking if the result matches the incoming ID. As described in https://github.com/sqids/sqids-dotnet#ensuring-an-id-is-canonical
-            if (_sqids.Decode(ID) is [var decodedID] && ID == _sqids.Encode(decodedID))
+            var decodedID = _albumRepository.CheckSqidsID(ID);
+            if (decodedID != -1)
             {
 
                 //Find first or default album in DB albums table where the ID of the passed album is equal 
@@ -303,7 +305,8 @@ namespace AlbumAPI.Services.AlbumServices
             var serviceResponse = new ServiceResponse<List<AlbumLikesDTO>>();
 
             //Check if the passed ID is "canonical" before using its decoded value by re-encoding the decoded number and checking if the result matches the incoming ID. As described in https://github.com/sqids/sqids-dotnet#ensuring-an-id-is-canonical
-            if (_sqids.Decode(ID) is [var decodedID] && ID == _sqids.Encode(decodedID))
+            var decodedID = _albumRepository.CheckSqidsID(ID);
+            if (decodedID != -1)
             {
                 //Access database albums table where User ID is valid
                 var likes = await _albumRepository.GetAllAlbumLikes(decodedID);

@@ -44,5 +44,8 @@ namespace AlbumAPI.Data
 
         // Method to get all the likes for a user
         Task<List<AlbumLike>> GetAllAlbumLikes(int albumID);
+
+        // Helper method to evaluate the result of the sqids ID
+        int CheckSqidsID(string ID);
     }
 }
