@@ -8,3 +8,5 @@ global using AutoMapper;
 global using Microsoft.AspNetCore.Http;
 global using NSubstitute;
 global using Microsoft.Extensions.Configuration;
+global using AlbumAPI.Services.AlbumServices;
+global using Sqids;
