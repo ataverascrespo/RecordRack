@@ -14,6 +14,7 @@ import ProfileAccountSettings from "./ProfileAccountSettings";
 import ProfilePasswordSettings from "./ProfilePasswordSettings";
 import { LogOutIcon, SettingsIcon } from "lucide-react";
 import ProfileLogout from "./ProfileLogout";
+import { Separator } from "@radix-ui/react-separator";
 
 // Define component icons
 export const Icons = {
@@ -114,13 +115,15 @@ function ProfilePageSettings() {
         <div>
             <div>
                 <SheetTitle>
-                    <p className="text-base sm:text-lg md:text-2xl lg:text-4xl font-bold text-neutral-800 dark:text-neutral-50">
-                        Account Settings
+                    <p className="text-base sm:text-lg md:text-2xl font-bold text-neutral-800 dark:text-neutral-50">
+                    {viewedUser?.userName}
                     </p>
                 </SheetTitle>
                 <SheetDescription>
-                    Hey {viewedUser?.userName}. Here, you can make changes to your account.
+                    Settings and more.
                 </SheetDescription>
+                <Separator className="h-0.5 bg-neutral-200 dark:bg-neutral-800 rounded-md mt-4 mb-12"></Separator>
+               
                 {/* Display the rendered page based on user navigation routing */}
                 {sheetContent}
             </div>
