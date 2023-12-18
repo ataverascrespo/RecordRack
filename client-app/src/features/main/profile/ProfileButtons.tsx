@@ -7,102 +7,41 @@
 */
 
 import { useStore } from "@/app/stores/store";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Button } from "@/components/ui/button";
-import ProfilePageSettings from "./settings/ProfilePageSettings";
-import { LogOutIcon, SettingsIcon } from "lucide-react";
-import ProfileFollowButton from "./follow/ProfileFollowButton";
-import { useToast } from "@/components/ui/use-toast";
+import { Menu } from "lucide-react";
+import ProfileFollowButton from "./buttons/ProfileFollowButton";
+import ProfileSettingsButton from "./buttons/settings/ProfileSettingsButton";
+import ProfileShareButton from "./buttons/ProfileShareButton";
 
 // Define component icons
 export const Icons = {
-    logOut: LogOutIcon,
-    settings: SettingsIcon,
+    settings: Menu,
 };
 
 function ProfileButtons() {
-    const { userStore, profileStore } = useStore();
+    const { profileStore } = useStore();
     const { isCurrentUser } = profileStore;
-
-    //Initialize toast component
-    const { toast } = useToast();
-    
-    /*
-        Function to log the current user out
-    */
-    const handleLogout = async () => {
-        try {
-            const response: any = await userStore.logout()
-            //If the success field is true, display success toast
-            if (response.success === true) {
-                toast({
-                    title: 'Logged user out.',
-                })
-            }
-            //If the success field is false, display error msg toast
-            else {
-                toast({
-                    variant: "destructive",
-                    title: "Oh no! Something went wrong.",
-                    description: "Could not log you out at this time.",
-                })
-            }
-        } catch (error) {
-            //If there is no response at all, display general error
-            toast({
-                variant: "destructive",
-                title: "Oh no! Something went wrong.",
-                description: "Please try again later.",
-            })
-            throw (error)
-        }
-    }
 
     // If the profile user is the logged in user, display content specific to that user's own profile
     if (isCurrentUser) {
         return (
             <div className="w-full flex flex-row gap-2">
-                <Dialog>
-                    <DialogTrigger asChild className="cursor-pointer">
-                        <Button variant={"secondary"} className="w-full md:w-1/3 lg:w-1/5 xl:w-1/6 shadow-md">
-                            <div className="flex flex-row gap-2 items-center justify-center">
-                                 <p className="text-xs xxs:text-sm">Log Out</p>
-                                <Icons.logOut className="h-[2vh]" />
-                           </div>
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-[75vw] lg:max-w-[500px] py-10">
-                        <DialogHeader>
-                            <DialogTitle>
-                                <p className="mb-6">Are you sure you want to log out?</p>
-                            </DialogTitle>
-                            <Button size="lg" onClick={handleLogout}><p className="text-sm lg:text-base xl:text-lg">Log Out</p></Button>
-                        </DialogHeader>
-                    </DialogContent>
-                </Dialog>
+                {/* Settings button */}
+                <ProfileSettingsButton />
 
-                <Sheet>
-                    <SheetTrigger asChild>
-                        <Button variant={"secondary"} className="w-full md:w-1/3 lg:w-1/6 shadow-md">
-                            <div className="flex flex-row gap-2 items-center justify-center">
-                                <p className="text-xs xxs:text-sm">Settings</p>
-                                <Icons.settings className="h-[2vh]" />
-                            </div>
-                        </Button>
-                    </SheetTrigger>
-                    <SheetContent className="sm:max-w-[50vw] lg:max-w-[45vw] overflow-y-scroll max-h-screen flex flex-col justify-between">
-                         {/* Component for account settings*/}
-                         <ProfilePageSettings></ProfilePageSettings>
-                    </SheetContent>
-                </Sheet>
+                {/* Share profile button */}
+                <ProfileShareButton user={profileStore.viewedUser!}/>
             </div>
         )
     } 
     // If the viewed user is not the logged in user, display content specific to other users
     else {
         return (
-            <ProfileFollowButton buttonText={"Follow User"} width={"w-full md:w-1/3 lg:w-1/4"} />
+            <div className="w-full flex flex-row gap-2">
+                <ProfileFollowButton buttonText={"Follow User"} width={"w-full md:w-1/3 lg:w-1/4"} />
+
+                {/* Share profile button */}
+                <ProfileShareButton user={profileStore.viewedUser!}/>
+            </div>
         )
     }
 }
