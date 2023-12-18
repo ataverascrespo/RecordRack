@@ -101,7 +101,7 @@ function RackList() {
                     {/* Render component and records for ALBUMS */}
                     <TabsContent value="album" className="w-full">
                         <div className="h-full w-full mt-12">
-                            <div className="mt-6 grid grid-cols-2 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            <div className="mt-6 grid grid-cols-2 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5">
                                 {savedRecords.filter(record => record.albumType === savedRecordsSortType).length == 0 ? (
                                     // If there are no records when filtered, display empty
                                     <div className="w-full col-span-4">
