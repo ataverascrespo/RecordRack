@@ -12,24 +12,28 @@ import { useStore } from "@/app/stores/store";
 import { useState } from "react";
 import ProfileAccountSettings from "./ProfileAccountSettings";
 import ProfilePasswordSettings from "./ProfilePasswordSettings";
-import { SettingsIcon } from "lucide-react";
+import { LogOutIcon, SettingsIcon } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import ProfileLogout from "./ProfileLogout";
 
 // Define component icons
 export const Icons = {
     settings: SettingsIcon,
+    logOut: LogOutIcon,
 };
 
 function ProfilePageSettings() {
     // Access the global Mobx stores
     const { profileStore } = useStore();
     const { viewedUser } = profileStore;
-    // Initialize local state
+    // Initialize local states
     const [profileSettings, routeProfileSettings] = useState(false);
     const [passwordSettings, routePasswordSettings] = useState(false);
+    const [logout, routeLogout] = useState(false);
 
     /*
         Function that saves the state of the routed page (in this case, Profile) to true.
-        This allows the app to track which page the user has routed to
+        - Routes user to profile settings
     */
     function handleProfile() {
         routeProfileSettings(true);
@@ -37,10 +41,18 @@ function ProfilePageSettings() {
 
     /*
         Function that saves the state of the routed page (in this case, Password) to true.
-        This allows the app to track which page the user has routed to
+        - Routes user to password change menu
     */
     function handlePassword() {
         routePasswordSettings(true);
+    }
+
+    /*
+        Function that saves the state of the routed page (in this case, Logout) to true.
+        - Routes user to logout
+    */
+    function handleLogoutNav() {
+        routeLogout(true);
     }
 
     /*
@@ -50,6 +62,7 @@ function ProfilePageSettings() {
     function handleHome() {
         routeProfileSettings(false);
         routePasswordSettings(false);
+        routeLogout(false);
     }
 
     // Define dynamic content
@@ -74,6 +87,15 @@ function ProfilePageSettings() {
             </div>
         sheetButton = <div></div>
     }
+    // If log out is true, user has navigated so app needs to pre-render log out component
+    else if (logout) {
+        sheetContent =
+            <div className="my-8 flex flex-col gap-4">
+                <Button variant={"secondary"} onClick={handleHome} className="w-full shadow-md">Back to Settings</Button>
+                <ProfileLogout></ProfileLogout>
+            </div>
+        sheetButton = <div></div>
+    }
     // Otherwise, we need to pre-render the home page
     else {
         sheetContent =
@@ -81,9 +103,14 @@ function ProfilePageSettings() {
                 <Button variant={"secondary"} onClick={handleProfile} className="w-full shadow-md">Profile Settings</Button>
                 <Button variant={"secondary"} onClick={handlePassword} className="w-full shadow-md">Change Password</Button>
             </div>
-        sheetButton = <Button type="submit" className="w-full">Exit</Button>
+        sheetButton =
+                <Button className="w-full" onClick={handleLogoutNav} >
+                    <div className="flex flex-row gap-2 items-center justify-center">
+                        <p>Log Out</p>
+                        <Icons.logOut className="h-[2vh]" />
+                    </div>
+                </Button>
     }
-
     return (
         <div>
             <div>
@@ -99,11 +126,9 @@ function ProfilePageSettings() {
                 {sheetContent}
             </div>
             <SheetFooter>
-                <SheetClose asChild>
-                    <div className="w-full self-end">
-                        {sheetButton}
-                    </div>
-                </SheetClose>
+                <div className="w-full self-end">
+                    {sheetButton}
+                </div>
             </SheetFooter>
         </div>
     )
