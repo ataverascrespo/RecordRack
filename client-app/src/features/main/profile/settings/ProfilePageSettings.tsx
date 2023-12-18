@@ -6,14 +6,13 @@
  *          the different sub-pages of settings.
 */
 
-import { SheetClose, SheetDescription, SheetFooter, SheetTitle, } from "@/components/ui/sheet"
+import { SheetDescription, SheetFooter, SheetTitle, } from "@/components/ui/sheet"
 import { Button } from '@/components/ui/button'
 import { useStore } from "@/app/stores/store";
 import { useState } from "react";
 import ProfileAccountSettings from "./ProfileAccountSettings";
 import ProfilePasswordSettings from "./ProfilePasswordSettings";
 import { LogOutIcon, SettingsIcon } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
 import ProfileLogout from "./ProfileLogout";
 
 // Define component icons

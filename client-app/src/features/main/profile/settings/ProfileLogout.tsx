@@ -12,7 +12,7 @@ import { observer } from "mobx-react-lite"
 
 function ProfileLogout() {
     // Access the global Mobx stores
-    const { userStore, profileStore } = useStore();
+    const { userStore } = useStore();
     //Initialize toast component
     const { toast } = useToast();
 

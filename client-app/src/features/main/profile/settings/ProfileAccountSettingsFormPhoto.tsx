@@ -114,12 +114,12 @@ function ProfileAccountSettingsFormPhoto() {
                                         isDragging,
                                         dragProps
                                     }) => (
-                                        <div className="upload__image-wrapper flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-8 ">
+                                        <div className="upload__image-wrapper flex flex-col justify-start items-center gap-4 lg:gap-8 ">
                                             <button
                                                 style={isDragging ? { color: "red" } : undefined}
                                                 onClick={onImageUpload}
                                                 {...dragProps}
-                                                    className='w-full lg:w-1/2 h-[150px] lg:h-[200px] rounded-xl border-2 border-neutral-500 hover:border-neutral-800 dark:hover:border-neutral-300 transition-all transform duration-200'
+                                                    className='w-full h-[150px] lg:h-[200px] rounded-xl border-2 border-neutral-500 hover:border-neutral-800 dark:hover:border-neutral-300 transition-all transform duration-200'
                                                     type="button"
                                             >
                                                 <div className='flex flex-col items-center justify-center gap-0 lg:gap-4'>
