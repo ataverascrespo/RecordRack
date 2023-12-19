@@ -9,10 +9,11 @@ namespace AlbumAPI.Models
     {
         //The user who is going to follow another user
         public int FollowerID { get; set; } 
+        public string FollowerName { get; set; } = string.Empty;
         public User? Follower { get; set; }
-
         //The user who is getting followed
         public int TargetID { get; set; }
         public User? Target { get; set; }
+        public DateTime TimeFollowed { get; set; }
     }
 }
