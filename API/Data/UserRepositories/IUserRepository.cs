@@ -49,5 +49,11 @@ namespace AlbumAPI.Data
 
         //Repo method to get a given user's followers count
         Task<int> GetUserFollowersCount(int followerID);  
+
+        //Repo method to get all the user followings for a specified target
+        Task<List<UserFollowing>> GetUserFollowingsForTarget(int userID);
+
+        //Repo method to get all the album likes for a specified user
+        Task<List<AlbumLike>> GetAlbumLikesForUser(int userID);
     }
 }

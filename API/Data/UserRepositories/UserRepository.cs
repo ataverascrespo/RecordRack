@@ -148,6 +148,22 @@ namespace AlbumAPI.Data
             var count = await _context.UserFollowing.CountAsync(uf => uf.TargetID == targetID);
             return count;
         }
+
+        //Repo method to get all the user followings for a specified target
+        public async Task<List<UserFollowing>> GetUserFollowingsForTarget(int userID) {
+            var followings = await _context.UserFollowing
+                    .Where(uf => uf.TargetID == userID)
+                    .ToListAsync();
+            return followings;
+        }
+
+        //Repo method to get all the album likes for a specified user
+        public async Task<List<AlbumLike>> GetAlbumLikesForUser(int userID) {
+            var likes = await _context.AlbumLikes
+                    .Where(al => al.UserID != userID)
+                    .ToListAsync();
+            return likes;
+        }
        
     }
 }

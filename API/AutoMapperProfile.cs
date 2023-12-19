@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AlbumAPI.API.Migrations;
 using AlbumAPI.DTOs.Profile;
+using API;
 
 /// <summary>
 /// Configures mapping profiles for NuGet AutoMapper
@@ -38,6 +39,15 @@ namespace AlbumAPI
                 .ForMember(d => d.ImageID, o => o.MapFrom(s => s.Follower!.ImageID))
                 .ForMember(d => d.FollowersCount, o => o.MapFrom(s => s.Follower!.Followers.Count))
                 .ForMember(d => d.FollowingCount, o => o.MapFrom(s => s.Follower!.Followings.Count));
+            CreateMap<UserFollowing, NotificationDTO>()
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => "UserFollowing"))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.FollowerName))
+                .ForMember(dest => dest.Time, opt => opt.MapFrom(src => src.TimeFollowed));
+            CreateMap<AlbumLike, NotificationDTO>()
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => "AlbumLike"))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+                .ForMember(dest => dest.Time, opt => opt.MapFrom(src => src.TimeLiked))
+                .ForMember(dest => dest.AlbumID, opt => opt.MapFrom<SqidsLikeIDResolver>());
         }
     }
 }

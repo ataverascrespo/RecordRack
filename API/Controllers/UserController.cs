@@ -104,5 +104,14 @@ namespace AlbumAPI.Controllers
             //Return status code response and model upon completion of albumService.GetAlbums() thread
             return Ok(await _userService.GetFollowing(UserID));
         }
+
+        //HTTP GET method
+        //Return a single album based on passed parameter user ID
+        [HttpGet("GetNotifications")]
+        public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetNotifications()
+        {
+            //Return status code response and model upon completion of albumService.GetAlbums() thread
+            return Ok(await _userService.GetNotifications());
+        }
     }
 }

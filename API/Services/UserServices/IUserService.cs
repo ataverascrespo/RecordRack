@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AlbumAPI.DTOs.Profile;
 
 namespace AlbumAPI.Services.UserServices
 {
@@ -30,5 +31,8 @@ namespace AlbumAPI.Services.UserServices
 
         //Method to return a list of followed users for a given user
         Task<ServiceResponse<List<UserDTO>>> GetFollowing(int UserID);
+
+        // Method to return all notifications for a user
+        Task<ServiceResponse<List<NotificationDTO>>> GetNotifications();
     }
 }

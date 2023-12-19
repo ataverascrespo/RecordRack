@@ -1,4 +1,6 @@
 using System.Security.Claims;
+using AlbumAPI.DTOs.Profile;
+using Sqids;
 /// <summary>
 /// Implementation of dependency injection
 /// Service class handles data retrieval from the database
@@ -193,6 +195,8 @@ namespace AlbumAPI.Services.UserServices
                     {
                         Follower = follower,
                         Target = target,
+                        FollowerName = follower.UserName,
+                        TimeFollowed = DateTime.UtcNow,
                     };
 
                      // Add the new following and save
@@ -281,6 +285,43 @@ namespace AlbumAPI.Services.UserServices
             return serviceResponse;
         }
 
+        // Method to return all notifications for a user
+        public async Task<ServiceResponse<List<NotificationDTO>>> GetNotifications()
+        {
+            var serviceResponse = new ServiceResponse<List<NotificationDTO>>();
+
+            // Retrieve the followings and album likes for a given user
+            var userFollowings = await _userRepository.GetUserFollowingsForTarget(GetUserID());
+            var albumLikes = await _userRepository.GetAlbumLikesForUser(GetUserID());
+
+            var notifications = userFollowings
+                .Select(uf => 
+                {
+                    var notiDTO = _mapper.Map<NotificationDTO>(uf);
+                    return notiDTO;
+                })
+                .Union(
+                    albumLikes
+                        .Select(al => 
+                        {
+                            var notiDTO = _mapper.Map<NotificationDTO>(al);
+                            return notiDTO;
+                        })
+                )
+                .OrderByDescending(n => n.Time)
+                .ToList();
+
+            // If no notifications found, return false
+            if (notifications == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Could not find any notifications.";
+                return serviceResponse;
+            }
+
+            serviceResponse.Data = notifications;
+            return serviceResponse;    
+        }
 
         //Method to create a UserDTO to return upon login
         private UserDTO CreateUserDTO(User user)
