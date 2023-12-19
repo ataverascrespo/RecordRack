@@ -85,7 +85,7 @@ To build a deployable version
     dotnet publish
 
 ## Testing
-As of December 2023 I have written **62 API unit tests** and **24 frontend unit tests**. If there any new/existing test cases you want to contribute to, feel free do to so!
+As of December 2023 I have written **66 API unit tests** and **24 frontend unit tests**. If there any new/existing test cases you want to contribute to, feel free do to so!
 
 To run API tests: 
     

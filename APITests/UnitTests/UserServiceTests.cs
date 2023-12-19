@@ -1,9 +1,11 @@
 
+
+using AlbumAPI.DTOs.Profile;
+
 /// <summary>
 /// XUnit Test Class
 /// Tests the IUserService interface implementations
 /// </summary>
-
 namespace APITests;
 // Disable a nullablity warning - not pertinent to the test case class
 #pragma warning disable CS8620
@@ -617,6 +619,191 @@ public class UserServiceTests
 
         // Act
         var result = await userService.GetFollowing(dummyFollower.ID);
+
+        // Assert
+        Assert.Null(result.Data);
+        Assert.False(result.Success);
+    }
+
+    [Fact]
+    public async void GetNotifications_ReturnsNotifications()
+    {
+        // Arrange
+        // Create repository subsitute and new service instance
+        var repository = Substitute.For<IUserRepository>();
+        var mapper = Substitute.For<IMapper>();
+        var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+        var userService = new UserService(mapper, repository, httpContextAccessor);
+
+        // Mock the HTTPContextAccessor properties
+        // Current USER ID will be 1 
+        var userIdClaim = new Claim(ClaimTypes.NameIdentifier, "1");
+        var user = new ClaimsPrincipal(new ClaimsIdentity(new[] { userIdClaim }, "mock"));
+        // Stub the private GetUserID() method
+        httpContextAccessor.HttpContext.Returns(new DefaultHttpContext
+        {
+            User = user
+        });
+
+        // Create dummy data
+        var dummyUser = new User { ID = 1 };
+        // Create dummy list where the dummy user (curr) is the target
+        var dummyFollow = new List<UserFollowing> {
+            new UserFollowing { FollowerID = 2, FollowerName = "follower", TargetID = 1, TimeFollowed = DateTime.UtcNow }
+        };
+        // Create dummy album with user set to dummy user (curr) ID
+        var dummyAlbum = new Album
+        {
+            ID = 123,
+            User = new User
+            {
+                ID = 1
+            }
+        };
+        // Create dummy list where the liked album is dummy album
+        var dummyLike = new List<AlbumLike> {
+            new AlbumLike { Album = dummyAlbum, AlbumID = dummyAlbum.ID, TimeLiked = DateTime.UtcNow, UserID = 2 }
+        };
+
+        // Stub the repository method(s) return value(s)
+        repository.GetUserFollowingsForTarget(dummyUser.ID).Returns(Task.FromResult(dummyFollow));
+        repository.GetAlbumLikesForUser(dummyUser.ID).Returns(Task.FromResult(dummyLike));
+        // Set up the mapper to return a specific value when Map is called
+        mapper.Map<NotificationDTO>(Arg.Any<UserFollowing>()).Returns(new NotificationDTO { /* ... */ });
+        mapper.Map<NotificationDTO>(Arg.Any<AlbumLike>()).Returns(new NotificationDTO { /* ... */ }); 
+
+        // Act
+        var result = await userService.GetNotifications();
+
+        // Assert
+        Assert.NotNull(result.Data);
+        Assert.True(result.Success);
+    }
+
+    [Fact]
+    public async void GetNotifications_NullFollows_ReturnsNotifications()
+    {
+        // Arrange
+        // Create repository subsitute and new service instance
+        var repository = Substitute.For<IUserRepository>();
+        var mapper = Substitute.For<IMapper>();
+        var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+        var userService = new UserService(mapper, repository, httpContextAccessor);
+
+        // Mock the HTTPContextAccessor properties
+        // Current USER ID will be 1 
+        var userIdClaim = new Claim(ClaimTypes.NameIdentifier, "1");
+        var user = new ClaimsPrincipal(new ClaimsIdentity(new[] { userIdClaim }, "mock"));
+        // Stub the private GetUserID() method
+        httpContextAccessor.HttpContext.Returns(new DefaultHttpContext
+        {
+            User = user
+        });
+
+        // Create dummy data
+        var dummyUser = new User { ID = 1 };
+    
+        // Create dummy album with user set to dummy user (curr) ID
+        var dummyAlbum = new Album
+        {
+            ID = 123,
+            User = new User
+            {
+                ID = 1
+            }
+        };
+        // Create dummy list where the liked album is dummy album
+        var dummyLike = new List<AlbumLike> {
+            new AlbumLike { Album = dummyAlbum, AlbumID = dummyAlbum.ID, TimeLiked = DateTime.UtcNow, UserID = 2 }
+        };
+
+        // Stub the repository method(s) return value(s)
+        repository.GetUserFollowingsForTarget(dummyUser.ID).Returns(Task.FromResult<List<UserFollowing>?>(null));
+        repository.GetAlbumLikesForUser(dummyUser.ID).Returns(Task.FromResult(dummyLike));
+        // Set up the mapper to return a specific value when Map is called
+        mapper.Map<NotificationDTO>(Arg.Any<UserFollowing>()).Returns(new NotificationDTO { /* ... */ });
+        mapper.Map<NotificationDTO>(Arg.Any<AlbumLike>()).Returns(new NotificationDTO { /* ... */ }); 
+
+        // Act
+        var result = await userService.GetNotifications();
+
+        // Assert
+        Assert.NotNull(result.Data);
+        Assert.True(result.Success);
+    }
+
+
+    [Fact]
+    public async void GetNotifications_NullLikes_ReturnsNotifications()
+    {
+        // Arrange
+        // Create repository subsitute and new service instance
+        var repository = Substitute.For<IUserRepository>();
+        var mapper = Substitute.For<IMapper>();
+        var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+        var userService = new UserService(mapper, repository, httpContextAccessor);
+
+        // Mock the HTTPContextAccessor properties
+        // Current USER ID will be 1 
+        var userIdClaim = new Claim(ClaimTypes.NameIdentifier, "1");
+        var user = new ClaimsPrincipal(new ClaimsIdentity(new[] { userIdClaim }, "mock"));
+        // Stub the private GetUserID() method
+        httpContextAccessor.HttpContext.Returns(new DefaultHttpContext
+        {
+            User = user
+        });
+
+        // Create dummy data
+        var dummyUser = new User { ID = 1 };
+        // Create dummy list where the dummy user (curr) is the target
+        var dummyFollow = new List<UserFollowing> {
+            new UserFollowing { FollowerID = 2, FollowerName = "follower", TargetID = 1, TimeFollowed = DateTime.UtcNow }
+        };
+
+        // Stub the repository method(s) return value(s)
+        repository.GetUserFollowingsForTarget(dummyUser.ID).Returns(Task.FromResult(dummyFollow));
+        repository.GetAlbumLikesForUser(dummyUser.ID).Returns(Task.FromResult<List<AlbumLike>?>(null));
+        // Set up the mapper to return a specific value when Map is called
+        mapper.Map<NotificationDTO>(Arg.Any<UserFollowing>()).Returns(new NotificationDTO { /* ... */ });
+        mapper.Map<NotificationDTO>(Arg.Any<AlbumLike>()).Returns(new NotificationDTO { /* ... */ }); 
+
+        // Act
+        var result = await userService.GetNotifications();
+
+        // Assert
+        Assert.NotNull(result.Data);
+        Assert.True(result.Success);
+    }
+
+     [Fact]
+    public async void GetNotifications_NullLikes_NullFollows_ReturnsNull()
+    {
+        // Arrange
+        // Create repository subsitute and new service instance
+        var repository = Substitute.For<IUserRepository>();
+        var mapper = Substitute.For<IMapper>();
+        var httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+        var userService = new UserService(mapper, repository, httpContextAccessor);
+
+        // Mock the HTTPContextAccessor properties
+        // Current USER ID will be 1 
+        var userIdClaim = new Claim(ClaimTypes.NameIdentifier, "1");
+        var user = new ClaimsPrincipal(new ClaimsIdentity(new[] { userIdClaim }, "mock"));
+        // Stub the private GetUserID() method
+        httpContextAccessor.HttpContext.Returns(new DefaultHttpContext
+        {
+            User = user
+        });
+
+        // Create dummy data
+        var dummyUser = new User { ID = 1 };
+        
+        // Stub the repository method(s) return value(s)
+        repository.GetUserFollowingsForTarget(dummyUser.ID).Returns(Task.FromResult<List<UserFollowing>?>(null));        
+        repository.GetAlbumLikesForUser(dummyUser.ID).Returns(Task.FromResult<List<AlbumLike>?>(null));
+       
+        // Act
+        var result = await userService.GetNotifications();
 
         // Assert
         Assert.Null(result.Data);

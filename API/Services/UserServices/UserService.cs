@@ -294,7 +294,22 @@ namespace AlbumAPI.Services.UserServices
             var userFollowings = await _userRepository.GetUserFollowingsForTarget(GetUserID());
             var albumLikes = await _userRepository.GetAlbumLikesForUser(GetUserID());
 
-            var notifications = userFollowings
+            if (userFollowings == null && albumLikes == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.ReturnMessage = "Could not find any notifications.";
+                return serviceResponse;
+            }
+            else if (userFollowings == null) 
+            {
+                userFollowings = new List<UserFollowing>();
+            }
+            else if (albumLikes == null) 
+            {
+                albumLikes = new List<AlbumLike>();
+            }
+             
+            var notifications = userFollowings!
                 .Select(uf => 
                 {
                     var notiDTO = _mapper.Map<NotificationDTO>(uf);
@@ -310,14 +325,6 @@ namespace AlbumAPI.Services.UserServices
                 )
                 .OrderByDescending(n => n.Time)
                 .ToList();
-
-            // If no notifications found, return false
-            if (notifications == null)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.ReturnMessage = "Could not find any notifications.";
-                return serviceResponse;
-            }
 
             serviceResponse.Data = notifications;
             return serviceResponse;    
