@@ -138,14 +138,14 @@ namespace AlbumAPI.Data
         }
 
         //Repo method to get a given user's following count
-        public async Task<int> GetUserFollowingCount(int targetID) {
-            var count = await _context.UserFollowing.CountAsync(uf => uf.TargetID == targetID);
+        public async Task<int> GetUserFollowingCount(int followerID) {
+            var count = await _context.UserFollowing.CountAsync(uf => uf.FollowerID == followerID);
             return count;
         }
 
         //Repo method to get a given user's followers count
-        public async Task<int> GetUserFollowersCount(int followerID) {
-            var count = await _context.UserFollowing.CountAsync(uf => uf.FollowerID == followerID);
+        public async Task<int> GetUserFollowersCount(int targetID) {
+            var count = await _context.UserFollowing.CountAsync(uf => uf.TargetID == targetID);
             return count;
         }
        

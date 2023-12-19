@@ -22,11 +22,11 @@ interface Props{
 function ProfileFollower({ profileUser }: Props) {
     // Access the Mobx global store
     const { profileStore } = useStore();
-    const { viewedUser } = profileStore;
+    const { viewedUserFollowersCount } = profileStore;
     
     // Define dynamic content for followers info
     let followersText;
-    if (!viewedUser?.followersCount || viewedUser?.followersCount == undefined) {
+    if (!viewedUserFollowersCount || viewedUserFollowersCount == undefined) {
         // If the followers count is null or undefined, set the text to 'followers'
         // This is done because the list will count as '0 followers'
         followersText = " followers";
@@ -34,16 +34,16 @@ function ProfileFollower({ profileUser }: Props) {
         // Evaluate whether the non-empty followersCount list is 1 or larger
         // If 1, set text to follower such that text displays '1 follower'
         // If not 1, set text to followers such that text displays 'x followers'
-        followersText = viewedUser?.followersCount === 1 ? ' follower' : ' followers';
+        followersText = viewedUserFollowersCount === 1 ? ' follower' : ' followers';
     }
 
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant={"link"} className="px-0 py-0 ">
-                    <p className="w-3/4 sm:w-full text-sm sm:text-base font-light text-neutral-800 text-center lg:text-left dark:text-neutral-300">
+                    <p className="w-3/4 sm:w-[75%] md:w-full text-sm sm:text-base font-light text-neutral-800 text-center lg:text-left dark:text-neutral-300">
                         <span className="font-bold">
-                            {viewedUser?.followersCount}
+                            {viewedUserFollowersCount}
                         </span>
                         {followersText}
                     </p>

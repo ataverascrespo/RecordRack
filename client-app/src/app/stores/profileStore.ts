@@ -21,6 +21,8 @@ export default class ProfileStore {
     uploadingPhoto = false;
     viewedUserFollowers: ProfileUser[] | undefined = undefined;
     viewedUserFollowing: ProfileUser[] | undefined = undefined;
+    viewedUserFollowersCount: number = 0;
+    viewedUserFollowingCount: number = 0;
     searchedUsers: ProfileUser[] = [];
     searchQuery: string = "";
     loadingSearchedUsers = false;
@@ -58,8 +60,12 @@ export default class ProfileStore {
                 store.recordStore.savedRecordsSortOrder = "asc";
                 store.recordStore.savedRecordsSortType = "album";
                 store.recordStore.savedRecordsSearchQuery = ""
+                
+                this.viewedUserFollowersCount = viewedUser.followersCount;
+                this.viewedUserFollowingCount = viewedUser.followingCount;
+                // Initialize these fields as empty as they are not returned, but we need them to be ready for retrieval 
                 this.viewedUserFollowers = [];
-                this.viewedUserFollowing = [];
+                this.viewedUserFollowing = [];    
             });
             return response;
         } catch (error) {
@@ -139,7 +145,9 @@ export default class ProfileStore {
                 const user: ProfileUser = response.data;
                 // Modify the state within the action (state cannot be changed outside of actions)
                 // Modify the viewed user state, which triggers the observable to display the updated follow count.
-                runInAction(() => this.viewedUser = user);
+                runInAction(() => {
+                    this.viewedUserFollowersCount = user.followersCount;
+                });
             }
             return response;
         } catch (error) {
