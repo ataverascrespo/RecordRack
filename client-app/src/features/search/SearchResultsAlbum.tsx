@@ -164,7 +164,7 @@ export default function SearchResults({ results }: Props) {
                                     <DialogContent className="max-w-[85vw] lg:max-w-[725px]">
                                         <DialogHeader className="text-left mb-8">
                                             <DialogTitle className="mt-4 lg:mt-0">
-                                                <p className="text-lg md:text-xl">Adding album '{result.name}' by {formatArtists(result.artists)}</p>
+                                                <p className="text-base sm:text-lg md:text-xl">Adding album '{result.name}' by {formatArtists(result.artists)}</p>
                                             </DialogTitle>
                                             <DialogDescription>This album will be added to your racklist.</DialogDescription>
                                         </DialogHeader>
