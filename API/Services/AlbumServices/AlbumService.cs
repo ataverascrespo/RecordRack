@@ -275,6 +275,8 @@ namespace AlbumAPI.Services.AlbumServices
                         {
                             User = user,
                             Album = album,
+                            UserName = user.UserName,
+                            TimeLiked = DateTime.UtcNow,
                         };
 
                         //Add the like to the list of album likes
@@ -321,26 +323,6 @@ namespace AlbumAPI.Services.AlbumServices
             }
 
             return serviceResponse;
-        }
-    }
-
-    public class SqidsIDResolver : IValueResolver<Album, GetAlbumDTO, string>
-    {
-
-        private readonly SqidsEncoder<int> _sqids;
-
-        public SqidsIDResolver(SqidsEncoder<int> sqids)
-        {
-            _sqids = sqids;
-        }
-
-        public string Resolve(Album source, GetAlbumDTO destination, string destMember, ResolutionContext context)
-        {
-            // Use your custom package to convert the AlbumID (int) to a unique string
-            int albumID = source.ID;
-            string encodedAlbumId = _sqids.Encode(albumID);
-
-            return encodedAlbumId;
         }
     }
 }
