@@ -2,7 +2,7 @@
  * Name: NotificationPage.tsx
  * Written by: Alex Taveras-Crespo
  * 
- * Purpose: This code file renders and configures the parent display for searching the user accounts.
+ * Purpose: This code file renders and configures the parent display for user notifications.
 */
 
 import { observer } from "mobx-react-lite";

@@ -1,14 +1,13 @@
 /**
- * Name: NotificationPage.tsx
+ * Name: NotificationList.tsx
  * Written by: Alex Taveras-Crespo
  * 
- * Purpose: This code file renders and configures the parent display for searching the user accounts.
+ * Purpose: This code file renders and configures the list mapping of user notifications
 */
 
 
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/app/stores/store";
-import Footer from "@/app/layout/Footer";
 import NotFoundView from "@/app/layout/NotFoundView";
 import NotificationCard from "./NotificationCard";
 

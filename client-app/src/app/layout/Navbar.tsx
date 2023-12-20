@@ -64,7 +64,7 @@ function Navbar() {
                 <p className="text-sm lg:text-base">about</p>
               </Button>
             </NavLink>
-            <NavLink to={"/notifications"}>
+            <NavLink to={`${user?.userName}/notifications`}>
               <Button variant="ghost" size="lg" className="md:px-6 lg:px-8">
                 <Icons.notifications className="h-[1.2rem] w-[1.2rem]" />
               </Button>
@@ -73,7 +73,7 @@ function Navbar() {
 
           {/* Mobile menu for signed in user */}
           <div className="flex flex-row justify-center items-center md:hidden">
-          <NavLink to={"/notifications"}>
+          <NavLink to={`${user?.userName}/notifications`}>
               <Button variant="ghost" size="sm" className="md:px-6 lg:px-8">
                 <Icons.notifications className="h-[1.2rem] w-[1.2rem]" />
               </Button>

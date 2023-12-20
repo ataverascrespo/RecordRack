@@ -39,7 +39,7 @@ export const routes: RouteObject[] = [
                 { path: ':username/record/:id', element: <RecordView /> },
                 { path: 'search/music', element: <SearchPage /> },
                 { path: 'search/users', element: <SocialPage /> },
-                { path: 'notifications', element: <NotificationPage /> },
+                { path: ':username/notifications', element: <NotificationPage /> },
             ]
             },
             // Wrap pages that require user to be signed out behind Authorized component

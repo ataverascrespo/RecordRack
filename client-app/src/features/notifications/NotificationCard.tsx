@@ -2,8 +2,7 @@
  * Name: NotificationCard.tsx
  * Written by: Alex Taveras-Crespo
  * 
- * Purpose: This code file accepts props to render and display the individually mapped Records from the Racklist. 
- *          This component handles the rendering for TRACKS.
+ * Purpose: This code file accepts props to render and display the individually mapped user notifications.
 */
 
 import { ProfileUserNotification } from "@/app/models/profile";
