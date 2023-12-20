@@ -7,6 +7,7 @@
  *          - Profile class
 */
 
+import { SavedRecord } from "./record";
 import { User } from "./user";
 
 // Define the ProfileUser interface and properties
@@ -18,6 +19,15 @@ export interface ProfileUser {
     following: boolean;
     followersCount: number;
     followingCount: number;
+}
+
+export interface ProfileUserNotification {
+    type: string
+    userName: string
+    time: string
+    albumID: string
+    album: SavedRecord;
+    user: User;
 }
 
 //Create a new class that implements the profile interface

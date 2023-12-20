@@ -23,6 +23,7 @@ import PasswordResetPage from "@/features/auth/Password/ForgotPassword/PasswordR
 import RecordView from "@/features/main/rack/recordview/RecordView";
 import SocialPage from "@/features/social/SocialPage";
 import SignedOut from "./SignedOut";
+import NotificationPage from "@/features/notifications/NotificationPage";
 
 
 // Define the routes of the MPA
@@ -38,6 +39,7 @@ export const routes: RouteObject[] = [
                 { path: ':username/record/:id', element: <RecordView /> },
                 { path: 'search/music', element: <SearchPage /> },
                 { path: 'search/users', element: <SocialPage /> },
+                { path: 'notifications', element: <NotificationPage /> },
             ]
             },
             // Wrap pages that require user to be signed out behind Authorized component

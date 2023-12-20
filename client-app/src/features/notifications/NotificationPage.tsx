@@ -1,43 +1,50 @@
 /**
- * Name: SocialPage.tsx
+ * Name: NotificationPage.tsx
  * Written by: Alex Taveras-Crespo
  * 
  * Purpose: This code file renders and configures the parent display for searching the user accounts.
 */
 
-
 import { observer } from "mobx-react-lite";
-import { SocialForm } from "./SocialForm";
 import { useStore } from "@/app/stores/store";
-import SocialSearchResults from "./SocialSearchResults";
 import Footer from "@/app/layout/Footer";
 import Loading from "@/app/layout/Loading";
+import { useEffect } from "react";
+import NotificationList from "./NotificationList";
 
-function SocialPage() {
+function NotificationPage() {
     // Access the global Mobx stores
     const { profileStore } = useStore();
-    const { searchedUsers } = profileStore;
+    const { loadingNotifications } = profileStore;
+
+    // Second use effect hook - render records after user validated
+    useEffect(() => {
+        const loadNotifications = async () => {
+            // Fetch the user's notifications list based
+            const response = await profileStore.getNotifications();
+            console.log(response);
+        }
+        loadNotifications();
+    }, [profileStore]);
 
     return (
         <div className="container">
-            <div className="h-full mt-48 mb-[23.75rem] flex flex-col justify-start gap-12 items-start">
+            <div className="h-full w-full mt-48 flex flex-col justify-start gap-12 items-start">
 
+                {/* Header */}
                 <div className="flex flex-col gap-4 items-start">
                     <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-neutral-800 dark:text-neutral-50">
-                        Connect with friends
+                        Your notifications
                     </h1>
                 </div>
 
-                {/* Render search Form component */}
-                <SocialForm />
-
                 {
-                    profileStore.loadingSearchedUsers
+                    loadingNotifications
                     // While users are loading, display a loading component
                         ? <Loading text={"Loading..."} height={"h-[40vh]"}></Loading>
                         : 
                     // When users have loaded, render the search results
-                          <SocialSearchResults results={searchedUsers}/>
+                        <NotificationList></NotificationList>
                 }
                 
             </div>
@@ -47,4 +54,4 @@ function SocialPage() {
 }
 
 // Wrap component in observer so that it reacts to MobX state changes
-export default observer(SocialPage)
+export default observer(NotificationPage)
