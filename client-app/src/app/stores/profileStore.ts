@@ -10,12 +10,13 @@ import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/serviceAgent";
 import { store } from "./store";
 import { router } from "../router/Routes";
-import { ProfileUser } from "../models/profile";
+import { ProfileUser, ProfileUserNotification } from "../models/profile";
 
 // Profile data store class
 export default class ProfileStore {
 
     // Define the class properties
+    // Viewed user
     viewedUser: ProfileUser | undefined = undefined;
     loadingViewedUser = false;
     uploadingPhoto = false;
@@ -23,6 +24,12 @@ export default class ProfileStore {
     viewedUserFollowing: ProfileUser[] | undefined = undefined;
     viewedUserFollowersCount: number = 0;
     viewedUserFollowingCount: number = 0;
+
+    // Notifications
+    viewedUserNotifications: ProfileUserNotification[] | undefined = undefined;
+    loadingNotifications = false;
+
+    // Searched users
     searchedUsers: ProfileUser[] = [];
     searchQuery: string = "";
     loadingSearchedUsers = false;
@@ -233,6 +240,27 @@ export default class ProfileStore {
             } catch (error) {
                 console.log(error);
             }
+        }
+    }
+
+    // Store function to get user notifications
+    // Accepts: none
+    getNotifications = async () => {
+        this.loadingNotifications = true;
+        try {
+            // Call the API agent function to get user's notifications
+            const response = await agent.Users.getNotifications();
+            if (response.success === true) {
+                // Modify the state within the action (state cannot be changed outside of actions)
+                runInAction(() => {
+                    // Set the users following list
+                    this.viewedUserNotifications = response.data;
+                    this.loadingNotifications = false;
+                });
+            }
+            return response;
+        } catch (error) {
+            throw (error);
         }
     }
 }

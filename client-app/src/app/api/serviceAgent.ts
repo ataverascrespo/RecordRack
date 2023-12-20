@@ -103,6 +103,7 @@ const Users = {
   follow: (id: number) => requests.post(`User/FollowUser/${id}`, id),
   getFollowers: (id: number) => requests.get(`User/GetFollowers/${id}`),
   getFollowing: (id: number) => requests.get(`User/GetFollowing/${id}`),
+  getNotifications: () => requests.get('User/GetNotifications'),
 }
 
 // Define API endpoints for app's Spotify features
