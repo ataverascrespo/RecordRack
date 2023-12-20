@@ -313,6 +313,10 @@ namespace AlbumAPI.Services.UserServices
                 .Select(uf => 
                 {
                     var notiDTO = _mapper.Map<NotificationDTO>(uf);
+                    // Set the user to the mapped follower
+                    notiDTO.User = _mapper.Map<UserDTO>(uf.Follower);
+                    // Don't send back user email
+                    notiDTO.User.Email = "";
                     return notiDTO;
                 })
                 .Union(
@@ -320,6 +324,12 @@ namespace AlbumAPI.Services.UserServices
                         .Select(al => 
                         {
                             var notiDTO = _mapper.Map<NotificationDTO>(al);
+                            notiDTO.Album = _mapper.Map<GetAlbumDTO>(al.Album);
+                            // Don't send back user email
+                            if (notiDTO.User != null)
+                            {
+                                notiDTO.User.Email = "";
+                            }
                             return notiDTO;
                         })
                 )
