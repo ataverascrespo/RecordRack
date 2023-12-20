@@ -47,13 +47,19 @@ function RackPage() {
         const loadRecords = async () => {
             if (profileStore.viewedUser) {
                 if (isCurrentUser) {
+                    // Fix for #5 - Returning to record list from record page does not return user to correct spot
+                    // Only re-load the records if necessary
                     if (recordStore.savedRecords.length === 0) {
                         // Fetch the current user's list.
                         await recordStore.loadRecords();
                     }
                 } else {
-                    // Fetch the user's list based on the user ID
-                    await recordStore.loadRecordsForUser(profileStore.viewedUser.id)
+                    // Fix for #15 - Returning to another user's record list from their record page does not return user to correct spot
+                    // Only re-load the records if necessary
+                    if (recordStore.savedRecords.length === 0) {
+                        // Fetch the user's list based on the user ID
+                        await recordStore.loadRecordsForUser(profileStore.viewedUser.id)
+                    }
                 }
             }
         }
