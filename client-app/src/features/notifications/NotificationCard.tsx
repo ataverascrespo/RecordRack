@@ -38,10 +38,12 @@ function NotificationCard({ notification }: Props) {
     var notificationText;
 
     if (notification.type === "UserFollowing") {
+        // Type is a follow notification
         notificationText = "followed you"
     }
     else {
-        notificationText = `liked your record ${notification.album.albumName} by ${notification.album.artistName}`
+        // Type is a record like notification
+        notificationText = `liked your saved ${notification.album.albumType} ${notification.album.albumName} by ${notification.album.artistName}`
     }
 
     return (
