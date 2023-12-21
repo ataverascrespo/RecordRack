@@ -49,7 +49,7 @@ function RecordViewInfo({ record }: Props) {
                     {/* Use textfit component to dynamically change text size */}
                     <Textfit className="h-full flex items-end" forceSingleModeWidth={true} min={24} max={64}>
                         <h1 className="w-full font-black text-neutral-900 leading-none dark:text-neutral-50">
-                             HEllo
+                            {record.albumName}
                         </h1>
                     </Textfit>
                 </div>
