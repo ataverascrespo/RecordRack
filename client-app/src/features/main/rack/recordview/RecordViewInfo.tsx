@@ -12,19 +12,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Textfit } from '@ataverascrespo/react-textfit';
 import RecordViewLikes from "./likes/RecordViewLikes";
 import { SavedRecord } from '@/app/models/record';
-import { useEffect } from 'react';
 
 interface Props {
     record: SavedRecord,
 }
 
 function RecordViewInfo({ record }: Props) {
-
-    useEffect(() => {
-        // Trigger a window resize event when the component mounts
-        window.dispatchEvent(new CustomEvent('resize'));
-    }, []);
-
     /*
        Function to format the DateTime C# format to a readable format
     */
@@ -47,11 +40,14 @@ function RecordViewInfo({ record }: Props) {
             <div className="w-full flex flex-col items-start">
                 <div className="w-full h-auto md:h-[75px]">
                     {/* Use textfit component to dynamically change text size */}
-                    <Textfit className="h-full flex items-end" forceSingleModeWidth={true} min={24} max={64}>
+                    <Textfit className="hidden md:flex h-full items-end" forceSingleModeWidth={true} min={24} max={64}>
                         <h1 className="w-full font-black text-neutral-900 leading-none dark:text-neutral-50">
                             {record.albumName}
                         </h1>
                     </Textfit>
+                    <h1 className="flex md:hidden text-[24px] sm:text-[36px] w-full font-black text-neutral-900 leading-none dark:text-neutral-50">
+                            {record.albumName}
+                    </h1>
                 </div>
                 <h2 className="max-w-xl text-sm xxs:text-base md:text-xl font-medium text-neutral-900 dark:text-neutral-400">
                     {(record.albumType).charAt(0).toUpperCase() + record.albumType.slice(1)} by {record.artistName}
