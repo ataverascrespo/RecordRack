@@ -21,8 +21,7 @@ function NotificationPage() {
     useEffect(() => {
         const loadNotifications = async () => {
             // Fetch the user's notifications list based
-            const response = await profileStore.getNotifications();
-            console.log(response);
+            await profileStore.getNotifications();
         }
         loadNotifications();
     }, [profileStore]);
