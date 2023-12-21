@@ -23,7 +23,7 @@ function RackListRecordsTracks({ record }: Props) {
     return (
         // Wrap the component in a link to the record view URL
         <Link key={record.id} to={`/${viewedUser!.userName}/record/${record.id}`}>
-            <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 p-4 md:p-6 rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200 ">
+            <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 p-4 md:p-6 rounded-xl bg-transparent dark:bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200 ">
                 {/* Track image */}
                 <div className="flex flex-col gap-6">
                     <div className="w-12 xxs:w-24 sm:w-32 rounded-lg overflow-hidden shadow-lg">

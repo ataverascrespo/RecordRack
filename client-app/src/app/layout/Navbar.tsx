@@ -35,7 +35,7 @@ function Navbar() {
       {/* Check userstore logged in method to determine if user is logged in */}
       {isLoggedIn
         ? <div className="header container py-6 flex flex-row items-center justify-between">
-          <div className="flex flex-row gap-0 sm:gap-2 lg:gap-6 items-center">
+          <div className="flex flex-row gap-2 lg:gap-6 items-center">
             <NavLink to={"/"}>
               <h1 className="font-semibold text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl">Record Rack</h1>
             </NavLink>
