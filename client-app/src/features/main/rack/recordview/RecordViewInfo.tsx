@@ -12,12 +12,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { Textfit } from '@ataverascrespo/react-textfit';
 import RecordViewLikes from "./likes/RecordViewLikes";
 import { SavedRecord } from '@/app/models/record';
+import { useEffect } from 'react';
 
 interface Props {
     record: SavedRecord,
 }
 
 function RecordViewInfo({ record }: Props) {
+
+    useEffect(() => {
+        // Trigger a window resize event when the component mounts
+        window.dispatchEvent(new CustomEvent('resize'));
+    }, []);
 
     /*
        Function to format the DateTime C# format to a readable format
@@ -43,7 +49,7 @@ function RecordViewInfo({ record }: Props) {
                     {/* Use textfit component to dynamically change text size */}
                     <Textfit className="h-full flex items-end" forceSingleModeWidth={true} min={24} max={64}>
                         <h1 className="w-full font-black text-neutral-900 leading-none dark:text-neutral-50">
-                            {record.albumName}
+                             HEllo
                         </h1>
                     </Textfit>
                 </div>
