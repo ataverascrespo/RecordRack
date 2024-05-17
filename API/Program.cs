@@ -21,11 +21,11 @@ using Sqids;
 var builder = WebApplication.CreateBuilder(args);
 
 //Configure AWS systems manager
-builder.Configuration.AddSystemsManager(source => {
-                        source.Path = "/recordrack";
-                        source.ReloadAfter =
-                            TimeSpan.FromMinutes(10);
-                    });
+// builder.Configuration.AddSystemsManager(source => {
+//                         source.Path = "/recordrack";
+//                         source.ReloadAfter =
+//                             TimeSpan.FromMinutes(10);
+//                     });
 
 builder.Services.AddCors(options =>
 {
