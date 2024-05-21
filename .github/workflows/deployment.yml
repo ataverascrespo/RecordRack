@@ -29,11 +29,11 @@ jobs:
       contents: read
     steps:
     - uses: actions/checkout@v4
-    #- uses: aws-actions/configure-aws-credentials@v4
-    #  with:
-    #    role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
-    #    role-session-name: GitHub-Action-Role
-    #    aws-region: us-east-2
+    - uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.IAMROLE_GITHUB }}
+        role-session-name: GitHub-Action-Role
+        aws-region: us-east-2
     - run: |
         echo "Deploying"
         commit_hash=`git rev-parse HEAD`
