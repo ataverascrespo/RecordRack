@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -18,20 +18,9 @@ jobs:
         dotnet-version: 8.0.x
     - name: Build Changes
       run: dotnet build
-      
-  test:
-    name: Test
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
     - name: Test Changes
-      run: dotnet test --verbosity normal
-      
+      run: dotnet test --no-build --verbosity normal
+    
 #  deploy:
 #    name: Deploy to AWS
 #    runs-on: ubuntu-latest
