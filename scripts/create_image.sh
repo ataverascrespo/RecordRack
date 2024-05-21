@@ -3,7 +3,7 @@
 set -e
 
 # Navigate to repo and pull latest changes 
-cd repos/RecordRack
+cd /home/ec2-user/repos/RecordRack
 git pull origin
 
 # Build the Docker image
