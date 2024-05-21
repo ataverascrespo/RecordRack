@@ -37,6 +37,6 @@ jobs:
     - run: |
         echo "Deploying"
         commit_hash=`git rev-parse HEAD`
-        aws deploy create-deployment --application-name record-rack --deployment-group-name record-rack_deployment --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
+        aws deploy create-deployment --application-name record-rack --deployment-group-name record-rack_deployment --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures --region us-east-2
       
     
