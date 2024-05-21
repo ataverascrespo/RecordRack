@@ -646,10 +646,11 @@ public class UserServiceTests
         });
 
         // Create dummy data
-        var dummyUser = new User { ID = 1 };
+        var dummyUser = new User { ID = 1, Email = "dummy@test.com" };
+        var dummyFollowerUser = new User { ID = 2, Email = "sheep@follower.com" };
         // Create dummy list where the dummy user (curr) is the target
         var dummyFollow = new List<UserFollowing> {
-            new UserFollowing { FollowerID = 2, FollowerName = "follower", TargetID = 1, TimeFollowed = DateTime.UtcNow }
+            new UserFollowing { FollowerID = 2, FollowerName = "follower", TargetID = 1, TimeFollowed = DateTime.UtcNow, Follower = dummyFollowerUser }
         };
         // Create dummy album with user set to dummy user (curr) ID
         var dummyAlbum = new Album
@@ -671,6 +672,7 @@ public class UserServiceTests
         // Set up the mapper to return a specific value when Map is called
         mapper.Map<NotificationDTO>(Arg.Any<UserFollowing>()).Returns(new NotificationDTO { /* ... */ });
         mapper.Map<NotificationDTO>(Arg.Any<AlbumLike>()).Returns(new NotificationDTO { /* ... */ }); 
+        mapper.Map<UserDTO>(Arg.Any<User>()).Returns(new UserDTO { /* ... */ }); 
 
         // Act
         var result = await userService.GetNotifications();
@@ -755,9 +757,10 @@ public class UserServiceTests
 
         // Create dummy data
         var dummyUser = new User { ID = 1 };
+        var dummyFollowerUser = new User { ID = 2, Email = "sheep@follower.com" };
         // Create dummy list where the dummy user (curr) is the target
         var dummyFollow = new List<UserFollowing> {
-            new UserFollowing { FollowerID = 2, FollowerName = "follower", TargetID = 1, TimeFollowed = DateTime.UtcNow }
+            new UserFollowing { FollowerID = 2, FollowerName = "follower", TargetID = 1, TimeFollowed = DateTime.UtcNow, Follower = dummyFollowerUser }
         };
 
         // Stub the repository method(s) return value(s)
@@ -766,6 +769,7 @@ public class UserServiceTests
         // Set up the mapper to return a specific value when Map is called
         mapper.Map<NotificationDTO>(Arg.Any<UserFollowing>()).Returns(new NotificationDTO { /* ... */ });
         mapper.Map<NotificationDTO>(Arg.Any<AlbumLike>()).Returns(new NotificationDTO { /* ... */ }); 
+        mapper.Map<UserDTO>(Arg.Any<User>()).Returns(new UserDTO { /* ... */ }); 
 
         // Act
         var result = await userService.GetNotifications();

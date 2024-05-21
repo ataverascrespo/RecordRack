@@ -309,6 +309,22 @@ namespace AlbumAPI.Services.UserServices
                 albumLikes = new List<AlbumLike>();
             }
              
+            // this selects OTHER users who have triggered notifications on YOUR account + what triggered the notificatiion
+            // this is a very interesting linq query! AutoMapperProfile.cs creates these maps
+            /*
+                CreateMap<UserFollowing, NotificationDTO>()
+                    .ForMember(dest => dest.Type, opt => opt.MapFrom(src => "UserFollowing"))
+                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.FollowerName))
+                    .ForMember(dest => dest.Time, opt => opt.MapFrom(src => src.TimeFollowed));
+                CreateMap<AlbumLike, NotificationDTO>()
+                    .ForMember(dest => dest.Type, opt => opt.MapFrom(src => "AlbumLike"))
+                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+                    .ForMember(dest => dest.Time, opt => opt.MapFrom(src => src.TimeLiked))
+                    .ForMember(dest => dest.AlbumID, opt => opt.MapFrom<SqidsLikeIDResolver>());
+            */
+            // so if the UserFollowing is being mapped to notificationDTO, it sets the DTO fields (type, time, etc.) accordingly
+            // same thing for if the Albumlike is being mapped
+            // and eventually it just returns an entire unique list of both types
             var notifications = userFollowings!
                 .Select(uf => 
                 {
