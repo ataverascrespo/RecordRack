@@ -88,7 +88,6 @@ namespace AlbumAPI.Controllers
         }
 
         //HTTP GET method
-        //Return a single album based on passed parameter user ID
         [HttpGet("GetFollowers/{UserID}")]
         public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetFollowers(int UserID)
         {
@@ -97,7 +96,6 @@ namespace AlbumAPI.Controllers
         }
 
         //HTTP GET method
-        //Return a single album based on passed parameter user ID
         [HttpGet("GetFollowing/{UserID}")]
         public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetFollowing(int UserID)
         {
@@ -106,7 +104,6 @@ namespace AlbumAPI.Controllers
         }
 
         //HTTP GET method
-        //Return a single album based on passed parameter user ID
         [HttpGet("GetNotifications")]
         public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetNotifications()
         {
