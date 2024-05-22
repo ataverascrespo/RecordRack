@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+hooks:
+  ApplicationStop:
+    - location: scripts/stop_container.sh
+      timeout: 60
+      runas: root
+  AfterInstall:
+    - location: scripts/create_image.sh
+      timeout: 180
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_container.sh
+      timeout: 60
+      runas: root
