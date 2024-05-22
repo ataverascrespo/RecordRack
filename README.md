@@ -6,11 +6,11 @@
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
   <a href="#technology-stack"><strong>Tech Stack</strong></a> ·
-  <a href="#testing"><strong>Testing</strong></a> · 
-  <a href="#installing"><strong>Installing</strong></a> ·
   <a href="#front-end"><strong>Front-End</strong></a> ·
   <a href="#back-end"><strong>Back-End</strong></a> ·
   <a href="#deployment"><strong>Deployment</strong></a> ·
+  <a href="#testing"><strong>Testing</strong></a> · 
+  <a href="#installing"><strong>Installing</strong></a> ·
 <a href="#what-i-learned"><strong>What I Learned</strong></a>
 </p>
 <br/>
@@ -59,6 +59,36 @@ I love sharing my music taste with the people around me. But because people use 
   </div>
 </div>
 
+## About Record Rack
+The following sections include some more in-depth documentation about the making of Record Rack!
+### Front-end 
+
+The front-end is built using React and TypeScript, styled using Tailwind CSS (with some customized components from the amazing Shadcn/ui library). I took the time to configure it as a Progressive Web App, meaning mobile users can download it to their devices and have a user experience like that of a platform-specific app.
+
+As for global state management, Record Rack uses Mobx, which I ultimately chose over libraries such as Redux, Jotai and Zustand because of the built-in abstraction making the codebase a bit simpler, and because of my previous experience with similar libraries in Flutter.
+
+### Back-end
+
+The back-end consists of a REST API I built using the .NET Core 8 framework in C#. This API performs a variety of CRUD operations through HTTP request methods, including GET, POST, PUT and DELETE. These endpoints are securely locked behind OAuth 2.0 authorization, which is fulfilled by JSON Web Tokens in the form of refresh and access tokens. 
+
+The API uses .NET Language Integrated Queries (LINQ) to insert, delete and retrieve app data from a PostgreSQL database, which is created and maintained by Entity Framework code-first migrations. 
+
+The back-end also features third-party API integrations:
+- Cloudinary API allows uploaded profile photos to be inserted into and retrieved from a storage bucket.
+- Twillio Sendgrid API allows the app to send users emails regarding account verification/password resets.
+- Spotify API allows users to search Spotify's database of albums, tracks, and artists. 
+
+### Deployment
+
+The front-end is hosted on Netlify because I think it's the easiest place to host any front-end website/web app. The .NET 8 API is deployed onto a Docker container. The Docker container is ran on an Amazon Web Services EC2 instance, which has been configured with NGINX as a reverse proxy and load balancer and SSL certification through Certbot. 
+
+As for CI/CD, that is handled by Netlify on the front-end, and by GitHub Actions and AWS CodeDeploy on the back-end.
+
+For the front-end, Netlify's integrated GitHub deployments make CI/CD easy - everytime I push a change to this repo, it automatically deploys a new build.
+
+For the back-end, the GitHub pipeline builds and tests the API code, then calls the AWS CLI to create an AWS deployment. From there, CodeDeploy runs some custom Bash scripts to refresh the Docker image and restart the container. For more info, read [here](https://blog.alextaverascrespo.com/implementing-cicd-for-net-8-apis-on-aws-ec2-using-github-actions-and-docker).
+
+On top of this, the PostgreSQL database is hosted on an Amazon Web Services RDS environment, and directly interfaces with my EC2 API container to store application data.
 
 ## Installing
 Because Record Rack is open-source, feel free to report any issues or make contributions/PRs.
@@ -96,33 +126,6 @@ To run frontend tests:
     
     cd client-app
     npm run test
-
-## About Record Rack
-The following sections include some more in-depth documentation about the making of Record Rack!
-### Front-end 
-
-The front-end is built using React and TypeScript, styled using Tailwind CSS (with some customized components from the amazing Shadcn/ui library). I took the time to configure it as a Progressive Web App, meaning mobile users can download it to their devices and have a user experience like that of a platform-specific app.
-
-As for global state management, Record Rack uses Mobx, which I ultimately chose over libraries such as Redux, Jotai and Zustand because of the built-in abstraction making the codebase a bit simpler, and because of my previous experience with similar libraries in Flutter.
-
-### Back-end
-
-The back-end consists of a REST API I built using the .NET Core 7 framework in C#. This API performs a variety of CRUD operations through HTTP request methods, including GET, POST, PUT and DELETE. These endpoints are securely locked behind OAuth 2.0 authorization, which is fulfilled by JSON Web Tokens in the form of refresh and access tokens. 
-
-The API uses .NET Language Integrated Queries (LINQ) to insert, delete and retrieve app data from a PostgreSQL database, which is created and maintained by Entity Framework code-first migrations. 
-
-The back-end also features third-party API integrations:
-- Cloudinary API allows uploaded profile photos to be inserted into and retrieved from a storage bucket.
-- Twillio Sendgrid API allows the app to send users emails regarding account verification/password resets.
-- Spotify API allows users to search Spotify's database of albums, tracks, and artists. 
-
-### Deployment
-
-The front-end is hosted on Netlify because I think it's the easiest place to host any front-end website/web app. Their integrated GitHub deployments make CI/CD  easy - everytime I push a change to this repo, it automatically deploys a new build! Plus, Netlify distributes and auto-renews SSL certification with LetsEncrypt, so one less thing I need to worry about.
-
-The .NET 7 API is deployed onto a Docker container. The Docker container is ran on an Amazon Web Services EC2 instance, which has been configured with NGINX as a reverse proxy and load balancer. I manually installed Certbot to configure a LetsEncrypt SSL certificate on the EC2 instance, so the back-end is fully HTTPS encrypted. I added a CentOS cron task to handle the renewal of that certificate as well!
-
-On top of this, the PostgreSQL database is hosted on an Amazon Web Services RDS environment, and directly interfaces with my EC2 API container to store application data.
 
 ## What I Learned
 
