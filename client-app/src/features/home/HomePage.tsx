@@ -62,7 +62,7 @@ export default function HomePage() {
                         <img
                             alt="Record Rack UI"
                             className="h-[30%] xxxs:h-[40%] xxs:h-[45%] xs:h-[50%] sm:h-[60%] md:h-3/4 lg:h-full"
-                            src="https://res.cloudinary.com/dlwfuryyz/image/upload/v1696172995/Group_23_crzpne.png"
+                            src="https://res.cloudinary.com/dlwfuryyz/image/upload/v1720540571/drydyvz3bv8cbrgahnss.png"
                         />
                     </div>
                 </Parallax>
