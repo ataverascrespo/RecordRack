@@ -12,8 +12,8 @@ import { observer } from "mobx-react-lite"
 import { Toaster } from "@/components/ui/toaster";
 import { Outlet } from "react-router-dom";
 
-import Navbar from "./Navbar";
 import Loading from "./Loading";
+import Navbar from "./Navbar";
 
 "use client"
 
@@ -46,8 +46,8 @@ function App() {
   return (
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         <div className="App">
-          <Navbar></Navbar>
-            <Outlet />
+          <Navbar />
+          <Outlet />
           <Toaster />
         </div>
       </ThemeProvider>

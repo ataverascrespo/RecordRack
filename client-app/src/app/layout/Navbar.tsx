@@ -12,11 +12,15 @@ import { NavLink } from "react-router-dom"
 import { useStore } from "../stores/store"
 import { observer } from "mobx-react-lite"
 import { useState } from "react"
-import { BellIcon } from "lucide-react"
+import { BellIcon, LayoutGrid, Music, UserCircle, Info } from "lucide-react"
 
 // Define component icons
 export const Icons = {
-  notifications: BellIcon
+    rack: LayoutGrid,
+    searchMusic: Music,
+    searchUsers: UserCircle,
+    about: Info,
+    notifications: BellIcon,
 };
 
 
@@ -24,7 +28,7 @@ function Navbar() {
   // Initialize user store with user object and loggedIn method
   const { userStore } = useStore();
   const { user, isLoggedIn } = userStore;
-
+  
   // This state variable allows the app to close the mobile navigation menu on rendering a new page
   // This is a fix that goes down to the RadixUI level (which the components used in this app are built on)
   const [value, setValue] = useState("");
@@ -34,111 +38,68 @@ function Navbar() {
 
       {/* Check userstore logged in method to determine if user is logged in */}
       {isLoggedIn
-        ? <div className="header container py-6 flex flex-row items-center justify-between">
-          <div className="flex flex-row gap-2 lg:gap-6 items-center">
+        ? 
+        <div className="header container py-6 flex flex-col items-center gap-6 md:flex-row">
+          <div className=" w-full flex flex-row gap-2 justify-center items-center md:justify-start">
             <NavLink to={"/"}>
-              <h1 className="font-semibold text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl">Record Rack</h1>
+              <h1 className="font-semibold text-sm sm:text-base md:text-lg lg:text-xl">Record Rack</h1>
             </NavLink>
+
+            {/* Dark mode btn */}
             <ModeToggle/>
           </div>
 
-          <div className='hidden md:flex flex-row items-center'>
-
+          {/* Menu for signed in user */}
+          <div className="w-full flex flex-row justify-between md:justify-end">
+            {/* Rack btn */}
             <NavLink to={`${user?.userName}`}>
-              <Button variant="ghost" size="lg" className="md:px-6 lg:px-8">
-                <p className="text-sm lg:text-base">your rack</p>
-              </Button>
+                <Button variant="ghost" size="sm" className="flex flex-col w-12 justify-center md:w-24 md:h-16">
+                    <Icons.rack className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem] " />
+                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">rack</p>
+                </Button>
             </NavLink>
-            <NavLink to={'search/music'}>
-              <Button variant="ghost" size="lg" className="md:px-6 lg:px-8">
-                <p className="text-sm lg:text-base">add music</p>
-              </Button>
-            </NavLink>
-            <NavLink to={'search/users'}>
-              <Button variant="ghost" size="lg" className="md:px-6 lg:px-8">
-                <p className="text-sm lg:text-base">connect</p>
-              </Button>
-            </NavLink>
-            <NavLink to={"/about"}>
-              <Button variant="ghost" size="lg" className="md:px-6 lg:px-8">
-                <p className="text-sm lg:text-base">about</p>
-              </Button>
-            </NavLink>
-            <NavLink to={`${user?.userName}/notifications`}>
-              <Button variant="ghost" size="lg" className="md:px-6 lg:px-8">
-                <Icons.notifications className="h-[1.2rem] w-[1.2rem]" />
-              </Button>
-            </NavLink>
-          </div>
 
-          {/* Mobile menu for signed in user */}
-          <div className="flex flex-row justify-center items-center md:hidden">
-          <NavLink to={`${user?.userName}/notifications`}>
-              <Button variant="ghost" size="sm" className="md:px-6 lg:px-8">
-                <Icons.notifications className="h-[1.2rem] w-[1.2rem]" />
-              </Button>
+            {/* Search music btn */}
+            <NavLink to={'search/music'}>
+                <Button variant="ghost" size="sm" className="flex flex-col w-12 justify-center md:w-24 md:h-16" >
+                    <Icons.searchMusic className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
+                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">music</p>
+                </Button>
             </NavLink>
-            <div>
-              <NavigationMenu className="relative -left-32" value={value} onValueChange={setValue} >
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger className="relative left-32"></NavigationMenuTrigger>
-                    <NavigationMenuContent >
-                      <ul className="grid gap-3 p-4 w-[170px] md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                        <li className="row-span-3">
-                          <NavLink to={`${user?.userName}`}>
-                            <Button variant="ghost" size="lg" onClick={() => setValue("")}>
-                              <p className="text-sm lg:text-base xl:text-lg">your rack</p>
-                            </Button>
-                          </NavLink>
-                          <NavLink to={'search/music'}>
-                            <Button variant="ghost" size="lg" onClick={() => setValue("")}>
-                              <p className="text-sm lg:text-base xl:text-lg">add music</p>
-                            </Button>
-                          </NavLink>
-                          <NavLink to={'search/users'}>
-                            <Button variant="ghost" size="lg" onClick={() => setValue("")} >
-                              <p className="text-sm lg:text-base xl:text-lg">connect</p>
-                            </Button>
-                          </NavLink>
-                          <NavLink to={"/about"}>
-                            <Button variant="ghost" size="lg" onClick={() => setValue("")}>
-                              <p className="text-sm lg:text-base xl:text-lg">about</p>
-                            </Button>
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
-            </div>
+
+            {/* Search users btn */}
+            <NavLink to={'search/users'}>
+                <Button variant="ghost" size="sm" className="flex flex-col w-14 justify-center items-center md:w-24 md:h-16" >
+                    <Icons.searchUsers className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
+                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">connect</p>
+                </Button>
+            </NavLink>
+
+            {/* About btn */}
+            <NavLink to={"/about"}>
+                <Button variant="ghost" size="sm" className="flex flex-col w-12 justify-center md:w-24 md:h-16" >
+                    <Icons.about className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
+                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">about</p>
+                </Button>
+            </NavLink>
+
+           
+            {/* Notifications btn */}
+            <NavLink to={`${user?.userName}/notifications`}>
+                <Button variant="ghost" size="sm" className="flex flex-col w-16 justify-center md:w-32 md:h-16" >
+                    <Icons.notifications className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
+                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">notifications</p>
+                </Button>
+            </NavLink>
+
           </div>
         </div>
 
         /*
           WHEN USER IS NOT SIGNED IN
         */
-        : <div className="container py-6 flex flex-row items-center justify-between">
-          <div className="flex flex-row gap-2 lg:gap-6 items-center">
-            <NavLink to={"/"}>
-              <h1 className="font-semibold text-base lg:text-xl xl:text-2xl">Record Rack</h1>
-            </NavLink>
-            <ModeToggle></ModeToggle>
-          </div>
-
-          <div className='hidden md:flex flex-row'>
-            <NavLink to={"/about"}>
-              <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">about</p></Button>
-            </NavLink>
-            <NavLink to={"accounts/login"}>
-              <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">log in</p></Button>
-            </NavLink>
-            <NavLink to={"accounts/register"}>
-              <Button variant="ghost" size="lg"><p className="text-sm lg:text-base xl:text-lg">register</p></Button>
-            </NavLink>
-          </div>
-
+        : 
+        <div className="container py-6 flex flex-row items-center justify-between">
           {/* Mobile menu for not signed in user*/}
           <div className="block md:hidden">
             <NavigationMenu className="relative -left-32" value={value} onValueChange={setValue}>
