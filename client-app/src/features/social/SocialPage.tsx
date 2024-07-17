@@ -20,7 +20,7 @@ function SocialPage() {
 
     return (
         <div className="container">
-            <div className="h-full mt-48 mb-[23.75rem] flex flex-col justify-start gap-12 items-start">
+            <div className="h-full mt-48 mb-[22.75rem] flex flex-col justify-start gap-12 items-start">
 
                 <div className="flex flex-col gap-4 items-start">
                     <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-neutral-800 dark:text-neutral-50">
