@@ -89,19 +89,6 @@ function Navbar() {
               )}
             </NavLink>
 
-            {/* About btn */}
-            <NavLink to={"/about"}>
-              {({ isActive }) => (
-                <Button variant="ghost" size="sm" className={
-                  `${isActive ? "text-neutral-950 border-neutral-950 dark:text-neutral-500 dark:border-neutral-500 font-extrabold rounded-b-none border-b-2" : ""} 
-                    flex flex-col w-12 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent`
-                }>
-                    <Icons.about className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
-                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">about</p>
-                </Button>
-              )}
-            </NavLink>
-
             {/* Notifications btn */}
             <NavLink to={`${user?.userName}/notifications`}>
               {({ isActive }) => (
@@ -111,6 +98,19 @@ function Navbar() {
                 }>
                     <Icons.notifications className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
                     <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">notifications</p>
+                </Button>
+              )}
+            </NavLink>
+
+            {/* About btn */}
+            <NavLink to={"/about"}>
+              {({ isActive }) => (
+                <Button variant="ghost" size="sm" className={
+                  `${isActive ? "text-neutral-950 border-neutral-950 dark:text-neutral-500 dark:border-neutral-500 font-extrabold rounded-b-none border-b-2" : ""} 
+                    flex flex-col w-12 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent`
+                }>
+                    <Icons.about className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
+                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">about</p>
                 </Button>
               )}
             </NavLink>
@@ -135,19 +135,19 @@ function Navbar() {
           {/* Menu for signed in user */}
           <div className="w-full flex flex-row justify-between md:justify-end">
 
-            {/*About btn */}
-            <NavLink to={"/about"}>
+            {/* Login btn */}
+            <NavLink to={"accounts/login"}>
               {({ isActive }) => (
                 <Button variant="ghost" size="sm" className={
                   `${isActive ? "text-neutral-950 border-neutral-950 dark:text-neutral-500 dark:border-neutral-500 font-extrabold rounded-b-none border-b-2" : ""} 
-                    flex flex-col w-14 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent`
+                    flex flex-col w-12 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent`
                 }>
-                    <Icons.about className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
-                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">about</p>
+                    <Icons.login className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
+                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">login</p>
                 </Button>
               )}
             </NavLink>
-
+            
             {/* Register btn */}
             <NavLink to={"accounts/register"}>
               {({ isActive }) => (
@@ -161,18 +161,19 @@ function Navbar() {
               )}
             </NavLink>
 
-            {/* Login btn */}
-            <NavLink to={"accounts/login"}>
+             {/*About btn */}
+             <NavLink to={"/about"}>
               {({ isActive }) => (
                 <Button variant="ghost" size="sm" className={
                   `${isActive ? "text-neutral-950 border-neutral-950 dark:text-neutral-500 dark:border-neutral-500 font-extrabold rounded-b-none border-b-2" : ""} 
-                    flex flex-col w-12 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent`
+                    flex flex-col w-14 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent`
                 }>
-                    <Icons.login className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
-                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">login</p>
+                    <Icons.about className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
+                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">about</p>
                 </Button>
               )}
             </NavLink>
+
           </div>
         </div>
       }
