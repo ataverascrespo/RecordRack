@@ -55,7 +55,7 @@ function Navbar() {
               {({ isActive }) => (
                 <Button variant="ghost" size="sm" className={
                   `${isActive ? "text-neutral-950 border-neutral-950 dark:text-neutral-500 dark:border-neutral-500 font-extrabold rounded-b-none border-b-2" : ""} 
-                    flex flex-col w-12 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent`
+                    flex flex-col w-12 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent transition-all duration-75`
                 }>
                     <Icons.rack className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem] " />
                     <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">rack</p>
@@ -68,7 +68,7 @@ function Navbar() {
               {({ isActive }) => (
                 <Button variant="ghost" size="sm" className={
                   `${isActive ? "text-neutral-950 border-neutral-950 dark:text-neutral-500 dark:border-neutral-500 font-extrabold rounded-b-none border-b-2" : ""} 
-                    flex flex-col w-12 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent`
+                    flex flex-col w-12 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent transition-all duration-75`
                 }>
                     <Icons.searchMusic className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
                     <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">search</p>
@@ -81,7 +81,7 @@ function Navbar() {
               {({ isActive }) => (
                 <Button variant="ghost" size="sm" className={
                   `${isActive ? "text-neutral-950 border-neutral-950 dark:text-neutral-500 dark:border-neutral-500 font-extrabold rounded-b-none border-b-2" : ""} 
-                    flex flex-col w-14 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent`
+                    flex flex-col w-14 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent transition-all duration-75`
                 }>                    
                     <Icons.searchUsers className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
                     <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">connect</p>
@@ -94,7 +94,7 @@ function Navbar() {
               {({ isActive }) => (
                 <Button variant="ghost" size="sm" className={
                   `${isActive ? "text-neutral-950 border-neutral-950 dark:text-neutral-500 dark:border-neutral-500 font-extrabold rounded-b-none border-b-2" : ""} 
-                    flex flex-col w-16 justify-center md:w-32 md:h-16 hover:bg-transparent md:hover:bg-accent`
+                    flex flex-col w-16 justify-center md:w-32 md:h-16 hover:bg-transparent md:hover:bg-accent transition-all duration-75`
                 }>
                     <Icons.notifications className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
                     <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">notifications</p>
@@ -107,7 +107,7 @@ function Navbar() {
               {({ isActive }) => (
                 <Button variant="ghost" size="sm" className={
                   `${isActive ? "text-neutral-950 border-neutral-950 dark:text-neutral-500 dark:border-neutral-500 font-extrabold rounded-b-none border-b-2" : ""} 
-                    flex flex-col w-12 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent`
+                    flex flex-col w-12 justify-center md:w-24 md:h-16 hover:bg-transparent md:hover:bg-accent transition-all duration-75`
                 }>
                     <Icons.about className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
                     <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">about</p>
