@@ -58,7 +58,7 @@ function Navbar() {
             <NavLink to={'search/music'}>
                 <Button variant="ghost" size="sm" className="flex flex-col w-12 justify-center md:w-24 md:h-16" >
                     <Icons.searchMusic className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
-                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">music</p>
+                    <p className="text-[10px] xxxs:text-[11.5px] sm:text-sm lg:text-base">search</p>
                 </Button>
             </NavLink>
 
