@@ -24,9 +24,16 @@ namespace AlbumAPI.Services.UserServices
             _httpContextAccessor = httpContextAccessor;
         }
 
-        //Return User ID
-        private int GetUserID() => int.Parse(_httpContextAccessor.HttpContext!.User
-            .FindFirstValue(ClaimTypes.NameIdentifier)!);
+        // Return User ID
+        private int GetUserID()
+        {
+            // Try to parse out the user ID stored in the JWT. If no ID stored, it's anon access, so return -1
+            if (int.TryParse(_httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier), out var userId))
+            {
+                return userId;
+            }
+            return -1;
+        }
 
         public async Task<ServiceResponse<List<UserDTO>>> GetUsers()
         {

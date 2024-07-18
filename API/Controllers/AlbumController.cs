@@ -32,6 +32,7 @@ namespace AlbumAPI.Controllers
 
         //HTTP GET method
         //Return a single album based on passed parameter ID
+        [AllowAnonymous]
         [HttpGet("GetAlbumByID/{ID}")]
         public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> GetAlbum(string ID)
         {
@@ -41,6 +42,7 @@ namespace AlbumAPI.Controllers
 
          //HTTP GET method
         //Return a single album based on passed parameter user ID
+        [AllowAnonymous]
         [HttpGet("GetAlbumsByUserID/{UserID}")]
         public async Task<ActionResult<ServiceResponse<GetAlbumDTO>>> GetAlbumsByUserID(int UserID)
         {
@@ -96,6 +98,7 @@ namespace AlbumAPI.Controllers
 
         //HTTP GET method
         //Return a single album based on passed parameter user ID
+        [AllowAnonymous]
         [HttpGet("GetAlbumLikes/{AlbumID}")]
         public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetAlbumLikes(string AlbumID)
         {

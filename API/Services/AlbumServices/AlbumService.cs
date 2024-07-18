@@ -26,9 +26,16 @@ namespace AlbumAPI.Services.AlbumServices
             _httpContextAccessor = httpContextAccessor;
         }
 
-        //Return User ID
-        private int GetUserID() => int.Parse(_httpContextAccessor.HttpContext!.User
-            .FindFirstValue(ClaimTypes.NameIdentifier)!);
+        // Return User ID
+        private int GetUserID()
+        {
+            // Try to parse out the user ID stored in the JWT. If no ID stored, it's anon access, so return -1
+            if (int.TryParse(_httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier), out var userId))
+            {
+                return userId;
+            }
+            return -1;
+        }
 
         //Method to get albums
         public async Task<ServiceResponse<List<GetAlbumDTO>>> GetAllAlbums()
@@ -78,6 +85,7 @@ namespace AlbumAPI.Services.AlbumServices
                 //The previous null check in this method can be removed as the wrapper object's properties are nullable
                 //Map returned Album model to GetAlbumDTO w/ AutoMapper
                 serviceResponse.Data = _mapper.Map<GetAlbumDTO>(dbAlbum);
+                serviceResponse.Data.User!.Email = "";
             }
             else 
             {
@@ -93,6 +101,11 @@ namespace AlbumAPI.Services.AlbumServices
         {
             //Create wrapper model for album DTO 
             var serviceResponse = new ServiceResponse<List<GetAlbumDTO>>();
+
+            var currUserID = GetUserID();
+            if (currUserID.Equals(null)) {
+                currUserID = 0;
+            }
 
             //Access database albums table where album and users ID are valid
             var dbAlbums = await _albumRepository.GetAlbumsByUserID(UserID, GetUserID());

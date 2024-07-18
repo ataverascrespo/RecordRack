@@ -52,6 +52,7 @@ namespace AlbumAPI.Controllers
 
         //HTTP POST method
         //Return user with given name
+        [AllowAnonymous]
         [HttpGet("GetUserByName/{UserName}")]
         public async Task<ActionResult<ServiceResponse<UserDTO>>> GetUserByName(string UserName) 
         {
@@ -88,6 +89,7 @@ namespace AlbumAPI.Controllers
         }
 
         //HTTP GET method
+        [AllowAnonymous]
         [HttpGet("GetFollowers/{UserID}")]
         public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetFollowers(int UserID)
         {
@@ -96,6 +98,7 @@ namespace AlbumAPI.Controllers
         }
 
         //HTTP GET method
+        [AllowAnonymous]
         [HttpGet("GetFollowing/{UserID}")]
         public async Task<ActionResult<ServiceResponse<List<AlbumLikesDTO>>>> GetFollowing(int UserID)
         {
