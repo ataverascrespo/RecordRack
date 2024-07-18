@@ -1,8 +1,7 @@
 
 <h1 align="center"><a href="https://recordrack.ca">Record Rack</a></h1>
 <p align="center">
- Record Rack allows you to curate a digital music collection, powered by Spotify's Web API. <a href="https://recordrack.ca">Access the full app here.</a>
-</p>
+ Record Rack allows you to curate a digital music collection, powered by Spotify's Web API.
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
   <a href="#technology-stack"><strong>Tech Stack</strong></a> ·
@@ -15,15 +14,26 @@
 </p>
 <br/>
 
+## Change Notes (2024-07-18)
+- Added functionality on API and client-side to allow for anonymous, logged out partial browsing. Logged out users can now view other users' Racklist pages, and view individual (non-private) records with some redacted info.
+- Updated navigation bar layout on mobile and desktop, including active page highlighting and new labels for both logged in and logged out users
+- Overhauled the social search UI, including scenarios such as invalid results, empty set, etc.
+- Reworked dark/light mode toggle
+- Updated some styling quirks for consistency
+
 ## Introduction
 
 Welcome to Record Rack, a project I have been developing since late 2022. 
 
 I love sharing my music taste with the people around me. But because people use such a wide variety of platforms (i.e Spotify, Apple Music, YouTube Music, Soundcloud, etc.) it can be hard to connect and share music tastes digitally. Record Rack is my solution to that problem!
 
+Get started with Record Rack today, <a href="https://recordrack.ca/alextaveras2">you can view my own profile here</a> before getting started yourself!
+
 ## Demo
 
 ![](https://github.com/ataverascrespo/ataverascrespo/blob/main/recordrack_demo.gif)
+
+Note: This demo .gif is outdated by a few months. The core functionality is the same, but <a href="https://recordrack.ca/alextaveras2">you should take a look at the app for yourself.</a>
 
 ## Technology Stack
 
