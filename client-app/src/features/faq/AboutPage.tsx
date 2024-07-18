@@ -23,10 +23,10 @@ export default function AboutPage() {
                     <h1 className="max-w-xl text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-neutral-800 dark:text-neutral-50"> About Record Rack</h1>
                     <div className="flex flex-col gap-4 mt-8">
                         <p className="max-w-3xl text-base xl:text-xl mx-auto tracking-tight">
-                            As a fan of everything related to music, I love keeping track of the songs and albums I love and sharing them with the people around me. But because people use such a wide variety of streaming platforms (i.e Spotify, Apple Music, Amazon, YouTube), it can be hard to connect and share music digitally. <span className="font-bold">Record Rack</span> is the ultimate solution to this problem.
+                            As a fan of everything related to music, one of my hobbies is keeping track of the songs and albums I love and sharing them with the people around me. But because people use so many different streaming platforms (i.e Spotify, Apple Music, Amazon, YouTube), it can be hard to connect and share music digitally. <span className="font-bold">Record Rack</span> is my solution to this problem.
                         </p>
                         <p className="max-w-3xl text-base xl:text-xl mx-auto tracking-tight">
-                            Record Rack allows you to curate a digital musical collection. Paying homage to that feeling of community at your local record store, it isn't just about cataloging your music; it's about connecting with a community of fellow music enthusiasts so you can forge connections and explore the musical multiverse.
+                            Record Rack allows you to create a collection of music, organized in 'record racks.' It's not just about adding your favourite music - it's about connecting with a community of other music fans so you can find connections and explore all of your favourite genres, artists, tracks and albums, all in one spot.
                         </p>
                     </div>
                 </div>
@@ -113,7 +113,7 @@ export default function AboutPage() {
                     </CardHeader>
                     <CardContent>
                         <a className="max-w-3xl text-base xl:text-xl tracking-tight">
-                            If you want to support the project in any way, I'll leave some helpful links below. I don't make money off this, but if you ever wanted to buy me a coffee, I'd appreciate it! Or, if you want to open tickets on Github and contribute to the project, that would be so dope too. Mind you, I am more than happy if you just use the app and get good fun out of it.
+                            If you want to support the project in any way, I'll leave some helpful links below. This project is open-source so if you want to open tickets on Github and contribute to the project, feel
                         </a>
                     </CardContent>
                     <CardFooter className="w-full flex justify-start gap-4">
