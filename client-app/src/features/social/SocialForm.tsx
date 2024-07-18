@@ -8,7 +8,6 @@
 
 "use client"
 import { DebounceInput } from 'react-debounce-input';
-import { useToast } from "@/components/ui/use-toast"
 //Model imports
 import { useStore } from "@/app/stores/store"
 
@@ -16,32 +15,12 @@ export function SocialForm() {
     // Access the global Mobx stores
     const { profileStore } = useStore();
 
-    //Initialize the toast notification
-    const { toast } = useToast()
-
     /*
         Define form submission handler for album
     */
     const searchUser = async (query: string) => {
-        try {
-            // Call profile store function to fetch users from API
-            const response = await profileStore.searchUsers(query);
-            if (response.success != true) {
-                //Empty search toast
-                toast({
-                    variant: "destructive",
-                    title: "Uh oh! Something went wrong.",
-                    description: response.returnMessage
-                })
-            }
-        } catch (error) {
-            // Display general error toast if there was an API issue
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-            })
-            throw (error);
-        }
+        // Call profile store function to fetch users from API
+        await profileStore.searchUsers(query);
     }
 
     return (

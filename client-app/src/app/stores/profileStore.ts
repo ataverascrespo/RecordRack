@@ -210,6 +210,7 @@ export default class ProfileStore {
             runInAction(() => {
                 // Set search as empty
                 this.searchedUsers = [];
+                this.searchQuery = searchQuery;
                 this.loadingSearchedUsers = false;
             });
         }
@@ -233,6 +234,7 @@ export default class ProfileStore {
                     runInAction(() => {
                         // Set search as empty
                         this.searchedUsers = [];
+                        this.searchQuery = searchQuery;
                         this.loadingSearchedUsers = false;
                     });
                 }
