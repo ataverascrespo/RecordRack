@@ -14,6 +14,7 @@ import { useStore } from "@/app/stores/store";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import RecordViewLikedBy from "./RecordViewLikedBy";
+import { Link, useParams } from "react-router-dom";
 
 // Define component icons
 export const Icons = {
@@ -26,10 +27,12 @@ interface Props {
 }
 
 function RecordViewLikes({ id }: Props) {
+    const params = useParams();
 
     // Access the global Mobx stores
     const { recordStore, userStore } = useStore();
     const { selectedRecord } = recordStore;
+    const { user } = userStore;
 
     //Store loading and animation states
     const [isLoading, setIsLoading] = useState(true);
@@ -77,7 +80,39 @@ function RecordViewLikes({ id }: Props) {
 
     // Render an empty div when loading
     if (isLoading) return <div></div>
-
+    
+    if (!user) {
+        return (
+            <div className="flex flex-row items-center -ml-2">
+                {/* Display the button with dynamic props based on like status */}
+                <Link to={"/accounts/login"} state={`${params.username}/record/${params.id}`}>
+                    <Button size={"icon"} variant={"link"} className={`${likeHover} ${isAnimating ? 'is_animating' : ''}`}>
+                        <Icons.likeIcon fill={likeIconColour} className="h-[3vh]" />
+                    </Button>
+                </Link>
+                
+                {/* Prepare the dialog component for like list */}
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button size={"sm"} variant={"link"}>
+                            <div className="flex flex-row gap-2 items-center justify-center">
+                                <p className="text-base">{likesButton}</p>
+                            </div>
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-[75vw] lg:max-w-[500px]">
+                        <DialogHeader>
+                            <DialogTitle className="pt-8">Liked by</DialogTitle>
+                        </DialogHeader>
+                        <ScrollArea className="h-72 w-full rounded-md border">
+                            {/* Render the RecordViewLiked by component */}
+                            <RecordViewLikedBy usersLiked={selectedRecord!.likes}/>
+                        </ScrollArea>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        )
+    }
     else {
         return (
             <div className="flex flex-row items-center -ml-2">

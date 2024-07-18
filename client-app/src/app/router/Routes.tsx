@@ -35,8 +35,6 @@ export const routes: RouteObject[] = [
         children: [
             // Wrap pages that require user to be signed in behind Authorized component
             {element: <Authorized />, children: [
-                { path: ':username', element: <MainUserPage /> },
-                { path: ':username/record/:id', element: <RecordView /> },
                 { path: 'search/music', element: <SearchPage /> },
                 { path: 'search/users', element: <SocialPage /> },
                 { path: ':username/notifications', element: <NotificationPage /> },
@@ -54,6 +52,8 @@ export const routes: RouteObject[] = [
             { path: '', element: <HomePage /> },
             { path: 'about', element: <AboutPage /> },
             { path: '*', element: <HTTPNotFoundPage /> },
+            { path: ':username', element: <MainUserPage /> },
+            { path: ':username/record/:id', element: <RecordView /> },
 
         ]
     }

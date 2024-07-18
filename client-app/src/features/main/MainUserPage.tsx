@@ -65,7 +65,6 @@ function RackPage() {
         }
         loadRecords();
     }, [profileStore.viewedUser]);
-
     
     // Display loading spinner while loading
     if (profileStore.loadingViewedUser) return <Loading text={"Loading user profile..."} height={"h-screen"}></Loading>
@@ -88,7 +87,6 @@ function RackPage() {
             </div>
         )
     }
-
 }
 
 // Wrap component in observer to respond to MobX state changes

@@ -12,12 +12,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Textfit } from '@ataverascrespo/react-textfit';
 import RecordViewLikes from "./likes/RecordViewLikes";
 import { SavedRecord } from '@/app/models/record';
+import { useStore } from '@/app/stores/store';
 
 interface Props {
     record: SavedRecord,
 }
 
 function RecordViewInfo({ record }: Props) {
+    const { userStore } = useStore();
+    const { user } = userStore;
+    
     /*
        Function to format the DateTime C# format to a readable format
     */
@@ -32,6 +36,18 @@ function RecordViewInfo({ record }: Props) {
 
         // Create the formatted date string
         return `${year}-${month}-${day}`;
+    }
+
+    var description, italic;
+    // Check whether the user is logged in or anon access - modify description string accordingly for privacy
+    if (user) {
+        description = record?.albumDescription;
+        // Tailwind styling
+        italic = "not-italic";
+    } else {
+        description = "Log in to view the description of this record"
+        // Tailwind styling
+        italic = "italic";
     }
 
     return (
@@ -63,7 +79,7 @@ function RecordViewInfo({ record }: Props) {
                 <div className="flex flex-row gap-12 mt-4 lg:mt-0 items-start w-full text-neutral-800 dark:text-neutral-50">
                     <div className="grid w-full gap-1 pb-4">
                         <Label htmlFor="message" className="font-medium text-base text-neutral-900 dark:text-neutral-400 text-left">Description</Label>
-                        <Textarea className="resize-none xl:h-[120px] placeholder:text-neutral-950 bg-neutral-200 shadow-sm" placeholder={record?.albumDescription} disabled />
+                        <Textarea className={`resize-none xl:h-[120px] placeholder:text-neutral-950 bg-neutral-200 shadow-sm ${italic}`} placeholder={description} disabled />
                     </div>
                 </div>
 

@@ -10,6 +10,7 @@ import { useStore } from "@/app/stores/store";
 import { useEffect, useState } from "react";
 import { observer } from 'mobx-react-lite';
 import { User, UserCheck } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
 
 // Define the component props
 interface Props {
@@ -24,10 +25,12 @@ export const Icons = {
 };
 
 function ProfileFollowButton({buttonText, width} : Props) {
+    const params = useParams();
 
     // Access Mobx global stores
-    const { profileStore } = useStore();
+    const { profileStore, userStore } = useStore();
     const { viewedUser } = profileStore;
+    const { user } = userStore;
 
     // Initialize local state
     const [isFollowed, setIsFollowed] = useState(false);
@@ -55,8 +58,24 @@ function ProfileFollowButton({buttonText, width} : Props) {
     // Define dynamic follow button text and icon
     let followButton, followIcon;
 
+    // Anon page access - if attempt to follow when logged out, redirect user to login page
+    if (!user) {
+        followButton = buttonText;
+        followIcon = <Icons.follow className="h-[2vh]" />
+        return (
+            <Link to={"/accounts/login"} state={`${params.username}`} className={`${width} shadow-md`}>
+                <Button variant={"secondary"} className={`w-full shadow-md`}>
+                <div className="flex flex-row gap-2 items-center">
+                    <p className="text-sm">{followButton}</p>
+                    {followIcon}
+                </div>
+            </Button>
+            </Link>
+        )
+    }
+
     // If the viewed user is followed, display that information
-    if (isFollowed) {
+    else if (isFollowed) {
         followButton = "Following"
         followIcon = <Icons.following className="h-[2vh]" />
         return (

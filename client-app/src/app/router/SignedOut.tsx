@@ -11,12 +11,13 @@ import { useStore } from "../stores/store";
 
 export default function Authorized() {
     // Check if the user is signed in
-    const {userStore: {isLoggedIn}} = useStore();
+    const { userStore } = useStore();
+    const { isLoggedIn, user } = userStore;
     const location = useLocation();
 
-    // If the user is signed in and tries to access a SignedOut-wrapped page, re-route them to home page
+    // If the user is signed in and tries to access a SignedOut-wrapped page, re-route them to their rack page
     if (isLoggedIn) {
-        return <Navigate to='/' state={{from: location}} />
+        return <Navigate to={`${user?.userName}`} state={{from: location}} />
     }
 
     return <Outlet />

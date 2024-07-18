@@ -21,6 +21,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { PlusSquare } from 'lucide-react';
+import { Link, useParams } from "react-router-dom";
 
 // Define component icons
 export const Icons = {
@@ -44,9 +45,12 @@ type RecordSchema = z.infer<typeof recordSchema>;
 function RecordViewAddToRack() {
 
     const { toast } = useToast()
+    const params = useParams();
+
     // Access the global Mobx stores
-    const { recordStore } = useStore();
+    const { recordStore, userStore } = useStore();
     const { selectedRecord } = recordStore;
+    const { user } = userStore;
 
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
@@ -116,68 +120,84 @@ function RecordViewAddToRack() {
         setButtonDisabled(false);
     }
 
-    return (
-        <Dialog>
-            <DialogTrigger asChild>
-                {/* Dialog button trigger */}
-                <Button variant={"secondary"} className="w-full md:w-1/2" >
-                <div className="flex flex-row gap-1 items-center justify-center">
-                    <Icons.add className="h-[2vh]" />
-                    <p className="mr-2">Add to Rack</p>
-                </div>
+    // Anon page access - if attempt to add to rack when logged out, redirect user to login page
+    if (!user) {
+        return (
+            <Link to={"/accounts/login"} state={`${params.username}/record/${params.id}`} className="w-full md:w-1/2">
+                <Button variant={"secondary"} className="w-full" >
+                    <div className="flex flex-row gap-1 items-center justify-center">
+                        <Icons.add className="h-[2vh]" />
+                        <p className="mr-2">Add to Rack</p>
+                    </div>
                 </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
-                <DialogHeader>
-                    {/* Header */}
-                    <DialogTitle className="mt-4 lg:mt-0">
-                        Adding {selectedRecord?.albumType} {selectedRecord?.albumName} by {selectedRecord?.artistName}</DialogTitle>
-                    <DialogDescription>
-                        This {selectedRecord?.albumType} will be added to your racklist.
-                    </DialogDescription>
-                </DialogHeader>
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="message">Album Description</Label>
-                                            <Textarea placeholder="Add some additional notes or thoughts about the album." {...field} />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="private"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="private">Set as Private?</Label>
-                                            <Switch checked={field.value} onCheckedChange={field.onChange} />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <DialogFooter>
-                            <Button className="w-full" type="submit" disabled={buttonDisabled}>
-                                Add to Rack
-                            </Button>
-                        </DialogFooter>
-                    </form>
-                </Form>
-            </DialogContent>
-        </Dialog>
-    )
+            </Link>
+        )
+    }
+
+    else {
+        return (
+            <Dialog>
+                <DialogTrigger asChild>
+                    {/* Dialog button trigger */}
+                    <Button variant={"secondary"} className="w-full md:w-1/2" >
+                        <div className="flex flex-row gap-1 items-center justify-center">
+                            <Icons.add className="h-[2vh]" />
+                            <p className="mr-2">Add to Rack</p>
+                        </div>
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-[75vw] lg:max-w-[725px]">
+                    <DialogHeader>
+                        {/* Header */}
+                        <DialogTitle className="mt-4 lg:mt-0">
+                            Adding {selectedRecord?.albumType} {selectedRecord?.albumName} by {selectedRecord?.artistName}</DialogTitle>
+                        <DialogDescription>
+                            This {selectedRecord?.albumType} will be added to your racklist.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="message">Album Description</Label>
+                                                <Textarea placeholder="Add some additional notes or thoughts about the album." {...field} />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="private"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <div className="grid gap-2">
+                                                <Label htmlFor="private">Set as Private?</Label>
+                                                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <DialogFooter>
+                                <Button className="w-full" type="submit" disabled={buttonDisabled}>
+                                    Add to Rack
+                                </Button>
+                            </DialogFooter>
+                        </form>
+                    </Form>
+                </DialogContent>
+            </Dialog>
+        )
+    }
 }
 
 // Wrap component in observer to respond to MobX state changes

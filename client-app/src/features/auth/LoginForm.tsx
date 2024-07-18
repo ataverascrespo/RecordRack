@@ -56,7 +56,7 @@ function LoginForm() {
             password: "",
         },
     })
-
+    
     /* 
         Define submission handler
     */
@@ -73,8 +73,13 @@ function LoginForm() {
 
                 // Use the state to navigate back to the authorized route that re-directed to log-in 
                 // If the state is not available, navigate to the logged in user's rack page
-                const { from } = location.state || { from: { pathname: `/${response.data.userName}` } };
-                navigate(from);
+                if (location.state == null) {
+                    navigate(`/${response.data.userName}`);
+                } 
+                else {
+                    navigate(`/${location.state}`);
+                    navigate(0);
+                }  
             }
             //If the success field is false, display error msg toast
             else {

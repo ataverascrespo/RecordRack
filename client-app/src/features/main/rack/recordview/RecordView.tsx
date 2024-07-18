@@ -79,7 +79,7 @@ function RecordView() {
                         <RecordViewInfo record={recordStore.selectedRecord} />
                         <div className="w-full flex gap-12 flex-row items-center">
 
-                            {params.username == user!.userName
+                            {params.username == user?.userName
                                 ?
                                 // Component for editing and deleting record off user account
                                 <div className="w-full flex flex-col md:flex-row gap-4 items-start md:items-center">
