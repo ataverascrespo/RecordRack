@@ -9,7 +9,6 @@ import { observer } from "mobx-react-lite";
 import { SocialForm } from "./SocialForm";
 import { useStore } from "@/app/stores/store";
 import SocialSearchResults from "./SocialSearchResults";
-import Footer from "@/app/layout/Footer";
 import Loading from "@/app/layout/Loading";
 
 function SocialPage() {
@@ -40,7 +39,6 @@ function SocialPage() {
                 }
                 
             </div>
-            <Footer/>
         </div>
     )
 }

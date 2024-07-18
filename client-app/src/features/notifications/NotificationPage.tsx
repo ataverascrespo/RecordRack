@@ -7,7 +7,6 @@
 
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/app/stores/store";
-import Footer from "@/app/layout/Footer";
 import Loading from "@/app/layout/Loading";
 import { useEffect } from "react";
 import NotificationList from "./NotificationList";
@@ -28,7 +27,7 @@ function NotificationPage() {
 
     return (
         <div className="container">
-            <div className="h-full w-full mt-48 flex flex-col justify-start gap-12 items-start">
+            <div className="h-full w-full mt-48 mb-24 flex flex-col justify-start gap-12 items-start">
 
                 {/* Header */}
                 <div className="flex flex-col gap-4 items-start">
@@ -47,7 +46,6 @@ function NotificationPage() {
                 }
                 
             </div>
-            <Footer/>
         </div>
     )
 }

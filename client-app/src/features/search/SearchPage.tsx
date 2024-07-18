@@ -10,7 +10,6 @@ import { useStore } from "@/app/stores/store";
 import SearchResults from "./SearchResultsAlbum";
 import { observer } from "mobx-react-lite";
 import SearchResultsTrack from "./SearchResultsTrack";
-import Footer from "@/app/layout/Footer";
 import Loading from "@/app/layout/Loading";
 
 function SearchPage() {
@@ -19,7 +18,7 @@ function SearchPage() {
 
     return (
         <div className="container">
-            <div className="h-full mt-48 mb-48 flex flex-col justify-start gap-12 items-start">
+            <div className="h-full mt-48 flex flex-col justify-start gap-6 md:gap-12 items-start">
 
                 <div className="flex flex-col gap-4 items-start">
                     <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-neutral-800 dark:text-neutral-50">Add a new record to your collection</h1>
@@ -46,9 +45,6 @@ function SearchPage() {
                 }
 
             </div>
-
-            {/* Render footer */}
-            <Footer />
         </div>
     )
 }
