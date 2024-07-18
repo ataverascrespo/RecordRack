@@ -42,7 +42,7 @@ public class AlbumServiceTests
         mapper.Map<GetAlbumDTO>(Arg.Any<Album>()).Returns(callInfo =>
         {
             var album = callInfo.Arg<Album>();
-            // Map the Album to GetAlbumDTO using your logic
+            // Map the Album to GetAlbumDTO using the logic
             var albumDTO = new GetAlbumDTO { 
                 User = new UserDTO{ Email = album.User?.Email ?? "" } 
             };
@@ -107,7 +107,7 @@ public class AlbumServiceTests
         });
 
         // Create dummy data
-        var dummyAlbum = new Album {ID = 1, AlbumName = "test"};
+        var dummyAlbum = new Album {ID = 1, AlbumName = "test", User = new User {}};
         var userID = 1;
         var encodedID = "ID";
         var decodedID = 123;
@@ -119,8 +119,8 @@ public class AlbumServiceTests
         mapper.Map<GetAlbumDTO>(Arg.Any<Album>()).Returns(callInfo =>
         {
             var album = callInfo.Arg<Album>();
-            // Map the Album to GetAlbumDTO using your logic
-            var albumDTO = new GetAlbumDTO {};
+            // Map the Album to GetAlbumDTO using the logic
+            var albumDTO = new GetAlbumDTO { User = new UserDTO{} };
             return albumDTO;
         });
 
@@ -235,7 +235,7 @@ public class AlbumServiceTests
         mapper.Map<GetAlbumDTO>(Arg.Any<Album>()).Returns(callInfo =>
         {
             var album = callInfo.Arg<Album>();
-            // Map the Album to GetAlbumDTO using your logic
+            // Map the Album to GetAlbumDTO using the logic
             var albumDTO = new GetAlbumDTO { 
                 User = new UserDTO{ Email = album.User?.Email ?? "" } 
             };

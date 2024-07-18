@@ -79,13 +79,15 @@ namespace AlbumAPI.Services.AlbumServices
                 {
                     serviceResponse.Success = false;
                     serviceResponse.ReturnMessage = "Could not return that album";
+                } 
+                else
+                {
+                    //Add list of albums to wrapper object and return
+                    //The previous null check in this method can be removed as the wrapper object's properties are nullable
+                    //Map returned Album model to GetAlbumDTO w/ AutoMapper
+                    serviceResponse.Data = _mapper.Map<GetAlbumDTO>(dbAlbum);
+                    serviceResponse.Data.User!.Email = "";
                 }
-                
-                //Add list of albums to wrapper object and return
-                //The previous null check in this method can be removed as the wrapper object's properties are nullable
-                //Map returned Album model to GetAlbumDTO w/ AutoMapper
-                serviceResponse.Data = _mapper.Map<GetAlbumDTO>(dbAlbum);
-                serviceResponse.Data.User!.Email = "";
             }
             else 
             {
