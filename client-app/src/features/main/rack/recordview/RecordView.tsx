@@ -20,6 +20,13 @@ import RecordViewEditFields from "./buttons/RecordViewEditFields";
 import RecordViewImage from "./RecordViewImage";
 import RecordViewInfo from "./RecordViewInfo";
 import RecordViewShare from "./buttons/RecordViewShare";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Info } from "lucide-react"
+
+// Define component icons
+export const Icons = {
+    about: Info,
+};
 
 function RecordView() {
     const navigate = useNavigate();
@@ -115,15 +122,29 @@ function RecordView() {
 
                 </div>
 
-                <div className="mt-8">
-                    {/* Render the Spotify iframe embed component based on album or track stored type*/}
-                    {recordStore.selectedRecord?.albumType === "album" ? (
-                        <Spotify className="mb-20" width={"100%"} link={`https://open.spotify.com/${recordStore.selectedRecord?.albumType}/${recordStore.selectedRecord?.spotifyID}`} />
-                    ) : (
-                        <Spotify className="mb-8 lg:mb-0" wide link={`https://open.spotify.com/${recordStore.selectedRecord?.albumType}/${recordStore.selectedRecord?.spotifyID}`} />
-                    )}
+                <div className="flex flex-col w-full gap-1">
+                    <div className="mt-8">
+                        {/* Render the Spotify iframe embed component based on album or track stored type*/}
+                        {recordStore.selectedRecord?.albumType === "album" ? (
+                            <Spotify className="mb-4" width={"100%"} link={`https://open.spotify.com/${recordStore.selectedRecord?.albumType}/${recordStore.selectedRecord?.spotifyID}`} />
+                        ) : (
+                            <Spotify className="mb-8 lg:mb-0" wide link={`https://open.spotify.com/${recordStore.selectedRecord?.albumType}/${recordStore.selectedRecord?.spotifyID}`} />
+                        )}
+                    </div>
+                    <Alert className="mb-12">
+                        <AlertTitle>
+                            <div className="flex flex-row gap-2 items-center">
+                                <Icons.about className="h-[1.2rem] w-[1.2rem] lg:h-[1.5rem] lg:w-[1.5rem]" />
+                                <p>Why is Spotify in preview mode?</p>
+                            </div>
+                        </AlertTitle>
+                        <AlertDescription className="text-xs md:text-sm">
+                            To take full advantage of the Spotify player, you need to be logged into a Spotify account on the browser you are using to access Record Rack. Login at <a href="https://open.spotify.com/" className="text-blue-500 hover:underline">spotify.com</a>
+                        </AlertDescription>
+                    </Alert>
                 </div>
-
+               
+                
             </div>
         )
     }
