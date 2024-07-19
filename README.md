@@ -14,8 +14,9 @@
 </p>
 <br/>
 
-## Change Notes (2024-07-18)
+## Change Notes (2024-07-19)
 - Added functionality on API and client-side to allow for anonymous, logged out partial browsing. Logged out users can now view other users' Racklist pages, and view individual (non-private) records with some redacted info.
+- Added functionality for users to click between Record pages with forward/backwards navigation, without needing to redirect back to Rack list page.
 - Updated navigation bar layout on mobile and desktop, including active page highlighting and new labels for both logged in and logged out users
 - Overhauled the social search UI, including scenarios such as invalid results, empty set, etc.
 - Reworked dark/light mode toggle
